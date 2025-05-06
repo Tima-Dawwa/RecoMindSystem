@@ -4,8 +4,8 @@ async function postProduct(data) {
     return await Product.create(data);
 }
 
-async function getProducts() {
-    return await Product.find();
+async function getProducts(skip, limit) {
+    return await Product.find().skip(skip).limit(limit);
 }
 
 async function getProductById(_id) {
