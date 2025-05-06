@@ -12,7 +12,14 @@ app.use(logger);
 app.use(helmet())
 app.use(cors());
 
-// Use Routes
+// Web
+app.use('/auth', require('./routes/Web/Auth/auth.route'))
+app.use('/users', require('./routes/Web/Users/users.route'))
+app.use('/products', require('./routes/Web/Products/products.route'))
+
+// Dashboard
+app.use('/admin', require('./routes/Dashboard/Admins/admins.route'))
+app.use('/products', require('./routes/Dashboard/Products/products.route'))
 
 // Error Handling
 app.use(errorHandler);

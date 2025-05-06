@@ -15,9 +15,10 @@ async function httpGetOneProduct(req, res) {
     const product = await getProductById(req.params.id)
     if (!product) return res.status(404).json({ message: "Product Not Found" })
 
+    // Need to add interaction
+
     return res.status(200).json({ data: productData(product) })
 }
-
 
 module.exports = {
     httpGetAllProducts,
