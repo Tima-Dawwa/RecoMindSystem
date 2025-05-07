@@ -7,7 +7,7 @@ const checkObjectID = require('../../../middlewares/checkObjectID');
 
 const productsRouter = express.Router();
 
-productsRouter.get('/products', requireJwtAuth, asyncHandler(httpGetAllProducts));
-productsRouter.get('/products/:id', requireJwtAuth, checkObjectID, asyncHandler(httpGetOneProduct));
+productsRouter.get('/', requireJwtAuth, asyncHandler(httpGetAllProducts));
+productsRouter.get('/:id', requireJwtAuth, checkObjectID, asyncHandler(httpGetOneProduct));
 
 module.exports = productsRouter;
