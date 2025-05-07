@@ -1,12 +1,11 @@
-const { getOrdersForUser, getOrder, getOrdersCountForUser } = require('../../../models/orders.model');
+const { getOrders, getOrder } = require('../../../models/orders.model');
 const { getPagination } = require('../../../services/query');
 const { serializedData } = require('../../../services/serializeArray');
 const { orderData } = require('./orders.serializer');
 
 async function httpGetOrders(req, res) {
     const { skip, limit } = getPagination(req.query)
-    const data = await getOrdersForUser(req.user.id, skip, limit)
-    const length = getOrdersCountForUser()
+    const data = await getOrders(req.user.id, skip, limit)
     return res.status(200).json({ data: serializedData(data, orderData), count: length })
 }
 

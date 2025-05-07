@@ -68,7 +68,7 @@ async function httpPutLocation(req, res) {
     }
     const user = req.user;
     if (!user) return res.status(400).json({ message: 'User Not Found' })
-    const { location } = await putLocation(user, { city: req.body.city, country: req.body.country });
+    const { location } = await putLocation(user, { city: req.body.city, country: req.body.countDocumentsry });
     return res.status(200).json({
         message: 'Location Changed',
         location
@@ -93,7 +93,7 @@ async function httpPutPhoneNumber(req, res) {
     const user = req.user;
     if (!user) return res.status(400).json({ message: 'User Not Found' })
     const data = {
-        country_code: req.body.country_code,
+        country_code: req.body.countDocumentsry_code,
         number: req.body.number,
     }
     await putPhoneNumber(user, data)

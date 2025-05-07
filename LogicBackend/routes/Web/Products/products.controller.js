@@ -1,4 +1,4 @@
-const { getProducts, getProductById } = require('../../../models/products.model');
+const { getProducts, getProductById, getProductsCount } = require('../../../models/products.model');
 const { getPagination } = require('../../../services/query');
 const { serializedData } = require('../../../services/serializeArray');
 const { productData } = require('./products.serializer');
@@ -6,7 +6,7 @@ const { productData } = require('./products.serializer');
 async function httpGetAllProducts(req, res) {
     const { skip, limit } = getPagination(req.query)
     const data = await getProducts(skip, limit)
-
+    const length = getProductsCount()
 
     return res.status(200).json({ data: serializedData(data, productData), count: length })
 }

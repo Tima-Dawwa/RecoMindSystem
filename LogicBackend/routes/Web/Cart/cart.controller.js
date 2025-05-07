@@ -1,4 +1,4 @@
-const { getCart, addToCart, deleteFromCart } = require('../../../models/cart.model');
+const { getCart, addToCart, deleteFromCart, getCartCount } = require('../../../models/cart.model');
 const { getPagination } = require('../../../services/query');
 const { serializedData } = require('../../../services/serializeArray');
 const { cartData } = require('./cart.serializer');
@@ -6,6 +6,7 @@ const { cartData } = require('./cart.serializer');
 async function httpGetCart(req, res) {
     const { skip, limit } = getPagination(req.query)
     const data = await getCart(req.user.id, skip, limit)
+    const length = getCartCount(user_id)
     return res.status(200).json({ data: serializedData(data, cartData), count: length })
 }
 
