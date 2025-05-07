@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const favoritesSchema = new mongoose.Schema({
+const orderSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -11,6 +11,11 @@ const favoritesSchema = new mongoose.Schema({
         ref: 'Product',
         required: true
     }],
+    total_price: {
+        type: Number,
+        required: true,
+        min: 0
+    }
 }, { timestamps: true })
 
-module.exports = mongoose.model('Favorites', favoritesSchema);
+module.exports = mongoose.model('Order', orderSchema);
