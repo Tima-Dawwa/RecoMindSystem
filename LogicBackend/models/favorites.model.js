@@ -20,8 +20,13 @@ async function addFavorite(user_id, product_id) {
     );
 }
 
+async function getFavoritesCount(user_id) {
+    await Favorite.find({ user_id }).countDocuments()
+}
+
 module.exports = {
     getFavorites,
     addFavorite,
     deleteFavorite,
+    getFavoritesCount
 }

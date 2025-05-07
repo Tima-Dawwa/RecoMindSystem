@@ -8,6 +8,10 @@ async function getProducts(skip, limit) {
     return await Product.find().skip(skip).limit(limit);
 }
 
+async function getProductsCount() {
+    return await Product.find().countDocuments()
+}
+
 async function getProductById(_id) {
     return await Product.find({ _id })
 }
@@ -22,5 +26,6 @@ module.exports = {
     postProduct,
     getProducts,
     getProductById,
-    deleteProduct
+    deleteProduct,
+    getProductsCount
 }
