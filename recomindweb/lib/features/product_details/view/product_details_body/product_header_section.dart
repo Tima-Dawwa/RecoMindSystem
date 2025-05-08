@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recomindweb/features/product_details/view/product_details_body/add_review_selection.dart';
 
 class ProductHeader extends StatelessWidget {
   const ProductHeader({super.key});
@@ -37,6 +38,8 @@ class ProductHeader extends StatelessWidget {
               color: Colors.black87,
             ),
           ),
+          Divider(thickness: 1, color: Colors.grey[300]),
+          AddReviewSection()
         ],
       ),
     );
