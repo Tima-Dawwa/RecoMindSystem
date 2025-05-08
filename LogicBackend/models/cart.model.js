@@ -20,8 +20,13 @@ async function addToCart(user_id, product_id) {
     );
 }
 
+async function getCartCount(user_id) {
+    await Cart.findOne({ user_id }).countDocuments()
+}
+
 module.exports = {
     getCart,
     addToCart,
     deleteFromCart,
+    getCartCount
 }
