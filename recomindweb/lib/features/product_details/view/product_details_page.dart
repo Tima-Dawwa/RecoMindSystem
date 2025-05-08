@@ -8,7 +8,6 @@ class ProductPage extends StatefulWidget {
   @override
   State<ProductPage> createState() => _ProductPageState();
 }
-//////fixes
 class _ProductPageState extends State<ProductPage> {
   late String _selectedImage;
   final List<String> _images = [
