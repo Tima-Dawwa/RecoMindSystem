@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 require('dotenv').config();
 const SECRET_KEY = process.env.SECRET_KEY;
 const maxAge = '3d';
@@ -9,7 +9,7 @@ function generateToken(payload, secret = SECRET_KEY, expiresIn = maxAge) {
 }
 
 async function checkCredentials(hashed, password) {
-    return await bcrypt.compare(password, hashed);
+    return await bcryptjs.compare(password, hashed);
 }
 
 function verifyToken(token, secret) {
