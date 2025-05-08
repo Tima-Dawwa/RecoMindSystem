@@ -1,4 +1,4 @@
-const { getFavorites, addFavorite, deleteFavorite } = require('../../../models/favorites.model');
+const { getFavorites, addFavorite, deleteFavorite, getFavoritesCount } = require('../../../models/favorites.model');
 const { getPagination } = require('../../../services/query');
 const { serializedData } = require('../../../services/serializeArray');
 const { productData } = require('./favorites.serializer');
@@ -6,6 +6,7 @@ const { productData } = require('./favorites.serializer');
 async function httpGetFavorites(req, res) {
     const { skip, limit } = getPagination(req.query)
     const data = await getFavorites(req.user.id, skip, limit)
+    const length = getFavoritesCount(user_id)
     return res.status(200).json({ data: serializedData(data, productData), count: length })
 }
 
