@@ -53,10 +53,10 @@ function validateResetPassword(user) {
     return schema.validate(user);
 }
 
-
-function validateResendCode(data) {
+function validateVerifyResetToken(data) {
     const schema = Joi.object({
         email: Joi.string().min(3).required(),
+        token: Joi.string().length(6).required()
     })
     return schema.validate(data);
 }
@@ -66,5 +66,6 @@ module.exports = {
     validateLoginUser,
     validateForgotPassword,
     validateResetPassword,
-    validateResendCode
+    validateResendCode,
+    validateVerifyResetToken
 }

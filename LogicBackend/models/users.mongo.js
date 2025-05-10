@@ -34,11 +34,6 @@ const userSchema = new mongoose.Schema({
         maxlength: 100,
         trim: true,
     },
-    email_confirmed: {
-        type: Boolean,
-        default: false,
-        required: true
-    },
     phone: {
         type: contactSchema
     },

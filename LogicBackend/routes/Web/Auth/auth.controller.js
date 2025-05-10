@@ -6,8 +6,8 @@ const { postBlacklist } = require('../../../models/blacklist.model');
 const { generateToken } = require('../../../services/token')
 const { validationErrors } = require('../../../middlewares/validationErrors')
 const { postRequest, deleteRequests } = require('../../../models/code_confirmation.model');
-const { postUser, getUser, putPassword, putEmailConfirmation, checkConfirmed } = require('../../../models/users.model');
-const { validateRegisterUser, validateLoginUser, validateForgotPassword, validateResetPassword, validateResendCode } = require('./auth.validation')
+const { postUser, getUser, putPassword } = require('../../../models/users.model');
+const { validateRegisterUser, validateLoginUser, validateForgotPassword, validateResetPassword, validateVerifyResetToken } = require('./auth.validation')
 
 require('dotenv').config();
 
@@ -20,43 +20,12 @@ async function register(req, res) {
         })
     }
     req.body.name = { 'first_name': req.body.first_name, 'last_name': req.body.last_name }
-    // check remember me
     const check = await getUser(req.body.email)
     if (check) return res.status(400).json({ errors: { email: "Email Already In Use" } })
     const user = await postUser(req.body);
 
-    const token = crypto.randomInt(100000, 999999)
-    await deleteRequests(user.id)
-    await postRequest({ user_id: user.id, token })
-    const name = user.name.first_name + ' ' + user.name.last_name
-    const attachments = [{
-        filename: 'logo.jpg',
-        path: path.join(__dirname, '../../../', 'public', 'images', 'mails', 'logo.png'),
-        cid: 'logo'
-    }];
-    await sendMail('Confirm Email', req.body.email, { name, token, template_name: 'views/confirm_email.html' }, attachments);
-
     return res.status(200).json({
-        message: 'Confirm Your Email'
-    });
-}
-
-// Done
-async function confirmEmail(req, res) {
-    // Body : email, token
-    const user = await getUser(req.body.email);
-    if (!user) {
-        return res.status(400).json({ message: 'User Not Found' })
-    }
-    if (user.email_confirmed) {
-        return res.status(400).json({ message: 'Email Already Confirmed' })
-    }
-    if (!await confirmTokenHelper(user, req.body.token)) return res.status(400).json({ message: 'Code is Incorrect' })
-    await putEmailConfirmation(user)
-
-    await deleteRequests(user.id)
-    return res.status(200).json({
-        message: 'Email Confirmed Successfully',
+        message: 'Successfully Registered',
         token: generateToken({ id: user.id, name: user.name })
     });
 }
@@ -71,7 +40,6 @@ async function login(req, res) {
     }
     const user = await getUser(req.body.email);
     if (!user) return res.status(400).json({ message: 'Not Registered' });
-    if (!checkConfirmed(user)) return res.status(400).json({ message: 'Confirm Your Email' });
     if (user) {
         const { id, name } = user;
         const check = await user.checkCredentials(user.password, req.body.password);
@@ -116,6 +84,26 @@ async function forgotPassword(req, res) {
     res.status(200).json({ message: 'Check Your Email' })
 }
 
+async function verifyResetToken(req, res) {
+    const { error } = validateVerifyResetToken(req.body)
+    if (error) {
+        return res.status(404).json({
+            errors: validationErrors(error.details)
+        })
+    }
+
+    const user = await getUser(email);
+    if (!user) {
+        return res.status(400).json({ message: 'User Not Found' });
+    }
+
+    const isValid = await confirmTokenHelper(user, token);
+    if (!isValid) {
+        return res.status(400).json({ message: 'Code is Incorrect' });
+    }
+    return res.status(200).json({ message: 'Token Verified' });
+}
+
 // Done
 async function resetPassword(req, res) {
     const { error } = validateResetPassword(req.body)
@@ -152,38 +140,12 @@ async function logout(req, res) {
     return res.status(200).json({ message: 'Logged Out Successfully' })
 }
 
-async function resendCode(req, res) {
-    const { error } = validateResendCode(req.body)
-    if (error) return res.status(400).json({ errors: validationErrors(error.details) })
-
-    const user = await getUser(req.body.email)
-    if (!user) return res.status(400).json({ message: "User Not Registered" })
-    if (user.email_confirmed) return res.status(400).json({ message: "Email Already Confirmed" })
-
-    const token = crypto.randomInt(100000, 999999)
-    await deleteRequests(user.id)
-    await postRequest({ user_id: user.id, token })
-    const name = user.name.first_name + ' ' + user.name.last_name
-
-    const attachments = [{
-        filename: 'logo.jpg',
-        path: path.join(__dirname, '../../../', 'public', 'images', 'mails', 'logo.png'),
-        cid: 'logo'
-    }];
-    await sendMail('Confirm Email', req.body.email, { name, token, template_name: 'views/confirm_email.html' }, attachments);
-
-    return res.status(200).json({
-        message: 'Confirm Your Email'
-    });
-}
-
 
 module.exports = {
     register,
-    confirmEmail,
     login,
     forgotPassword,
     resetPassword,
     logout,
-    resendCode
+    verifyResetToken
 }
