@@ -51,7 +51,7 @@ class _AddReviewSectionState extends State<AddReviewSection> {
       margin: const EdgeInsets.symmetric(vertical: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -61,7 +61,7 @@ class _AddReviewSectionState extends State<AddReviewSection> {
                     fontWeight: FontWeight.bold,
                   ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             Row(
               children: List.generate(5, (index) {
                 return IconButton(
@@ -81,7 +81,7 @@ class _AddReviewSectionState extends State<AddReviewSection> {
                 );
               }),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             TextField(
               controller: _controller,
               maxLines: 4,
@@ -93,7 +93,7 @@ class _AddReviewSectionState extends State<AddReviewSection> {
               ),
               enabled: !_submitted,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             SizedBox(
               width: double.infinity,
               child: CustomPrimaryButton(
