@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:recomindweb/core/Widgets/app_scafold.dart';
-import 'package:recomindweb/core/Widgets/chatbot_floating_button.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/customers_review.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/product_header_section.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/product_image_section.dart';
 
-class ProductPage extends StatefulWidget {
-  const ProductPage({super.key});
+class ProductDetailsPage extends StatefulWidget {
+  const ProductDetailsPage({super.key});
 
   @override
-  State<ProductPage> createState() => _ProductPageState();
+  State<ProductDetailsPage> createState() => _ProductDetailsPageState();
 }
 
-class _ProductPageState extends State<ProductPage> {
+class _ProductDetailsPageState extends State<ProductDetailsPage> {
   late String _selectedImage;
   final List<String> _images = [
     'assets/main_side.png',
