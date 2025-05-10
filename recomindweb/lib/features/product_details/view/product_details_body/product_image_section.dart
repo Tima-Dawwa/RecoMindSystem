@@ -41,7 +41,7 @@ class ProductImageSection extends StatelessWidget {
                       child: Image.asset(
                         image,
                         width: 110,
-                        height: 130,
+                        height: 150,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -54,7 +54,7 @@ class ProductImageSection extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             child: Image.asset(
               selectedImage,
-              height: 400,
+              height: 500,
               fit: BoxFit.contain,
             ),
           ),
