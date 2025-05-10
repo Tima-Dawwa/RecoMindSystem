@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recomindweb/features/product_details/view/product_details_body/color_selctor.dart';
+import 'package:recomindweb/core/Widgets/app_scafold.dart';
+import 'package:recomindweb/core/Widgets/chatbot_floating_button.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/customers_review.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/product_header_section.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/product_image_section.dart';
@@ -27,33 +28,33 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
-          child: Column(children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ProductImageSection(
-                  selectedImage: _selectedImage,
-                  imageList: _images,
-                  onThumbnailClick: (String newImage) {
-                    setState(() {
-                      _selectedImage = newImage;
-                    });
-                  },
-                ),
-                const SizedBox(width: 16),
-                Expanded(child: ProductHeader()),
-              ],
-            ),
-            Divider(thickness: 1, color: Colors.grey[300]),
-
-            CustomerReviews()
-          ]),
-        ),
+    return AppScaffold(
+      child: SafeArea(
+        child: Stack(children: [
+          SingleChildScrollView(
+            child: Column(children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ProductImageSection(
+                    selectedImage: _selectedImage,
+                    imageList: _images,
+                    onThumbnailClick: (String newImage) {
+                      setState(() {
+                        _selectedImage = newImage;
+                      });
+                    },
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(child: ProductHeader()),
+                ],
+              ),
+              Divider(thickness: 1, color: Colors.grey[300]),
+              CustomerReviews()
+            ]),
+          ),
+        ]),
       ),
     );
   }
