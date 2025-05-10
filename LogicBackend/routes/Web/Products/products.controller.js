@@ -1,7 +1,7 @@
 const { getProducts, getProductById, getProductsCount } = require('../../../models/products.model');
 const { getPagination } = require('../../../services/query');
 const { serializedData } = require('../../../services/serializeArray');
-const { productData } = require('./products.serializer');
+const { productData, productDetailsData } = require('./products.serializer');
 
 async function httpGetAllProducts(req, res) {
     const { skip, limit } = getPagination(req.query)
@@ -17,7 +17,7 @@ async function httpGetOneProduct(req, res) {
 
     // Need to add interaction
 
-    return res.status(200).json({ data: productData(product) })
+    return res.status(200).json({ data: productDetailsData(product) })
 }
 
 module.exports = {
