@@ -6,6 +6,16 @@ async function mongoConnect() {
     await mongoose.connect(MONGO_URL)
 }
 
+async function mongoDisconnect() {
+    await mongoose.disconnect()
+}
+
+async function dropDatabase() {
+    await mongoose.connection.db.dropDatabase();
+}
+
 module.exports = {
-    mongoConnect
+    mongoConnect,
+    mongoDisconnect,
+    dropDatabase
 }

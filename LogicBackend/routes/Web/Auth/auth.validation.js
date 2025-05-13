@@ -66,6 +66,5 @@ module.exports = {
     validateLoginUser,
     validateForgotPassword,
     validateResetPassword,
-    validateResendCode,
     validateVerifyResetToken
 }
