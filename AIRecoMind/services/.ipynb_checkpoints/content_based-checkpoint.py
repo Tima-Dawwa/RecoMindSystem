@@ -1,10 +1,8 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from models.product import Product
-from services.database import product_collection
 from bson import ObjectId
 from typing import List
-
 
 async def get_all_products() -> List[Product]:
     cursor = product_collection.find({})
@@ -22,13 +20,9 @@ async def get_all_products() -> List[Product]:
         ))
     return products
 
+products = await get_all_products()
 
-async def get_recommendations_handler(product_id: str, top_n: int = 3):
-    products = await get_all_products()
-    return get_content_based_recommendations(product_id, products, top_n)
-
-
-def get_content_based_recommendations(product_id: str, products: List[Product], top_n: int = 3) -> List[Product]:
+def get_content_based_recommendations(product_id: str, top_n: int = 3) -> List[Product]:
     # Combine all features into a single string for each product
     def combine_features(product: Product) -> str:
         return " ".join([
@@ -45,14 +39,13 @@ def get_content_based_recommendations(product_id: str, products: List[Product], 
 
     # Create a TfidfVectorizer to convert product descriptions into feature vectors
     vectorizer = TfidfVectorizer(stop_words='english')
-    tfidf_matrix = vectorizer.fit_transform(combined_features)
+    tfidf_matrix = vectorizer.fit_transform(descriptions)
 
     # Compute cosine similarity between all products
     cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
 
     # Find the index of the product based on the provided product_id
-    idx = next(i for i, product in enumerate(
-        products) if product.id == product_id)
+    idx = next(i for i, product in enumerate(products) if product.id == product_id)
 
     # Get pairwise similarity scores of the products with the specified product
     sim_scores = list(enumerate(cosine_sim[idx]))
