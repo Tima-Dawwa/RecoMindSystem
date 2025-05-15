@@ -28,31 +28,27 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      child: SafeArea(
-        child: Stack(children: [
-          SingleChildScrollView(
-            child: Column(children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ProductImageSection(
-                    selectedImage: _selectedImage,
-                    imageList: _images,
-                    onThumbnailClick: (String newImage) {
-                      setState(() {
-                        _selectedImage = newImage;
-                      });
-                    },
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(child: ProductHeader()),
-                ],
+      child: SingleChildScrollView(
+        child: Column(children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ProductImageSection(
+                selectedImage: _selectedImage,
+                imageList: _images,
+                onThumbnailClick: (String newImage) {
+                  setState(() {
+                    _selectedImage = newImage;
+                  });
+                },
               ),
-              Divider(thickness: 1, color: Colors.grey[300]),
-              CustomerReviews()
-            ]),
+              const SizedBox(width: 16),
+              Expanded(child: ProductHeader()),
+            ],
           ),
+          Divider(thickness: 1, color: Colors.grey[300]),
+          CustomerReviews()
         ]),
       ),
     );
