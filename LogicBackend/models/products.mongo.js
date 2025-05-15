@@ -59,6 +59,10 @@ const productSchema = new mongoose.Schema({
     rating_count: {
         type: Number,
         default: 0,
+    },
+    images: {
+        type: [String],
+        default: []
     }
 }, { timestamps: true })
 
