@@ -1,8 +1,8 @@
 import numpy as np
 from models.product import Product
 from services.database import product_collection
-from faiss_helper import add_product_to_index
-from typing import List
+from services.faiss_helper import add_product_to_index, search_product_by_text
+from typing import Any, Dict, List
 from bson import ObjectId
 
 
@@ -16,10 +16,6 @@ def combine_features(product: Product) -> str:
         product.gender,
         product.details
     ]).lower()
-
-
-async def get_content_based_recommendations(product_id: str, products: List[Product], top_n: int = 3) -> List[Product]:
-    pass
 
 
 async def get_product_by_id(product_id: str) -> Product:
@@ -36,7 +32,14 @@ async def get_product_by_id(product_id: str) -> Product:
     )
 
 
+async def get_content_based_recommendations(product_id: str, top_n: int = 3) -> List[str]:
+    product = await get_product_by_id(product_id)
+    combined_text = combine_features(product)
+    recommended_products = search_product_by_text(combined_text, top_k=top_n)
+    return recommended_products
+
+
 async def add_product(product_id: str):
     product = await get_product_by_id(product_id)
     combined_text = combine_features(product)
-    await add_product_to_index(product.id, combined_text)
+    add_product_to_index(product.id, combined_text)

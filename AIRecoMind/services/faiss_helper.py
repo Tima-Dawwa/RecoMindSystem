@@ -92,7 +92,7 @@ def search_product_by_text(query_text: str, top_k: int = 5):
     for dist, idx in zip(distances[0], indices[0]):
         if idx in id_mapping:
             product_id = id_mapping[idx]
-            results.append((product_id, float(dist)))
+            results.append(product_id)
     return results
 
 
@@ -113,7 +113,7 @@ def delete_product_from_index(product_id: str):
         f"Product {product_id} has been successfully deleted from the index.")
 
 
-async def add_product_to_index(product_id: str, combined_text: str):
+def add_product_to_index(product_id: str, combined_text: str):
     global int_counter
 
     embedding = embed_text(combined_text)
