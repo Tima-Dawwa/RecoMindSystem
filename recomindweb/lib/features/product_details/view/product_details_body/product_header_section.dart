@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:recomindweb/features/product_details/view/product_details_body/add_review_selection.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/color_selctor.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/product_attribute_card.dart';
 
@@ -95,33 +94,12 @@ class ProductHeader extends StatelessWidget {
           const SizedBox(height: 16),
           Divider(thickness: 1, color: Colors.grey),
           ColorSelector(),
-          const SizedBox(height: 16),
-          Divider(thickness: 1, color: Colors.grey[300]),
-          const AddReviewSection()
+
+
         ],
       ),
     );
   }
 }
 
-/// Reusable product attribute display
-class _ProductAttribute extends StatelessWidget {
-  final String label;
-  final String value;
 
-  const _ProductAttribute({required this.label, required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          "$label: ",
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        Text(value),
-      ],
-    );
-  }
-}
