@@ -5,7 +5,7 @@ import faiss
 import pickle
 from sentence_transformers import SentenceTransformer
 import os
-
+import asyncio
 
 # ----- CONFIG -----
 BATCH_SIZE = 1000
@@ -15,11 +15,20 @@ EMBEDDING_STORE_FILE = "data/product_embeddings.pkl"
 ID_MAPPING_FILE = "data/id_mapping.pkl"
 REVERSE_ID_MAPPING_FILE = "data/reverse_id_mapping.pkl"
 
-# model = SentenceTransformer('saved_models/all-MiniLM-L6-v2')
-model = SentenceTransformer('MODEL_NAME')
+# Load model once
+model = SentenceTransformer(MODEL_NAME)
+
+# Global shared objects
+index = None
+all_embeddings = {}
+id_mapping = {}
+reverse_id_mapping = {}
+int_counter = 1
 
 
 def load_index_and_mappings():
+    global index, all_embeddings, id_mapping, reverse_id_mapping, int_counter
+
     if os.path.exists(FAISS_INDEX_FILE):
         index = faiss.read_index(FAISS_INDEX_FILE)
     else:
@@ -39,32 +48,30 @@ def load_index_and_mappings():
     else:
         int_counter = 1
 
-    return index, all_embeddings, id_mapping, reverse_id_mapping, int_counter
+
+# Load once on script start
+load_index_and_mappings()
 
 
-def embed_text(text: str, model):
+def embed_text(text: str):
     embedding = model.encode([text], convert_to_numpy=True)
     return np.array(embedding).astype("float32")[0]
 
 
-def add_embedding_to_index(index, embedding, int_id):
+def add_embedding_to_index(embedding, int_id):
     index.add_with_ids(np.array([embedding]), np.array([int_id]))
 
 
-def add_embedding_to_index(index, embedding, int_id):
-    index.add_with_ids(np.array([embedding]), np.array([int_id]))
-
-
-def update_embeddings_store(all_embeddings, int_id, embedding):
+def update_embeddings_store(int_id, embedding):
     all_embeddings[int_id] = embedding
 
 
-def update_id_mappings(id_mapping, reverse_id_mapping, int_id, product_id):
+def update_id_mappings(int_id, product_id):
     id_mapping[int_id] = product_id
     reverse_id_mapping[product_id] = int_id
 
 
-def save_to_index_file(index, all_embeddings, id_mapping, reverse_id_mapping):
+def save_to_index_file():
     faiss.write_index(index, FAISS_INDEX_FILE)
 
     with open(EMBEDDING_STORE_FILE, "wb") as f:
@@ -78,9 +85,8 @@ def save_to_index_file(index, all_embeddings, id_mapping, reverse_id_mapping):
 
 
 def search_product_by_text(query_text: str, top_k: int = 5):
-    index, all_embeddings, id_mapping, reverse_id_mapping, _ = load_index_and_mappings()
-    query_embedding = embed_text(query_text, model)
-    distances, indices = index.search(query_embedding, top_k)
+    query_embedding = embed_text(query_text)
+    distances, indices = index.search(np.array([query_embedding]), top_k)
 
     results = []
     for dist, idx in zip(distances[0], indices[0]):
@@ -90,36 +96,33 @@ def search_product_by_text(query_text: str, top_k: int = 5):
     return results
 
 
-
-
-
 def delete_product_from_index(product_id: str):
-    index, all_embeddings, id_mapping, reverse_id_mapping, _ = load_index_and_mappings()
-
     if product_id not in reverse_id_mapping:
         print(f"Product {product_id} not found in the index.")
         return
 
     int_id = reverse_id_mapping[product_id]
-
     index.remove_ids(np.array([int_id], dtype=np.int64))
 
     all_embeddings.pop(int_id, None)
     id_mapping.pop(int_id, None)
     reverse_id_mapping.pop(product_id, None)
 
-    save_to_index_file(index, all_embeddings, id_mapping, reverse_id_mapping)
+    save_to_index_file()
     print(
         f"Product {product_id} has been successfully deleted from the index.")
 
 
-
 async def add_product_to_index(product_id: str, combined_text: str):
-    index, all_embeddings, id_mapping, reverse_id_mapping, int_counter = load_index_and_mappings()
-    embedding = embed_text(combined_text, model)
+    global int_counter
+
+    embedding = embed_text(combined_text)
     int_id = int_counter
-    add_embedding_to_index(index, embedding, int_id)
-    update_embeddings_store(all_embeddings, int_id, embedding)
-    update_id_mappings(id_mapping, reverse_id_mapping, int_id, product_id)
-    save_to_index_file(index, all_embeddings, id_mapping, reverse_id_mapping)
+    int_counter += 1
+
+    add_embedding_to_index(embedding, int_id)
+    update_embeddings_store(int_id, embedding)
+    update_id_mappings(int_id, product_id)
+    save_to_index_file()
+
     print(f"Added product {product_id} as int ID {int_id} to FAISS index.")
