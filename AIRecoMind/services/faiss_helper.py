@@ -2,7 +2,9 @@ from tqdm import tqdm
 import numpy as np
 import pandas as pd
 import faiss
+import pickle
 from sentence_transformers import SentenceTransformer
+import os
 
 
 # ----- CONFIG -----
@@ -11,43 +13,111 @@ MODEL_NAME = "all-MiniLM-L6-v2"
 FAISS_INDEX_FILE = "data/product_index_hnsw.faiss"
 EMBEDDING_STORE_FILE = "data/product_embeddings.pkl"
 ID_MAPPING_FILE = "data/id_mapping.pkl"
+REVERSE_ID_MAPPING_FILE = "data/reverse_id_mapping.pkl"
 
 # model = SentenceTransformer('saved_models/all-MiniLM-L6-v2')
 model = SentenceTransformer('MODEL_NAME')
 
 
 def load_index_and_mappings():
-    pass
+    if os.path.exists(FAISS_INDEX_FILE):
+        index = faiss.read_index(FAISS_INDEX_FILE)
+    else:
+        raise FileNotFoundError("FAISS index file not found.")
+
+    with open(EMBEDDING_STORE_FILE, "rb") as f:
+        all_embeddings = pickle.load(f)
+
+    with open(ID_MAPPING_FILE, "rb") as f:
+        id_mapping = pickle.load(f)
+
+    with open(REVERSE_ID_MAPPING_FILE, "rb") as f:
+        reverse_id_mapping = pickle.load(f)
+
+    if id_mapping:
+        int_counter = max(id_mapping.keys()) + 1
+    else:
+        int_counter = 1
+
+    return index, all_embeddings, id_mapping, reverse_id_mapping, int_counter
 
 
 def embed_text(text: str, model):
-    pass
-
-
-def get_next_int_id(current_counter: int):
-    pass
+    embedding = model.encode([text], convert_to_numpy=True)
+    return np.array(embedding).astype("float32")[0]
 
 
 def add_embedding_to_index(index, embedding, int_id):
-    pass
+    index.add_with_ids(np.array([embedding]), np.array([int_id]))
+
+
+def add_embedding_to_index(index, embedding, int_id):
+    index.add_with_ids(np.array([embedding]), np.array([int_id]))
 
 
 def update_embeddings_store(all_embeddings, int_id, embedding):
-    pass
+    all_embeddings[int_id] = embedding
 
 
 def update_id_mappings(id_mapping, reverse_id_mapping, int_id, product_id):
-    pass
+    id_mapping[int_id] = product_id
+    reverse_id_mapping[product_id] = int_id
 
 
 def save_to_index_file(index, all_embeddings, id_mapping, reverse_id_mapping):
-    pass
+    faiss.write_index(index, FAISS_INDEX_FILE)
+
+    with open(EMBEDDING_STORE_FILE, "wb") as f:
+        pickle.dump(all_embeddings, f)
+
+    with open(ID_MAPPING_FILE, "wb") as f:
+        pickle.dump(id_mapping, f)
+
+    with open(REVERSE_ID_MAPPING_FILE, "wb") as f:
+        pickle.dump(reverse_id_mapping, f)
+
+
+def search_product_by_text(query_text: str, top_k: int = 5):
+    index, all_embeddings, id_mapping, reverse_id_mapping, _ = load_index_and_mappings()
+    query_embedding = embed_text(query_text, model)
+    distances, indices = index.search(query_embedding, top_k)
+
+    results = []
+    for dist, idx in zip(distances[0], indices[0]):
+        if idx in id_mapping:
+            product_id = id_mapping[idx]
+            results.append((product_id, float(dist)))
+    return results
+
+
+
+
+
+def delete_product_from_index(product_id: str):
+    index, all_embeddings, id_mapping, reverse_id_mapping, _ = load_index_and_mappings()
+
+    if product_id not in reverse_id_mapping:
+        print(f"Product {product_id} not found in the index.")
+        return
+
+    int_id = reverse_id_mapping[product_id]
+
+    index.remove_ids(np.array([int_id], dtype=np.int64))
+
+    all_embeddings.pop(int_id, None)
+    id_mapping.pop(int_id, None)
+    reverse_id_mapping.pop(product_id, None)
+
+    save_to_index_file(index, all_embeddings, id_mapping, reverse_id_mapping)
+    print(
+        f"Product {product_id} has been successfully deleted from the index.")
+
 
 
 async def add_product_to_index(product_id: str, combined_text: str):
     index, all_embeddings, id_mapping, reverse_id_mapping, int_counter = load_index_and_mappings()
     embedding = embed_text(combined_text, model)
-    int_id = get_next_int_id(int_counter)
+    int_id = int_counter
     add_embedding_to_index(index, embedding, int_id)
     update_embeddings_store(all_embeddings, int_id, embedding)
     update_id_mappings(id_mapping, reverse_id_mapping, int_id, product_id)
