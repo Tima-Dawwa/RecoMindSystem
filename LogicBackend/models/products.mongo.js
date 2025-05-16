@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
-    // Need to fill this
     name: {
         type: String,
         required: true,
@@ -60,12 +59,32 @@ const productSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    interactions: {
+        views: {
+            type: Number,
+            default: 0
+        },
+        favorites: {
+            type: Number,
+            default: 0
+        },
+        cart_adds: {
+            type: Number,
+            default: 0
+        },
+        orders: {
+            type: Number,
+            default: 0
+        },
+        total_interactions: {
+            type: Number,
+            default: 0
+        }
+    },
     images: {
         type: [String],
         default: []
     }
-}, { timestamps: true })
-
-
+}, { timestamps: true });
 
 module.exports = mongoose.model('Product', productSchema);
