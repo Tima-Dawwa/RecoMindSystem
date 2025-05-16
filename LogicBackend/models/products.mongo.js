@@ -59,6 +59,28 @@ const productSchema = new mongoose.Schema({
     rating_count: {
         type: Number,
         default: 0,
+    },
+    interactions: {
+        views: {
+            type: Number,
+            default: 0
+        },
+        favorites: {
+            type: Number,
+            default: 0
+        },
+        cart_adds: {
+            type: Number,
+            default: 0
+        },
+        orders: {
+            type: Number,
+            default: 0
+        },
+        total_interactions: {
+            type: Number,
+            default: 0
+        }
     }
 }, { timestamps: true })
 
