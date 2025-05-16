@@ -13,19 +13,22 @@ async function getProductsCount() {
 }
 
 async function getProductById(_id) {
-    return await Product.find({ _id })
+    return await Product.findOne({ _id })
 }
 
 async function deleteProduct(product_id) {
     return await Product.deleteOne({ _id: product_id });
 }
 
-
+async function getProductsByIds(ids) {
+    return await Product.find({ _id: { $in: ids } });
+}
 
 module.exports = {
     postProduct,
     getProducts,
     getProductById,
     deleteProduct,
-    getProductsCount
+    getProductsCount,
+    getProductsByIds
 }
