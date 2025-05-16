@@ -185,10 +185,10 @@
       "name": "recomindweb",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "3.6"
+      "languageVersion": "3.7"
     }
   ],
-  "generated": "2025-05-16T06:47:39.419261Z",
+  "generated": "2025-05-16T07:00:50.638756Z",
   "generator": "pub",
   "generatorVersion": "3.7.2",
   "flutterRoot": "file:///C:/flutter",
