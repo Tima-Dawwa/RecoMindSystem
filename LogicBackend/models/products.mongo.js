@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
-    // Need to fill this
     name: {
         type: String,
         required: true,
@@ -86,8 +85,6 @@ const productSchema = new mongoose.Schema({
         type: [String],
         default: []
     }
-}, { timestamps: true })
-
-
+}, { timestamps: true });
 
 module.exports = mongoose.model('Product', productSchema);
