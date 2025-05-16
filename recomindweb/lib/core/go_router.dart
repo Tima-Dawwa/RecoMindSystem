@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:recomindweb/features/ChatBot/chatbot.dart';
 import 'package:recomindweb/features/ForgetPassword/forget_password.dart';
 import 'package:recomindweb/features/product_details/view/product_details_page.dart';
 
@@ -8,10 +9,9 @@ final GoRouter router = GoRouter(
     //   path: '/',
     //   builder: (context, state) => const HomePage(),
     // ),
-
-    // '/product_details'
+    GoRoute(path: '/', builder: (context, state) => ChatBot()),
     GoRoute(
-      path: '/',
+      path: '/product_details',
       builder: (context, state) => ProductDetailsPage(),
     ),
     GoRoute(
