@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recomindweb/features/ForgetPassword/reset_password.dart';
+import 'package:recomindweb/features/ForgetPassword/view/reset_password.dart';
 
 class VerifyCodePage extends StatelessWidget {
   const VerifyCodePage({super.key});
