@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: Themes.primary,
         fontFamily: 'CoconNext',
+        colorSchemeSeed: Themes.primary,
         scaffoldBackgroundColor: Themes.bg,
       ),
     );
