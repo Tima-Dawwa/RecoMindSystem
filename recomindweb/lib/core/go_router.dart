@@ -13,10 +13,6 @@ final GoRouter router = GoRouter(
     GoRoute(path: '/', builder: (context, state) => ChatBot()),
     GoRoute(path: '/login', builder: (context, state) => LoginPage()),
     GoRoute(
-      path: '/product_details',
-      builder: (context, state) => ProductDetailsPage(),
-    ),
-    GoRoute(
       path: '/forgot-password',
       builder: (context, state) => ForgotPasswordPage(),
     ),
