@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/Desktop/color_selctor.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/product_attribute_card.dart';
 
@@ -20,10 +21,12 @@ class ProductHeader extends StatelessWidget {
         children: [
           Text(
             "Relaxed Fit T-Shirt",
+
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.5,
-                ),
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.5,
+              color: Themes.text,
+            ),
           ),
 
           const SizedBox(height: 8),
@@ -35,7 +38,7 @@ class ProductHeader extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: isDiscounted ? Colors.redAccent : Colors.black,
+                  color: isDiscounted ? Themes.secondary : Colors.black,
                 ),
               ),
               if (isDiscounted) ...[
@@ -48,7 +51,7 @@ class ProductHeader extends StatelessWidget {
                     decoration: TextDecoration.lineThrough,
                   ),
                 ),
-              ]
+              ],
             ],
           ),
 
@@ -57,9 +60,9 @@ class ProductHeader extends StatelessWidget {
           Text(
             "Product Details",
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey[700],
-                ),
+              fontWeight: FontWeight.w500,
+              color: Colors.grey[700],
+            ),
           ),
           const SizedBox(height: 12),
 
@@ -67,11 +70,7 @@ class ProductHeader extends StatelessWidget {
             "Lorem ipsum flows with grace, "
             "Color dances, finds its place, "
             "In contrast, beauty shows its face.",
-            style: TextStyle(
-              fontSize: 16,
-              height: 1.6,
-              color: Colors.black87,
-            ),
+            style: TextStyle(fontSize: 16, height: 1.6, color: Colors.black87),
           ),
 
           const SizedBox(height: 16),
@@ -81,25 +80,34 @@ class ProductHeader extends StatelessWidget {
             runSpacing: 16,
             children: const [
               ProductAttributeCard(
-                  label: "Graphic", value: "Decorated", icon: Icons.brush),
+                label: "Graphic",
+                value: "Decorated",
+                icon: Icons.brush,
+                
+              ),
               ProductAttributeCard(
-                  label: "Department", value: "Casual", icon: Icons.store),
+                label: "Department",
+                value: "Casual",
+                icon: Icons.store,
+              ),
               ProductAttributeCard(
-                  label: "Fit", value: "Relaxed", icon: Icons.accessibility),
+                label: "Fit",
+                value: "Relaxed",
+                icon: Icons.accessibility,
+              ),
               ProductAttributeCard(
-                  label: "Material", value: "100% Cotton", icon: Icons.texture),
+                label: "Material",
+                value: "100% Cotton",
+                icon: Icons.texture,
+              ),
             ],
           ),
 
           const SizedBox(height: 16),
           Divider(thickness: 1, color: Colors.grey),
           ColorSelector(),
-
-
         ],
       ),
     );
   }
 }
-
-

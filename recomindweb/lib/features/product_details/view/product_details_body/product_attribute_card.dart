@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recomindweb/core/theme.dart';
 
 class ProductAttributeCard extends StatelessWidget {
   final String label;
@@ -25,7 +26,7 @@ class ProductAttributeCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 20, color: Theme.of(context).colorScheme.primary),
+          Icon(icon, size: 20, color: Themes.primary),
           const SizedBox(width: 8),
           Expanded(
             child: Column(

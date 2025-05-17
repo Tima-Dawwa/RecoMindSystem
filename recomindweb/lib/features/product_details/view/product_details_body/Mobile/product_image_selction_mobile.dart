@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:recomindweb/core/theme.dart';
-
 class ProductImageSectionMobile extends StatelessWidget {
   final String selectedImage;
   final Function(String) onThumbnailClick;
