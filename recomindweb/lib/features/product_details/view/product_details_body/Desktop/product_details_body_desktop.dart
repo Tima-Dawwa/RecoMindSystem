@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/add_review_selection.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/customers_review.dart';
-import 'package:recomindweb/features/product_details/view/product_details_body/product_header_section.dart';
-import 'package:recomindweb/features/product_details/view/product_details_body/product_image_section.dart';
+import 'package:recomindweb/features/product_details/view/product_details_body/Desktop/product_header.dart';
+import 'package:recomindweb/features/product_details/view/product_details_body/Desktop/product_image_section.dart';
 
 class ProductDetailsDesktopLayout extends StatelessWidget {
   final String selectedImage;

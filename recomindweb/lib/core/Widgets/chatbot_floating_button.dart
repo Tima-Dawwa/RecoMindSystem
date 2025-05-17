@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:recomindweb/core/chat_controller.dart';
 import 'package:recomindweb/core/theme.dart';
 
 class DraggableFloatingButton extends StatefulWidget {
-  const DraggableFloatingButton({super.key});
+  final VoidCallback? onPressed;
+  final bool isChatOpen;
+
+  const DraggableFloatingButton({
+    super.key,
+    this.onPressed,
+    this.isChatOpen = false,
+  });
 
   @override
   State<DraggableFloatingButton> createState() =>
@@ -18,7 +23,7 @@ class _DraggableFloatingButtonState extends State<DraggableFloatingButton> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final chatController = Provider.of<ChatController>(context);
+    final buttonSize = 60.0;
 
     return Positioned(
       left: position.dx,
@@ -29,14 +34,20 @@ class _DraggableFloatingButtonState extends State<DraggableFloatingButton> {
         onPanUpdate: (details) {
           setState(() {
             position = Offset(
-              (position.dx + details.delta.dx).clamp(0, screenSize.width - 60),
-              (position.dy + details.delta.dy).clamp(0, screenSize.height - 60),
+              (position.dx + details.delta.dx).clamp(
+                0,
+                screenSize.width - buttonSize,
+              ),
+              (position.dy + details.delta.dy).clamp(
+                0,
+                screenSize.height - buttonSize,
+              ),
             );
           });
         },
         onTap: () {
           if (!_isDragging) {
-            chatController.toggleChat();
+            widget.onPressed?.call();
           }
         },
         child: Material(
@@ -45,14 +56,11 @@ class _DraggableFloatingButtonState extends State<DraggableFloatingButton> {
             duration: const Duration(milliseconds: 200),
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
-              color:
-                  chatController.isChatOpen ? Themes.secondary : Themes.primary,
+              color: widget.isChatOpen ? Themes.secondary : Themes.primary,
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: (chatController.isChatOpen
-                          ? Themes.secondary
-                          : Themes.primary)
+                  color: (widget.isChatOpen ? Themes.secondary : Themes.primary)
                       .withOpacity(0.4),
                   blurRadius: 12,
                   offset: const Offset(0, 6),
@@ -67,10 +75,7 @@ class _DraggableFloatingButtonState extends State<DraggableFloatingButton> {
                 child: Icon(
                   Icons.smart_toy_rounded,
                   size: 28,
-                  color:
-                      chatController.isChatOpen
-                          ? Themes.secondary
-                          : Themes.primary,
+                  color: widget.isChatOpen ? Themes.secondary : Themes.primary,
                 ),
               ),
             ),

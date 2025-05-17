@@ -27,14 +27,16 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      child: ResponsiveLayout(
-        mobileBody: ProductDetailsMobileLayout(
+    return ResponsiveLayout(
+      mobileBody: AppScaffold(
+        child: ProductDetailsMobileLayout(
           selectedImage: _selectedImage,
           images: _images,
           onImageChange: (img) => setState(() => _selectedImage = img),
         ),
-        desktopBody: ProductDetailsDesktopLayout(
+      ),
+      desktopBody: AppScaffold(
+        child: ProductDetailsDesktopLayout(
           selectedImage: _selectedImage,
           images: _images,
           onImageChange: (img) => setState(() => _selectedImage = img),
