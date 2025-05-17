@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recomindweb/features/product_details/view/product_details_body/color_selctor.dart';
+import 'package:recomindweb/features/product_details/view/product_details_body/Desktop/color_selctor.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/product_attribute_card.dart';
 
 class ProductHeader extends StatelessWidget {

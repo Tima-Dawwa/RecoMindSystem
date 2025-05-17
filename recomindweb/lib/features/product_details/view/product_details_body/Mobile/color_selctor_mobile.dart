@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/color_option.dart';
 
-class ColorSelector extends StatelessWidget {
+class ColorSelectorMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -14,16 +14,18 @@ class ColorSelector extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
           SizedBox(height: 8),
-          Row(
-            children: [
-              ColorOption(color: Colors.black),
-              SizedBox(width: 8),
-              ColorOption(color: Colors.grey),
-              SizedBox(width: 8),
-              ColorOption(color: Colors.blue),
-              SizedBox(width: 8),
-              ColorOption(color: Colors.yellow),
-            ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                ColorOption(color: Colors.black),
+                SizedBox(width: 8),
+                ColorOption(color: Colors.grey),
+                SizedBox(width: 8),
+                ColorOption(color: Colors.blue),
+                SizedBox(width: 8),
+              ],
+            ),
           ),
         ],
       ),
