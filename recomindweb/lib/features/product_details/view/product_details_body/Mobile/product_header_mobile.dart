@@ -31,7 +31,7 @@ class ProductHeaderMobile extends StatelessWidget {
           Row(
             children: [
               Text(
-                "\$${(discountedPrice ?? originalPrice).toStringAsFixed(2)}",
+                "\$${(discountedPrice).toStringAsFixed(2)}",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
