@@ -28,6 +28,12 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  country_code_picker: ^3.3.0
+  dio: ^5.8.0+1
+  font_awesome_flutter: ^10.8.0
+  flutter_bloc: ^9.1.1
+  page_transition: ^2.0.9
+  smooth_page_indicator: ^1.2.1
   flutter:
     sdk: flutter
   flutter_web_plugins:
@@ -75,10 +81,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: CoconNext
+      fonts:
+        - asset: assets/cocon-next-arabic.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
