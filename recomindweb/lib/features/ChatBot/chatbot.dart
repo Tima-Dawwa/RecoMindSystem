@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recomindweb/core/chat_controller.dart';
 import 'package:recomindweb/core/theme.dart';
 
 class ChatWindow extends StatelessWidget {
@@ -28,11 +27,7 @@ class ChatWindow extends StatelessWidget {
               IconButton(
                 icon: const Icon(Icons.close, color: Colors.white),
                 onPressed:
-                    () =>
-                        Provider.of<ChatController>(
-                          context,
-                          listen: false,
-                        ).closeChat(),
+                    (){}
               ),
             ],
           ),
