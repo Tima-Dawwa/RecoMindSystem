@@ -3,8 +3,13 @@ import 'package:recomindweb/features/ChatBot/Model/product.dart';
 
 class ResponseCards extends StatelessWidget {
   final List<Product> products;
+  final Function(Product) onCardTap;
 
-  const ResponseCards({super.key, required this.products});
+  const ResponseCards({
+    super.key,
+    required this.products,
+    required this.onCardTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +19,8 @@ class ResponseCards extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2, 
-        childAspectRatio: 3 / 4, 
+        crossAxisCount: 2,
+        childAspectRatio: 3 / 4,
         crossAxisSpacing: 16,
         mainAxisSpacing: 16,
       ),
@@ -27,7 +32,7 @@ class ResponseCards extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           elevation: 4,
           child: InkWell(
-            onTap: () => print('Clicked on ${item.name}'),
+            onTap: () => onCardTap(item),
             borderRadius: BorderRadius.circular(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,7 +76,7 @@ class ResponseCards extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        item.price as String,
+                        '\$${item.price}', // <-- convert double to string
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
