@@ -1,11 +1,11 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+import 'dart:typed_data';
 
 class ChatInputField extends StatefulWidget {
   final TextEditingController controller;
   final ValueChanged<String> onSubmitted;
-  final ValueChanged<File?> onImageSelected;
+  final ValueChanged<Uint8List?> onImageSelected;
 
   const ChatInputField({
     super.key,
@@ -19,27 +19,30 @@ class ChatInputField extends StatefulWidget {
 }
 
 class _ChatInputFieldState extends State<ChatInputField> {
-  File? _selectedImage;
+  Uint8List? _webImageBytes;
 
-void _pickImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  void _pickImage() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+      allowMultiple: false,
+      withData: true,
+    );
 
-    if (pickedFile != null) {
+    if (result != null && result.files.single.bytes != null) {
       setState(() {
-        _selectedImage = File(pickedFile.path);
+        _webImageBytes = result.files.single.bytes;
       });
-      widget.onImageSelected(_selectedImage);
+      widget.onImageSelected(_webImageBytes);
     }
   }
 
-
   void _submit() {
-    if (widget.controller.text.trim().isNotEmpty) {
-      widget.onSubmitted(widget.controller.text.trim());
+    final text = widget.controller.text.trim();
+    if (text.isNotEmpty) {
+      widget.onSubmitted(text);
       widget.controller.clear();
       setState(() {
-        _selectedImage = null;
+        _webImageBytes = null; // Clear selected image after sending
       });
     }
   }
@@ -58,7 +61,7 @@ void _pickImage() async {
         children: [
           IconButton(
             icon: Icon(
-              _selectedImage != null ? Icons.image : Icons.file_upload,
+              _webImageBytes != null ? Icons.image : Icons.file_upload,
               color: Colors.white,
             ),
             onPressed: _pickImage,
@@ -66,9 +69,9 @@ void _pickImage() async {
           Expanded(
             child: TextField(
               controller: widget.controller,
-              style: TextStyle(color: Colors.white),
-              onChanged: (_) => setState(() {}), 
-              decoration: InputDecoration(
+              style: const TextStyle(color: Colors.white),
+              onChanged: (_) => setState(() {}),
+              decoration: const InputDecoration(
                 hintText: 'Ask anything',
                 hintStyle: TextStyle(color: Colors.grey),
                 border: InputBorder.none,

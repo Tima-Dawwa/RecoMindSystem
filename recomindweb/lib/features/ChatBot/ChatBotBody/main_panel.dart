@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:recomindweb/features/ChatBot/ChatBotBody/welcomeMessage.dart';
-import 'chat_input_field.dart'; // Your custom input field
+import 'chat_input_field.dart';
+import 'dart:typed_data'; // Needed for Uint8List
 
 class CenterPanelWidget extends StatefulWidget {
   @override
@@ -20,21 +19,18 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
       hasStartedConversation = true;
     });
 
-    // Here you can also trigger message sending logic
     print("Text submitted: $value");
-
     _controller.clear();
   }
 
-  void _handleImage(File? image) {
-    if (image != null) {
-      print("Image selected: ${image.path}");
+  void _handleImage(Uint8List? imageBytes) {
+    if (imageBytes != null) {
+      print("Image selected with ${imageBytes.length} bytes");
 
       setState(() {
         hasStartedConversation = true;
       });
 
-      // You can also handle sending image here
     }
   }
 
@@ -46,12 +42,12 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
       child: Column(
         children: [
           hasStartedConversation
-              ? Expanded(child: Container())
+              ? const Expanded(child: SizedBox())
               : const Expanded(child: WelcomeMessage()),
           ChatInputField(
             controller: _controller,
             onSubmitted: _handleSubmit,
-            onImageSelected: _handleImage,
+            onImageSelected: _handleImage, 
           ),
         ],
       ),
