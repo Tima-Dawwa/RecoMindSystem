@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/ChatBot/ChatBotBody/main_panel.dart';
 import 'package:recomindweb/features/ChatBot/ChatBotBody/sidebarwidget.dart';
 
