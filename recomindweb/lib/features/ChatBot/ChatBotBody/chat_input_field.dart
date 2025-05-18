@@ -1,25 +1,23 @@
+import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'dart:typed_data';
 
 class ChatInputField extends StatefulWidget {
   final TextEditingController controller;
-  final ValueChanged<String> onSubmitted;
-  final ValueChanged<Uint8List?> onImageSelected;
+  final void Function(String text, Uint8List? imageBytes) onSubmitted;
 
   const ChatInputField({
-    super.key,
+    Key? key,
     required this.controller,
     required this.onSubmitted,
-    required this.onImageSelected,
-  });
+  }) : super(key: key);
 
   @override
-  State<ChatInputField> createState() => _ChatInputFieldState();
+  _ChatInputFieldState createState() => _ChatInputFieldState();
 }
 
 class _ChatInputFieldState extends State<ChatInputField> {
-  Uint8List? _webImageBytes;
+  Uint8List? _pickedImage;
 
   void _pickImage() async {
     final result = await FilePicker.platform.pickFiles(
@@ -30,21 +28,20 @@ class _ChatInputFieldState extends State<ChatInputField> {
 
     if (result != null && result.files.single.bytes != null) {
       setState(() {
-        _webImageBytes = result.files.single.bytes;
+        _pickedImage = result.files.single.bytes;
       });
-      widget.onImageSelected(_webImageBytes);
     }
   }
 
   void _submit() {
     final text = widget.controller.text.trim();
-    if (text.isNotEmpty) {
-      widget.onSubmitted(text);
-      widget.controller.clear();
-      setState(() {
-        _webImageBytes = null; // Clear selected image after sending
-      });
-    }
+    if (text.isEmpty && _pickedImage == null) return;
+
+    widget.onSubmitted(text, _pickedImage);
+    widget.controller.clear();
+    setState(() {
+      _pickedImage = null;
+    });
   }
 
   @override
@@ -61,24 +58,35 @@ class _ChatInputFieldState extends State<ChatInputField> {
         children: [
           IconButton(
             icon: Icon(
-              _webImageBytes != null ? Icons.image : Icons.file_upload,
+              _pickedImage != null ? Icons.image : Icons.file_upload,
               color: Colors.white,
             ),
             onPressed: _pickImage,
           ),
           Expanded(
-            child: TextField(
-              controller: widget.controller,
-              style: const TextStyle(color: Colors.white),
-              onChanged: (_) => setState(() {}),
-              decoration: const InputDecoration(
-                hintText: 'Ask anything',
-                hintStyle: TextStyle(color: Colors.grey),
-                border: InputBorder.none,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: widget.controller,
+                  style: const TextStyle(color: Colors.white),
+                  onChanged: (_) => setState(() {}),
+                  decoration: const InputDecoration(
+                    hintText: 'Ask anything',
+                    hintStyle: TextStyle(color: Colors.grey),
+                    border: InputBorder.none,
+                  ),
+                ),
+                if (_pickedImage != null)
+                  Container(
+                    margin: const EdgeInsets.only(top: 8),
+                    height: 80,
+                    child: Image.memory(_pickedImage!),
+                  ),
+              ],
             ),
           ),
-          if (hasText)
+          if (hasText || _pickedImage != null)
             IconButton(
               icon: const Icon(Icons.send, color: Colors.white),
               onPressed: _submit,

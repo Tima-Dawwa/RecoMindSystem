@@ -1,15 +1,12 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:recomindweb/features/ChatBot/ChatBotBody/response_card.dart';
-import 'package:recomindweb/features/ChatBot/ChatBotBody/welcomeMessage.dart';
 import 'package:recomindweb/features/ChatBot/Model/chat_message.dart';
-import 'package:recomindweb/features/ChatBot/Model/product.dart';
-
-import 'chat_input_field.dart';
 import 'message_bubble.dart';
+import 'chat_input_field.dart';
 
 class CenterPanelWidget extends StatefulWidget {
-  const CenterPanelWidget({super.key});
+  const CenterPanelWidget({Key? key}) : super(key: key);
 
   @override
   _CenterPanelWidgetState createState() => _CenterPanelWidgetState();
@@ -17,15 +14,10 @@ class CenterPanelWidget extends StatefulWidget {
 
 class _CenterPanelWidgetState extends State<CenterPanelWidget> {
   final List<ChatMessage> _messages = [];
-
-  // Controller to manage the text input
   final TextEditingController _controller = TextEditingController();
 
-  // Simulate backend call with delay
   Future<List<Product>> _simulateBackendResponse() async {
-    await Future.delayed(const Duration(seconds: 3)); // simulate network delay
-
-    // Sample product list, replace with your logic
+    await Future.delayed(const Duration(seconds: 3));
     return [
       Product(
         name: "Product A",
@@ -45,29 +37,19 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
     ];
   }
 
-  void _handleSend({String? text, Uint8List? imageBytes}) {
+  void _handleSend(String? text, Uint8List? imageBytes) {
     if ((text == null || text.trim().isEmpty) && imageBytes == null) return;
 
     setState(() {
-      // Add user message
       _messages.add(
         ChatMessage(type: MessageType.user, text: text, imageBytes: imageBytes),
       );
-
-      // Add waiting message
       _messages.add(ChatMessage(type: MessageType.waiting));
     });
 
-    // Clear input field and selected image
-    _controller.clear();
-
-    // Simulate backend response after delay
     _simulateBackendResponse().then((products) {
       setState(() {
-        // Remove the waiting message
         _messages.removeWhere((msg) => msg.type == MessageType.waiting);
-
-        // Add bot message with response products
         _messages.add(
           ChatMessage(type: MessageType.bot, responseProducts: products),
         );
@@ -76,7 +58,6 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
   }
 
   void _handleCardTap(Product product) {
-    // Handle card click - for demo, just show a snackbar
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text('Clicked on ${product.name}')));
@@ -92,7 +73,12 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
           Expanded(
             child:
                 _messages.isEmpty
-                    ? const WelcomeMessage()
+                    ? const Center(
+                      child: Text(
+                        'Welcome! Ask anything...',
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                    )
                     : ListView.builder(
                       padding: const EdgeInsets.only(top: 8),
                       itemCount: _messages.length,
@@ -111,9 +97,7 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
           ),
           ChatInputField(
             controller: _controller,
-            onSubmitted: (text) => _handleSend(text: text),
-            onImageSelected:
-                (imageBytes) => _handleSend(imageBytes: imageBytes),
+            onSubmitted: (text, imageBytes) => _handleSend(text, imageBytes),
           ),
         ],
       ),

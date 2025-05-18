@@ -1,7 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:recomindweb/features/ChatBot/Model/product.dart';
-
 enum MessageType { user, bot, waiting }
 
 class ChatMessage {
@@ -15,5 +13,19 @@ class ChatMessage {
     this.text,
     this.imageBytes,
     this.responseProducts,
+  });
+}
+
+class Product {
+  final String name;
+  final String imageUrl;
+  final double price;
+  final double? discountPercent;
+
+  Product({
+    required this.name,
+    required this.imageUrl,
+    required this.price,
+    this.discountPercent,
   });
 }
