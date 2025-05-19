@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:recomindweb/core/theme.dart';
 
 class ChatInputField extends StatefulWidget {
   final TextEditingController controller;
@@ -51,7 +52,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.grey[900],
+        color: Themes.bg.withAlpha(100),
         borderRadius: BorderRadius.circular(30),
       ),
       child: Row(
@@ -59,7 +60,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
           IconButton(
             icon: Icon(
               _pickedImage != null ? Icons.image : Icons.file_upload,
-              color: Colors.white,
+              color: Themes.bg,
             ),
             onPressed: _pickImage,
           ),
@@ -69,11 +70,11 @@ class _ChatInputFieldState extends State<ChatInputField> {
               children: [
                 TextField(
                   controller: widget.controller,
-                  style: const TextStyle(color: Colors.white),
+                  style: TextStyle(color: Themes.text),
                   onChanged: (_) => setState(() {}),
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'Ask anything',
-                    hintStyle: TextStyle(color: Colors.grey),
+                    hintStyle: TextStyle(color: Themes.bg.withAlpha(100)),
                     border: InputBorder.none,
                   ),
                 ),

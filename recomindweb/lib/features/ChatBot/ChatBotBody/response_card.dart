@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:recomindweb/features/ChatBot/Model/chat_message.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:recomindweb/features/ChatBot/ChatBotBody/product_card.dart';
+import '../Model/product.dart';
 
 class ResponseCards extends StatelessWidget {
   final List<Product> products;
@@ -13,73 +15,69 @@ class ResponseCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      padding: const EdgeInsets.all(8),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 12,
-        crossAxisSpacing: 12,
-        childAspectRatio: 0.7,
-      ),
-      itemCount: products.length,
-      itemBuilder: (context, index) {
-        final product = products[index];
-        return GestureDetector(
-          onTap: () => onCardTap(product),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.grey.shade300),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final screenWidth = constraints.maxWidth;
+
+        int getCrossAxisCount() {
+          if (screenWidth < 800) return 2;
+          if (screenWidth < 1200) return 3;
+          return 4;
+        }
+
+        if (screenWidth < 400) {
+          // Use ListView.builder for very small screens
+          return Padding(
+            padding: const EdgeInsets.all(24),
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: products.length,
+              itemBuilder: (context, index) {
+                final product = products[index];
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxWidth: 300,
+                      minHeight: 200,
+                    ),
+                    child: ProductCard(
+                      product: product,
+                      onTap: () => onCardTap(product),
+                    ),
+                  ),
+                );
+              },
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(12),
-                    ),
-                    child: Image.asset(
-                      product.imageUrl,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
+          );
+        } else {
+          // Use MasonryGridView for normal or wide screens
+          return Padding(
+            padding: const EdgeInsets.all(24),
+            child: MasonryGridView.count(
+              crossAxisCount: getCrossAxisCount(),
+              mainAxisSpacing: 24,
+              crossAxisSpacing: 24,
+              itemCount: products.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                final product = products[index];
+                return ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxWidth: 300,
+                    minHeight: 200,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Text(
-                    product.name,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                      color: Colors.black87,
-                    ),
+                  child: ProductCard(
+                    product: product,
+                    onTap: () => onCardTap(product),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  child: Text(
-                    '\$${product.price.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
-                      color: Colors.black54,
-                    ),
-                  ),
-                ),
-              ],
+                );
+              },
             ),
-          ),
-        );
+          );
+        }
       },
     );
   }

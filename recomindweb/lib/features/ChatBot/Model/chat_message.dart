@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'product.dart';
+
 enum MessageType { user, bot, waiting }
 
 class ChatMessage {
@@ -16,16 +18,5 @@ class ChatMessage {
   });
 }
 
-class Product {
-  final String name;
-  final String imageUrl;
-  final double price;
-  final double? discountPercent;
 
-  Product({
-    required this.name,
-    required this.imageUrl,
-    required this.price,
-    this.discountPercent,
-  });
-}
+

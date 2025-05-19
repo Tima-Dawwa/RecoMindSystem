@@ -1,7 +1,9 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/ChatBot/ChatBotBody/response_card.dart';
-import 'package:recomindweb/features/ChatBot/Model/chat_message.dart';
+import '../Model/chat_message.dart';
+import '../Model/product.dart';
 import 'message_bubble.dart';
 import 'chat_input_field.dart';
 
@@ -23,16 +25,37 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
         name: "Product A",
         imageUrl: "assets/main_side.png",
         price: 29.99,
+        discountPercent: 25, // optional discount
+        isFavorite: false,
+        gender: "Female",
+        category: "Ladieswear",
+        isTrending: true,
+        rating: 4.5,
+        tagType: "Trend",
       ),
       Product(
         name: "Product B",
         imageUrl: "assets/main_side.png",
         price: 49.99,
+        discountPercent: 10,
+        isFavorite: true,
+        gender: "Male",
+        category: "Menswear",
+        isTrending: false,
+        rating: 3.8,
+        tagType: "New",
       ),
       Product(
         name: "Product C",
         imageUrl: "assets/main_side.png",
         price: 19.99,
+        discountPercent: null,
+        isFavorite: false,
+        gender: "Unisex",
+        category: "Accessories",
+        isTrending: false,
+        rating: 4.0,
+        tagType: "Trend",
       ),
     ];
   }
@@ -66,17 +89,20 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.black,
+      color: Themes.text,
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
           Expanded(
             child:
                 _messages.isEmpty
-                    ? const Center(
+                    ? Center(
                       child: Text(
                         'Welcome! Ask anything...',
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+                        style: TextStyle(
+                          color: Themes.bg.withAlpha(100),
+                          fontSize: 18,
+                        ),
                       ),
                     )
                     : ListView.builder(
