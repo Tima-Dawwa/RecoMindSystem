@@ -25,7 +25,7 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
         name: "Product A",
         imageUrl: "assets/main_side.png",
         price: 29.99,
-        discountPercent: 25, // optional discount
+        discountPercent: 25, 
         isFavorite: false,
         gender: "Female",
         category: "Ladieswear",
