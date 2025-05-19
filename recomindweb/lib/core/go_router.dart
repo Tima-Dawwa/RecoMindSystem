@@ -3,6 +3,7 @@ import 'package:recomindweb/features/Authentication/view/login_page.dart';
 import 'package:recomindweb/features/ChatBot/chatbot.dart';
 import 'package:recomindweb/features/ForgetPassword/forget_password.dart';
 import 'package:recomindweb/features/product_details/view/product_details_page.dart';
+import 'package:recomindweb/product_test.dart';
 
 final GoRouter router = GoRouter(
   routes: [

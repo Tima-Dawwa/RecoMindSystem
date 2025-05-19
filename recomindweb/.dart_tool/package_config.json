@@ -110,6 +110,12 @@
       "languageVersion": "3.6"
     },
     {
+      "name": "flutter_staggered_grid_view",
+      "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_staggered_grid_view-0.6.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_test",
       "rootUri": "file:///C:/flutter/packages/flutter_test",
       "packageUri": "lib/",
@@ -302,7 +308,7 @@
       "languageVersion": "3.7"
     }
   ],
-  "generated": "2025-05-17T12:36:52.660040Z",
+  "generated": "2025-05-19T09:51:25.489235Z",
   "generator": "pub",
   "generatorVersion": "3.7.2",
   "flutterRoot": "file:///C:/flutter",

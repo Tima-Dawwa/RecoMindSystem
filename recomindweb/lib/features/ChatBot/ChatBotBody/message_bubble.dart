@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/ChatBot/Model/chat_message.dart';
 
 class MessageBubble extends StatelessWidget {
@@ -23,7 +24,7 @@ class MessageBubble extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: isUser ? Colors.blueAccent : Colors.grey[800],
+          color: isUser ? Themes.bg : Themes.bg.withAlpha(100),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -31,7 +32,6 @@ class MessageBubble extends StatelessWidget {
               isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            
             if (message.imageBytes != null)
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
@@ -43,7 +43,7 @@ class MessageBubble extends StatelessWidget {
               ),
 
             if (message.text != null && message.text!.trim().isNotEmpty)
-              Text(message.text!, style: const TextStyle(color: Colors.white)),
+              Text(message.text!, style: TextStyle(color: Themes.text)),
           ],
         ),
       ),
