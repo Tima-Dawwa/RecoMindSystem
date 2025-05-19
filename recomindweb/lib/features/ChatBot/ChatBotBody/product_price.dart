@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recomindweb/core/theme.dart';
 
 class ProductPrice extends StatelessWidget {
   final double? price;
@@ -13,19 +14,19 @@ class ProductPrice extends StatelessWidget {
       children: [
         Text(
           '\$${price!.toStringAsFixed(2)}',
-          style: const TextStyle(
+          style:  TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 14,
-            color: Colors.green,
+            color: Themes.text,
           ),
         ),
         const SizedBox(width: 8),
         Text(
           '\$${(price! * 1.2).toStringAsFixed(2)}',
-          style: const TextStyle(
+          style: TextStyle(
             decoration: TextDecoration.lineThrough,
             fontSize: 12,
-            color: Colors.grey,
+            color: Themes.text.withAlpha(100),
           ),
         ),
       ],

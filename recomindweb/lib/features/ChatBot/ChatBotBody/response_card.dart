@@ -26,7 +26,6 @@ class ResponseCards extends StatelessWidget {
         }
 
         if (screenWidth < 400) {
-          // Use ListView.builder for very small screens
           return Padding(
             padding: const EdgeInsets.all(24),
             child: ListView.builder(
@@ -52,7 +51,6 @@ class ResponseCards extends StatelessWidget {
             ),
           );
         } else {
-          // Use MasonryGridView for normal or wide screens
           return Padding(
             padding: const EdgeInsets.all(24),
             child: MasonryGridView.count(
