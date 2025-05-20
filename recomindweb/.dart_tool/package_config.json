@@ -111,7 +111,7 @@
     },
     {
       "name": "flutter_staggered_grid_view",
-      "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_staggered_grid_view-0.6.2",
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_staggered_grid_view-0.6.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -308,11 +308,7 @@
       "languageVersion": "3.7"
     }
   ],
-<<<<<<< Updated upstream
-  "generated": "2025-05-19T11:39:10.207368Z",
-=======
-  "generated": "2025-05-17T15:40:32.385604Z",
->>>>>>> Stashed changes
+  "generated": "2025-05-20T14:55:30.353537Z",
   "generator": "pub",
   "generatorVersion": "3.7.2",
   "flutterRoot": "file:///C:/dev/flutter",

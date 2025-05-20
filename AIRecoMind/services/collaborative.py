@@ -105,12 +105,11 @@ def load_model_and_encoders():
 
 
 # 7. Get fallback recommendations for cold start users (popular, trending, or highly rated products)
-def get_fallback_recommendations():
-    """
-    Return a list of product IDs recommended for users without history.
-    Usually top popular or trending products.
-    """
-    pass
+async def get_fallback_recommendations(top_n= 20) -> List[str]:
+    
+    products = await get_all_products_interaction_score()
+    products.sort(key=lambda p: p.total_interaction_score or 0, reverse=True)
+    return [p.id for p in products[:top_n]]
 
 
 # 8. Main function: get collaborative recommendations with cold start handling
