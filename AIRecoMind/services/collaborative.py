@@ -112,35 +112,21 @@ def load_model_and_encoders():
 
 # 7. Get fallback recommendations for cold start users (popular, trending, or highly rated products)
 async def get_fallback_recommendations(top_n= 20) -> List[str]:
-    
+
     products = await get_all_products_interaction_score()
     products.sort(key=lambda p: p.total_interaction_score or 0, reverse=True)
     return [p.id for p in products[:top_n]]
 
 
 # 8. Main function: get collaborative recommendations with cold start handling
-async def get_collaborative_recommendations() :
-    """
-    Recommend products for user_id using ALS collaborative filtering.
-    If user_id not known (cold start), return fallback recommendations instead.
-    """
-    # Load model and encoders
-    # model, user_encoder, item_encoder, user_item_matrix = load_model_and_encoders()
+async def get_collaborative_recommendations(user_id: str, top_n: int = 20) -> List[str]:
 
-    # Try converting user_id to internal index
-    # try:
-    #     user_idx = user_encoder.transform([user_id])[0]
-    # except ValueError:
-    #     # Cold start: user not in training data
-    #     return get_fallback_recommendations(top_n)
+    model, user_encoder, item_encoder, user_item_matrix = load_model_and_encoders()
 
-    # Get recommendations from ALS
-    # recommended = model.recommend(user_idx, user_item_matrix.T, N=top_n)
-    # item_indices = [item_idx for item_idx, _ in recommended]
-
-    # Convert internal item indices back to product_ids
-    # product_ids = item_encoder.inverse_transform(item_indices)
-
-    # return product_ids.tolist()
-
-    return []
+    if user_id not in user_encoder.classes_:
+        return await get_fallback_recommendations(top_n)
+    user_index = np.where(user_encoder.classes_ == user_id)[0][0]
+    recommended = model.recommend(user_index, user_item_matrix.T, num=top_n)
+    item_indices = [item_idx for item_idx, _ in recommended]
+    product_ids = item_encoder.inverse_transform(item_indices)
+    return product_ids.tolist()
