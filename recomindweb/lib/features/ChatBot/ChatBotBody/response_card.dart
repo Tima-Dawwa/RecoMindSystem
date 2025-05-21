@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:recomindweb/features/ChatBot/ChatBotBody/product_card.dart';
+import 'package:recomindweb/core/Widgets/ProductCard/product_card.dart';
 import '../Model/product.dart';
 
 class ResponseCards extends StatelessWidget {
