@@ -11,6 +11,9 @@ from scipy.sparse import coo_matrix
 from models.interaction import Interaction
 from models.product import Product
 from services.database import interaction_collection, product_collection
+import pickle
+import os
+from joblib import dump
 
 
 async def get_all_interactions() -> List[Interaction]:
@@ -89,13 +92,16 @@ def train_als_model(
 
 
 # 5. Save model and encoders for later use (disk, cache, etc.)
-def save_model_and_encoders():
-    """
-    Save ALS model, LabelEncoders, and sparse matrix to persistent storage.
-    """
-    pass
 
+def save_model_and_encoders(model: AlternatingLeastSquares, user_encoder: LabelEncoder, 
+                          item_encoder: LabelEncoder, matrix: coo_matrix):
+    os.makedirs('models', exist_ok=True)
+    
 
+    dump(model, 'models/als_model.joblib', compress=3)
+    dump(user_encoder, 'models/user_encoder.joblib', compress=3)
+    dump(item_encoder, 'models/item_encoder.joblib', compress=3)
+    dump(matrix, 'models/interaction_matrix.joblib', compress=3)
 # 6. Load model, encoders, and matrix from storage for runtime recommendations
 def load_model_and_encoders():
     """
