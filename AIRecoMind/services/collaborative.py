@@ -1,17 +1,12 @@
-# Summary Flow
-# Data → Sparse Matrix → ALS Training → Save model
-
-# At runtime: Load model → Map user ID → Recommend products → If no user data, use fallback.
 import numpy as np
 from typing import Tuple
 from typing import List, Tuple, Dict, Any
-from implicit.als import AlternatingLeastSquares
 from sklearn.preprocessing import LabelEncoder
 from scipy.sparse import coo_matrix
 from models.interaction import Interaction
 from models.product import Product
 from services.database import interaction_collection, product_collection
-
+from joblib import dump
 
 async def get_all_interactions() -> List[Interaction]:
     cursor = interaction_collection.find({})
@@ -88,15 +83,17 @@ def train_als_model(
     return model
 
 
-# 5. Save model and encoders for later use (disk, cache, etc.)
-def save_model_and_encoders():
-    """
-    Save ALS model, LabelEncoders, and sparse matrix to persistent storage.
-    """
-    pass
+def save_model_and_encoders(model: AlternatingLeastSquares, user_encoder: LabelEncoder, 
+                          item_encoder: LabelEncoder, matrix: coo_matrix):
+    os.makedirs('models', exist_ok=True)
+    
+
+    dump(model, 'models/als_model.joblib', compress=3)
+    dump(user_encoder, 'models/user_encoder.joblib', compress=3)
+    dump(item_encoder, 'models/item_encoder.joblib', compress=3)
+    dump(matrix, 'models/interaction_matrix.joblib', compress=3)
 
 
-# 6. Load model, encoders, and matrix from storage for runtime recommendations
 def load_model_and_encoders():
     """
     Load ALS model, encoders, and interaction matrix.
@@ -104,37 +101,21 @@ def load_model_and_encoders():
     pass
 
 
-# 7. Get fallback recommendations for cold start users (popular, trending, or highly rated products)
 async def get_fallback_recommendations(top_n= 20) -> List[str]:
-    
+
     products = await get_all_products_interaction_score()
     products.sort(key=lambda p: p.total_interaction_score or 0, reverse=True)
     return [p.id for p in products[:top_n]]
 
 
-# 8. Main function: get collaborative recommendations with cold start handling
-async def get_collaborative_recommendations() :
-    """
-    Recommend products for user_id using ALS collaborative filtering.
-    If user_id not known (cold start), return fallback recommendations instead.
-    """
-    # Load model and encoders
-    # model, user_encoder, item_encoder, user_item_matrix = load_model_and_encoders()
+async def get_collaborative_recommendations(user_id: str, top_n: int = 20) -> List[str]:
 
-    # Try converting user_id to internal index
-    # try:
-    #     user_idx = user_encoder.transform([user_id])[0]
-    # except ValueError:
-    #     # Cold start: user not in training data
-    #     return get_fallback_recommendations(top_n)
+    model, user_encoder, item_encoder, user_item_matrix = load_model_and_encoders()
 
-    # Get recommendations from ALS
-    # recommended = model.recommend(user_idx, user_item_matrix.T, N=top_n)
-    # item_indices = [item_idx for item_idx, _ in recommended]
-
-    # Convert internal item indices back to product_ids
-    # product_ids = item_encoder.inverse_transform(item_indices)
-
-    # return product_ids.tolist()
-
-    return []
+    if user_id not in user_encoder.classes_:
+        return await get_fallback_recommendations(top_n)
+    user_index = np.where(user_encoder.classes_ == user_id)[0][0]
+    recommended = model.recommend(user_index, user_item_matrix.T, num=top_n)
+    item_indices = [item_idx for item_idx, _ in recommended]
+    product_ids = item_encoder.inverse_transform(item_indices)
+    return product_ids.tolist()
