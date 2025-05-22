@@ -6,7 +6,7 @@ const { postBlacklist } = require('../../../models/blacklist.model');
 const { generateToken } = require('../../../services/token')
 const { validationErrors } = require('../../../middlewares/validationErrors')
 const { postRequest, deleteRequests } = require('../../../models/code_confirmation.model');
-const { postUser, getUser, putPassword } = require('../../../models/users.model');
+const { postUser, getUserByEmail, putPassword } = require('../../../models/users.model');
 const { validateRegisterUser, validateLoginUser, validateForgotPassword, validateResetPassword, validateVerifyResetToken } = require('./auth.validation')
 
 require('dotenv').config();
@@ -20,7 +20,7 @@ async function register(req, res) {
         })
     }
     req.body.name = { 'first_name': req.body.first_name, 'last_name': req.body.last_name }
-    const check = await getUser(req.body.email)
+    const check = await getUserByEmail(req.body.email)
     if (check) return res.status(400).json({ errors: { email: "Email Already In Use" } })
     const user = await postUser(req.body);
 
@@ -38,7 +38,7 @@ async function login(req, res) {
             errors: validationErrors(error.details)
         });
     }
-    const user = await getUser(req.body.email);
+    const user = await getUserByEmail(req.body.email);
     if (!user) return res.status(400).json({ message: 'Not Registered' });
     if (user) {
         const { id, name } = user;
@@ -63,7 +63,7 @@ async function forgotPassword(req, res) {
             errors: validationErrors(error.details)
         })
     }
-    const user = await getUser(req.body.email);
+    const user = await getUserByEmail(req.body.email);
     if (!user) {
         return res.status(400).json({ message: 'User Not Found' })
     }
@@ -92,12 +92,12 @@ async function verifyResetToken(req, res) {
         })
     }
 
-    const user = await getUser(email);
+    const user = await getUserByEmail(req.body.email);
     if (!user) {
         return res.status(400).json({ message: 'User Not Found' });
     }
 
-    const isValid = await confirmTokenHelper(user, token);
+    const isValid = await confirmTokenHelper(user, req.body.token);
     if (!isValid) {
         return res.status(400).json({ message: 'Code is Incorrect' });
     }
@@ -112,7 +112,7 @@ async function resetPassword(req, res) {
             errors: validationErrors(error.details)
         })
     }
-    const user = await getUser(req.body.email);
+    const user = await getUserByEmail(req.body.email);
     if (!user) {
         return res.status(400).json({ message: 'User Not Found' })
     }
