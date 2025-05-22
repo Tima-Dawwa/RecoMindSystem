@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:recomindweb/core/go_router.dart';
 import 'package:recomindweb/core/theme.dart';
+import 'dart:ui';
 
 void main() {
   usePathUrlStrategy();
