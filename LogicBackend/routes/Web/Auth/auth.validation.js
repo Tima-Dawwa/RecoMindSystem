@@ -1,5 +1,17 @@
 const Joi = require('joi');
 
+const contactSchema = Joi.object({
+    country_code: Joi.string().required().messages({
+        'any.required': 'Country Code Required To Change',
+        'string.base': 'Country Code must be a string'
+    }),
+    number: Joi.string().required().messages({
+        'any.required': 'Number Required To Change',
+        'string.base': 'Number must be a string'
+    })
+});
+
+
 function validateRegisterUser(user) {
     const schema = Joi.object({
         first_name: Joi.string().required().messages({
@@ -20,6 +32,16 @@ function validateRegisterUser(user) {
             .required()
             .label('Confirm password')
             .messages({ 'any.only': '{{#label}} does not match' }),
+        date_of_birth: Joi.date().required().messages({
+            'any.required': 'Date Required'
+        }),
+        gender: Joi.string().valid('Male', 'Female').required().messages({
+            'any.required': 'Gender Required'
+        }),
+        phone: contactSchema.required().messages({
+            'any.required': 'Phone required'
+        })
+
     })
     return schema.validate(user, { abortEarly: false });
 }
