@@ -35,7 +35,7 @@ async def get_product_by_id(product_id: str) -> Product:
 async def get_content_based_recommendations(product_id: str, top_n: int = 3) -> List[str]:
     product = await get_product_by_id(product_id)
     combined_text = combine_features(product)
-    recommended_products = search_product_by_text(combined_text, top_k=top_n)
+    recommended_products = search_product_by_text(combined_text, top_k=top_n, exclude_ids=[product_id])
     return recommended_products
 
 

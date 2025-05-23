@@ -84,15 +84,18 @@ def save_to_index_file():
         pickle.dump(reverse_id_mapping, f)
 
 
-def search_product_by_text(query_text: str, top_k: int = 5):
+def search_product_by_text(query_text: str, top_k: int = 5, exclude_ids: List[str] = []):
     query_embedding = embed_text(query_text)
-    distances, indices = index.search(np.array([query_embedding]), top_k)
+    distances, indices = index.search(np.array([query_embedding]), top_k + len(exclude_ids)) 
 
     results = []
     for dist, idx in zip(distances[0], indices[0]):
         if idx in id_mapping:
             product_id = id_mapping[idx]
-            results.append(product_id)
+            if product_id not in exclude_ids:
+                results.append(product_id)
+            if len(results) >= top_k:
+                break  
     return results
 
 
