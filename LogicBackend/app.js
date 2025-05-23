@@ -6,6 +6,9 @@ const errorHandler = require('./middlewares/errorHandler')
 const logger = require('./services/logger');
 const app = express();
 
+const cron = require('./services/cron')
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 app.use(logger);

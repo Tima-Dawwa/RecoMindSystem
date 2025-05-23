@@ -1,4 +1,4 @@
-const CodeConfirmation = require('./code-confirmation.mongo')
+const CodeConfirmation = require('./code_confirmation.mongo')
 
 async function postRequest(data) {
     return await CodeConfirmation.create(data)
