@@ -2,7 +2,7 @@ import numpy as np
 from typing import Tuple
 from typing import List, Tuple, Dict, Any
 from sklearn.preprocessing import LabelEncoder
-from scipy.sparse import coo_matrix
+from scipy.sparse import coo_matrix, load_npz
 from models.interaction import Interaction
 from models.product import Product
 from services.database import interaction_collection, product_collection
@@ -95,10 +95,11 @@ def save_model_and_encoders(model: AlternatingLeastSquares, user_encoder: LabelE
 
 
 def load_model_and_encoders():
-    """
-    Load ALS model, encoders, and interaction matrix.
-    """
-    pass
+    model = joblib.load('als_model.pkl')
+    user_encoder = joblib.load('user_encoder.pkl')
+    item_encoder = joblib.load('item_encoder.pkl')
+    matrix = load_npz('user_item_matrix.npz')
+    return model, user_encoder, item_encoder, matrix
 
 
 async def get_fallback_recommendations(top_n= 20) -> List[str]:
