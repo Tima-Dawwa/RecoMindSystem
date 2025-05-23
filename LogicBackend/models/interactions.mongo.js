@@ -14,12 +14,19 @@ const interactionSchema = new mongoose.Schema({
     interaction_type: {
         type: String,
         required: true,
-        enum: ['view', 'add_to_cart', 'favorite', 'order']
+        enum: ['view', 'add_to_cart', 'favorite', 'order', 'rating']
     },
     interaction_weight: {
         type: Number,
         required: false,
+    },
+    rating_value: {
+        type: Number,
+        required: false,
+        min: 0,
+        max: 5
     }
+
 }, { timestamps: true })
 
 interactionSchema.pre('save', function (next) {
@@ -27,9 +34,12 @@ interactionSchema.pre('save', function (next) {
         view: 1,
         favorite: 2,
         add_to_cart: 3,
-        order: 5
+        order: 5,
     };
-    if (this.isModified('interaction_type')) {
+
+    if (this.interaction_type === 'rating' && this.rating_value != null) {
+        this.interaction_weight = this.rating_value;
+    } else if (this.isModified('interaction_type')) {
         this.interaction_weight = weightMap[this.interaction_type] || 0;
     }
     next();

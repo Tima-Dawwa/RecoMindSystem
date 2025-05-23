@@ -1,12 +1,16 @@
+import os
+import joblib
 import numpy as np
-from typing import Tuple
-from typing import List, Tuple, Dict, Any
-from sklearn.preprocessing import LabelEncoder
-from scipy.sparse import coo_matrix, load_npz
-from models.interaction import Interaction
-from models.product import Product
-from services.database import interaction_collection, product_collection
 from joblib import dump
+from typing import Tuple
+from typing import List, Tuple
+from models.product import Product
+from scipy.sparse import coo_matrix
+from models.interaction import Interaction
+from sklearn.preprocessing import LabelEncoder
+from implicit.als import AlternatingLeastSquares
+from services.database import interaction_collection, product_collection
+
 
 async def get_all_interactions() -> List[Interaction]:
     cursor = interaction_collection.find({})
@@ -83,10 +87,9 @@ def train_als_model(
     return model
 
 
-def save_model_and_encoders(model: AlternatingLeastSquares, user_encoder: LabelEncoder, 
-                          item_encoder: LabelEncoder, matrix: coo_matrix):
+def save_model_and_encoders(model: AlternatingLeastSquares, user_encoder: LabelEncoder,
+                            item_encoder: LabelEncoder, matrix: coo_matrix):
     os.makedirs('models', exist_ok=True)
-    
 
     dump(model, 'models/als_model.joblib', compress=3)
     dump(user_encoder, 'models/user_encoder.joblib', compress=3)
@@ -95,16 +98,15 @@ def save_model_and_encoders(model: AlternatingLeastSquares, user_encoder: LabelE
 
 
 def load_model_and_encoders():
-    model = joblib.load('als_model.pkl')
-    user_encoder = joblib.load('user_encoder.pkl')
-    item_encoder = joblib.load('item_encoder.pkl')
-    matrix = load_npz('user_item_matrix.npz')
+    model = joblib.load('models/als_model.joblib')
+    user_encoder = joblib.load('models/user_encoder.joblib')
+    item_encoder = joblib.load('models/item_encoder.joblib')
+    matrix = joblib.load('models/interaction_matrix.joblib')
     return model, user_encoder, item_encoder, matrix
 
 
-async def get_fallback_recommendations(top_n= 20) -> List[str]:
-
-    products = await get_all_products_interaction_score()
+async def get_fallback_recommendations(top_n=20) -> List[str]:
+    products = await return_compute_interaction_score()
     products.sort(key=lambda p: p.total_interaction_score or 0, reverse=True)
     return [p.id for p in products[:top_n]]
 
@@ -120,3 +122,11 @@ async def get_collaborative_recommendations(user_id: str, top_n: int = 20) -> Li
     item_indices = [item_idx for item_idx, _ in recommended]
     product_ids = item_encoder.inverse_transform(item_indices)
     return product_ids.tolist()
+
+
+async def retrain_als_model():
+    interactions = await load_interaction_data()
+    matrix, user_encoder, item_encoder = build_sparse_matrix(interactions)
+    model = train_als_model(matrix)
+    save_model_and_encoders(model, user_encoder, item_encoder, matrix)
+    return True

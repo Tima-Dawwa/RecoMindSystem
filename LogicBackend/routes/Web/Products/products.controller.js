@@ -28,13 +28,11 @@ async function httpGetOneProduct(req, res) {
         return res.status(404).json({ error: 'Product not found' });
     }
 
-    if (req.user) {
-        await updateProductInteraction(req.params.id, req.user._id, 'view');
-    }
+    await updateProductInteraction(req.params.id, req.user._id, 'view');
 
     let recommendedProducts = [];
     try {
-        const recommendations = await axios.get('http://127.0.0.1:8000/recommendations', {
+        const recommendations = await axios.get('http://127.0.0.1:8000/content-recommendations', {
             params: { product_id: req.params.id, top_n: 5 }
         });
         recommendedProducts = await getProductsByIds(recommendations.data);
