@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-class ProductImageSectionMobile extends StatelessWidget {
+
+class ProductImageSectionMobile extends StatefulWidget {
   final String selectedImage;
   final Function(String) onThumbnailClick;
   final List<String> imageList;
@@ -12,6 +13,14 @@ class ProductImageSectionMobile extends StatelessWidget {
   });
 
   @override
+  State<ProductImageSectionMobile> createState() =>
+      _ProductImageSectionMobileState();
+}
+
+class _ProductImageSectionMobileState extends State<ProductImageSectionMobile> {
+  bool isFavorite = false;
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -20,19 +29,50 @@ class ProductImageSectionMobile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: Image.asset(
-                selectedImage,
-                height: 260,
-                width: double.infinity,
-                fit: BoxFit.contain,
-              ),
+            child: Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: Image.asset(
+                    widget.selectedImage,
+                    height: 260,
+                    width: double.infinity,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isFavorite = !isFavorite;
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(color: Colors.black12, blurRadius: 4),
+                        ],
+                      ),
+                      child: Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: isFavorite ? Colors.red : Colors.grey,
+                        size: 24,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
+
           const SizedBox(height: 20),
 
-          if (imageList.length > 1)
+          if (widget.imageList.length > 1)
             SizedBox(
               height: 100,
               child: Center(
@@ -40,15 +80,15 @@ class ProductImageSectionMobile extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   physics: const ClampingScrollPhysics(),
                   padding: const EdgeInsets.symmetric(horizontal: 30),
-                  itemCount: imageList.length,
+                  itemCount: widget.imageList.length,
                   itemBuilder: (context, index) {
-                    final image = imageList[index];
-                    final isSelected = image == selectedImage;
+                    final image = widget.imageList[index];
+                    final isSelected = image == widget.selectedImage;
 
                     return Padding(
                       padding: const EdgeInsets.only(right: 12),
                       child: GestureDetector(
-                        onTap: () => onThumbnailClick(image),
+                        onTap: () => widget.onThumbnailClick(image),
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 200),
                           decoration: BoxDecoration(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recomindweb/core/theme.dart';
 
-class ProductImageSection extends StatelessWidget {
+class ProductImageSection extends StatefulWidget {
   final String selectedImage;
   final Function(String) onThumbnailClick;
   final List<String> imageList;
@@ -12,9 +12,17 @@ class ProductImageSection extends StatelessWidget {
     required this.onThumbnailClick,
     required this.imageList,
   });
+
+  @override
+  State<ProductImageSection> createState() => _ProductImageSectionState();
+}
+
+class _ProductImageSectionState extends State<ProductImageSection> {
+  bool isFavorite = false;
+
   @override
   Widget build(BuildContext context) {
-    final bool showThumbnails = imageList.length > 1;
+    final bool showThumbnails = widget.imageList.length > 1;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -23,10 +31,10 @@ class ProductImageSection extends StatelessWidget {
           Column(
             mainAxisSize: MainAxisSize.min,
             children:
-                imageList.map((image) {
-                  final isSelected = image == selectedImage;
+                widget.imageList.map((image) {
+                  final isSelected = image == widget.selectedImage;
                   return GestureDetector(
-                    onTap: () => onThumbnailClick(image),
+                    onTap: () => widget.onThumbnailClick(image),
                     child: Container(
                       margin: const EdgeInsets.symmetric(vertical: 6),
                       decoration: BoxDecoration(
@@ -51,9 +59,44 @@ class ProductImageSection extends StatelessWidget {
                 }).toList(),
           ),
         const SizedBox(width: 32),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: Image.asset(selectedImage, height: 400, fit: BoxFit.contain),
+        // Use Stack to position the favorite button over the image
+        Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(
+                widget.selectedImage,
+                height: 400,
+                fit: BoxFit.contain,
+              ),
+            ),
+            Positioned(
+              top: 8,
+              right: 8,
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    isFavorite = !isFavorite;
+                  });
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(color: Colors.black12, blurRadius: 4),
+                    ],
+                  ),
+                  child: Icon(
+                    isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: isFavorite ? Colors.red : Colors.grey,
+                    size: 20,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
