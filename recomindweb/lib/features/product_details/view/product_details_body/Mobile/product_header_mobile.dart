@@ -138,6 +138,7 @@ class ProductHeaderMobile extends StatelessWidget {
           const SizedBox(height: 12),
 
           ColorSelectorMobile(),
+          
         ],
       ),
     );
