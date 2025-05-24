@@ -21,41 +21,46 @@ class ProductHeader extends StatelessWidget {
         children: [
           Text(
             "Relaxed Fit T-Shirt",
-
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.w600,
               letterSpacing: 0.5,
               color: Themes.text,
             ),
           ),
+          const SizedBox(height: 12),
 
-          const SizedBox(height: 8),
-
-          Row(
-            children: [
-              Text(
-                "\$${discountedPrice?.toStringAsFixed(2) ?? originalPrice.toStringAsFixed(2)}",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: isDiscounted ? Themes.secondary : Colors.black,
-                ),
-              ),
-              if (isDiscounted) ...[
-                const SizedBox(width: 8),
-                Text(
-                  "\$${originalPrice.toStringAsFixed(2)}",
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey,
-                    decoration: TextDecoration.lineThrough,
-                  ),
-                ),
-              ],
-            ],
+          // Responsive price + button row/column
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final isNarrow = constraints.maxWidth < 350;
+              if (isNarrow) {
+                // Vertical layout for narrow widths
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _priceWidget(isDiscounted, discountedPrice, originalPrice),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      width: double.infinity,
+                      child: _addToCartButton(context),
+                    ),
+                  ],
+                );
+              } else {
+                // Horizontal layout for wider screens
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _priceWidget(isDiscounted, discountedPrice, originalPrice),
+                    _addToCartButton(context),
+                  ],
+                );
+              }
+            },
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
 
           Text(
             "Product Details",
@@ -83,7 +88,6 @@ class ProductHeader extends StatelessWidget {
                 label: "Graphic",
                 value: "Decorated",
                 icon: Icons.brush,
-                
               ),
               ProductAttributeCard(
                 label: "Department",
@@ -105,8 +109,65 @@ class ProductHeader extends StatelessWidget {
 
           const SizedBox(height: 16),
           Divider(thickness: 1, color: Colors.grey),
-          ColorSelector(),
+          const SizedBox(height: 16),
+
+          const ColorSelector(),
+
+          const SizedBox(height: 24),
         ],
+      ),
+    );
+  }
+
+  Widget _priceWidget(
+    bool isDiscounted,
+    double? discountedPrice,
+    double originalPrice,
+  ) {
+    return Row(
+      children: [
+        Text(
+          "\$${discountedPrice?.toStringAsFixed(2) ?? originalPrice.toStringAsFixed(2)}",
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w600,
+            color: isDiscounted ? Themes.secondary : Colors.black87,
+          ),
+        ),
+        if (isDiscounted) ...[
+          const SizedBox(width: 8),
+          Text(
+            "\$${originalPrice.toStringAsFixed(2)}",
+            style: const TextStyle(
+              fontSize: 16,
+              color: Colors.grey,
+              decoration: TextDecoration.lineThrough,
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+
+  Widget _addToCartButton(BuildContext context) {
+    return OutlinedButton.icon(
+      onPressed: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Added to cart!"),
+            duration: Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      },
+      icon: const Icon(Icons.add_shopping_cart_outlined, size: 18),
+      label: const Text("Add to Cart"),
+      style: OutlinedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        foregroundColor: Themes.secondary,
+        side: BorderSide(color: Themes.secondary),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       ),
     );
   }
