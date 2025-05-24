@@ -29,12 +29,10 @@ class ProductHeader extends StatelessWidget {
           ),
           const SizedBox(height: 12),
 
-          // Responsive price + button row/column
           LayoutBuilder(
             builder: (context, constraints) {
               final isNarrow = constraints.maxWidth < 350;
               if (isNarrow) {
-                // Vertical layout for narrow widths
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

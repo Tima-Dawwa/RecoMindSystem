@@ -29,7 +29,6 @@ class ProductHeaderMobile extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Price
               Row(
                 children: [
                   Text(
