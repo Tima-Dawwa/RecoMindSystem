@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/core/widgets/chatbot_floating_button.dart';
 
-
 class AppScaffold extends StatefulWidget {
   final Widget child;
-  const AppScaffold({super.key, required this.child});
+  final bool size;
+  const AppScaffold({super.key, required this.child, this.size = true});
+  
 
   @override
   State<AppScaffold> createState() => _AppScaffoldState();
 }
 
 class _AppScaffoldState extends State<AppScaffold> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +25,7 @@ class _AppScaffoldState extends State<AppScaffold> {
               children: [
                 SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: widget.size? EdgeInsets.all(16) : EdgeInsets.zero,
                     child: widget.child,
                   ),
                 ),
