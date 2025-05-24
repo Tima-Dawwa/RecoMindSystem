@@ -12,13 +12,19 @@ class AllProductsPage extends StatefulWidget {
   State<AllProductsPage> createState() => _AllProductsPageState();
 }
 
-class _AllProductsPageState extends State<AllProductsPage> with TickerProviderStateMixin {
+class _AllProductsPageState extends State<AllProductsPage>
+    with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    TabController tabController = TabController(length: 4, vsync: this);
     return ResponsiveLayout(
-      mobileBody: AppScaffold(child: AllProductsPageMobileLayout(tabController:tabController ,)),
-      desktopBody: AppScaffold(child: AllProductsPageDesktopLayout(tabController: tabController,)),
+      mobileBody: AppScaffold(
+        size: false,
+        child: AllProductsPageMobileLayout(),
+      ),
+      desktopBody: AppScaffold(
+        size: false,
+        child: AllProductsPageDesktopLayout(),
+      ),
     );
   }
 }
