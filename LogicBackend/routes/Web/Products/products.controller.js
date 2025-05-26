@@ -1,15 +1,6 @@
 const axios = require('axios');
-const {
-    getProducts,
-    getProductById,
-    getProductsCount,
-    getProductsByIds
-} = require('../../../models/products.model');
-const {
-    updateProductInteraction,
-    getProductInteractions
-} = require('../../../models/interactions.model');
-
+const { getProducts, getProductById, getProductsCount, getProductsByIds } = require('../../../models/products.model');
+const { updateProductInteraction, getProductInteractions, INTERACTION_TYPES } = require('../../../models/interactions.model');
 const { getPagination } = require('../../../services/query');
 const { serializedData } = require('../../../services/serializeArray');
 const { productData, productDetailsData } = require('./products.serializer');
@@ -49,8 +40,33 @@ async function httpGetProductInteractions(req, res) {
     return res.status(200).json({ interactions });
 }
 
+async function httpRateProduct(req, res) {
+    try {
+        const { rating } = req.body;
+        
+        if (rating === undefined || rating === null) {
+            return res.status(400).json({ error: 'Rating value is required' });
+        }
+
+        const result = await updateProductInteraction(
+            req.params.id,
+            req.user._id,
+            INTERACTION_TYPES.RATING,
+            rating
+        );
+
+        return res.status(200).json({
+            message: 'Product rated successfully',
+            product: result
+        });
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+}
+
 module.exports = {
     httpGetAllProducts,
-    httpGetProductById,
-    httpGetProductInteractions
+    httpGetOneProduct,
+    httpGetProductInteractions,
+    httpRateProduct
 };
