@@ -6,6 +6,7 @@ import 'package:recomindweb/core/Widgets/custom_textfield.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Authentication/view/login_page.dart';
 import 'package:recomindweb/features/Authentication/view/register_page.dart';
+import 'package:recomindweb/features/ForgetPassword/forget_password.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key, required this.desktop});
@@ -53,7 +54,19 @@ class LoginForm extends StatelessWidget {
                 text: "Forget your password ?",
                 color: Themes.bg.withAlpha(120),
                 weight: FontWeight.normal,
-                press: () {},
+                press: () {
+                  Navigator.push(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.scale,
+                      alignment: Alignment.center,
+                      duration: Duration(milliseconds: 600),
+                      curve: Curves.fastEaseInToSlowEaseOut,
+                      child: ForgotPasswordPage(),
+                      childCurrent: LoginPage(),
+                    ),
+                  );
+                },
               ),
             ),
 

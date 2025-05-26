@@ -81,16 +81,22 @@ class _ProductImageSectionState extends State<ProductImageSection> {
                 },
                 child: Container(
                   padding: const EdgeInsets.all(6),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: Themes.bg,
                     shape: BoxShape.circle,
                     boxShadow: [
-                      BoxShadow(color: Colors.black12, blurRadius: 4),
+                      BoxShadow(
+                        color: Themes.text.withAlpha(150),
+                        blurRadius: 2,
+                      ),
                     ],
                   ),
                   child: Icon(
                     isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: isFavorite ? Colors.red : Colors.grey,
+                    color:
+                        isFavorite
+                            ? Themes.secondary
+                            : Themes.text.withAlpha(150),
                     size: 20,
                   ),
                 ),

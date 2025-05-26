@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recomindweb/core/theme.dart';
 
 class ReviewData {
   final String name;
@@ -22,18 +23,20 @@ class ReviewItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2,
-      shadowColor: Colors.black12,
+      elevation: 1,
+      color: Themes.bg,
+      shadowColor: Themes.text,
+      surfaceTintColor: Themes.primary,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CircleAvatar(
+            CircleAvatar(
               radius: 24,
-              backgroundColor: Colors.blueAccent,
-              child: Icon(Icons.person, color: Colors.white),
+              backgroundColor: Themes.primary.withAlpha(40),
+              child: Icon(Icons.person, color: Themes.bg),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -44,15 +47,19 @@ class ReviewItem extends StatelessWidget {
                     children: [
                       Text(
                         data.name,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
+                          color: Themes.text,
                         ),
                       ),
                       const SizedBox(width: 8),
                       Text(
                         data.time,
-                        style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                        style: TextStyle(
+                          color: Themes.text.withAlpha(100),
+                          fontSize: 12,
+                        ),
                       ),
                     ],
                   ),
@@ -71,7 +78,11 @@ class ReviewItem extends StatelessWidget {
                   const SizedBox(height: 8),
                   Text(
                     data.reviewText,
-                    style: const TextStyle(fontSize: 14, height: 1.4),
+                    style: TextStyle(
+                      fontSize: 14,
+                      height: 1.4,
+                      color: Themes.text,
+                    ),
                   ),
                 ],
               ),

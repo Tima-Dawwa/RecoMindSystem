@@ -14,9 +14,9 @@ class ProductDetailsPage extends StatefulWidget {
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
   late String _selectedImage;
   final List<String> _images = [
-    'assets/main_side.png',
-    'assets/front_side.png',
-    'assets/back_side.png',
+    'assets/Images/main_side.png',
+    'assets/Images/front_side.png',
+    'assets/Images/back_side.png',
   ];
 
   @override

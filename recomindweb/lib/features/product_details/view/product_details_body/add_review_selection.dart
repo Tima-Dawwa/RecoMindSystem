@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recomindweb/core/Widgets/custom_snack_bar.dart';
 import 'package:recomindweb/core/Widgets/primary_button.dart';
+import 'package:recomindweb/core/theme.dart';
 
 class AddReviewSection extends StatefulWidget {
   const AddReviewSection({super.key});
@@ -20,7 +21,7 @@ class _AddReviewSectionState extends State<AddReviewSection> {
         context,
         'Please select a star rating and write a review.',
         icon: Icons.warning_amber_rounded,
-        backgroundColor: Colors.redAccent,
+        backgroundColor: Themes.secondary.withAlpha(200),
       );
       return;
     }
@@ -39,7 +40,7 @@ class _AddReviewSectionState extends State<AddReviewSection> {
         context,
         'Thank you for your review!',
         icon: Icons.check_circle,
-        backgroundColor: Colors.green,
+        backgroundColor: Themes.primary.withAlpha(200),
       );
     });
   }
@@ -48,6 +49,8 @@ class _AddReviewSectionState extends State<AddReviewSection> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 3,
+      color: Themes.bg,
+      shadowColor: Themes.text,
       margin: const EdgeInsets.symmetric(vertical: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
@@ -58,8 +61,9 @@ class _AddReviewSectionState extends State<AddReviewSection> {
             Text(
               "Add Review",
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                fontWeight: FontWeight.bold,
+                color: Themes.text,
+              ),
             ),
             const SizedBox(height: 8),
             Row(
@@ -67,9 +71,10 @@ class _AddReviewSectionState extends State<AddReviewSection> {
                 return IconButton(
                   icon: Icon(
                     Icons.star,
-                    color: index < _selectedStars
-                        ? Colors.amber
-                        : Colors.grey[300],
+                    color:
+                        index < _selectedStars
+                            ? Colors.amber
+                            : Colors.grey[300],
                     size: 32,
                   ),
                   onPressed: () {
@@ -88,8 +93,11 @@ class _AddReviewSectionState extends State<AddReviewSection> {
               minLines: 2,
               decoration: InputDecoration(
                 labelText: "Write your review",
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                labelStyle: TextStyle(color: Themes.text.withAlpha(100)),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Themes.text),
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
               enabled: !_submitted,
             ),

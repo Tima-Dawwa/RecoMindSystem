@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ColorOption extends StatelessWidget {
   final Color color;
 
-  ColorOption({required this.color});
+  const ColorOption({super.key, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -11,10 +11,7 @@ class ColorOption extends StatelessWidget {
       onTap: () {
         // Handle color selection
       },
-      child: CircleAvatar(
-        radius: 20,
-        backgroundColor: color,
-      ),
+      child: CircleAvatar(radius: 20, backgroundColor: color),
     );
   }
 }

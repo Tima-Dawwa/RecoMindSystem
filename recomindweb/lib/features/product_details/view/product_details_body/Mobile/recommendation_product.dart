@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/ChatBot/Model/product.dart';
 import 'package:recomindweb/product_test.dart';
 
@@ -27,7 +28,7 @@ class RecommendationProductMobile extends StatelessWidget {
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
-              color: Colors.black87,
+              color: Themes.text,
             ),
           ),
         ),
