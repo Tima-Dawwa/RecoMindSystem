@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/ChatBot/Model/product.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/Desktop/recommendation_product_desktop.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/add_review_selection.dart';
@@ -23,7 +24,7 @@ class ProductDetailsDesktopLayout extends StatelessWidget {
     final List<Product> products = [
       Product(
         name: "Product A",
-        imageUrl: "assets/main_side.png",
+        imageUrl: "assets/Images/main_side.png",
         price: 29.99,
         discountPercent: 25,
         isFavorite: false,
@@ -35,7 +36,7 @@ class ProductDetailsDesktopLayout extends StatelessWidget {
       ),
       Product(
         name: "Product B",
-        imageUrl: "assets/main_side.png",
+        imageUrl: "assets/Images/main_side.png",
         price: 49.99,
         discountPercent: 10,
         isFavorite: true,
@@ -47,7 +48,7 @@ class ProductDetailsDesktopLayout extends StatelessWidget {
       ),
       Product(
         name: "Product C",
-        imageUrl: "assets/main_side.png",
+        imageUrl: "assets/Images/main_side.png",
         price: 19.99,
         discountPercent: null,
         isFavorite: false,
@@ -72,11 +73,11 @@ class ProductDetailsDesktopLayout extends StatelessWidget {
             Expanded(child: ProductHeader()),
           ],
         ),
-        Divider(thickness: 1, color: Colors.grey[300]),
+        Divider(thickness: 1, color: Themes.text.withAlpha(30)),
         const AddReviewSection(),
-        Divider(thickness: 1, color: Colors.grey[300]),
+        Divider(thickness: 1, color: Themes.text.withAlpha(30)),
         CustomerReviews(),
-        Divider(thickness: 1, color: Colors.grey[300]),
+        Divider(thickness: 1, color: Themes.text.withAlpha(30)),
         RecommendationProductDesktop(
           products: products,
           onCardTap: (product) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recomindweb/core/theme.dart';
 
 class ProductImageSectionMobile extends StatefulWidget {
   final String selectedImage;
@@ -52,15 +53,21 @@ class _ProductImageSectionMobileState extends State<ProductImageSectionMobile> {
                     child: Container(
                       padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Themes.bg,
                         shape: BoxShape.circle,
                         boxShadow: [
-                          BoxShadow(color: Colors.black12, blurRadius: 4),
+                          BoxShadow(
+                            color: Themes.text.withAlpha(150),
+                            blurRadius: 2,
+                          ),
                         ],
                       ),
                       child: Icon(
                         isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color: isFavorite ? Colors.red : Colors.grey,
+                        color:
+                            isFavorite
+                                ? Themes.secondary
+                                : Themes.text.withAlpha(150),
                         size: 24,
                       ),
                     ),
@@ -95,15 +102,15 @@ class _ProductImageSectionMobileState extends State<ProductImageSectionMobile> {
                             border: Border.all(
                               color:
                                   isSelected
-                                      ? Colors.blueAccent
+                                      ? Themes.primary
                                       : Colors.transparent,
                               width: 2.5,
                             ),
                             borderRadius: BorderRadius.circular(10),
-                            boxShadow: const [
+                            boxShadow: [
                               BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 4,
+                                color: Themes.text.withAlpha(40),
+                                blurRadius: 2,
                                 offset: Offset(0, 2),
                               ),
                             ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/Mobile/color_selctor_mobile.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/product_attribute_card.dart';
 
@@ -8,8 +9,8 @@ class ProductHeaderMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double originalPrice = 39.99;
-    final double? discountedPrice = 29.99;
-    final bool isDiscounted = discountedPrice! < originalPrice;
+    final double discountedPrice = 29.99;
+    final bool isDiscounted = discountedPrice < originalPrice;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -21,6 +22,7 @@ class ProductHeaderMobile extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.w600,
               letterSpacing: 0.3,
+              color: Themes.text,
             ),
           ),
 
@@ -32,20 +34,23 @@ class ProductHeaderMobile extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "\$${discountedPrice?.toStringAsFixed(2)}",
+                    "\$${discountedPrice.toStringAsFixed(2)}",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: isDiscounted ? Colors.redAccent : Colors.black87,
+                      color:
+                          isDiscounted
+                              ? Themes.secondary
+                              : Themes.primary.withAlpha(200),
                     ),
                   ),
                   if (isDiscounted) ...[
                     const SizedBox(width: 8),
                     Text(
                       "\$${originalPrice.toStringAsFixed(2)}",
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
-                        color: Colors.grey,
+                        color: Themes.text.withAlpha(150),
                         decoration: TextDecoration.lineThrough,
                       ),
                     ),
@@ -58,10 +63,11 @@ class ProductHeaderMobile extends StatelessWidget {
               OutlinedButton.icon(
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
+                    SnackBar(
                       content: Text("Added to cart!"),
                       duration: Duration(seconds: 2),
                       behavior: SnackBarBehavior.floating,
+                      backgroundColor: Themes.primary.withAlpha(200),
                     ),
                   );
                 },
@@ -72,14 +78,15 @@ class ProductHeaderMobile extends StatelessWidget {
                     horizontal: 12,
                     vertical: 8,
                   ),
-                  foregroundColor: Colors.redAccent,
-                  side: const BorderSide(color: Colors.redAccent),
+                  foregroundColor: Themes.secondary,
+                  side: BorderSide(color: Themes.secondary),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  textStyle: const TextStyle(
-                    fontSize: 14,
+                  textStyle: TextStyle(
+                    fontSize: 16,
                     fontWeight: FontWeight.w500,
+                    fontFamily: 'CoconNext',
                   ),
                 ),
               ),
@@ -92,16 +99,16 @@ class ProductHeaderMobile extends StatelessWidget {
             "Product Details",
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w500,
-              color: Colors.grey[700],
+              color: Themes.text.withAlpha(180),
             ),
           ),
           const SizedBox(height: 12),
 
-          const Text(
+          Text(
             "Lorem ipsum flows with grace, "
             "Color dances, finds its place, "
             "In contrast, beauty shows its face.",
-            style: TextStyle(fontSize: 16, height: 1.6, color: Colors.black87),
+            style: TextStyle(fontSize: 16, height: 1.6, color: Themes.text),
           ),
 
           const SizedBox(height: 16),
@@ -134,11 +141,10 @@ class ProductHeaderMobile extends StatelessWidget {
           ),
 
           const SizedBox(height: 20),
-          const Divider(thickness: 1, color: Colors.grey),
+          Divider(thickness: 1, color: Themes.text.withAlpha(20)),
           const SizedBox(height: 12),
 
           ColorSelectorMobile(),
-          
         ],
       ),
     );
