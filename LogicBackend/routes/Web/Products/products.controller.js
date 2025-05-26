@@ -1,6 +1,8 @@
 const axios = require('axios');
 const { getProducts, getProductById, getProductsCount, getProductsByIds } = require('../../../models/products.model');
+
 const { updateProductInteraction, getProductInteractions, INTERACTION_TYPES } = require('../../../models/interactions.model');
+
 const { getPagination } = require('../../../services/query');
 const { serializedData } = require('../../../services/serializeArray');
 const { productData, productDetailsData } = require('./products.serializer');
@@ -78,6 +80,8 @@ async function httpRateProduct(req, res) {
 module.exports = {
     httpGetAllProducts,
     httpGetOneProduct,
+
     httpGetProductInteractions,
     httpRateProduct
+
 };

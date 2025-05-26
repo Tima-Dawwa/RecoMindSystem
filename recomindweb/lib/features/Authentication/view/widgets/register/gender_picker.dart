@@ -24,24 +24,36 @@ class GenderPicker extends StatelessWidget {
         items: [
           DropdownMenuItem(
             value: "1",
-            child: Text(
-              "Male",
-              style: TextStyle(
-                color: Themes.text,
-                fontSize: 16,
-                fontFamily: 'CoconNext',
-              ),
+            child: Row(
+              children: [
+                Icon(Icons.male, color: Themes.text, size: 25),
+                SizedBox(width: 10),
+                Text(
+                  "Male",
+                  style: TextStyle(
+                    color: Themes.text,
+                    fontSize: 16,
+                    fontFamily: 'CoconNext',
+                  ),
+                ),
+              ],
             ),
           ),
           DropdownMenuItem(
             value: "2",
-            child: Text(
-              "Female",
-              style: TextStyle(
-                color: Themes.text,
-                fontSize: 16,
-                fontFamily: 'CoconNext',
-              ),
+            child: Row(
+              children: [
+                Icon(Icons.female, color: Themes.text, size: 25),
+                SizedBox(width: 10),
+                Text(
+                  "Female",
+                  style: TextStyle(
+                    color: Themes.text,
+                    fontSize: 16,
+                    fontFamily: 'CoconNext',
+                  ),
+                ),
+              ],
             ),
           ),
         ],
