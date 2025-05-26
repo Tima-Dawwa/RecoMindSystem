@@ -12,11 +12,6 @@ const userSchema = new mongoose.Schema({
             minlength: 2,
             maxlength: 25,
         },
-        middle_name: {
-            type: String,
-            minlength: 2,
-            maxlength: 25,
-        },
         last_name: {
             type: String,
             required: [true, 'Last Name Required'],
@@ -43,7 +38,7 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        // required: [true, 'Password Required'],
+        required: [true, 'Password Required'],
         minlength: [8, 'Password must be atleast 8 characters long'],
         trim: true,
     },

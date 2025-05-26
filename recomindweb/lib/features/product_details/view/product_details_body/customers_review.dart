@@ -19,6 +19,18 @@ class CustomerReviews extends StatelessWidget {
         rating: 4.0,
         time: 'a week ago',
       ),
+      ReviewData(
+        name: 'John Smith',
+        reviewText: 'Nice design, but the size runs a bit large.',
+        rating: 4.0,
+        time: 'a week ago',
+      ),
+      ReviewData(
+        name: 'John Smith',
+        reviewText: 'Nice design, but the size runs a bit large.',
+        rating: 4.0,
+        time: 'a week ago',
+      ),
       // Add more if needed
     ];
 
@@ -27,26 +39,32 @@ class CustomerReviews extends StatelessWidget {
       children: [
         Text(
           'Customer Reviews',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 16),
-        LayoutBuilder(builder: (context, constraints) {
-          final isWide = constraints.maxWidth > 600;
-          return Wrap(
-            spacing: 16,
-            runSpacing: 16,
-            children: reviews
-                .map((review) => SizedBox(
-                      width: isWide
-                          ? (constraints.maxWidth / 2) - 12
-                          : double.infinity,
-                      child: ReviewItem(data: review),
-                    ))
-                .toList(),
-          );
-        }),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final isWide = constraints.maxWidth > 600;
+            return Wrap(
+              spacing: 16,
+              runSpacing: 16,
+              children:
+                  reviews
+                      .map(
+                        (review) => SizedBox(
+                          width:
+                              isWide
+                                  ? (constraints.maxWidth / 2) - 12
+                                  : double.infinity,
+                          child: ReviewItem(data: review),
+                        ),
+                      )
+                      .toList(),
+            );
+          },
+        ),
       ],
     );
   }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:recomindweb/core/go_router.dart';
+import 'package:recomindweb/core/theme.dart';
+import 'dart:ui';
 
 void main() {
-   usePathUrlStrategy();
+  usePathUrlStrategy();
   runApp(const MyApp());
 }
 
@@ -14,11 +16,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: router,
-      title: 'Your App',
+      title: 'Trendova',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: Colors.deepPurple,
+        colorSchemeSeed: Themes.primary,
+        fontFamily: 'CoconNext',
+        scaffoldBackgroundColor: Themes.bg,
       ),
     );
   }

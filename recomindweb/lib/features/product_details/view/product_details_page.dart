@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:recomindweb/core/Widgets/app_scafold.dart';
-import 'package:recomindweb/features/product_details/view/product_details_body/add_review_selection.dart';
-import 'package:recomindweb/features/product_details/view/product_details_body/customers_review.dart';
-import 'package:recomindweb/features/product_details/view/product_details_body/product_header_section.dart';
-import 'package:recomindweb/features/product_details/view/product_details_body/product_image_section.dart';
+import 'package:recomindweb/core/responsive_layout.dart';
+import 'package:recomindweb/core/widgets/app_scafold.dart';
+import 'package:recomindweb/features/product_details/view/product_details_body/Desktop/product_details_body_desktop.dart';
+import 'package:recomindweb/features/product_details/view/product_details_body/Mobile/product_details_body_mobile.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   const ProductDetailsPage({super.key});
@@ -28,29 +27,21 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      child: Column(children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ProductImageSection(
-              selectedImage: _selectedImage,
-              imageList: _images,
-              onThumbnailClick: (String newImage) {
-                setState(() {
-                  _selectedImage = newImage;
-                });
-              },
-            ),
-            const SizedBox(width: 8),
-            Expanded(child: ProductHeader()),
-          ],
+    return ResponsiveLayout(
+      mobileBody: AppScaffold(
+        child: ProductDetailsMobileLayout(
+          selectedImage: _selectedImage,
+          images: _images,
+          onImageChange: (img) => setState(() => _selectedImage = img),
         ),
-        Divider(thickness: 1, color: Colors.grey[300]),
-        const AddReviewSection(),
-        Divider(thickness: 1, color: Colors.grey[300]),
-        CustomerReviews()
-      ]),
+      ),
+      desktopBody: AppScaffold(
+        child: ProductDetailsDesktopLayout(
+          selectedImage: _selectedImage,
+          images: _images,
+          onImageChange: (img) => setState(() => _selectedImage = img),
+        ),
+      ),
     );
   }
 }

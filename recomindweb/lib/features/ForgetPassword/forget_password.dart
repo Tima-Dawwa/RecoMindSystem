@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recomindweb/features/ForgetPassword/verification_screen.dart';
+import 'package:recomindweb/features/ForgetPassword/view/verification_screen.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();

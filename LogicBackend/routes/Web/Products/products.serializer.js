@@ -1,24 +1,24 @@
 function productData(product) {
     return {
-        product: {
-            name: product.name,
-            price: product.price,
-        }
+        name: product.name,
+        price: product.price,
+        discounted_price: product.discounted_price,
+        department: product.department,
+        isNew: product.isNew,
+        isTrend: product.isTrend
     }
 }
 
 function productDetailsData(product) {
     return {
-        product: {
-            name: product.name,
-            price: product.price,
-            discounted_price: product.discounted_price,
-            details: product.description,
-            color: product.colors,
-            graphic: product.appearance,
-            gender: product.gender,
-            department: product.department,
-        }
+        name: product.name,
+        price: product.price,
+        discounted_price: product.discounted_price,
+        details: product.details,
+        color: product.color,
+        graphic: product.appearance,
+        gender: product.gender,
+        department: product.department,
     }
 }
 

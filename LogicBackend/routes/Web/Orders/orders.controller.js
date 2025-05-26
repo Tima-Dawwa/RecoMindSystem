@@ -1,10 +1,13 @@
+const { getCart } = require('../../../models/cart.model');
 const { getOrdersForUser, getOrder, getOrdersCountForUser } = require('../../../models/orders.model');
 const { getPagination } = require('../../../services/query');
 const { serializedData } = require('../../../services/serializeArray');
 const { orderData } = require('./orders.serializer');
 const { paymentSheet } = require('../Payments/payments.controller')
+
 const { updateProductInteraction, getProductInteractionCount } = require('../models/interactions.model');
 const { INTERACTION_TYPES } = require('../constants');
+
 
 async function httpAddOrder(req, res) {
     try {
@@ -31,8 +34,18 @@ async function httpGetOrder(req, res) {
     return res.status(200).json({ data: orderData(data) })
 }
 
+async function httpPostOrder(req, res) {
+    const data = await getCart(req.user._id)
+    if (!data) return res.status(404).json({ message: "No Cart Found" })
+
+    const cart = await getCart(req.user._id);
+    req.body.data = createPaymentData(cart);
+    paymentSheet(req, res)
+}
+
 module.exports = {
     httpAddOrder,
     httpGetOrders,
-    httpGetOrder
+    httpGetOrder,
+    httpPostOrder
 }

@@ -1,23 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:recomindweb/core/Widgets/chatbot_floating_button.dart';
 
-class AppScaffold extends StatelessWidget {
+import 'package:recomindweb/core/theme.dart';
+import 'package:recomindweb/core/widgets/chatbot_floating_button.dart';
+
+class AppScaffold extends StatefulWidget {
   final Widget child;
-  const AppScaffold({super.key, required this.child});
+  final bool size;
+  const AppScaffold({super.key, required this.child, this.size = true});
+  
 
+  @override
+  State<AppScaffold> createState() => _AppScaffoldState();
+}
+
+class _AppScaffoldState extends State<AppScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Stack(
-            children: [
-              child,
-              const DraggableFloatingButton(),
-            ],
+      backgroundColor: Themes.bg,
+      body: Row(
+        children: [
+          Expanded(
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  child: Padding(
+                    padding: widget.size? EdgeInsets.all(16) : EdgeInsets.zero,
+                    child: widget.child,
+                  ),
+                ),
+                const DraggableFloatingButton(),
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
