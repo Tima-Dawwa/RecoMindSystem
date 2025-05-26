@@ -1,11 +1,17 @@
 const express = require('express');
-const { httpGetAllProducts, httpGetProductById, httpGetProductInteractions } = require('./products.controller');
-const { authenticateUser } = require('../../../middlewares/auth');
+const { 
+    httpGetAllProducts, 
+    httpGetOneProduct, 
+    httpGetProductInteractions,
+    httpRateProduct 
+} = require('./products.controller');
+const { authenticateUser } = require('../../../middleware/auth');
 
-const router = express.Router();
+const productsRouter = express.Router();
 
-router.get('/', httpGetAllProducts);
-router.get('/:id', httpGetProductById);
-router.get('/:id/interactions', authenticateUser, httpGetProductInteractions);
+productsRouter.get('/', httpGetAllProducts);
+productsRouter.get('/:id', authenticateUser, httpGetOneProduct);
+productsRouter.get('/:id/interactions', authenticateUser, httpGetProductInteractions);
+productsRouter.post('/:id/rate', authenticateUser, httpRateProduct);
 
-module.exports = router; 
+module.exports = productsRouter; 
