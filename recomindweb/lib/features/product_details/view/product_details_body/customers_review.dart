@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/review_item.dart';
 
 class CustomerReviews extends StatelessWidget {
@@ -39,9 +40,10 @@ class CustomerReviews extends StatelessWidget {
       children: [
         Text(
           'Customer Reviews',
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: Themes.text,
+          ),
         ),
         const SizedBox(height: 16),
         LayoutBuilder(

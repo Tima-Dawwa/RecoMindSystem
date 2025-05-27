@@ -9,9 +9,8 @@ class ProductHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double originalPrice = 39.99;
-    final double? discountedPrice = 29.99;
-    final bool isDiscounted =
-        discountedPrice != null && discountedPrice < originalPrice;
+    final double discountedPrice = 29.99;
+    final bool isDiscounted = discountedPrice < originalPrice;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -64,16 +63,16 @@ class ProductHeader extends StatelessWidget {
             "Product Details",
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w500,
-              color: Colors.grey[700],
+              color: Themes.text.withAlpha(180),
             ),
           ),
           const SizedBox(height: 12),
 
-          const Text(
+          Text(
             "Lorem ipsum flows with grace, "
             "Color dances, finds its place, "
             "In contrast, beauty shows its face.",
-            style: TextStyle(fontSize: 16, height: 1.6, color: Colors.black87),
+            style: TextStyle(fontSize: 16, height: 1.6, color: Themes.text),
           ),
 
           const SizedBox(height: 16),
@@ -106,7 +105,7 @@ class ProductHeader extends StatelessWidget {
           ),
 
           const SizedBox(height: 16),
-          Divider(thickness: 1, color: Colors.grey),
+          Divider(thickness: 1, color: Themes.text.withAlpha(20)),
           const SizedBox(height: 16),
 
           const ColorSelector(),
@@ -129,16 +128,17 @@ class ProductHeader extends StatelessWidget {
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w600,
-            color: isDiscounted ? Themes.secondary : Colors.black87,
+            color:
+                isDiscounted ? Themes.secondary : Themes.primary.withAlpha(200),
           ),
         ),
         if (isDiscounted) ...[
           const SizedBox(width: 8),
           Text(
             "\$${originalPrice.toStringAsFixed(2)}",
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
-              color: Colors.grey,
+              color: Themes.text.withAlpha(150),
               decoration: TextDecoration.lineThrough,
             ),
           ),
@@ -151,10 +151,11 @@ class ProductHeader extends StatelessWidget {
     return OutlinedButton.icon(
       onPressed: () {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Added to cart!"),
+          SnackBar(
+            content: Text("Added to cart !"),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
+            backgroundColor: Themes.primary.withAlpha(200),
           ),
         );
       },

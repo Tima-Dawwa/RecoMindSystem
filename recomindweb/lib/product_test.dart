@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:recomindweb/core/theme.dart';
 import 'features/ChatBot/Model/product.dart';
 
 class ProductCard extends StatefulWidget {
   final Product product;
   final VoidCallback onTap;
 
-  const ProductCard({required this.product, required this.onTap, Key? key})
-    : super(key: key);
+  const ProductCard({required this.product, required this.onTap, super.key});
 
   @override
   State<ProductCard> createState() => _ProductCardState();
@@ -74,14 +74,14 @@ class _ResponsiveProductCard extends StatelessWidget {
           maxWidth: isWide ? 400 : MediaQuery.of(context).size.width * 0.9,
         ),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Themes.bg,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.grey.shade300),
+          border: Border.all(color: Themes.text.withAlpha(40)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 6,
-              offset: const Offset(0, 4),
+              color: Themes.text.withAlpha(50),
+              blurRadius: 2,
+              offset: const Offset(0, 2),
             ),
           ],
         ),
@@ -113,14 +113,14 @@ class _ResponsiveProductCard extends StatelessWidget {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.orange.shade600,
+                          color: Themes.secondary.withAlpha(200),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: const Text(
+                        child: Text(
                           "TREND",
                           style: TextStyle(
                             fontSize: 12,
-                            color: Colors.white,
+                            color: Themes.bg,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -133,13 +133,16 @@ class _ResponsiveProductCard extends StatelessWidget {
                       onTap: onFavoriteToggle,
                       child: Container(
                         padding: const EdgeInsets.all(6),
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
+                        decoration: BoxDecoration(
+                          color: Themes.bg,
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
                           isFavorite ? Icons.favorite : Icons.favorite_border,
-                          color: isFavorite ? Colors.red : Colors.grey,
+                          color:
+                              isFavorite
+                                  ? Themes.secondary
+                                  : Themes.text.withAlpha(150),
                           size: 20,
                         ),
                       ),
@@ -160,7 +163,7 @@ class _ResponsiveProductCard extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: isWide ? 18 : 16,
-                  color: Colors.black87,
+                  color: Themes.text,
                 ),
               ),
             ),
@@ -193,17 +196,17 @@ class _ResponsiveProductCard extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: isWide ? 18 : 16,
-                      color: Colors.green,
+                      color: Themes.secondary,
                     ),
                   ),
                   const SizedBox(width: 8),
                   if (product.discountPercent != null)
                     Text(
                       '\$${originalPrice.toStringAsFixed(2)}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         decoration: TextDecoration.lineThrough,
                         fontSize: 14,
-                        color: Colors.grey,
+                        color: Themes.text.withAlpha(150),
                       ),
                     ),
                 ],
@@ -220,14 +223,14 @@ class _ResponsiveProductCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: isWide ? 10 : 8, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.pink.shade50,
+        color: Themes.primary.withAlpha(30),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(
         text,
         style: TextStyle(
           fontSize: isWide ? 13 : 12,
-          color: Colors.pink,
+          color: Themes.primary,
           fontWeight: FontWeight.w500,
         ),
       ),
@@ -246,7 +249,11 @@ class _ResponsiveProductCard extends StatelessWidget {
         } else if (index == fullStars && halfStar) {
           return const Icon(Icons.star_half, size: 16, color: Colors.amber);
         } else {
-          return const Icon(Icons.star_border, size: 16, color: Colors.grey);
+          return Icon(
+            Icons.star_border,
+            size: 16,
+            color: Themes.text.withAlpha(150),
+          );
         }
       }),
     );

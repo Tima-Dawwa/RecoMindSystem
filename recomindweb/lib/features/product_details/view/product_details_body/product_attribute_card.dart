@@ -19,9 +19,9 @@ class ProductAttributeCard extends StatelessWidget {
       width: 160,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.grey.shade100,
+        color: Themes.primary.withAlpha(10),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade300),
+        border: Border.all(color: Themes.text.withAlpha(100)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,14 +34,18 @@ class ProductAttributeCard extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
+                    color: Themes.text,
                   ),
                 ),
                 Text(
                   value,
-                  style: const TextStyle(fontSize: 14, color: Colors.black87),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Themes.text.withAlpha(200),
+                  ),
                 ),
               ],
             ),
