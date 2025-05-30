@@ -4,55 +4,23 @@ from services.content_based import get_content_based_recommendations
 from services.collaborative import get_collaborative_recommendations
 from sklearn.metrics import precision_score, recall_score, f1_score
 
-async def get_hybrid_recommendations(user_id: str, product_id: str, top_n: int = 10) -> List[str]:
+# ================================
+# Cascade Hybrid Recommendation
+# ================================
+
+
+def rerank_with_content_scores(
+    product_ids: List[str],
+    content_scores: Dict[str, float],
+    seen_items: List[str],
+    top_n: int
+) -> List[str]:
     """
-    Combines collaborative and content-based recommendations and removes duplicates.
-    Returns the best N recommendations.
+    Reranks a list of product_ids using content-based similarity scores.
+    Filters out already seen items.
     """
-    # Get recommendations from both systems
-    
-    # Combine and remove duplicates while preserving order
-    
-    # First add collaborative recommendations
-     
-    # Then add content-based recommendations
-    
-async def get_weighted_hybrid_recommendations(
-    user_id: str, 
-    product_id: str, 
-    top_n: int = 10,
-    collab_weight: float = 0.7,
-    content_weight: float = 0.3
-) -> List[Tuple[str, float]]:
-    """
-    Combines recommendations with different weights (0.7 collaborative, 0.3 content-based).
-    Returns the best N recommendations sorted by score.
-    """
-    # Get recommendations from both systems
-    
-    # Create scoring dictionary
-     
-    # Score collaborative recommendations
-     
-    # Score content-based recommendations
-    
-    # Sort by score and return top N
-    
-async def evaluate_hybrid_recommendations(
-    user_id: str,
-    product_id: str,
-    ground_truth: List[str],
-    top_n: int = 10
-) -> Dict[str, float]:
-    """
-    Evaluates the quality of recommendations using precision, recall, and F1-score.
-    """
-    # Get hybrid recommendations
-    
-    # Convert to binary arrays for evaluation
-     
-    # Calculate metrics
-   
+    pass
+
 
 async def get_cascade_hybrid_recommendations(
     user_id: str,
@@ -61,15 +29,55 @@ async def get_cascade_hybrid_recommendations(
     initial_pool_size: int = 50
 ) -> List[str]:
     """
-    Uses collaborative recommendations as initial filter (50 recommendations),
-    then refines results using content-based recommendations.
+    Uses collaborative filtering for candidate pool, then reranks using content-based similarity.
+    Handles cold-starts and filters seen items.
     """
-    # Get initial collaborative recommendations
-   
-    # Get content-based scores for all products in initial pool
-    
-    # Sort by content-based scores and return top N
-    
+    pass
+
+# ================================
+# Evaluation Utilities
+# ================================
+
+
+def compute_binary_arrays(predictions: List[str], ground_truth: List[str]) -> Tuple[List[int], List[int]]:
+    """
+    Converts predictions and ground truth into binary format for evaluation.
+    """
+    pass
+
+
+def calculate_precision(y_true: List[int], y_pred: List[int]) -> float:
+    """
+    Calculates precision score.
+    """
+    pass
+
+
+def calculate_recall(y_true: List[int], y_pred: List[int]) -> float:
+    """
+    Calculates recall score.
+    """
+    pass
+
+
+def calculate_f1(y_true: List[int], y_pred: List[int]) -> float:
+    """
+    Calculates F1 score.
+    """
+    pass
+
+
+def calculate_metrics(y_true: List[int], y_pred: List[int]) -> Dict[str, float]:
+    """
+    Returns precision, recall, and F1 score metrics.
+    """
+    pass
+
+# ================================
+# Evaluation Wrapper
+# ================================
+
+
 async def evaluate_cascade_hybrid_recommendations(
     user_id: str,
     product_id: str,
@@ -78,12 +86,6 @@ async def evaluate_cascade_hybrid_recommendations(
     initial_pool_size: int = 50
 ) -> Dict[str, float]:
     """
-    Evaluates the quality of cascade hybrid recommendations using precision, recall, and F1-score.
+    Evaluates cascade hybrid recommendations using precision, recall, and F1.
     """
-    # Get cascade hybrid recommendations
-   
-    
-    # Convert to binary arrays for evaluation
-    
-    # Calculate metrics
-    
+    pass
