@@ -6,15 +6,17 @@ class CustomButton extends StatelessWidget {
     super.key,
     this.height,
     this.width,
+    this.size,
     this.color,
     this.borderColor,
     this.borderRadius,
     this.textColor,
     required this.text,
-    required this.press,
+    required this.press, 
   });
   final double? height;
   final double? width;
+  final double? size;
   final WidgetStateProperty<Color?>? color;
   final Color? textColor;
   final Color? borderColor;
@@ -30,10 +32,10 @@ class CustomButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: press,
         style: ButtonStyle(
+          padding :WidgetStatePropertyAll(EdgeInsets.zero),
           backgroundColor: color ?? WidgetStatePropertyAll(Themes.primary),
           overlayColor: WidgetStatePropertyAll(Themes.bg.withAlpha(10)),
           animationDuration: Duration(microseconds: 4000),
-          // elevation: WidgetStatePropertyAll(2),
           shape: WidgetStatePropertyAll(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius ?? 10),
@@ -46,7 +48,8 @@ class CustomButton extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: TextStyle(color: textColor ?? Themes.bg, fontSize: 20),
+          maxLines: 1,
+          style: TextStyle(color: textColor ?? Themes.bg, fontSize: size ??20),
         ),
       ),
     );

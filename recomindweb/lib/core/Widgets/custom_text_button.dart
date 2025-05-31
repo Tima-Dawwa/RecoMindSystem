@@ -5,12 +5,15 @@ class CustomTextButton extends StatelessWidget {
   const CustomTextButton({
     super.key,
     this.color,
+    this.weight,
+    this.size,
     required this.text,
-    required this.press, this.weight,
+    required this.press,
   });
-  final Color? color;
-  final FontWeight? weight;
   final String text;
+  final Color? color;
+  final double? size;
+  final FontWeight? weight;
   final void Function() press;
 
   @override
@@ -26,7 +29,7 @@ class CustomTextButton extends StatelessWidget {
         text,
         style: TextStyle(
           color: color ?? Themes.text,
-          fontSize: 14,
+          fontSize: size ?? 14,
           fontWeight: weight ?? FontWeight.bold,
         ),
       ),
