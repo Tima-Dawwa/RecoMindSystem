@@ -62,6 +62,7 @@ async function deleteInteraction(interaction_id) {
     }
 }
 
+<<<<<<< Updated upstream
 async function updateProductInteraction(productId, userId, interactionType, ratingValue = null) {
     try {
         
@@ -150,6 +151,14 @@ async function updateProductInteraction(productId, userId, interactionType, rati
     } catch (error) {
         throw new Error(`Failed to update product interaction: ${error.message}`);
     }
+=======
+async function updateProductInteraction(productId, userId, interactionType) {
+    await Interaction.create({
+        user_id: userId,
+        product_id: productId,
+        interaction_type: interactionType
+    });
+>>>>>>> Stashed changes
 }
 
 async function getProductInteractions(productId) {
