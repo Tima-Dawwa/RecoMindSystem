@@ -12,11 +12,11 @@ async function httpGetFavorites(req, res) {
     return res.status(200).json({ data: serializedData(data, productData), count: length })
 }
 
-async function httpAddFavorite(req, res)  {
+async function httpAddFavorite(req, res) {
     try {
         const result = await updateProductInteraction(req.params.id, req.user._id, INTERACTION_TYPES.FAVORITE);
         const count = await getProductInteractionCount(req.params.id, INTERACTION_TYPES.FAVORITE);
-        return res.status(200).json({ 
+        return res.status(200).json({
             message: 'Product favorited successfully',
             count: count
         });
