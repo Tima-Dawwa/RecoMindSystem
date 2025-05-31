@@ -56,7 +56,7 @@ async function httpGetProductInteractions(req, res) {
 async function httpRateProduct(req, res) {
     try {
         const { rating } = req.body;
-        
+
         if (rating === undefined || rating === null) {
             return res.status(400).json({ error: 'Rating value is required' });
         }
@@ -80,8 +80,6 @@ async function httpRateProduct(req, res) {
 module.exports = {
     httpGetAllProducts,
     httpGetOneProduct,
-
     httpGetProductInteractions,
     httpRateProduct
-
 };
