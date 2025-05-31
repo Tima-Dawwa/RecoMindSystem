@@ -4,6 +4,10 @@ function normalizeBool(val) {
     return undefined;
 }
 
+function getCategories(){
+    
+}
+
 module.exports = {
     normalizeBool
 }
