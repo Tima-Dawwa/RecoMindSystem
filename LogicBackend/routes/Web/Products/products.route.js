@@ -9,7 +9,6 @@ const productsRouter = express.Router();
 
 productsRouter.get('/', asyncHandler(httpGetAllProducts));
 productsRouter.get('/:id', checkObjectID, asyncHandler(httpGetOneProduct));
-productsRouter.get('/:id/interactions', requireJwtAuth, checkObjectID, asyncHandler(httpGetProductInteractions));
 productsRouter.post('/:id/rate', requireJwtAuth, checkObjectID, asyncHandler(httpRateProduct));
 
 module.exports = productsRouter;

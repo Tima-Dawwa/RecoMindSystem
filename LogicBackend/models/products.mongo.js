@@ -69,7 +69,7 @@ const productSchema = new mongoose.Schema(
         type: Number,
         default: 0,
       },
-      cart_adds: {
+      add_to_cart: {
         type: Number,
         default: 0,
       },

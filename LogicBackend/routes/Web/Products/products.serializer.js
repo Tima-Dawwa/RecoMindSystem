@@ -1,5 +1,6 @@
 function productData(product) {
     return {
+        id: product._id,
         name: product.name,
         price: product.price,
         discounted_price: product.discounted_price,

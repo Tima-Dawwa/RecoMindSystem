@@ -10,7 +10,7 @@ async function buildProductQuery(filters) {
     const tenDaysAgo = new Date();
     tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
 
-    if (filters.category) query.gender = filters.category;
+    if (filters.type.length > 0) query.type = { $in: filters.type };
 
     if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
         query.price = {};

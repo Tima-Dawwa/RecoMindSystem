@@ -65,18 +65,18 @@ async function deleteInteraction(interaction_id) {
 <<<<<<< Updated upstream
 async function updateProductInteraction(productId, userId, interactionType, ratingValue = null) {
     try {
-        
+
         const product = await Product.findById(productId);
         if (!product) {
             throw new Error('Product not found');
         }
 
-        
+
         if (!Object.values(INTERACTION_TYPES).includes(interactionType)) {
             throw new Error('Invalid interaction type');
         }
 
-        
+
         if (interactionType === INTERACTION_TYPES.RATING) {
             if (ratingValue === null) {
                 throw new Error('Rating value is required for rating interactions');
@@ -86,7 +86,7 @@ async function updateProductInteraction(productId, userId, interactionType, rati
             }
         }
 
-        
+
         if (interactionType === INTERACTION_TYPES.RATING) {
             const existingRating = await Interaction.findOne({
                 user_id: userId,
@@ -95,11 +95,11 @@ async function updateProductInteraction(productId, userId, interactionType, rati
             });
 
             if (existingRating) {
-                throw new Error('User has already rated this product');
+                existingRating.rating_value = ratingValue
+                existingRating.save();
             }
         }
 
-        
         const interactionData = {
             user_id: userId,
             product_id: productId,
@@ -112,7 +112,7 @@ async function updateProductInteraction(productId, userId, interactionType, rati
 
         await Interaction.create(interactionData);
 
-       
+
         const update = {
             $inc: {
                 'interactions.total_interactions': 1

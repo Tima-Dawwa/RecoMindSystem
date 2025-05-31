@@ -7,6 +7,7 @@ const numbers = require('../public/json/phone_number.json')
 const fs = require('fs');
 const path = require('path');
 const csv = require('csv-parser');
+const Interaction = require('../models/interactions.mongo');
 
 // Done
 async function createUsers(count = 1000) {
@@ -78,8 +79,6 @@ async function createProducts() {
                     price,
                     discounted_price,
                     quantity: faker.number.int({ min: 0, max: 100 }),
-                    rating: faker.number.float({ min: 0, max: 5, multipleOf: 0.1 }),
-                    rating_count: faker.number.int({ min: 0, max: 500 }),
                     images: row.images ? row.images.split('|').map(img => img.trim()) : []
                 };
                 products.push(product);
@@ -101,26 +100,157 @@ async function createProducts() {
     });
 }
 
-async function createInteractions(count = 100000) {
+async function createInteractions(count = 1000000) {
     const users = await User.find({}, '_id').lean();
     const products = await Product.find({}, '_id').lean();
-    const interactionTypes = ['view', 'add_to_cart', 'favorite', 'order'];
+    const interactionTypes = ['view', 'add_to_cart', 'favorite', 'order', 'rating'];
     const interactionData = [];
-
+    const weightMap = {
+        view: 1,
+        favorite: 2,
+        add_to_cart: 3,
+        order: 5,
+    };
     for (let i = 0; i < count; i++) {
         const randomUser = users[Math.floor(Math.random() * users.length)];
         const randomProduct = products[Math.floor(Math.random() * products.length)];
         const interactionType = interactionTypes[Math.floor(Math.random() * interactionTypes.length)];
-
-        const interaction = {
+        let interaction = {
             user_id: randomUser._id,
             product_id: randomProduct._id,
-            interaction_type: interactionType
+            interaction_type: interactionType,
         };
+        if (interactionType == 'rating') {
+            interaction.rating_value = faker.number.int({ min: 1, max: 5 })
+            interaction.interaction_weight = interaction.rating_value
+        } else {
+            interaction.interaction_weight = weightMap[interactionType]
+        }
 
         interactionData.push(interaction);
     }
     await Interaction.insertMany(interactionData);
+}
+
+async function updateAllProductAggregates() {
+    console.log('🚀 Starting optimized update of all product aggregates using MongoDB aggregation...');
+    const aggregationPipeline = [
+        {
+            // Stage 1: Group interactions by product_id and calculate initial aggregates
+            $group: {
+                _id: "$product_id", // Group by the product ID
+                ratingSum: {
+                    $sum: { // Sum rating_value only for 'rating' interactions with a valid number
+                        $cond: [
+                            {
+                                $and: [
+                                    { $eq: ["$interaction_type", "rating"] }, // Ensure this matches your schema/data
+                                    { $isNumber: "$rating_value" }
+                                ]
+                            },
+                            "$rating_value",
+                            0
+                        ]
+                    }
+                },
+                ratingCount: {
+                    $sum: { // Count 'rating' interactions with a valid number
+                        $cond: [
+                            {
+                                $and: [
+                                    { $eq: ["$interaction_type", "rating"] },
+                                    { $isNumber: "$rating_value" }
+                                ]
+                            },
+                            1,
+                            0
+                        ]
+                    }
+                },
+                viewsCount: {
+                    $sum: { $cond: [{ $eq: ["$interaction_type", "view"] }, 1, 0] }
+                },
+                favoritesCount: {
+                    $sum: { $cond: [{ $eq: ["$interaction_type", "favorite"] }, 1, 0] }
+                },
+                cartAddsCount: {
+                    $sum: { $cond: [{ $eq: ["$interaction_type", "add_to_cart"] }, 1, 0] }
+                },
+                ordersCount: {
+                    $sum: { $cond: [{ $eq: ["$interaction_type", "order"] }, 1, 0] }
+                },
+                totalProductInteractions: { $sum: 1 }, // Total number of interactions for this product
+                totalInteractionScore: { $sum: { $ifNull: ["$interaction_weight", 0] } } // Sum existing weights
+            }
+        },
+        {
+            // Stage 2: Project the final fields, including calculated averageRating
+            $project: {
+                _id: 1, // This is the product_id, crucial for $merge
+                calculatedAverageRating: {
+                    $cond: {
+                        if: { $gt: ["$ratingCount", 0] },
+                        then: { $round: [{ $divide: ["$ratingSum", "$ratingCount"] }, 2] }, // Round to 2 decimal places
+                        else: 0 // Default to 0 if no ratings
+                    }
+                },
+                ratingCount: 1,
+                viewsCount: 1,
+                favoritesCount: 1,
+                cartAddsCount: 1,
+                ordersCount: 1,
+                totalProductInteractions: 1,
+                totalInteractionScore: 1
+            }
+        },
+        {
+            // Stage 3: Merge the results into the 'products' collection (MongoDB 4.2+)
+            $merge: {
+                into: "products", // The target collection name (Mongoose usually pluralizes model names)
+                on: "_id",        // Match documents in "products" where its _id equals the _id from this pipeline
+                let: {            // Define variables from the current aggregated document for use in the update
+                    agg_rating: "$calculatedAverageRating",
+                    agg_rating_count: "$ratingCount",
+                    agg_views: "$viewsCount",
+                    agg_favorites: "$favoritesCount",
+                    agg_add_to_cart: "$cartAddsCount",
+                    agg_orders: "$ordersCount",
+                    agg_total_interactions: "$totalProductInteractions",
+                    agg_total_score: "$totalInteractionScore"
+                },
+                whenMatched: [ // Pipeline to execute when a product is matched
+                    {
+                        $set: { // Update these fields on the matched product
+                            rating: "$$agg_rating",
+                            rating_count: "$$agg_rating_count",
+                            "interactions.views": "$$agg_views",
+                            "interactions.favorites": "$$agg_favorites",
+                            "interactions.add_to_cart": "$$agg_add_to_cart",
+                            "interactions.orders": "$$agg_orders",
+                            "interactions.total_interactions": "$$agg_total_interactions",
+                            total_interaction_score: "$$agg_total_score",
+                            updatedAt: new Date() // Manually set updatedAt if not using schema timestamps for this operation
+                        }
+                    }
+                ],
+                whenNotMatched: "discard" // If an interaction's product_id doesn't exist in Products, do nothing
+            }
+        }
+    ];
+
+    try {
+        // Execute the aggregation pipeline.
+        // The $merge stage writes directly to the 'products' collection and does not return documents to the client.
+        await Interaction.aggregate(aggregationPipeline).exec();
+
+        console.log('✅ Product aggregates update process completed using $merge.');
+        // Note: $merge doesn't directly return a count of updated documents to the client.
+        // You would verify the updates by querying the Product collection afterwards.
+    } catch (error) {
+        console.error('❌ Error during optimized product aggregates update:', error);
+        // Consider re-throwing or more specific error handling
+        throw error;
+    }
 }
 
 
@@ -141,6 +271,7 @@ async function createInteractions(count = 100000) {
 module.exports = {
     createUsers,
     createProducts,
-    createInteractions
+    createInteractions,
+    updateAllProductAggregates
     // createNotifications
 }
