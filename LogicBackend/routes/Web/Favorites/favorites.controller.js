@@ -2,8 +2,7 @@ const { getFavorites, addFavorite, deleteFavorite, getFavoritesCount } = require
 const { getPagination } = require('../../../services/query');
 const { serializedData } = require('../../../services/serializeArray');
 const { productData } = require('./favorites.serializer');
-const { updateProductInteraction, getProductInteractionCount } = require('../models/interactions.model');
-const { INTERACTION_TYPES } = require('../constants');
+const { updateProductInteraction, getProductInteractionCount, INTERACTION_TYPES } = require('../../../models/interactions.model');
 
 async function httpGetFavorites(req, res) {
     const { skip, limit } = getPagination(req.query)

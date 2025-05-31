@@ -2,8 +2,7 @@ const { getCart, addToCart, deleteFromCart, getCartCount } = require('../../../m
 const { getPagination } = require('../../../services/query');
 const { serializedData } = require('../../../services/serializeArray');
 const { cartData } = require('./cart.serializer');
-const { updateProductInteraction, getProductInteractionCount } = require('../models/interactions.model');
-const { INTERACTION_TYPES } = require('../constants');
+const { updateProductInteraction, getProductInteractionCount, INTERACTION_TYPES } = require('../../../models/interactions.model');
 
 async function httpGetCart(req, res) {
     const { skip, limit } = getPagination(req.query)
@@ -15,8 +14,8 @@ async function httpGetCart(req, res) {
 async function httpAddToCart(req, res) {
     try {
         const result = await updateProductInteraction(req.params.id, req.user._id, INTERACTION_TYPES.CART_ADD);
-        const count = await getProductInteractionCount(req.params.id, INTERACTION_TYPES.CART_ADD);
-        return res.status(200).json({ 
+        // const count = await getProductInteractionCount(req.params.id, INTERACTION_TYPES.CART_ADD);
+        return res.status(200).json({
             message: 'Product added to cart',
             count: count
         });
