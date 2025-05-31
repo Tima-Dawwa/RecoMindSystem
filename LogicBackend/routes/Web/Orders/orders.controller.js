@@ -39,6 +39,7 @@ async function httpPostOrder(req, res) {
     const data = await getCart(req.user._id)
     if (!data) return res.status(404).json({ message: "No Cart Found" })
 
+    
     const cart = await getCart(req.user._id);
     req.body.data = createPaymentData(cart);
     paymentSheet(req, res)
