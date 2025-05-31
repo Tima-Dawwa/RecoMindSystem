@@ -6,25 +6,30 @@ class CustomTabBarView extends StatefulWidget {
   const CustomTabBarView({super.key});
 
   @override
-  _CustomTabBarViewState createState() =>
-      _CustomTabBarViewState();
+  _CustomTabBarViewState createState() => _CustomTabBarViewState();
 }
 
 class _CustomTabBarViewState extends State<CustomTabBarView>
     with TickerProviderStateMixin {
   late TabController _tabController;
 
-  final List<String> labels = [
-    "Flutter",
-    "Tabbar",
-    "Tabbarview",
-    "Tutorial",
-    "Flutterdev",
-    "Flutter",
-    "Tabbar",
-    "Tabbarview",
-    "Tutorial",
-    "Flutterdev",
+  final List<label> labels = [
+    label(name: "All", urlImage1: "", urlImage2: ""),
+    label(
+      name: "Tops",
+      urlImage1: "assets/Images/tops1.png",
+      urlImage2: "assets/Images/top.png",
+    ),
+    label(name: "Bottoms", urlImage1: "", urlImage2: ""),
+    label(name: "Jackets", urlImage1: "", urlImage2: ""),
+    label(name: "Pyjama", urlImage1: "", urlImage2: ""),
+    label(name: "Suits", urlImage1: "", urlImage2: ""),
+    label(name: "Overall", urlImage1: "", urlImage2: ""),
+    label(name: "Shoes", urlImage1: "", urlImage2: ""),
+    label(name: "Bags", urlImage1: "", urlImage2: ""),
+    label(name: "Hats", urlImage1: "", urlImage2: ""),
+    label(name: "Accessory", urlImage1: "", urlImage2: ""),
+    label(name: "Additions", urlImage1: "", urlImage2: ""),
   ];
 
   @override
@@ -59,12 +64,16 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
                   color: isSelected ? Themes.primary : Colors.grey[200],
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Text(
-                  labels[index],
-                  style: TextStyle(
-                    color: isSelected ? Colors.white : Colors.black,
-                  ),
-                ),
+                child:
+                    isSelected
+                        ? Image.asset("assets/Images/tops1.png", width: 60)
+                        : Image.asset("assets/Images/tops.png", width: 60),
+                // Text(
+                //   labels[index],
+                //   style: TextStyle(
+                //     color: isSelected ? Colors.white : Colors.black,
+                //   ),
+                // ),
               ),
             );
           }),
@@ -84,5 +93,10 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
   }
 }
 
+class label {
+  final String name;
+  final String urlImage1;
+  final String urlImage2;
 
-
+  label({required this.name, required this.urlImage1, required this.urlImage2});
+}

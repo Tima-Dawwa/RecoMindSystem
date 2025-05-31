@@ -10,7 +10,7 @@ import 'package:recomindweb/features/product_details/view/product_details_page.d
 final GoRouter router = GoRouter(
   routes: [
     // GoRoute(path: '/', builder: (context, state) => const HomePage()),
-    GoRoute(path: '/', builder: (context, state) => LoginPage()),
+    GoRoute(path: '/', builder: (context, state) => AllProductsPage()),
     GoRoute(path: '/chatbot', builder: (context, state) => ChatWindow()),
     GoRoute(
       path: '/register',
