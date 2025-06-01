@@ -17,8 +17,8 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
     label(name: "All", urlImage1: "", urlImage2: ""),
     label(
       name: "Tops",
-      urlImage1: "assets/Images/tops1.png",
-      urlImage2: "assets/Images/top.png",
+      urlImage1: "assets/Images/labels/tops1.png",
+      urlImage2: "assets/Images/labels/top.png",
     ),
     label(name: "Bottoms", urlImage1: "", urlImage2: ""),
     label(name: "Jackets", urlImage1: "", urlImage2: ""),
@@ -66,8 +66,8 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
                 ),
                 child:
                     isSelected
-                        ? Image.asset("assets/Images/tops1.png", width: 60)
-                        : Image.asset("assets/Images/tops.png", width: 60),
+                        ? Image.asset("assets/Images/labels/tops1.png", width: 60)
+                        : Image.asset("assets/Images/labels/clothes.png", width: 60),
                 // Text(
                 //   labels[index],
                 //   style: TextStyle(
