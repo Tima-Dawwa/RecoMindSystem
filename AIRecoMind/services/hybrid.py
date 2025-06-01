@@ -43,10 +43,9 @@ async def get_cascade_hybrid_recommendations(
 
 
 def compute_binary_arrays(predictions: List[str], ground_truth: List[str]) -> Tuple[List[int], List[int]]:
-    """
-    Converts predictions and ground truth into binary format for evaluation.
-    """
-    pass
+     y_true = [1] * len(predictions)
+     y_pred = [1 if pid in ground_truth else 0 for pid in predictions]
+     return y_true, y_pred
 
 
 def calculate_precision(y_true: List[int], y_pred: List[int]) -> float:
