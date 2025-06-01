@@ -19,14 +19,10 @@ def rerank_with_content_scores(
     Reranks a list of product_ids using content-based similarity scores.
     Filters out already seen items.
     """
-<<<<<<< HEAD
-    pass
-=======
     filtered_products = [pid for pid in product_ids if pid not in seen_items]
     scored_products = [(pid, content_scores.get(pid, 0.0)) for pid in filtered_products]
     ranked = sorted(scored_products, key=lambda x: x[1], reverse=True)
     return [pid for pid, _ in ranked[:top_n]]
->>>>>>> hamzat
 
 
 async def get_cascade_hybrid_recommendations(
