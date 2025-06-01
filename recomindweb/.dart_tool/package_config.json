@@ -314,7 +314,11 @@
       "languageVersion": "3.7"
     }
   ],
+<<<<<<< HEAD
   "generated": "2025-05-31T10:52:19.905047Z",
+=======
+  "generated": "2025-06-01T09:45:47.835Z",
+>>>>>>> hamzat
   "generator": "pub",
   "generatorVersion": "3.7.2",
   "flutterRoot": "file:///C:/dev/flutter",
