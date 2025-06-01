@@ -4,9 +4,7 @@ from services.content_based import get_content_based_recommendations
 from services.collaborative import get_collaborative_recommendations
 from sklearn.metrics import precision_score, recall_score, f1_score
 
-# ================================
-# Cascade Hybrid Recommendation
-# ================================
+
 
 
 def rerank_with_content_scores(
@@ -35,11 +33,19 @@ async def get_cascade_hybrid_recommendations(
     Uses collaborative filtering for candidate pool, then reranks using content-based similarity.
     Handles cold-starts and filters seen items.
     """
-    pass
+    collab_pool = await get_collaborative_recommendations(user_id, top_n=initial_pool_size)
 
-# ================================
-# Evaluation Utilities
-# ================================
+    # TODO: استبدل هذا بعملية جلب العناصر التي شاهدها المستخدم فعليًا من قاعدة البيانات أو الكاش
+    seen_items = []
+
+    content_scores = {pid: np.random.rand() for pid in collab_pool}
+
+    reranked = rerank_with_content_scores(
+        collab_pool, content_scores, seen_items, top_n)
+
+    return reranked
+
+
 
 
 def compute_binary_arrays(predictions: List[str], ground_truth: List[str]) -> Tuple[List[int], List[int]]:
@@ -49,35 +55,44 @@ def compute_binary_arrays(predictions: List[str], ground_truth: List[str]) -> Tu
 
 
 def calculate_precision(y_true: List[int], y_pred: List[int]) -> float:
-    """
-    Calculates precision score.
-    """
-    pass
+
+    if not y_pred:
+        return 0.0
+
+    true_positives = sum(1 for t, p in zip(
+        y_true, y_pred) if t == 1 and p == 1)
+    return true_positives / sum(y_pred)
+
 
 
 def calculate_recall(y_true: List[int], y_pred: List[int]) -> float:
-    """
-    Calculates recall score.
-    """
-    pass
+
+    if not y_true:
+        return 0.0
+
+    true_positives = sum(1 for t, p in zip(
+        y_true, y_pred) if t == 1 and p == 1)
+    return true_positives / sum(y_true)
 
 
 def calculate_f1(y_true: List[int], y_pred: List[int]) -> float:
-    """
-    Calculates F1 score.
-    """
-    pass
+
+    precision = calculate_precision(y_true, y_pred)
+    recall = calculate_recall(y_true, y_pred)
+
+    if precision + recall == 0:
+        return 0.0
+
+    return 2 * (precision * recall) / (precision + recall)
 
 
 def calculate_metrics(y_true: List[int], y_pred: List[int]) -> Dict[str, float]:
-    """
-    Returns precision, recall, and F1 score metrics.
-    """
-    pass
 
-# ================================
-# Evaluation Wrapper
-# ================================
+    return {
+        "precision": calculate_precision(y_true, y_pred),
+        "recall": calculate_recall(y_true, y_pred),
+        "f1_score": calculate_f1(y_true, y_pred)
+    }
 
 
 async def evaluate_cascade_hybrid_recommendations(
@@ -87,7 +102,12 @@ async def evaluate_cascade_hybrid_recommendations(
     top_n: int = 10,
     initial_pool_size: int = 50
 ) -> Dict[str, float]:
-    """
-    Evaluates cascade hybrid recommendations using precision, recall, and F1.
-    """
-    pass
+
+    recommendations = await get_cascade_hybrid_recommendations(
+        user_id, product_id, top_n, initial_pool_size
+    )
+
+    y_true = [1 if item in ground_truth else 0 for item in recommendations]
+    y_pred = [1] * len(recommendations)
+
+    return calculate_metrics(y_true, y_pred)
