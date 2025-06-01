@@ -19,7 +19,10 @@ def rerank_with_content_scores(
     Reranks a list of product_ids using content-based similarity scores.
     Filters out already seen items.
     """
-    pass
+    filtered_products = [pid for pid in product_ids if pid not in seen_items]
+    scored_products = [(pid, content_scores.get(pid, 0.0)) for pid in filtered_products]
+    ranked = sorted(scored_products, key=lambda x: x[1], reverse=True)
+    return [pid for pid, _ in ranked[:top_n]]
 
 
 async def get_cascade_hybrid_recommendations(
@@ -40,10 +43,9 @@ async def get_cascade_hybrid_recommendations(
 
 
 def compute_binary_arrays(predictions: List[str], ground_truth: List[str]) -> Tuple[List[int], List[int]]:
-    """
-    Converts predictions and ground truth into binary format for evaluation.
-    """
-    pass
+     y_true = [1] * len(predictions)
+     y_pred = [1 if pid in ground_truth else 0 for pid in predictions]
+     return y_true, y_pred
 
 
 def calculate_precision(y_true: List[int], y_pred: List[int]) -> float:

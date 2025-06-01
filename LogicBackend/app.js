@@ -20,6 +20,7 @@ app.use(cors());
 app.use('/auth', require('./routes/Web/Auth/auth.route'))
 app.use('/users', require('./routes/Web/Users/users.route'))
 app.use('/products', require('./routes/Web/Products/products.route'))
+app.use('/favorites', require('./routes/Web/Favorites/favorites.route'))
 app.use('/cart', require('./routes/Web/Cart/cart.route'))
 app.use('/orders', require('./routes/Web/Orders/orders.route'))
 app.use('/payment', require('./routes/Web/Payments/payments.route'))

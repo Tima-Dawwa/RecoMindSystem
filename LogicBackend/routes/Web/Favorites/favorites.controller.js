@@ -2,8 +2,7 @@ const { getFavorites, addFavorite, deleteFavorite, getFavoritesCount } = require
 const { getPagination } = require('../../../services/query');
 const { serializedData } = require('../../../services/serializeArray');
 const { productData } = require('./favorites.serializer');
-const { updateProductInteraction, getProductInteractionCount } = require('../models/interactions.model');
-const { INTERACTION_TYPES } = require('../constants');
+const { updateProductInteraction, getProductInteractionCount, INTERACTION_TYPES } = require('../../../models/interactions.model');
 
 async function httpGetFavorites(req, res) {
     const { skip, limit } = getPagination(req.query)
@@ -12,11 +11,11 @@ async function httpGetFavorites(req, res) {
     return res.status(200).json({ data: serializedData(data, productData), count: length })
 }
 
-async function httpAddFavorite(req, res)  {
+async function httpAddFavorite(req, res) {
     try {
         const result = await updateProductInteraction(req.params.id, req.user._id, INTERACTION_TYPES.FAVORITE);
         const count = await getProductInteractionCount(req.params.id, INTERACTION_TYPES.FAVORITE);
-        return res.status(200).json({ 
+        return res.status(200).json({
             message: 'Product favorited successfully',
             count: count
         });

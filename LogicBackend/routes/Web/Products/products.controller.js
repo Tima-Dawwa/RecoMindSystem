@@ -1,26 +1,25 @@
 const axios = require('axios');
 const { getProducts, getProductById, getProductsCount, getProductsByIds } = require('../../../models/products.model');
-
+const { validationErrors } = require('../../../middlewares/validationErrors')
 const { updateProductInteraction, getProductInteractions, INTERACTION_TYPES } = require('../../../models/interactions.model');
-
 const { getPagination } = require('../../../services/query');
 const { serializedData } = require('../../../services/serializeArray');
 const { productData, productDetailsData } = require('./products.serializer');
-const { normalizeBool } = require('./products.helper');
+const { normalizeBool, getCategory } = require('./products.helper');
+const { validateProductRating } = require('./products.validation');
 
 async function httpGetAllProducts(req, res) {
     const { skip, limit } = getPagination(req.query)
-    const { category, minPrice, maxPrice, isNew, isTrend } = req.query
+    const { type, minPrice, maxPrice, isNew, isTrend } = req.query
     const filters = {
-        category,
-        minPrice: minPrice !== undefined ? Number(minPrice) : undefined,
-        maxPrice: maxPrice !== undefined ? Number(maxPrice) : undefined,
-        isNew: normalizeBool(isNew),
-        isTrend: normalizeBool(isTrend)
+        type: type !== undefined ? getCategory(type) : [],
+        minPrice: minPrice !== undefined ? Number(minPrice) : 0,
+        maxPrice: maxPrice !== undefined ? Number(maxPrice) : 999999,
+        isNew: normalizeBool(isNew) ?? false,
+        isTrend: normalizeBool(isTrend) ?? false
     };
     const data = await getProducts(filters, skip, limit)
     const length = await getProductsCount(filters)
-
     return res.status(200).json({ data: serializedData(data, productData), count: length })
 }
 
@@ -30,7 +29,11 @@ async function httpGetOneProduct(req, res) {
         return res.status(404).json({ error: 'Product not found' });
     }
 
-    await updateProductInteraction(req.params.id, req.user._id, 'view');
+    if (req.user)
+        await updateProductInteraction(req.params.id, req.user._id, 'view');
+    else {
+        // need to just increment dont create interaction
+    }
 
     let recommendedProducts = [];
     try {
@@ -54,34 +57,28 @@ async function httpGetProductInteractions(req, res) {
 }
 
 async function httpRateProduct(req, res) {
-    try {
-        const { rating } = req.body;
-        
-        if (rating === undefined || rating === null) {
-            return res.status(400).json({ error: 'Rating value is required' });
-        }
-
-        const result = await updateProductInteraction(
-            req.params.id,
-            req.user._id,
-            INTERACTION_TYPES.RATING,
-            rating
-        );
-
-        return res.status(200).json({
-            message: 'Product rated successfully',
-            product: result
-        });
-    } catch (error) {
-        return res.status(400).json({ error: error.message });
+    const { error } = validateProductRating(req.body)
+    if (error) {
+        return res.status(400).json({
+            errors: validationErrors(error.details)
+        })
     }
+    const result = await updateProductInteraction(
+        req.params.id,
+        req.user._id,
+        INTERACTION_TYPES.RATING,
+        req.body.rating
+    );
+
+    return res.status(200).json({
+        message: 'Product rated successfully',
+    });
+
 }
 
 module.exports = {
     httpGetAllProducts,
     httpGetOneProduct,
-
     httpGetProductInteractions,
     httpRateProduct
-
 };
