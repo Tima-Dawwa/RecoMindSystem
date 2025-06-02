@@ -8,7 +8,7 @@ const checkObjectID = require('../../../middlewares/checkObjectID');
 const cartRouter = express.Router();
 
 cartRouter.get('/', requireJwtAuth, asyncHandler(httpGetCart));
-cartRouter.post('/product/:id', requireJwtAuth, checkObjectID, asyncHandler(httpAddToCart));
-cartRouter.delete('/product/:id', requireJwtAuth, checkObjectID, asyncHandler(httpRemoveFromCart));
+cartRouter.post('/:id', requireJwtAuth, checkObjectID, asyncHandler(httpAddToCart));
+cartRouter.delete('/:id', requireJwtAuth, checkObjectID, asyncHandler(httpRemoveFromCart));
 
 module.exports = cartRouter;

@@ -1,38 +1,48 @@
-const { getFavorites, addFavorite, deleteFavorite, getFavoritesCount } = require('../../../models/favorites.model');
+const { productData } = require('./favorites.serializer');
 const { getPagination } = require('../../../services/query');
 const { serializedData } = require('../../../services/serializeArray');
-const { productData } = require('./favorites.serializer');
-const { updateProductInteraction, getProductInteractionCount, INTERACTION_TYPES } = require('../../../models/interactions.model');
+const { INTERACTION_TYPES } = require('../../../public/constants/interaction')
+const { getProductById, incrementInteractionCount } = require('../../../models/products.model');
+const { postInteraction, removeProductInteraction } = require('../../../models/interactions.model');
+const { getFavorites, addFavorite, deleteFavorite, getFavoritesCount, checkFavorite } = require('../../../models/favorites.model');
 
+// Done
 async function httpGetFavorites(req, res) {
     const { skip, limit } = getPagination(req.query)
-    const data = await getFavorites(req.user.id, skip, limit)
-    const length = getFavoritesCount(user_id)
-    return res.status(200).json({ data: serializedData(data, productData), count: length })
+    const data = await getFavorites(req.user._id, skip, limit) ?? [];
+    const length = await getFavoritesCount(req.user._id)
+    if (data.length == 0) return res.status(200).json({ data: [], count: 0 })
+    return res.status(200).json({ data: serializedData(data.products_id, productData), count: length })
 }
 
+// Done
 async function httpAddFavorite(req, res) {
-    try {
-        const result = await updateProductInteraction(req.params.id, req.user._id, INTERACTION_TYPES.FAVORITE);
-        const count = await getProductInteractionCount(req.params.id, INTERACTION_TYPES.FAVORITE);
-        return res.status(200).json({
-            message: 'Product favorited successfully',
-            count: count
-        });
-    } catch (error) {
-        return res.status(400).json({ error: error.message });
-    }
+    const product = await getProductById(req.params.id)
+    if (!product) return res.status(400).json({ error: "Product Not Found" });
+
+    const check = await checkFavorite(req.user._id, req.params.id)
+    if (check) return res.status(400).json({ error: "Product Already Favorited" });
+
+    await addFavorite(req.user._id, req.params.id)
+    await postInteraction(req.user.id, req.params.id, INTERACTION_TYPES.FAVORITE)
+    await incrementInteractionCount(req.params.id, INTERACTION_TYPES.FAVORITE)
+
+    return res.status(200).json({
+        message: 'Product favorited successfully',
+    });
 }
 
+// Done
 async function httpRemoveFavorite(req, res) {
-    const product = await getProductById(req.params.id)
-    if (!product) return res.status(404).json({ message: "Product Not Found" })
+    const product = await getProductById(req.params.id);
+    if (!product) return res.status(404).json({ message: "Product Not Found" });
 
-    await deleteFavorite(req.user.id, product.id)
-    // Need to remove interaction
+    await deleteFavorite(req.user._id, product.id);
+    await removeProductInteraction(req.params.id, req.user._id, INTERACTION_TYPES.FAVORITE);
 
-    return res.status(200).json({ message: "Removed From Favorites Successfully" })
-
+    return res.status(200).json({
+        message: "Removed From Favorites Successfully",
+    });
 }
 
 module.exports = {
