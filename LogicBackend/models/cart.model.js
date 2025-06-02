@@ -1,10 +1,15 @@
 const Cart = require('./cart.mongo');
 
 async function getCart(user_id, skip = 0, limit = 10) {
-    return await Cart.findOne({ user_id })
-        .populate('items.product')
-        .skip(skip)
-        .limit(limit);
+    const cart = await Cart.findOne({ user_id }).populate('items.product');
+    if (!cart) return null;
+    cart.items = cart.items.slice(skip, skip + limit);
+    return cart;
+}
+
+async function getCartItem(user_id, product_id) {
+    const cart = await Cart.findOne({ user_id: user_id, "items.product": product_id });
+    return cart;
 }
 
 async function addToCart(user_id, product_id, price, quantity = 1) {
@@ -17,6 +22,9 @@ async function addToCart(user_id, product_id, price, quantity = 1) {
                     quantity,
                     price
                 }
+            },
+            $inc: {
+                total_price: quantity * price
             }
         },
         { upsert: true, new: true, setDefaultsOnInsert: true }
@@ -64,5 +72,6 @@ module.exports = {
     deleteFromCart,
     resetCart,
     getCartCount,
-    getCartTotal
+    getCartTotal,
+    getCartItem
 };

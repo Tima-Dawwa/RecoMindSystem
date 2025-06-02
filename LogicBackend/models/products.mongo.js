@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { INTERACTION_TYPES } = require("../public/constants/interaction");
 
 const productSchema = new mongoose.Schema(
   {
@@ -61,19 +62,19 @@ const productSchema = new mongoose.Schema(
       default: 0,
     },
     interactions: {
-      views: {
+      [INTERACTION_TYPES.VIEW]: {
         type: Number,
         default: 0,
       },
-      favorites: {
+      [INTERACTION_TYPES.FAVORITE]: {
         type: Number,
         default: 0,
       },
-      add_to_cart: {
+      [INTERACTION_TYPES.CART_ADD]: {
         type: Number,
         default: 0,
       },
-      orders: {
+      [INTERACTION_TYPES.ORDER]: {
         type: Number,
         default: 0,
       },

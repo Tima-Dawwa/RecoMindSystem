@@ -8,6 +8,8 @@ const fs = require('fs');
 const path = require('path');
 const csv = require('csv-parser');
 const Interaction = require('../models/interactions.mongo');
+const { INTERACTION_TYPES } = require('../models/interactions.model');
+const { WEIGHT_MAP } = require('../public/constants/interaction');
 
 // Done
 async function createUsers(count = 1000) {
@@ -103,14 +105,9 @@ async function createProducts() {
 async function createInteractions(count = 1000000) {
     const users = await User.find({}, '_id').lean();
     const products = await Product.find({}, '_id').lean();
-    const interactionTypes = ['view', 'add_to_cart', 'favorite', 'order', 'rating'];
+    const interactionTypes = Object.values(INTERACTION_TYPES);
     const interactionData = [];
-    const weightMap = {
-        view: 1,
-        favorite: 2,
-        add_to_cart: 3,
-        order: 5,
-    };
+    const weightMap = WEIGHT_MAP
     for (let i = 0; i < count; i++) {
         const randomUser = users[Math.floor(Math.random() * users.length)];
         const randomProduct = products[Math.floor(Math.random() * products.length)];
@@ -223,10 +220,10 @@ async function updateAllProductAggregates() {
                         $set: { // Update these fields on the matched product
                             rating: "$$agg_rating",
                             rating_count: "$$agg_rating_count",
-                            "interactions.views": "$$agg_views",
-                            "interactions.favorites": "$$agg_favorites",
+                            "interactions.view": "$$agg_views",
+                            "interactions.favorite": "$$agg_favorites",
                             "interactions.add_to_cart": "$$agg_add_to_cart",
-                            "interactions.orders": "$$agg_orders",
+                            "interactions.order": "$$agg_orders",
                             "interactions.total_interactions": "$$agg_total_interactions",
                             total_interaction_score: "$$agg_total_score",
                             updatedAt: new Date() // Manually set updatedAt if not using schema timestamps for this operation
