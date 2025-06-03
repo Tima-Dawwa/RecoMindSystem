@@ -28,7 +28,11 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
     label(name: "Shoes", urlImage1: "", urlImage2: ""),
     label(name: "Bags", urlImage1: "", urlImage2: ""),
     label(name: "Hats", urlImage1: "", urlImage2: ""),
-    label(name: "Accessory", urlImage1: "", urlImage2: ""),
+    label(
+      name: "Accessory",
+      urlImage1: "",
+      urlImage2: "assets/Images/labels/accessory-01.jpg",
+    ),
     label(name: "Additions", urlImage1: "", urlImage2: ""),
   ];
 
@@ -61,19 +65,26 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 decoration: BoxDecoration(
-                  color: isSelected ? Themes.primary : Colors.grey[200],
+                  color: isSelected ? Themes.primary : Themes.bg,
                   borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 6,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
                 ),
                 child:
                     isSelected
-                        ? Image.asset("assets/Images/labels/tops1.png", width: 60)
-                        : Image.asset("assets/Images/labels/clothes.png", width: 60),
-                // Text(
-                //   labels[index],
-                //   style: TextStyle(
-                //     color: isSelected ? Colors.white : Colors.black,
-                //   ),
-                // ),
+                        ? Image.asset(
+                          "assets/Images/labels/tops1.png",
+                          width: 60,
+                        )
+                        : Image.asset(
+                          "assets/Images/labels/accessory-01.jpg",
+                          width: 80,
+                        ),
               ),
             );
           }),
