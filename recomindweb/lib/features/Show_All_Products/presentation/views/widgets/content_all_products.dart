@@ -19,24 +19,15 @@ class _ContentAllProductsState extends State<ContentAllProducts> {
     "Food",
     "Electronics",
     "Clothes",
-    "Books",
-    "Toys",
-    "Food",
-    "Electronics",
-    "Clothes",
-    "Books",
   ];
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        FilterDepartment(price: price, categories: categories,),
-        GridAllProducts(price: price,),
+        FilterDepartment(price: price, categories: categories),
+        GridAllProducts(price: price),
       ],
     );
   }
 }
-
-
-
