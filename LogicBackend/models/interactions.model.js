@@ -1,20 +1,6 @@
 const Product = require('./products.mongo');
 const Interaction = require('./interactions.mongo');
-
-
-const INTERACTION_TYPES = {
-    VIEW: 'view',
-    FAVORITE: 'favorite',
-    CART_ADD: 'add_to_cart',
-    ORDER: 'order',
-    RATING: 'rating'
-};
-
-
-const RATING = {
-    MIN: 0,
-    MAX: 5
-};
+const { INTERACTION_TYPES, RATING } = require('../public/constants/interaction')
 
 async function getInteractions(skip, limit) {
     try {
@@ -42,12 +28,22 @@ async function getInteraction(interaction_id) {
     }
 }
 
-async function postInteraction(data) {
-    try {
-        return await Interaction.create(data);
-    } catch (error) {
-        throw new Error(`Failed to create interaction: ${error.message}`);
-    }
+async function postInteraction(user_id, product_id, interaction_type, rating_value = null) {
+    return await Interaction.create({
+        user_id,
+        product_id,
+        interaction_type,
+        rating_value: rating_value
+    });
+}
+
+async function updateRatingInteraction(interaction_id, rating_value) {
+    return await Interaction.findOneAndUpdate({
+        _id: interaction_id
+    }, {
+        rating_value: rating_value,
+        interaction_weight: rating_value
+    });
 }
 
 async function deleteInteraction(interaction_id) {
@@ -62,21 +58,24 @@ async function deleteInteraction(interaction_id) {
     }
 }
 
-<<<<<<< Updated upstream
+async function removeProductInteraction(productId, userId, type) {
+    try {
+        const interaction = await Interaction.findOneAndDelete({
+            product_id: productId,
+            user_id: userId,
+            interaction_type: type
+        });
+        if (!interaction) {
+            throw new Error('Interaction not found');
+        }
+        return interaction;
+    } catch (error) {
+        throw new Error(`Failed to delete interaction: ${error.message}`);
+    }
+}
+
 async function updateProductInteraction(productId, userId, interactionType, ratingValue = null) {
     try {
-
-        const product = await Product.findById(productId);
-        if (!product) {
-            throw new Error('Product not found');
-        }
-
-
-        if (!Object.values(INTERACTION_TYPES).includes(interactionType)) {
-            throw new Error('Invalid interaction type');
-        }
-
-
         if (interactionType === INTERACTION_TYPES.RATING) {
             if (ratingValue === null) {
                 throw new Error('Rating value is required for rating interactions');
@@ -151,14 +150,6 @@ async function updateProductInteraction(productId, userId, interactionType, rati
     } catch (error) {
         throw new Error(`Failed to update product interaction: ${error.message}`);
     }
-=======
-async function updateProductInteraction(productId, userId, interactionType) {
-    await Interaction.create({
-        user_id: userId,
-        product_id: productId,
-        interaction_type: interactionType
-    });
->>>>>>> Stashed changes
 }
 
 async function getProductInteractions(productId) {
@@ -181,6 +172,71 @@ async function getUserInteractions(userId) {
     }
 }
 
+async function getProductInteractionCount(productId, interactionType) {
+    try {
+        const product = await Product.findById(productId);
+        if (!product) {
+            throw new Error('Product not found');
+        }
+
+        if (interactionType) {
+
+            return product.interactions[interactionType] || 0;
+        } else {
+
+            return product.interactions.total_interactions || 0;
+        }
+    } catch (error) {
+        throw new Error(`Failed to get product interaction count: ${error.message}`);
+    }
+}
+
+async function removeProductInteraction(productId, userId, interactionType) {
+    try {
+        const product = await Product.findById(productId);
+        if (!product) {
+            throw new Error('Product not found');
+        }
+
+
+        await Interaction.findOneAndDelete({
+            user_id: userId,
+            product_id: productId,
+            interaction_type: interactionType
+        });
+
+
+        const update = {
+            $inc: {
+                'interactions.total_interactions': -1
+            }
+        };
+
+
+        const updateField = `interactions.${interactionType}`;
+        update.$inc[updateField] = -1;
+
+
+        const updatedProduct = await Product.findByIdAndUpdate(
+            productId,
+            update,
+            { new: true }
+        );
+
+        return updatedProduct;
+    } catch (error) {
+        throw new Error(`Failed to remove product interaction: ${error.message}`);
+    }
+}
+
+async function checkRating(userId, productId) {
+    return await Interaction.findOne({
+        user_id: userId,
+        product_id: productId,
+        interaction_type: INTERACTION_TYPES.RATING
+    });
+}
+
 module.exports = {
     getInteractions,
     getInteraction,
@@ -189,5 +245,7 @@ module.exports = {
     updateProductInteraction,
     getProductInteractions,
     getUserInteractions,
-    INTERACTION_TYPES
+    checkRating,
+    updateRatingInteraction,
+    removeProductInteraction
 };

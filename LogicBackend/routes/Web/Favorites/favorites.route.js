@@ -8,7 +8,7 @@ const checkObjectID = require('../../../middlewares/checkObjectID');
 const favoritesRouter = express.Router();
 
 favoritesRouter.get('/', requireJwtAuth, asyncHandler(httpGetFavorites));
-favoritesRouter.post('/:id/favorite', requireJwtAuth, checkObjectID, asyncHandler(httpAddFavorite));
-favoritesRouter.delete('/favorites/:id', requireJwtAuth, checkObjectID, asyncHandler(httpRemoveFavorite));
+favoritesRouter.post('/:id', requireJwtAuth, checkObjectID, asyncHandler(httpAddFavorite));
+favoritesRouter.delete('/:id', requireJwtAuth, checkObjectID, asyncHandler(httpRemoveFavorite));
 
 module.exports = favoritesRouter;

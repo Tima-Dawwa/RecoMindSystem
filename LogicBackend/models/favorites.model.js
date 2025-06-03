@@ -1,7 +1,9 @@
 const Favorite = require('./favorites.mongo');
 
 async function getFavorites(user_id, skip, limit) {
-    return await Favorite.find({ user_id }).skip(skip).limit(limit);
+    return await Favorite.findOne({ user_id })
+        .populate('products_id', 'name type price discounted_price department')
+        .skip(skip).limit(limit);
 }
 
 async function deleteFavorite(user_id, product_id) {
@@ -21,12 +23,25 @@ async function addFavorite(user_id, product_id) {
 }
 
 async function getFavoritesCount(user_id) {
-    await Favorite.find({ user_id }).countDocuments()
+    const result = await Favorite.aggregate([
+        { $match: { user_id } },
+        { $unwind: "$products_id" },
+        { $count: "totalProducts" }
+    ]);
+    return result.length > 0 ? result[0].totalProducts : 0;
+}
+
+async function checkFavorite(user_id, product_id) {
+    return await Favorite.exists({
+        user_id: user_id,
+        products_id: product_id
+    });
 }
 
 module.exports = {
     getFavorites,
     addFavorite,
     deleteFavorite,
-    getFavoritesCount
+    getFavoritesCount,
+    checkFavorite
 }
