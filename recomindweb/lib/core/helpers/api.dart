@@ -5,7 +5,7 @@ class Api {
 
   final Dio _dio;
   final String baseUrl = 'http://localhost:5000';
-  final String token = '';
+  final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2Q1NTAwZjAxMDUzNDJlNDA5MTY3NSIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IlNhcmEiLCJsYXN0X25hbWUiOiJOYWphdGkifSwiaWF0IjoxNzQ4ODUwNzAxLCJleHAiOjE3NDkxMDk5MDF9.dxQnSx_JyLbPVGLGwtYoewOWTKh-Ijx2lMXA87Zhw7Q";
 
   Future<Map<String, dynamic>> get({required String endPoint}) async {
     var response = await _dio.get(
@@ -29,7 +29,7 @@ class Api {
       options: Options(
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
+          // 'Authorization': 'Bearer $token',
         },
       ),
     );
