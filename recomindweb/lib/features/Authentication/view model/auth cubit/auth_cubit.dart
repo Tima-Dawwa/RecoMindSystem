@@ -8,7 +8,7 @@ class AuthCubit extends Cubit<AuthStates> {
 
   final AuthService authService;
   CustomSharedPreferences preferences = CustomSharedPreferences();
-
+  String? code, gender, birthDate;
   Future<void> login({required String email, required String password}) async {
     emit(LoadingAuthState());
     var response = await authService.login(email: email, password: password);
@@ -32,9 +32,6 @@ class AuthCubit extends Cubit<AuthStates> {
     required String password,
     required String confirmPassword,
     required String number,
-    required String code,
-    required String gender,
-    required String birthDate,
   }) async {
     emit(LoadingAuthState());
     var response = await authService.register(
@@ -44,10 +41,19 @@ class AuthCubit extends Cubit<AuthStates> {
       password: password,
       confirmPassword: confirmPassword,
       number: number,
-      code: code,
-      gender: gender,
-      birthDate: birthDate,
+      code: code!,
+      gender: gender!,
+      birthDate: birthDate!,
     );
+    print(firstName);
+    print(lastName);
+    print(email);
+    print(password);
+    print(confirmPassword);
+    print(number);
+    print(code);
+    print(gender);
+    print(birthDate);
     response.fold(
       (failure) {
         emit(FailureAuthState(failure: failure));

@@ -57,6 +57,7 @@ class AuthService {
           "phone": {"country_code": code, "number": number},
         },
       );
+      token = response['token'];
       return right(response);
     } catch (e) {
       if (e is DioException) {
