@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/theme.dart';
+import 'package:recomindweb/features/Authentication/view%20model/auth%20cubit/auth_cubit.dart';
 
-class GenderPicker extends StatelessWidget {
+// ignore: must_be_immutable
+class GenderPicker extends StatefulWidget {
   const GenderPicker({super.key});
 
+  @override
+  State<GenderPicker> createState() => _GenderPickerState();
+}
+
+class _GenderPickerState extends State<GenderPicker> {
+  final genders = ['Male', 'Female'];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,50 +22,20 @@ class GenderPicker extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         color: Themes.bg.withAlpha(80),
       ),
-      child: DropdownButton(
-        onChanged: (value) {},
+      child: DropdownButton<String>(
+        value: BlocProvider.of<AuthCubit>(context).gender,
+        onChanged: (value) {
+          setState(() {
+            BlocProvider.of<AuthCubit>(context).gender = value;
+          });
+        },
+        items: genders.map(buildItems).toList(),
         icon: SizedBox(),
         underline: SizedBox(),
         dropdownColor: Themes.bg,
         borderRadius: BorderRadius.circular(10),
         style: TextStyle(color: Themes.text, fontSize: 16),
         menuMaxHeight: 150,
-        items: [
-          DropdownMenuItem(
-            value: "1",
-            child: Row(
-              children: [
-                Icon(Icons.male, color: Themes.text, size: 25),
-                SizedBox(width: 10),
-                Text(
-                  "Male",
-                  style: TextStyle(
-                    color: Themes.text,
-                    fontSize: 16,
-                    fontFamily: 'CoconNext',
-                  ),
-                ),
-              ],
-            ),
-          ),
-          DropdownMenuItem(
-            value: "2",
-            child: Row(
-              children: [
-                Icon(Icons.female, color: Themes.text, size: 25),
-                SizedBox(width: 10),
-                Text(
-                  "Female",
-                  style: TextStyle(
-                    color: Themes.text,
-                    fontSize: 16,
-                    fontFamily: 'CoconNext',
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
         hint: Padding(
           padding: const EdgeInsets.only(left: 10),
           child: Text(
@@ -68,6 +47,27 @@ class GenderPicker extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  DropdownMenuItem<String> buildItems(String item) {
+    return DropdownMenuItem(
+      value: item,
+      child: Row(
+        children: [
+          SizedBox(width: 8),
+          Icon(Icons.female, color: Themes.text, size: 25),
+          SizedBox(width: 5),
+          Text(
+            item,
+            style: TextStyle(
+              color: Themes.text,
+              fontSize: 16,
+              fontFamily: 'CoconNext',
+            ),
+          ),
+        ],
       ),
     );
   }
