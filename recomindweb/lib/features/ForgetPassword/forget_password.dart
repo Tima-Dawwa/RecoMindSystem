@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recomindweb/features/ForgetPassword/View%20Model/forget_password_cubit.dart';
+import 'package:recomindweb/features/ForgetPassword/View%20Model/forget_password_stpes_state.dart';
 import 'package:recomindweb/features/ForgetPassword/view/verification_screen.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
@@ -18,50 +21,66 @@ class ForgotPasswordPage extends StatelessWidget {
             boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
             color: Colors.white,
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Forgot Password',
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineSmall
-                    ?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Enter your email and we’ll send you a 6-digit code to reset your password.',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              const SizedBox(height: 24),
-              TextField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email address',
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                ),
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const VerifyCodePage()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
+          child: BlocListener<ForgotPasswordCubit, ForgotPasswordStepsState>(
+            listener: (context, state) {
+              if (state is SuccessStepState) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => VerifyCodePage(message: state.message),
                   ),
-                  child: const Text('Send Code'),
+                );
+              } else if (state is FailureStepState) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(state.failure.errMessage)),
+                );
+              }
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Forgot Password',
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 16),
+                Text(
+                  'Enter your email and we’ll send you a 6-digit code to reset your password.',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(height: 24),
+                TextField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email address',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      final cubit = context.read<ForgotPasswordCubit>();
+                      cubit.updateEmail(_emailController.text.trim());
+                      cubit.sendResetCode();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: const Text('Send Code'),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

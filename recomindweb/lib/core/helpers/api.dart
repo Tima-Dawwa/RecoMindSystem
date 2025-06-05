@@ -5,7 +5,8 @@ class Api {
 
   final Dio _dio;
   final String baseUrl = 'http://localhost:5000';
-  final String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2Q1NTAwZjAxMDUzNDJlNDA5MTY3NSIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IlNhcmEiLCJsYXN0X25hbWUiOiJOYWphdGkifSwiaWF0IjoxNzQ4ODUwNzAxLCJleHAiOjE3NDkxMDk5MDF9.dxQnSx_JyLbPVGLGwtYoewOWTKh-Ijx2lMXA87Zhw7Q";
+  final String token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NDFiNDU4MWJhNjhiNjQzZjgzYzI3MiIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6InRpbWEiLCJsYXN0X25hbWUiOiJEYXd3YSJ9LCJpYXQiOjE3NDkxMzY5NTYsImV4cCI6MTc0OTM5NjE1Nn0.M_7570rBJV4QYf7eSNCq2aMGpNIdVFimKXRMXXWhO4k";
 
   Future<Map<String, dynamic>> get({required String endPoint}) async {
     var response = await _dio.get(
