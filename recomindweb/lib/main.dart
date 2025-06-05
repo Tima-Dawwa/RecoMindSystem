@@ -6,6 +6,8 @@ import 'package:recomindweb/core/helpers/service_locator.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Authentication/view%20model/auth%20cubit/auth_cubit.dart';
 import 'package:recomindweb/features/Authentication/view%20model/auth_service.dart';
+import 'package:recomindweb/features/ForgetPassword/View%20Model/forget_password_cubit.dart';
+import 'package:recomindweb/features/ForgetPassword/View%20Model/forget_password_services.dart';
 
 void main() async {
   await setup();
@@ -22,6 +24,11 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit(getIt.get<AuthService>())),
+        BlocProvider(
+          create:
+              (context) =>
+                  ForgotPasswordCubit(getIt.get<ForgetPasswordServices>()),
+        ),
       ],
       child: MaterialApp.router(
         routerConfig: router,
