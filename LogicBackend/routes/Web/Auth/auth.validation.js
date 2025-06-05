@@ -78,7 +78,7 @@ function validateResetPassword(user) {
 function validateVerifyResetToken(data) {
     const schema = Joi.object({
         email: Joi.string().min(3).required(),
-        token: Joi.number().required(),
+        token: Joi.string().length(6).required()
     })
     return schema.validate(data);
 }
