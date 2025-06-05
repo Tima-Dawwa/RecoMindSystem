@@ -7,23 +7,21 @@ class RegisterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ResponsiveLayout(
-        mobileBody: RegisterPageBody(
-          h: 0.6,
-          desktop: false,
-          image: 'mobile',
-          imageAlign: AlignmentDirectional.topCenter,
-          boxAlign: AlignmentDirectional.bottomCenter,
-        ),
+    return ResponsiveLayout(
+      mobileBody: RegisterPageBody(
+        h: 0.6,
+        desktop: false,
+        image: 'mobile',
+        imageAlign: AlignmentDirectional.topCenter,
+        boxAlign: AlignmentDirectional.bottomCenter,
+      ),
 
-        desktopBody: RegisterPageBody(
-          h: 0.9,
-          desktop: true,
-          image: 'desktop',
-          imageAlign: AlignmentDirectional.centerStart,
-          boxAlign: AlignmentDirectional.centerStart,
-        ),
+      desktopBody: RegisterPageBody(
+        h: 0.9,
+        desktop: true,
+        image: 'desktop',
+        imageAlign: AlignmentDirectional.centerStart,
+        boxAlign: AlignmentDirectional.centerStart,
       ),
     );
   }

@@ -1,32 +1,50 @@
-
 import 'package:flutter/material.dart';
 import 'package:recomindweb/core/theme.dart';
 
 class CustomTextfield extends StatelessWidget {
   const CustomTextfield({
     super.key,
-    required this.hint,
     this.type,
     this.obscure,
+    this.validator,
+    this.onSaved,
+    this.hint,
+    this.suffix,
+    this.onChanged,
+    this.onFieldSubmitted, this.onTap, this.controller, this.value,
   });
-  final String hint;
+  final String? hint;
+  final String? value;
   final bool? obscure;
   final TextInputType? type;
+  final IconButton? suffix;
+  final String? Function(String?)? validator;
+  final void Function(String?)? onSaved;
+  final void Function(String?)? onChanged;
+  final void Function()? onTap;
+  final void Function(String?)? onFieldSubmitted;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      style: TextStyle(color: Themes.text, fontSize: 16),
+      validator: validator,
+      onChanged: onChanged,
+      onFieldSubmitted: onFieldSubmitted,
+      onTap: onTap,
+      keyboardType: type,
       cursorRadius: Radius.circular(5),
       cursorColor: Themes.primary,
       cursorOpacityAnimates: true,
-      keyboardType: type,
       obscureText: obscure ?? false,
+      initialValue : value,
+      style: TextStyle(color: Themes.text, fontSize: 16),
       decoration: InputDecoration(
         contentPadding: EdgeInsets.all(10),
+        suffixIcon: suffix,
         filled: true,
-        fillColor: Themes.bg.withAlpha(80),
         hintText: hint,
+        fillColor: Themes.bg.withAlpha(80),
         hintStyle: TextStyle(color: Themes.text.withAlpha(120)),
         hintFadeDuration: Duration(milliseconds: 250),
         border: OutlineInputBorder(
@@ -39,6 +57,7 @@ class CustomTextfield extends StatelessWidget {
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
+          gapPadding: 1,
           borderSide: BorderSide(width: 1.5, color: Themes.secondary),
         ),
       ),

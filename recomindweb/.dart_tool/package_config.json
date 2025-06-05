@@ -170,6 +170,18 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "get",
+      "rootUri": "file:///C:/Users/saran/AppData/Local/Pub/Cache/hosted/pub.dev/get-4.7.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "get_it",
+      "rootUri": "file:///C:/Users/saran/AppData/Local/Pub/Cache/hosted/pub.dev/get_it-7.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "go_router",
       "rootUri": "file:///C:/Users/saran/AppData/Local/Pub/Cache/hosted/pub.dev/go_router-15.1.2",
       "packageUri": "lib/",
@@ -186,6 +198,12 @@
       "rootUri": "file:///C:/Users/saran/AppData/Local/Pub/Cache/hosted/pub.dev/http_parser-4.1.2",
       "packageUri": "lib/",
       "languageVersion": "3.4"
+    },
+    {
+      "name": "intl",
+      "rootUri": "file:///C:/Users/saran/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.19.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
     },
     {
       "name": "leak_tracker",
@@ -434,7 +452,7 @@
       "languageVersion": "3.7"
     }
   ],
-  "generated": "2025-06-02T06:45:58.840142Z",
+  "generated": "2025-06-04T10:51:44.895466Z",
   "generator": "pub",
   "generatorVersion": "3.7.2",
   "flutterRoot": "file:///C:/Users/saran/AppData/Local/flutter",
