@@ -8,8 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const csv = require('csv-parser');
 const Interaction = require('../models/interactions.mongo');
-const { INTERACTION_TYPES } = require('../models/interactions.model');
-const { WEIGHT_MAP } = require('../public/constants/interaction');
+const { WEIGHT_MAP, INTERACTION_TYPES } = require('../public/constants/interaction');
 
 // Done
 async function createUsers(count = 1000) {
