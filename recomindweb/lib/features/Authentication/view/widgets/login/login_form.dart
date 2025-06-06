@@ -13,7 +13,7 @@ import 'package:recomindweb/features/Authentication/view%20model/auth%20cubit/au
 import 'package:recomindweb/features/Authentication/view%20model/auth%20cubit/auth_states.dart';
 import 'package:recomindweb/features/Authentication/view/login_page.dart';
 import 'package:recomindweb/features/Authentication/view/register_page.dart';
-import 'package:recomindweb/features/ForgetPassword/forget_password.dart';
+import 'package:recomindweb/features/Authentication/view/forget_password.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key, required this.desktop});

@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recomindweb/features/ForgetPassword/View%20Model/forget_password_services.dart';
-import 'package:recomindweb/features/ForgetPassword/View%20Model/forget_password_stpes_state.dart';
+import 'package:recomindweb/features/Authentication/view%20model/forget_password_services.dart';
+import 'package:recomindweb/features/Authentication/view%20model/forget%20password%20cubit/forget_password_stpes_state.dart';
 
 class ForgotPasswordCubit extends Cubit<ForgotPasswordStepsState> {
   final ForgetPasswordServices forgetPasswordServices;
