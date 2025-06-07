@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:recomindweb/core/Widgets/custom_button.dart';
 import 'package:recomindweb/core/theme.dart';
-import 'package:recomindweb/features/Chatbot/chatbot.dart';
 
 class ChatbotBar extends StatelessWidget {
   const ChatbotBar({super.key, this.desktop});
@@ -129,17 +128,7 @@ class ChatbotBar extends StatelessWidget {
                         size: desktop! ? 20 : 10,
                         color: WidgetStatePropertyAll(Themes.secondary),
                         press: () {
-                          Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.scale,
-                              alignment: Alignment.center,
-                              duration: Duration(milliseconds: 800),
-                              curve: Curves.fastLinearToSlowEaseIn,
-                              child: ChatWindow(),
-                              childCurrent: ChatbotBar(),
-                            ),
-                          );
+                           context.go('/chatbot');
                         },
                       ),
                     ),

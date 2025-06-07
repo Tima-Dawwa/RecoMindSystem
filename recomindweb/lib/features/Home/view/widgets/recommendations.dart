@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/ChatBot/Model/product.dart';
 import 'package:recomindweb/features/Home/view/widgets/home_product_card.dart';
-import 'package:recomindweb/features/product_details/view/product_details_page.dart';
 
 class Recommendations extends StatefulWidget {
   const Recommendations({super.key});
@@ -68,14 +68,7 @@ class _RecommendationsState extends State<Recommendations> {
                       width: cardWidth,
                       product: products[index],
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder:
-                                (BuildContext context) =>
-                                    const ProductDetailsPage(),
-                          ),
-                        );
+                         context.go('/product-details');
                       },
                     );
                   },
