@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:recomindweb/core/Widgets/custom_button.dart';
 import 'package:recomindweb/core/Widgets/custom_loading.dart';
@@ -13,7 +14,6 @@ import 'package:recomindweb/features/Authentication/view%20model/auth%20cubit/au
 import 'package:recomindweb/features/Authentication/view%20model/auth%20cubit/auth_states.dart';
 import 'package:recomindweb/features/Authentication/view/login_page.dart';
 import 'package:recomindweb/features/Authentication/view/register_page.dart';
-import 'package:recomindweb/features/Authentication/view/forget_password.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key, required this.desktop});
@@ -35,7 +35,7 @@ class _LoginFormState extends State<LoginForm> {
     return BlocConsumer<AuthCubit, AuthStates>(
       listener: (BuildContext context, AuthStates state) {
         if (state is SuccessAuthState) {
-          print("go to home");
+          context.go('/');
         }
       },
       builder: (context, state) {
@@ -105,17 +105,7 @@ class _LoginFormState extends State<LoginForm> {
                       color: Themes.bg.withAlpha(120),
                       weight: FontWeight.normal,
                       press: () {
-                        Navigator.push(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.scale,
-                            alignment: Alignment.center,
-                            duration: Duration(milliseconds: 600),
-                            curve: Curves.fastEaseInToSlowEaseOut,
-                            child: ForgotPasswordPage(),
-                            childCurrent: LoginPage(),
-                          ),
-                        );
+                       context.go('/forget-password');
                       },
                     ),
                   ),

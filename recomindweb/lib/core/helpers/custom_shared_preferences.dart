@@ -19,7 +19,6 @@ class CustomSharedPreferences {
   }
 
   bool logged() {
-    print(tokenKey);
     return tokenKey == '' ? false : true;
   }
 }
