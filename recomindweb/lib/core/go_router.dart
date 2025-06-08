@@ -13,7 +13,8 @@ bool logged = prefs.logged();
 
 final GoRouter router = GoRouter(
   routes: [
-    GoRoute(path: '/', builder: (context, state) => HomePage(logged: logged)),
+    GoRoute(path: '/', builder: (context, state) => ProductDetailsPage()),
+    // GoRoute(path: '/', builder: (context, state) => HomePage(logged: logged)),
     GoRoute(path: '/login', builder: (context, state) => LoginPage()),
     GoRoute(path: '/chatbot', builder: (context, state) => ChatWindow()),
     GoRoute(
