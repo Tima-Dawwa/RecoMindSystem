@@ -8,6 +8,8 @@ import 'package:recomindweb/features/Authentication/view%20model/auth%20cubit/au
 import 'package:recomindweb/features/Authentication/view%20model/auth_service.dart';
 import 'package:recomindweb/features/Authentication/view%20model/forget%20password%20cubit/forget_password_cubit.dart';
 import 'package:recomindweb/features/Authentication/view%20model/forget_password_services.dart';
+import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_cubit.dart';
+import 'package:recomindweb/features/product_details/view%20model/product_details_service.dart';
 
 void main() async {
   await setup();
@@ -28,6 +30,11 @@ class MyApp extends StatelessWidget {
           create:
               (context) =>
                   ForgotPasswordCubit(getIt.get<ForgetPasswordServices>()),
+        ),
+        BlocProvider(
+          create:
+              (context) =>
+                  ProductDetailsCubit(getIt.get<ProductDetailsService>()),
         ),
       ],
       child: MaterialApp.router(

@@ -1,4 +1,4 @@
-import 'package:recomindweb/features/ChatBot/Model/product.dart';
+import 'package:recomindweb/features/product_details/models/product_model.dart';
 import 'package:recomindweb/features/product_details/models/recommedation_product.dart';
 
 class ProductResponse {

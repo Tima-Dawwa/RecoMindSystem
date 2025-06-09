@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:recomindweb/features/product_details/models/product_model.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/color_option.dart';
 
 class ColorSelector extends StatelessWidget {
-  const ColorSelector({super.key});
+  final Product product;
+  const ColorSelector({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -17,24 +19,24 @@ class ColorSelector extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           SizedBox(
-            height: 60, // fix height so color options don't grow infinitely
+            height: 60,
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: [
-                  ColorOption(color: Colors.black),
-                  const SizedBox(width: 8),
-                  ColorOption(color: Colors.grey),
-                  const SizedBox(width: 8),
-                  ColorOption(color: Colors.blue),
-                  const SizedBox(width: 8),
-                  ColorOption(color: Colors.yellow),
-                ],
+                children: [ColorOption(color: _hexToColor(product.color))],
               ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  Color _hexToColor(String hex) {
+    hex = hex.replaceAll("#", "");
+    if (hex.length == 6) {
+      hex = "FF$hex"; 
+    }
+    return Color(int.parse("0x$hex"));
   }
 }

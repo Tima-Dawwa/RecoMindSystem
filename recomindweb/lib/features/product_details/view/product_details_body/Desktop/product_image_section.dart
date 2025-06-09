@@ -59,7 +59,6 @@ class _ProductImageSectionState extends State<ProductImageSection> {
                 }).toList(),
           ),
         const SizedBox(width: 32),
-        // Use Stack to position the favorite button over the image
         Stack(
           children: [
             ClipRRect(
