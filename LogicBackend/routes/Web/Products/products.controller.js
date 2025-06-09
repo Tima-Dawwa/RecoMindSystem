@@ -69,7 +69,7 @@ async function httpRateProduct(req, res) {
     if (existingRating) {
         const oldRatingValue = existingRating.rating_value;
         await updateRatingInteraction(existingRating._id, req.body.rating)
-        await applyChangedRatingToProduct(req.params.id, oldRatingValue, newRatingValue);
+        await applyChangedRatingToProduct(req.params.id, oldRatingValue, req.body.rating);
     }
     else {
         await postInteraction(req.user.id, req.params.id, INTERACTION_TYPES.RATING, req.body.rating, req.body.review_text)
