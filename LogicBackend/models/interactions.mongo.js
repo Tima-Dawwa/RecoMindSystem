@@ -26,6 +26,10 @@ const interactionSchema = new mongoose.Schema({
         required: false,
         min: 0,
         max: 5
+    },
+    review_text: {
+        type: String,
+        requried: false,
     }
 
 }, { timestamps: true })
