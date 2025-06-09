@@ -8,13 +8,17 @@ const app = express();
 
 const cron = require('./services/cron')
 
+app.use(helmet())
+app.use(cors());
+
+var path = require('path');
+// Images
+app.use(express.static(path.resolve('./public')));
+app.use('/public', express.static(path.resolve('./public')));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 app.use(logger);
-
-app.use(helmet())
-app.use(cors());
 
 // Web
 app.use('/auth', require('./routes/Web/Auth/auth.route'))
