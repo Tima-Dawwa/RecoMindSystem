@@ -27,7 +27,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     super.initState();
     _selectedImage = _images[0];
       final productDetailsCubit = context.read<ProductDetailsCubit>();
-    productDetailsCubit.fetchProduct(productId:"684178e7e046f97558d62eeb");
+    productDetailsCubit.fetchProduct(productId:"68470cc234e8abbcb08b15f9");
   }
 
   @override

@@ -40,7 +40,7 @@ class Product {
       id:json['id'],
       name: json['name'],
       price: (json['price'] as num).toDouble(),
-      isfavorite: json['isFavorite'],
+      isfavorite: json['isFavorite'] as bool,
       discountedPrice: (json['discounted_price'] as num).toDouble(),
       isDiscounted: json['is_discounted'],
       details: json['details'],
@@ -49,8 +49,8 @@ class Product {
       department: json['department'],
       color: json['color'],
       images: List<String>.from(json['images']),
-      isNew: json['isNew'],
-      isTrend: json['isTrend'],
+      isNew: json['isNew'] as bool,
+      isTrend: json['isTrend'] as bool,
       reviews:
           (json['reviews'] as List).map((e) => Review.fromJson(e)).toList(),
     );

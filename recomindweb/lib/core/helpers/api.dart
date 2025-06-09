@@ -2,16 +2,16 @@ import 'package:dio/dio.dart';
 
 class Api {
   Api(this._dio);
-
+//'http://localhost:5000'
   final Dio _dio;
-  final String baseUrl = 'http://localhost:5000';
+  final String baseUrl = 'https://c4dd-190-2-147-86.ngrok-free.app';
   final String token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NDFiNDU4MWJhNjhiNjQzZjgzYzI3MiIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6InRpbWEiLCJsYXN0X25hbWUiOiJEYXd3YSJ9LCJpYXQiOjE3NDk0ODMwNDIsImV4cCI6MTc0OTc0MjI0Mn0.fJDB_yF4_wHDK6ORxD_L1hTrum9it5OfOHp-bFpXpAI";
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU4YTU5ZjVlNzYzMGMwYzI4ZDBkZWJkYiIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkFsbGllIiwibGFzdF9uYW1lIjoiV2ViZXIifSwiaWF0IjoxNzQ5NDg3NDEwLCJleHAiOjE3NDk3NDY2MTB9.61iU7bhfiDg6i2xPTWSr5NAnw8KDPhTtCL2h7G9oOP8";
 
   Future<Map<String, dynamic>> get({required String endPoint}) async {
     var response = await _dio.get(
       '$baseUrl$endPoint',
-      options: Options(headers: {'Authorization': 'Bearer $token'}),
+      options: Options(headers: {'Authorization': 'Bearer $token',"ngrok-skip-browser-warning":"tima"}),
     );
     print(response.statusCode);
     print(response);
@@ -30,7 +30,7 @@ class Api {
       options: Options(
         headers: {
           'Content-Type': 'application/json',
-          // 'Authorization': 'Bearer $token',
+          'Authorization': 'Bearer $token',
         },
       ),
     );
