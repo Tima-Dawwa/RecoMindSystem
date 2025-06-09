@@ -80,7 +80,7 @@ async function createProducts() {
                     price,
                     discounted_price,
                     quantity: faker.number.int({ min: 0, max: 100 }),
-                    images: row.images ? row.images.split('|').map(img => img.trim()) : []
+                    images: ['/images/products/recomind1.jpg']
                 };
                 products.push(product);
             })
