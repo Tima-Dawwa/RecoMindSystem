@@ -15,7 +15,7 @@ class ProductImageSection extends StatefulWidget {
     required this.selectedImage,
     required this.onThumbnailClick,
     required this.imageList,
-    required this.product
+    required this.product,
   });
 
   @override
@@ -23,6 +23,14 @@ class ProductImageSection extends StatefulWidget {
 }
 
 class _ProductImageSectionState extends State<ProductImageSection> {
+  late bool isFavorite;
+
+  @override
+  void initState() {
+    super.initState();
+    // initialize local favorite state from the product
+    isFavorite = widget.product.isfavorite;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,18 +86,22 @@ class _ProductImageSectionState extends State<ProductImageSection> {
               top: 8,
               right: 8,
               child: GestureDetector(
-              onTap: () {
+                onTap: () {
                   setState(() {
-                    if (widget.product.isfavorite) {
-                      productDetailsCubit.deleteFavorite(widget.product.id,
-                        widget.product.id,
-                      );
-                    } else {
-                      productDetailsCubit.addToFavorites(widget.product.id,
-                        widget.product.id,
-                      );
-                    }
+                    isFavorite = !isFavorite;
                   });
+
+                  if (isFavorite) {
+                    productDetailsCubit.addToFavorites(
+                      widget.product.id,
+                      widget.product.id,
+                    );
+                  } else {
+                    productDetailsCubit.deleteFavorite(
+                      widget.product.id,
+                      widget.product.id,
+                    );
+                  }
                 },
                 child: Container(
                   padding: const EdgeInsets.all(6),
@@ -104,9 +116,9 @@ class _ProductImageSectionState extends State<ProductImageSection> {
                     ],
                   ),
                   child: Icon(
-                   widget.product.isfavorite ? Icons.favorite : Icons.favorite_border,
+                    isFavorite ? Icons.favorite : Icons.favorite_border,
                     color:
-                        widget.product.isfavorite
+                        isFavorite
                             ? Themes.secondary
                             : Themes.text.withAlpha(150),
                     size: 20,

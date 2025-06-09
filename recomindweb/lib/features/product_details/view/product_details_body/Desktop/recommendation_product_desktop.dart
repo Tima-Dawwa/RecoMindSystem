@@ -7,10 +7,7 @@ import 'package:recomindweb/features/product_details/view/product_details_body/p
 class RecommendationProductDesktop extends StatelessWidget {
   final List<Recommendation> products;
 
-  const RecommendationProductDesktop({
-    super.key,
-    required this.products,
-  });
+  const RecommendationProductDesktop({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +33,10 @@ class RecommendationProductDesktop extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           itemCount: products.length,
           itemBuilder: (context, index) {
-            final product = products[index];
+            final Recommendation product = products[index];
             return GestureDetector(
               onTap: () {},
-              child: ProductCard(product: product, onTap: () {}),
+              child: ProductCard(product: product,),
             );
           },
         ),
