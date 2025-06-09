@@ -15,7 +15,7 @@ class ProductImageSectionMobile extends StatefulWidget {
     required this.selectedImage,
     required this.onThumbnailClick,
     required this.imageList,
-    required this.product
+    required this.product,
   });
 
   @override
@@ -28,7 +28,7 @@ class _ProductImageSectionMobileState extends State<ProductImageSectionMobile> {
 
   @override
   Widget build(BuildContext context) {
-        final productDetailsCubit = context.read<ProductDetailsCubit>();
+    final productDetailsCubit = context.read<ProductDetailsCubit>();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -52,12 +52,16 @@ class _ProductImageSectionMobileState extends State<ProductImageSectionMobile> {
                   top: 8,
                   right: 8,
                   child: GestureDetector(
-                  onTap: () {
+                    onTap: () {
                       setState(() {
                         if (widget.product.isfavorite) {
-                          productDetailsCubit.deleteFavorite(widget.product.id);
+                          productDetailsCubit.deleteFavorite(widget.product.id,
+                            widget.product.id,
+                          );
                         } else {
-                          productDetailsCubit.addToFavorites(widget.product.id);
+                          productDetailsCubit.addToFavorites(widget.product.id,
+                            widget.product.id,
+                          );
                         }
                       });
                     },
@@ -74,7 +78,9 @@ class _ProductImageSectionMobileState extends State<ProductImageSectionMobile> {
                         ],
                       ),
                       child: Icon(
-                        widget.product.isfavorite ? Icons.favorite : Icons.favorite_border,
+                        widget.product.isfavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
                         color:
                             isFavorite
                                 ? Themes.secondary

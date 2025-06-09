@@ -1,5 +1,6 @@
 class Recommendation {
   final String id;
+  final String parentId;
   final String name;
   final String image;
   final double price;
@@ -14,6 +15,7 @@ class Recommendation {
 
   Recommendation({
     required this.id,
+    required this.parentId,
     required this.name,
     required this.image,
     required this.price,
@@ -30,17 +32,18 @@ class Recommendation {
   factory Recommendation.fromJson(Map<String, dynamic> json) {
     return Recommendation(
       id: json['id'],
+      parentId: json['parent_id'],
       name: json['name'],
       image: json['image'],
       price: (json['price'] as num).toDouble(),
-      isfavorite: json['isFavorite'],
+      isfavorite: json['isFavorite'] as bool,
       discountedPrice: (json['discounted_price'] as num).toDouble(),
       isDiscounted: json['is_discounted'],
       department: json['department'],
       rating: (json['rating'] as num).toDouble(),
-      gender: json['gender'],
-      isNew: json['isNew'],
-      isTrend: json['isTrend'],
+      gender: json['gender'] ,
+      isNew: json['isNew'] as bool,
+      isTrend: json['isTrend'] as bool,
     );
   }
 }

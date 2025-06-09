@@ -81,9 +81,13 @@ class _ProductImageSectionState extends State<ProductImageSection> {
               onTap: () {
                   setState(() {
                     if (widget.product.isfavorite) {
-                      productDetailsCubit.deleteFavorite(widget.product.id);
+                      productDetailsCubit.deleteFavorite(widget.product.id,
+                        widget.product.id,
+                      );
                     } else {
-                      productDetailsCubit.addToFavorites(widget.product.id);
+                      productDetailsCubit.addToFavorites(widget.product.id,
+                        widget.product.id,
+                      );
                     }
                   });
                 },

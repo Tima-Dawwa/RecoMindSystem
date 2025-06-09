@@ -30,9 +30,11 @@ class _ProductCardState extends State<ProductCard> {
           onFavoriteToggle: () {
             setState(() {
               if (widget.product.isfavorite) {
-                productDetailsCubit.deleteFavorite(widget.product.id);
+                productDetailsCubit.deleteFavorite(widget.product.id,widget.product.parentId);
               } else {
-                productDetailsCubit.addToFavorites(widget.product.id);
+                productDetailsCubit.addToFavorites(widget.product.id,
+                  widget.product.parentId,
+                );
               }
             });
           },
@@ -133,7 +135,7 @@ class _ResponsiveProductCard extends StatelessWidget {
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
-                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                         product.isfavorite ? Icons.favorite : Icons.favorite_border,
                           color:
                               isFavorite
                                   ? Themes.secondary

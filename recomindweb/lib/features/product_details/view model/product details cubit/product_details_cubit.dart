@@ -21,11 +21,7 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     ) {
       try {
         final productResponse = ProductResponse.fromJson(data);
-        emit(
-          SuccessProductDetails(
-            product: productResponse,
-          ),
-        );
+        emit(SuccessProductDetails(product: productResponse));
       } catch (e) {
         emit(
           FailureProductDetails(
@@ -50,32 +46,35 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
       rating: rating,
       commit: commit,
     );
-    result.fold(
-      (failure) => emit(FailureProductDetails(failure: failure)),
-      (_) => emit(ActionSuccessProductDetails()),
-    );
+    result.fold((failure) => emit(FailureProductDetails(failure: failure)), (
+      _,
+    ) async {
+      await fetchProduct(productId: productId);
+    });
   }
 
-  Future<void> addToFavorites(String productId) async {
+  Future<void> addToFavorites(String productId,String parentId) async {
     emit(LoadingProductDetails());
     final result = await productDetailsService.addToFavorites(
       productId: productId,
     );
-    result.fold(
-      (failure) => emit(FailureProductDetails(failure: failure)),
-      (_) => emit(ActionSuccessProductDetails()),
-    );
+    result.fold((failure) => emit(FailureProductDetails(failure: failure)), (
+      _,
+    ) async {
+      await fetchProduct(productId: parentId);
+    });
   }
 
-  Future<void> deleteFavorite(String favoriteId) async {
+  Future<void> deleteFavorite(String productId,String parentId) async {
     emit(LoadingProductDetails());
     final result = await productDetailsService.deleteFavorite(
-      favoriteId: favoriteId,
+      favoriteId: productId,
     );
-    result.fold(
-      (failure) => emit(FailureProductDetails(failure: failure)),
-      (_) => emit(ActionSuccessProductDetails()),
-    );
+    result.fold((failure) => emit(FailureProductDetails(failure: failure)), (
+      _,
+    ) async {
+      await fetchProduct(productId: parentId);
+    });
   }
 
   Future<void> addToCart({
@@ -87,9 +86,10 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
       productId: productId,
       count: count,
     );
-    result.fold(
-      (failure) => emit(FailureProductDetails(failure: failure)),
-      (_) => emit(ActionSuccessProductDetails()),
-    );
+    result.fold((failure) => emit(FailureProductDetails(failure: failure)), (
+      _,
+    ) async {
+      await fetchProduct(productId: productId);
+    });
   }
 }
