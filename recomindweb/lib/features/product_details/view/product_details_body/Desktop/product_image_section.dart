@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/theme.dart';
+import 'package:recomindweb/features/product_details/models/product_model.dart';
+import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_cubit.dart';
 
 class ProductImageSection extends StatefulWidget {
   final String selectedImage;
   final Function(String) onThumbnailClick;
   final List<String> imageList;
+  final Product product;
 
   const ProductImageSection({
     super.key,
     required this.selectedImage,
     required this.onThumbnailClick,
     required this.imageList,
+    required this.product
   });
 
   @override
@@ -18,10 +23,10 @@ class ProductImageSection extends StatefulWidget {
 }
 
 class _ProductImageSectionState extends State<ProductImageSection> {
-  bool isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
+    final productDetailsCubit = context.read<ProductDetailsCubit>();
     final bool showThumbnails = widget.imageList.length > 1;
 
     return Row(
@@ -73,9 +78,13 @@ class _ProductImageSectionState extends State<ProductImageSection> {
               top: 8,
               right: 8,
               child: GestureDetector(
-                onTap: () {
+              onTap: () {
                   setState(() {
-                    isFavorite = !isFavorite;
+                    if (widget.product.isfavorite) {
+                      productDetailsCubit.deleteFavorite(widget.product.id);
+                    } else {
+                      productDetailsCubit.addToFavorites(widget.product.id);
+                    }
                   });
                 },
                 child: Container(
@@ -91,9 +100,9 @@ class _ProductImageSectionState extends State<ProductImageSection> {
                     ],
                   ),
                   child: Icon(
-                    isFavorite ? Icons.favorite : Icons.favorite_border,
+                   widget.product.isfavorite ? Icons.favorite : Icons.favorite_border,
                     color:
-                        isFavorite
+                        widget.product.isfavorite
                             ? Themes.secondary
                             : Themes.text.withAlpha(150),
                     size: 20,

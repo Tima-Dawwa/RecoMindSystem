@@ -27,34 +27,47 @@ async function httpGetAllProducts(req, res) {
 
 // Done
 async function httpGetOneProduct(req, res) {
-    const product = await getProductById(req.params.id);
-    if (!product) {
-        return res.status(404).json({ error: 'Product not found' });
-    }
+  const product = await getProductById(req.params.id);
+  if (!product) {
+    return res.status(404).json({ error: "Product not found" });
+  }
 
-    if (req.user) {
-        await postInteraction(req.user.id, req.params.id, INTERACTION_TYPES.VIEW)
-        await incrementInteractionCount(req.params.id, INTERACTION_TYPES.VIEW)
-    }
-    else {
-        await incrementInteractionCount(req.params.id, INTERACTION_TYPES.VIEW)
-    }
+  if (req.user) {
+    await postInteraction(req.user.id, req.params.id, INTERACTION_TYPES.VIEW);
+    await incrementInteractionCount(req.params.id, INTERACTION_TYPES.VIEW);
+  } else {
+    await incrementInteractionCount(req.params.id, INTERACTION_TYPES.VIEW);
+  }
 
-    let recommendedProducts = [];
-    try {
-        const recommendations = await axios.get('http://127.0.0.1:8000/content-recommendations', {
-            params: { product_id: req.params.id, top_n: 5 }
-        });
-        recommendedProducts = await getProductsByIds(recommendations.data);
-    } catch (error) {
-    }
-    const interactions = await getProductInteractions(req.params.id);
-
-    return res.status(200).json({
-        data: productDetailsData(product, interactions),
-        recommendations: serializedData(recommendedProducts, productData)
-    });
+  let recommendedProducts = [];
+  try {
+    const recommendations = await axios.get(
+      "http://127.0.0.1:8000/content-recommendations",
+      {
+        params: { product_id: req.params.id, top_n: 5 },
+      }
+    );
+    recommendedProducts = await getProductsByIds(recommendations.data);
+  } catch (error) {}
+  const interactions = await getProductInteractions(req.params.id);
+  if (req.user) {
+    product.isFavorite = await checkFavorite(req.user.id, req.params.id);
+    recommendedProducts = await Promise.all(
+      recommendedProducts.map(async (p) => {
+        p.isFavorite = await checkFavorite(req.user.id, p.id);
+        return p;
+      })
+    );
+  } else {
+    product.isFavorite = false;
+    recommendedProducts.forEach((p) => (p.isFavorite = false));
+  }
+  return res.status(200).json({
+    data: productDetailsData(product, interactions),
+    recommendations: serializedData(recommendedProducts, productData),
+  });
 }
+
 
 
 // Done

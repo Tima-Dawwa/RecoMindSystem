@@ -4,6 +4,7 @@ class Product {
   final String id;
   final String name;
   final double price;
+  final bool isfavorite;
   final double discountedPrice;
   final bool isDiscounted;
   final String details;
@@ -20,6 +21,7 @@ class Product {
     required this.id,
     required this.name,
     required this.price,
+    required this.isfavorite,
     required this.discountedPrice,
     required this.isDiscounted,
     required this.details,
@@ -38,6 +40,7 @@ class Product {
       id:json['id'],
       name: json['name'],
       price: (json['price'] as num).toDouble(),
+      isfavorite: json['isFavorite'],
       discountedPrice: (json['discounted_price'] as num).toDouble(),
       isDiscounted: json['is_discounted'],
       details: json['details'],

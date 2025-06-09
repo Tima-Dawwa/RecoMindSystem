@@ -1,39 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:recomindweb/core/theme.dart';
+import 'package:recomindweb/features/product_details/models/product_model.dart';
+import 'package:recomindweb/features/product_details/models/review_model.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/review_item.dart';
 
 class CustomerReviews extends StatelessWidget {
-  const CustomerReviews({super.key});
+  final Product product;
+  const CustomerReviews({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
-    final reviews = [
-      ReviewData(
-        name: 'Sarah Taylor',
-        reviewText: 'Great quality T-Shirt, very comfortable!',
-        rating: 4.5,
-        time: '2 days ago',
-      ),
-      ReviewData(
-        name: 'John Smith',
-        reviewText: 'Nice design, but the size runs a bit large.',
-        rating: 4.0,
-        time: 'a week ago',
-      ),
-      ReviewData(
-        name: 'John Smith',
-        reviewText: 'Nice design, but the size runs a bit large.',
-        rating: 4.0,
-        time: 'a week ago',
-      ),
-      ReviewData(
-        name: 'John Smith',
-        reviewText: 'Nice design, but the size runs a bit large.',
-        rating: 4.0,
-        time: 'a week ago',
-      ),
-      // Add more if needed
-    ];
+    final List<Review> reviews =product.reviews;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
