@@ -14,8 +14,8 @@ ID_MAPPING_FILE = "data/id_mapping.pkl"
 REVERSE_ID_MAPPING_FILE = "data/reverse_id_mapping.pkl"
 
 # Load model once
-model = SentenceTransformer(MODEL_NAME)
-
+# model = SentenceTransformer(MODEL_NAME)
+model = SentenceTransformer("saved_models/all-MiniLM-L6-v2")
 # Global shared objects
 index = None
 all_embeddings = {}
