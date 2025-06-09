@@ -9,7 +9,7 @@ class ProductResponse {
 
   factory ProductResponse.fromJson(Map<String, dynamic> json) {
     return ProductResponse(
-      data: json['data'],
+      data: Product.fromJson(json['data']),
       recommendations:
           (json['recommendations'] as List)
               .map((e) => Recommendation.fromJson(e))

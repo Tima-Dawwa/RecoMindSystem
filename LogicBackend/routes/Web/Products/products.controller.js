@@ -8,7 +8,7 @@ const { validationErrors } = require('../../../middlewares/validationErrors')
 const { getProducts, getProductById, getProductsCount, getProductsByIds, incrementInteractionCount, incrementRatingCount, applyChangedRatingToProduct } = require('../../../models/products.model');
 const { getProductInteractions, postInteraction, checkRating, updateRatingInteraction } = require('../../../models/interactions.model');
 const { INTERACTION_TYPES } = require('../../../public/constants/interaction')
-
+const { checkFavorite } = require("../../../models/favorites.model");
 // Done
 async function httpGetAllProducts(req, res) {
     const { skip, limit } = getPagination(req.query)
@@ -51,10 +51,11 @@ async function httpGetOneProduct(req, res) {
   } catch (error) {}
   const interactions = await getProductInteractions(req.params.id);
   if (req.user) {
-    product.isFavorite = await checkFavorite(req.user.id, req.params.id);
+    product.isFavorite =
+      (await checkFavorite(req.user.id, req.params.id)) ?? false;
     recommendedProducts = await Promise.all(
       recommendedProducts.map(async (p) => {
-        p.isFavorite = await checkFavorite(req.user.id, p.id);
+        p.isFavorite = (await checkFavorite(req.user.id, p.id)) ?? false;
         return p;
       })
     );
@@ -67,6 +68,7 @@ async function httpGetOneProduct(req, res) {
     recommendations: serializedData(recommendedProducts, productData),
   });
 }
+
 
 
 
