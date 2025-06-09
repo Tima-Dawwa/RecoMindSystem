@@ -16,6 +16,9 @@ Future<void> setup() async {
     ForgetPasswordServices(getIt.get<Api>()),
   );
   getIt.registerSingleton<ProductDetailsService>(
-    ProductDetailsService(getIt.get<Api>()),
+    ProductDetailsService(
+      getIt.get<Api>(),
+      getIt.get<DefaultStatusCodeHandler>(),
+    ),
   );
 }
