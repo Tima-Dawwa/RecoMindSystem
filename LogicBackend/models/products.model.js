@@ -121,9 +121,10 @@ async function incrementRatingCount(product_id, rating_value) {
     return await product.save()
 }
 
-async function applyChangedRatingToProduct(product_id, rating_value) {
+async function applyChangedRatingToProduct(product_id, oldRatingValue, rating_value) {
     product = await Product.findOne({ _id: product_id });
     const currentTotalRatingSum = product.rating * product.rating_count;
+
     product.rating = (currentTotalRatingSum - oldRatingValue + rating_value) / product.rating_count;
     product.rating = parseFloat(product.rating.toFixed(2));
     product.total_interaction_score = product.total_interaction_score - oldRatingValue + rating_value;
