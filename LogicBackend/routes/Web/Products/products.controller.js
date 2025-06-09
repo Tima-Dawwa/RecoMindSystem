@@ -3,7 +3,7 @@ const { getPagination } = require('../../../services/query');
 const { validateProductRating } = require('./products.validation');
 const { normalizeBool, getCategory } = require('./products.helper');
 const { serializedData } = require('../../../services/serializeArray');
-const { productData, productDetailsData } = require('./products.serializer');
+const { productData, productDetailsData, interactionData } = require('./products.serializer');
 const { validationErrors } = require('../../../middlewares/validationErrors')
 const { getProducts, getProductById, getProductsCount, getProductsByIds, incrementInteractionCount, incrementRatingCount, applyChangedRatingToProduct } = require('../../../models/products.model');
 const { getProductInteractions, postInteraction, checkRating, updateRatingInteraction } = require('../../../models/interactions.model');
@@ -48,17 +48,14 @@ async function httpGetOneProduct(req, res) {
         recommendedProducts = await getProductsByIds(recommendations.data);
     } catch (error) {
     }
+    const interactions = await getProductInteractions(req.params.id);
 
     return res.status(200).json({
-        data: productDetailsData(product),
-        recommendations: recommendedProducts
+        data: productDetailsData(product, interactions),
+        recommendations: serializedData(recommendedProducts, productData)
     });
 }
 
-async function httpGetProductInteractions(req, res) {
-    const interactions = await getProductInteractions(req.params.id);
-    return res.status(200).json({ interactions });
-}
 
 // Done
 async function httpRateProduct(req, res) {
@@ -75,7 +72,7 @@ async function httpRateProduct(req, res) {
         await applyChangedRatingToProduct(req.params.id, oldRatingValue, newRatingValue);
     }
     else {
-        await postInteraction(req.user.id, req.params.id, INTERACTION_TYPES.RATING, req.body.rating)
+        await postInteraction(req.user.id, req.params.id, INTERACTION_TYPES.RATING, req.body.rating, req.body.review_text)
         await incrementRatingCount(req.params.id, req.body.rating)
     }
 
@@ -87,6 +84,5 @@ async function httpRateProduct(req, res) {
 module.exports = {
     httpGetAllProducts,
     httpGetOneProduct,
-    httpGetProductInteractions,
     httpRateProduct
 };

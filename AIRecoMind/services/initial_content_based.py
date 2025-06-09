@@ -17,10 +17,10 @@ EMBEDDING_STORE_FILE = "data/product_embeddings.pkl"
 ID_MAPPING_FILE = "data/id_mapping.pkl"
 
 # ----- SETUP -----
-model = SentenceTransformer(MODEL_NAME)
-model.save("saved_models/all-MiniLM-L6-v2")
+# model = SentenceTransformer(MODEL_NAME)
+# model.save("saved_models/all-MiniLM-L6-v2")
 
-# model = SentenceTransformer("saved_models/all-MiniLM-L6-v2")
+model = SentenceTransformer("saved_models/all-MiniLM-L6-v2")
 
 # ----- BUILD INDEX -----
 embedding_dim = model.get_sentence_embedding_dimension()
