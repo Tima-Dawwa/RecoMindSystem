@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:recomindweb/core/theme.dart';
-import 'features/ChatBot/Model/product.dart';
+import 'package:recomindweb/features/product_details/models/recommedation_product.dart';
 
 class ProductCard extends StatefulWidget {
-  final Product product;
+  final Recommendation product;
   final VoidCallback onTap;
 
   const ProductCard({required this.product, required this.onTap, super.key});
@@ -38,7 +37,7 @@ class _ProductCardState extends State<ProductCard> {
 }
 
 class _ResponsiveProductCard extends StatelessWidget {
-  final Product product;
+  final Recommendation product;
   final bool isWide;
   final VoidCallback onTap;
   final bool isFavorite;
@@ -54,16 +53,6 @@ class _ResponsiveProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final originalPrice =
-        product.discountPercent != null
-            ? product.price * (1 + product.discountPercent! / 100)
-            : product.price;
-
-    final discountedPrice = product.price;
-    final gender = product.gender.isNotEmpty ? product.gender : "Unisex";
-    final category = product.category.isNotEmpty ? product.category : "General";
-    final rating = product.rating;
-
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -97,13 +86,13 @@ class _ResponsiveProductCard extends StatelessWidget {
                       top: Radius.circular(16),
                     ),
                     child: Image.asset(
-                      product.imageUrl,
+                      product.image,
                       width: double.infinity,
                       height: double.infinity,
                       fit: BoxFit.cover,
                     ),
                   ),
-                  if (product.isTrending)
+                  if (product.isTrend)
                     Positioned(
                       top: 8,
                       left: 8,
@@ -171,9 +160,9 @@ class _ResponsiveProductCard extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: isWide ? 16 : 12),
               child: Row(
                 children: [
-                  _buildTag(context, gender, isWide),
+                  _buildTag(context, product.gender, isWide),
                   const SizedBox(width: 6),
-                  _buildTag(context, category, isWide),
+                  _buildTag(context, product.department, isWide),
                 ],
               ),
             ),
@@ -182,7 +171,7 @@ class _ResponsiveProductCard extends StatelessWidget {
                 horizontal: isWide ? 16 : 12,
                 vertical: 6,
               ),
-              child: _buildStarRating(rating),
+              child: _buildStarRating(product.rating),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
@@ -192,7 +181,7 @@ class _ResponsiveProductCard extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    '\$${discountedPrice.toStringAsFixed(2)}',
+                    '\$${product.discountedPrice.toStringAsFixed(2)}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: isWide ? 18 : 16,
@@ -200,9 +189,9 @@ class _ResponsiveProductCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  if (product.discountPercent != null)
+                  if (product.isDiscounted)
                     Text(
-                      '\$${originalPrice.toStringAsFixed(2)}',
+                      '\$${product.price.toStringAsFixed(2)}',
                       style: TextStyle(
                         decoration: TextDecoration.lineThrough,
                         fontSize: 14,

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recomindweb/core/theme.dart';
+import 'package:recomindweb/features/product_details/models/product_model.dart';
+import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_cubit.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/Desktop/color_selctor.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/product_attribute_card.dart';
 
 class ProductHeader extends StatelessWidget {
-  const ProductHeader({super.key});
+  final Product product;
+  const ProductHeader({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
-    final double originalPrice = 39.99;
-    final double discountedPrice = 29.99;
-    final bool isDiscounted = discountedPrice < originalPrice;
+    final productDetailsCubit = context.read<ProductDetailsCubit>();
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -19,7 +22,7 @@ class ProductHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Relaxed Fit T-Shirt",
+            product.name,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.w600,
               letterSpacing: 0.5,
@@ -35,22 +38,33 @@ class ProductHeader extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _priceWidget(isDiscounted, discountedPrice, originalPrice),
+                    _priceWidget(
+                      product.isDiscounted,
+                      product.discountedPrice,
+                      product.price,
+                    ),
                     const SizedBox(height: 12),
                     SizedBox(
                       width: double.infinity,
-                      child: _addToCartButton(context),
+                      child: _addToCartButton(
+                        context,
+                        productDetailsCubit,
+                        product,
+                      ),
                     ),
                   ],
                 );
               } else {
-                // Horizontal layout for wider screens
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    _priceWidget(isDiscounted, discountedPrice, originalPrice),
-                    _addToCartButton(context),
+                    _priceWidget(
+                      product.isDiscounted,
+                      product.discountedPrice,
+                      product.price,
+                    ),
+                    _addToCartButton(context, productDetailsCubit, product),
                   ],
                 );
               }
@@ -69,9 +83,7 @@ class ProductHeader extends StatelessWidget {
           const SizedBox(height: 12),
 
           Text(
-            "Lorem ipsum flows with grace, "
-            "Color dances, finds its place, "
-            "In contrast, beauty shows its face.",
+            product.details,
             style: TextStyle(fontSize: 16, height: 1.6, color: Themes.text),
           ),
 
@@ -80,26 +92,21 @@ class ProductHeader extends StatelessWidget {
           Wrap(
             spacing: 16,
             runSpacing: 16,
-            children: const [
+            children: [
               ProductAttributeCard(
                 label: "Graphic",
-                value: "Decorated",
+                value: product.graphic,
                 icon: Icons.brush,
               ),
               ProductAttributeCard(
-                label: "Department",
-                value: "Casual",
+                label: "Departmen",
+                value: product.department,
                 icon: Icons.store,
               ),
               ProductAttributeCard(
-                label: "Fit",
-                value: "Relaxed",
-                icon: Icons.accessibility,
-              ),
-              ProductAttributeCard(
-                label: "Material",
-                value: "100% Cotton",
-                icon: Icons.texture,
+                label: "Gender",
+                value: product.gender,
+                icon: FontAwesomeIcons.six,
               ),
             ],
           ),
@@ -107,29 +114,28 @@ class ProductHeader extends StatelessWidget {
           const SizedBox(height: 16),
           Divider(thickness: 1, color: Themes.text.withAlpha(20)),
           const SizedBox(height: 16),
-
-          const ColorSelector(),
-
+          ColorSelector(product: product),
           const SizedBox(height: 24),
         ],
       ),
     );
   }
 
-  Widget _priceWidget(
+ Widget _priceWidget(
     bool isDiscounted,
     double? discountedPrice,
     double originalPrice,
   ) {
+    final displayPrice = isDiscounted ? discountedPrice! : originalPrice;
+
     return Row(
       children: [
         Text(
-          "\$${discountedPrice?.toStringAsFixed(2) ?? originalPrice.toStringAsFixed(2)}",
+          "\$${displayPrice.toStringAsFixed(2)}",
           style: TextStyle(
             fontSize: 22,
-            fontWeight: FontWeight.w600,
-            color:
-                isDiscounted ? Themes.secondary : Themes.primary.withAlpha(200),
+            fontWeight: FontWeight.bold,
+            color: isDiscounted ? Themes.secondary : Themes.primary,
           ),
         ),
         if (isDiscounted) ...[
@@ -138,8 +144,24 @@ class ProductHeader extends StatelessWidget {
             "\$${originalPrice.toStringAsFixed(2)}",
             style: TextStyle(
               fontSize: 16,
-              color: Themes.text.withAlpha(150),
+              color: Themes.text.withAlpha(120),
               decoration: TextDecoration.lineThrough,
+            ),
+          ),
+          const SizedBox(width: 6),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+            decoration: BoxDecoration(
+              color: Themes.secondary.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Text(
+              "-${_calculateDiscountPercent(originalPrice, discountedPrice!)}%",
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: Themes.secondary,
+              ),
             ),
           ),
         ],
@@ -147,9 +169,19 @@ class ProductHeader extends StatelessWidget {
     );
   }
 
-  Widget _addToCartButton(BuildContext context) {
+  int _calculateDiscountPercent(double original, double discounted) {
+    return (((original - discounted) / original) * 100).round();
+  }
+
+
+  Widget _addToCartButton(
+    BuildContext context,
+    ProductDetailsCubit cubit,
+    Product product,
+  ) {
     return OutlinedButton.icon(
       onPressed: () {
+        cubit.addToCart(productId: product.id, count: 3);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text("Added to cart !"),

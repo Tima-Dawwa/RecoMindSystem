@@ -10,7 +10,7 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
   ProductDetailsCubit(this.productDetailsService)
     : super(InitialProductDetails());
 
-  Future<void> fetchProduct(String productId) async {
+  Future<void> fetchProduct({required String productId}) async {
     emit(LoadingProductDetails());
     final result = await productDetailsService.getOneProduct(
       productId: productId,
@@ -23,8 +23,7 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
         final productResponse = ProductResponse.fromJson(data);
         emit(
           SuccessProductDetails(
-            product: productResponse.data,
-            recommendations: productResponse.recommendations,
+            product: productResponse,
           ),
         );
       } catch (e) {

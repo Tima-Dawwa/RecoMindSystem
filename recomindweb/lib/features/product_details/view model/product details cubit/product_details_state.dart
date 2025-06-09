@@ -1,6 +1,5 @@
 import 'package:recomindweb/core/helpers/failure.dart';
-import 'package:recomindweb/features/ChatBot/Model/product.dart';
-import 'package:recomindweb/features/product_details/models/recommedation_product.dart';
+import 'package:recomindweb/features/product_details/models/product_response.dart';
 
 abstract class ProductDetailsState {}
 
@@ -9,10 +8,9 @@ class InitialProductDetails extends ProductDetailsState {}
 class LoadingProductDetails extends ProductDetailsState {}
 
 class SuccessProductDetails extends ProductDetailsState {
-  final Product product;
-  final List<Recommendation> recommendations;
+  final ProductResponse product;
 
-  SuccessProductDetails({required this.product, required this.recommendations});
+  SuccessProductDetails({required this.product});
 }
 
 class ActionSuccessProductDetails extends ProductDetailsState {}

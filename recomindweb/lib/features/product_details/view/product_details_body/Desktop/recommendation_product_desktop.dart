@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:recomindweb/core/theme.dart';
-import 'package:recomindweb/features/ChatBot/Model/product.dart';
-import 'package:recomindweb/product_test.dart';
+import 'package:recomindweb/features/product_details/models/recommedation_product.dart';
+import 'package:recomindweb/features/product_details/view/product_details_body/product_test.dart';
 
 class RecommendationProductDesktop extends StatelessWidget {
-  final List<Product> products;
-  final void Function(Product) onCardTap;
+  final List<Recommendation> products;
 
   const RecommendationProductDesktop({
     super.key,
     required this.products,
-    required this.onCardTap,
   });
 
   @override
@@ -40,7 +38,7 @@ class RecommendationProductDesktop extends StatelessWidget {
           itemBuilder: (context, index) {
             final product = products[index];
             return GestureDetector(
-              onTap: () => onCardTap(product),
+              onTap: () {},
               child: ProductCard(product: product, onTap: () {}),
             );
           },

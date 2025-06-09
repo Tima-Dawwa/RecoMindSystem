@@ -1,6 +1,7 @@
 import 'package:recomindweb/features/product_details/models/review_model.dart';
 
 class Product {
+  final String id;
   final String name;
   final double price;
   final double discountedPrice;
@@ -16,6 +17,7 @@ class Product {
   final List<Review> reviews;
 
   Product({
+    required this.id,
     required this.name,
     required this.price,
     required this.discountedPrice,
@@ -33,6 +35,7 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
+      id:json['id'],
       name: json['name'],
       price: (json['price'] as num).toDouble(),
       discountedPrice: (json['discounted_price'] as num).toDouble(),

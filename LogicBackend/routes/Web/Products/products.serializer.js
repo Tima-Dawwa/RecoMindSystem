@@ -1,4 +1,3 @@
-const { getProductById } = require("../../../models/products.model")
 const { serializedData } = require("../../../services/serializeArray")
 
 function productData(product) {
@@ -9,14 +8,17 @@ function productData(product) {
         discounted_price: product.discounted_price,
         is_discounted: (product.price - product.discounted_price) > 0,
         department: product.department,
+        gender: product.gender,
         rating: product.rating,
         isNew: product.isNew,
-        isTrend: product.isTrend
+        isTrend: product.isTrend,
+        image: product.images[0]
     }
 }
 
 function productDetailsData(product, interactions) {
     return {
+        id: product._id,
         name: product.name,
         price: product.price,
         discounted_price: product.discounted_price,
