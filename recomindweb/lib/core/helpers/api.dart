@@ -11,7 +11,7 @@ class Api {
   Future<Map<String, dynamic>> get({required String endPoint}) async {
     var response = await _dio.get(
       '$baseUrl$endPoint',
-      options: Options(headers: {'Authorization': 'Bearer $token',"ngrok-skip-browser-warning":"tima"}),
+      options: Options(headers: {'Authorization': 'Bearer $token',"ngrok-skip-browser-warning":"true"}),
     );
     print(response.statusCode);
     print(response);

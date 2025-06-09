@@ -60,8 +60,9 @@ class _ProductImageSectionState extends State<ProductImageSection> {
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(6),
-                        child: Image.asset(
+                        child: Image.network(
                           image,
+                            headers: {"ngrok-skip-browser-warning": "true"},
                           width: 90,
                           height: 120,
                           fit: BoxFit.cover,
@@ -76,8 +77,9 @@ class _ProductImageSectionState extends State<ProductImageSection> {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.asset(
+              child: Image.network(
                 widget.selectedImage,
+                  headers: {"ngrok-skip-browser-warning": "true"},
                 height: 400,
                 fit: BoxFit.contain,
               ),
