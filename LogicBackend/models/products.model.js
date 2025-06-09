@@ -60,7 +60,25 @@ async function getProductsCount(filters) {
 }
 
 async function getProductById(_id) {
-    return await Product.findById(_id)
+    const tenDaysAgo = new Date();
+    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
+
+    const trendingIds = await getTrendingProductIds(10, 3);
+    const trendingSet = new Set(trendingIds.map(id => id.toString()));
+
+    const product = await Product.findById(_id);
+
+    if (!product) {
+        return null;
+    }
+
+    const productObject = product.toObject();
+
+    return {
+        ...productObject,
+        isNew: productObject.createdAt >= tenDaysAgo,
+        isTrend: trendingSet.has(productObject._id.toString())
+    };
 }
 
 async function deleteProduct(product_id) {
@@ -68,7 +86,23 @@ async function deleteProduct(product_id) {
 }
 
 async function getProductsByIds(ids) {
-    return await Product.find({ _id: { $in: ids } });
+    // Calculate the date for the 'isNew' check
+    const tenDaysAgo = new Date();
+    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
+
+    const trendingIds = await getTrendingProductIds(10, 3);
+    const trendingSet = new Set(trendingIds.map(id => id.toString()));
+
+    const products = await Product.find({ _id: { $in: ids } });
+
+    return products.map(p => {
+        const obj = p.toObject();
+        return {
+            ...obj,
+            isNew: obj.createdAt >= tenDaysAgo,
+            isTrend: trendingSet.has(obj._id.toString())
+        };
+    });
 }
 
 async function incrementInteractionCount(product_id, type, rating_value = null) {

@@ -28,13 +28,19 @@ async function getInteraction(interaction_id) {
     }
 }
 
-async function postInteraction(user_id, product_id, interaction_type, rating_value = null) {
-    return await Interaction.create({
+async function postInteraction(user_id, product_id, interaction_type, rating_value = null, review_text) {
+    const interactionData = {
         user_id,
         product_id,
         interaction_type,
-        rating_value: rating_value
-    });
+        rating_value
+    };
+
+    if (review_text) {
+        interactionData.review_text = review_text;
+    }
+
+    return await Interaction.create(interactionData);
 }
 
 async function updateRatingInteraction(interaction_id, rating_value) {
@@ -154,8 +160,8 @@ async function updateProductInteraction(productId, userId, interactionType, rati
 
 async function getProductInteractions(productId) {
     try {
-        return await Interaction.find({ product_id: productId })
-            .populate('user_id', 'name email')
+        return await Interaction.find({ product_id: productId, interaction_type: INTERACTION_TYPES.RATING })
+            .populate('user_id', 'name')
             .sort({ createdAt: -1 });
     } catch (error) {
         throw new Error(`Failed to fetch product interactions: ${error.message}`);

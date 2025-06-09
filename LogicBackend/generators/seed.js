@@ -5,18 +5,18 @@ async function seedDB() {
     await mongoConnect();
 
     // Delete All Tables
-    console.log('Dropping Database')
-    await dropDatabase()
+    // console.log('Dropping Database')
+    // await dropDatabase()
 
-    console.log('Seeding Database');
+    // console.log('Seeding Database');
 
-    await createUsers()
+    // await createUsers()
 
-    await createProducts()
+    // await createProducts()
 
-    await createInteractions()
+    // await createInteractions()
 
-    await updateAllProductAggregates()
+    // await updateAllProductAggregates()
 
     console.log('Database seeded!');
 
