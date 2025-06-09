@@ -88,8 +88,10 @@ class _ResponsiveProductCard extends StatelessWidget {
                   borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(16),
                   ),
-                  child: Image.asset(
+                  child: Image.network(
                    'https://c4dd-190-2-147-86.ngrok-free.app${product.image}',
+                   headers: {"ngrok-skip-browser-warning":"true"},
+                    
                     width: double.infinity,
                     height: double.infinity,
                     fit: BoxFit.cover,
