@@ -41,7 +41,7 @@ class RecommendationProductMobile extends StatelessWidget {
             final Recommendation product = products[index];
             return GestureDetector(
               onTap: (){},
-              child: ProductCard(product: product, onTap: () {}),
+              child: ProductCard(product: product,),
             );
           },
         ),

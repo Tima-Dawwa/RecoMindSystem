@@ -8,14 +8,12 @@ import 'package:recomindweb/features/product_details/view/product_details_body/a
 import 'package:recomindweb/features/product_details/view/product_details_body/customers_review.dart';
 
 class ProductDetailsMobileLayout extends StatelessWidget {
-  final String selectedImage;
-  final List<String> images;
+
   final ValueChanged<String> onImageChange;
   final ProductResponse product;
   const ProductDetailsMobileLayout({
     super.key,
-    required this.selectedImage,
-    required this.images,
+ 
     required this.onImageChange,
     required this.product,
   });
@@ -26,7 +24,7 @@ class ProductDetailsMobileLayout extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ProductImageSectionMobile(
-          selectedImage: selectedImage,
+          selectedImage: 'https://c4dd-190-2-147-86.ngrok-free.app${product.data.images[0]}',
           imageList: product.data.images,
           onThumbnailClick: onImageChange,
           product: product.data,

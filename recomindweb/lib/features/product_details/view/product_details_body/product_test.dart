@@ -6,9 +6,8 @@ import 'package:recomindweb/features/product_details/view%20model/product%20deta
 
 class ProductCard extends StatefulWidget {
   final Recommendation product;
-  final VoidCallback onTap;
 
-  const ProductCard({required this.product, required this.onTap, super.key});
+  const ProductCard({required this.product, super.key});
 
   @override
   State<ProductCard> createState() => _ProductCardState();
@@ -25,14 +24,16 @@ class _ProductCardState extends State<ProductCard> {
         return _ResponsiveProductCard(
           product: widget.product,
           isWide: isWide,
-          onTap: widget.onTap,
-          isFavorite: widget.product.isfavorite,
           onFavoriteToggle: () {
             setState(() {
               if (widget.product.isfavorite) {
-                productDetailsCubit.deleteFavorite(widget.product.id,widget.product.parentId);
+                productDetailsCubit.deleteFavorite(
+                  widget.product.id,
+                  widget.product.parentId,
+                );
               } else {
-                productDetailsCubit.addToFavorites(widget.product.id,
+                productDetailsCubit.addToFavorites(
+                  widget.product.id,
                   widget.product.parentId,
                 );
               }
@@ -47,171 +48,166 @@ class _ProductCardState extends State<ProductCard> {
 class _ResponsiveProductCard extends StatelessWidget {
   final Recommendation product;
   final bool isWide;
-  final VoidCallback onTap;
-  final bool isFavorite;
   final VoidCallback onFavoriteToggle;
 
   const _ResponsiveProductCard({
     required this.product,
     required this.isWide,
-    required this.onTap,
-    required this.isFavorite,
     required this.onFavoriteToggle,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 500,
-        width: 500,
-        margin: const EdgeInsets.all(8),
-        constraints: BoxConstraints(
-          maxWidth: isWide ? 400 : MediaQuery.of(context).size.width * 0.9,
-        ),
-        decoration: BoxDecoration(
-          color: Themes.bg,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Themes.text.withAlpha(40)),
-          boxShadow: [
-            BoxShadow(
-              color: Themes.text.withAlpha(50),
-              blurRadius: 2,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AspectRatio(
-              aspectRatio: 4 / 5,
-              child: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(16),
-                    ),
-                    child: Image.asset(
-                      product.image,
-                      width: double.infinity,
-                      height: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
+    return Container(
+      height: 500,
+      width: 500,
+      margin: const EdgeInsets.all(8),
+      constraints: BoxConstraints(
+        maxWidth: isWide ? 400 : MediaQuery.of(context).size.width * 0.9,
+      ),
+      decoration: BoxDecoration(
+        color: Themes.bg,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Themes.text.withAlpha(40)),
+        boxShadow: [
+          BoxShadow(
+            color: Themes.text.withAlpha(50),
+            blurRadius: 2,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AspectRatio(
+            aspectRatio: 4 / 5,
+            child: Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(16),
                   ),
-                  if (product.isTrend)
-                    Positioned(
-                      top: 8,
-                      left: 8,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Themes.secondary.withAlpha(200),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          "TREND",
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Themes.bg,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
+                  child: Image.asset(
+                   'https://c4dd-190-2-147-86.ngrok-free.app${product.image}',
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                if (product.isTrend)
                   Positioned(
                     top: 8,
-                    right: 8,
-                    child: GestureDetector(
-                      onTap: onFavoriteToggle,
-                      child: Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
+                    left: 8,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Themes.secondary.withAlpha(200),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        "TREND",
+                        style: TextStyle(
+                          fontSize: 12,
                           color: Themes.bg,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                         product.isfavorite ? Icons.favorite : Icons.favorite_border,
-                          color:
-                              isFavorite
-                                  ? Themes.secondary
-                                  : Themes.text.withAlpha(150),
-                          size: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: isWide ? 16 : 12,
-                vertical: 8,
-              ),
-              child: Text(
-                product.name,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: isWide ? 18 : 16,
-                  color: Themes.text,
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: GestureDetector(
+                    onTap: onFavoriteToggle,
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: Themes.bg,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        product.isfavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color:
+                            product.isfavorite
+                                ? Themes.secondary
+                                : Themes.text.withAlpha(150),
+                        size: 20,
+                      ),
+                    ),
+                  ),
                 ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: isWide ? 16 : 12,
+              vertical: 8,
+            ),
+            child: Text(
+              product.name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: isWide ? 18 : 16,
+                color: Themes.text,
               ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: isWide ? 16 : 12),
-              child: Row(
-                children: [
-                  _buildTag(context, product.gender, isWide),
-                  const SizedBox(width: 6),
-                  _buildTag(context, product.department, isWide),
-                ],
-              ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: isWide ? 16 : 12),
+            child: Row(
+              children: [
+                _buildTag(context, product.gender, isWide),
+                const SizedBox(width: 6),
+                _buildTag(context, product.department, isWide),
+              ],
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: isWide ? 16 : 12,
-                vertical: 6,
-              ),
-              child: _buildStarRating(product.rating),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: isWide ? 16 : 12,
+              vertical: 6,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: isWide ? 16 : 12,
-                vertical: 6,
-              ),
-              child: Row(
-                children: [
+            child: _buildStarRating(product.rating),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: isWide ? 16 : 12,
+              vertical: 6,
+            ),
+            child: Row(
+              children: [
+                Text(
+                  '\$${product.discountedPrice.toStringAsFixed(2)}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: isWide ? 18 : 16,
+                    color: Themes.secondary,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                if (product.isDiscounted)
                   Text(
-                    '\$${product.discountedPrice.toStringAsFixed(2)}',
+                    '\$${product.price.toStringAsFixed(2)}',
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: isWide ? 18 : 16,
-                      color: Themes.secondary,
+                      decoration: TextDecoration.lineThrough,
+                      fontSize: 14,
+                      color: Themes.text.withAlpha(150),
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  if (product.isDiscounted)
-                    Text(
-                      '\$${product.price.toStringAsFixed(2)}',
-                      style: TextStyle(
-                        decoration: TextDecoration.lineThrough,
-                        fontSize: 14,
-                        color: Themes.text.withAlpha(150),
-                      ),
-                    ),
-                ],
-              ),
+              ],
             ),
-            const SizedBox(height: 12),
-          ],
-        ),
+          ),
+          const SizedBox(height: 12),
+        ],
       ),
     );
   }

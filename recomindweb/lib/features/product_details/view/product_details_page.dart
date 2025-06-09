@@ -16,16 +16,11 @@ class ProductDetailsPage extends StatefulWidget {
 
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
   late String _selectedImage;
-  final List<String> _images = [
-    'assets/Images/main_side.png',
-    'assets/Images/front_side.png',
-    'assets/Images/back_side.png',
-  ];
+
 
   @override
   void initState() {
     super.initState();
-    _selectedImage = _images[0];
       final productDetailsCubit = context.read<ProductDetailsCubit>();
     productDetailsCubit.fetchProduct(productId:"68470cc234e8abbcb08b15f9");
   }
@@ -40,15 +35,13 @@ Widget build(BuildContext context) {
         return ResponsiveLayout(
           mobileBody: AppScaffold(
             child: ProductDetailsMobileLayout(
-              selectedImage: _selectedImage,
-              images: _images,
+            
               onImageChange: (img) => setState(() => _selectedImage = img), product: state.product,
             ),
           ),
           desktopBody: AppScaffold(
             child: ProductDetailsDesktopLayout(
-              selectedImage: _selectedImage,
-              images: _images,
+          
               onImageChange: (img) => setState(() => _selectedImage = img),
               productData: state.product,
 

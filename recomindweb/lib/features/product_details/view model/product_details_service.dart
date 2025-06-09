@@ -50,6 +50,7 @@ class ProductDetailsService {
     required String productId,
   }) async {
     try {
+      print("timaaaaaaaaa");
       final response = await api.post(
         endPoint: '/favorites/$productId',
         body: null,
@@ -68,6 +69,7 @@ class ProductDetailsService {
     required String favoriteId,
   }) async {
     try {
+         print("timatttttttttttttttttttttttttt");
       final response = await api.delete(
         endPoint: '/favorites/$favoriteId',
         body: null,
