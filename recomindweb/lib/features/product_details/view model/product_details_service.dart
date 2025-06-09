@@ -79,4 +79,21 @@ class ProductDetailsService {
       );
     }
   }
+
+  Future<Either<Failure, Map<String, dynamic>>> addToCart({
+    required String productId,
+    required int count,
+  }) async {
+    try {
+      final response = await api.post(
+        endPoint: '/cart/$productId',
+        body: {"count": count},
+      );
+      return right(response);
+    } catch (e) {
+      return left(
+        Failure(errTitle: 'Error', errMessage: 'Failed to add to cart: $e'),
+      );
+    }
+  }
 }
