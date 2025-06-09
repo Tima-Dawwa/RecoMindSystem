@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/theme.dart';
+import 'package:recomindweb/features/product_details/models/product_model.dart';
+import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_cubit.dart';
 
 class ProductImageSectionMobile extends StatefulWidget {
   final String selectedImage;
   final Function(String) onThumbnailClick;
   final List<String> imageList;
+  final Product product;
 
   const ProductImageSectionMobile({
     super.key,
     required this.selectedImage,
     required this.onThumbnailClick,
     required this.imageList,
+    required this.product
   });
 
   @override
@@ -23,6 +28,8 @@ class _ProductImageSectionMobileState extends State<ProductImageSectionMobile> {
 
   @override
   Widget build(BuildContext context) {
+        final productDetailsCubit = context.read<ProductDetailsCubit>();
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Column(
@@ -45,9 +52,13 @@ class _ProductImageSectionMobileState extends State<ProductImageSectionMobile> {
                   top: 8,
                   right: 8,
                   child: GestureDetector(
-                    onTap: () {
+                  onTap: () {
                       setState(() {
-                        isFavorite = !isFavorite;
+                        if (widget.product.isfavorite) {
+                          productDetailsCubit.deleteFavorite(widget.product.id);
+                        } else {
+                          productDetailsCubit.addToFavorites(widget.product.id);
+                        }
                       });
                     },
                     child: Container(
@@ -63,7 +74,7 @@ class _ProductImageSectionMobileState extends State<ProductImageSectionMobile> {
                         ],
                       ),
                       child: Icon(
-                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        widget.product.isfavorite ? Icons.favorite : Icons.favorite_border,
                         color:
                             isFavorite
                                 ? Themes.secondary

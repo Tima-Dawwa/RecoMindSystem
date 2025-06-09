@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/product_details/models/recommedation_product.dart';
+import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_cubit.dart';
 
 class ProductCard extends StatefulWidget {
   final Recommendation product;
@@ -13,10 +15,10 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
-  bool isFavorite = false;
-
   @override
   Widget build(BuildContext context) {
+    final productDetailsCubit = context.read<ProductDetailsCubit>();
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWide = constraints.maxWidth > 600;
@@ -24,10 +26,14 @@ class _ProductCardState extends State<ProductCard> {
           product: widget.product,
           isWide: isWide,
           onTap: widget.onTap,
-          isFavorite: isFavorite,
+          isFavorite: widget.product.isfavorite,
           onFavoriteToggle: () {
             setState(() {
-              isFavorite = !isFavorite;
+              if (widget.product.isfavorite) {
+                productDetailsCubit.deleteFavorite(widget.product.id);
+              } else {
+                productDetailsCubit.addToFavorites(widget.product.id);
+              }
             });
           },
         );

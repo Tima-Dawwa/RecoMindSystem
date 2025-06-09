@@ -11,19 +11,17 @@ class ProductDetailsMobileLayout extends StatelessWidget {
   final String selectedImage;
   final List<String> images;
   final ValueChanged<String> onImageChange;
-final ProductResponse product;
+  final ProductResponse product;
   const ProductDetailsMobileLayout({
     super.key,
     required this.selectedImage,
     required this.images,
     required this.onImageChange,
-    required this.product
-
+    required this.product,
   });
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -31,17 +29,15 @@ final ProductResponse product;
           selectedImage: selectedImage,
           imageList: product.data.images,
           onThumbnailClick: onImageChange,
+          product: product.data,
         ),
-        ProductHeaderMobile(),
+        ProductHeaderMobile(product: product.data),
         Divider(thickness: 1, color: Themes.text.withAlpha(20)),
         const AddReviewSection(),
         Divider(thickness: 1, color: Themes.text.withAlpha(20)),
-        CustomerReviews(),
+        CustomerReviews(product: product.data),
         Divider(thickness: 1, color: Themes.text.withAlpha(20)),
-        RecommendationProductMobile(
-          products:product.recommendations,
-         
-        ),
+        RecommendationProductMobile(products: product.recommendations),
       ],
     );
   }

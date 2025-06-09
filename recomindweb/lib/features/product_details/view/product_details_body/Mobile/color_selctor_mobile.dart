@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:recomindweb/features/product_details/view/product_details_body/color_option.dart';
+import 'package:recomindweb/features/product_details/models/product_model.dart';
 
 class ColorSelectorMobile extends StatelessWidget {
+  final Product product;
+
+  const ColorSelectorMobile({super.key, required this.product});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -18,17 +21,20 @@ class ColorSelectorMobile extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                ColorOption(color: Colors.black),
-                SizedBox(width: 8),
-                ColorOption(color: Colors.grey),
-                SizedBox(width: 8),
-                ColorOption(color: Colors.blue),
-                SizedBox(width: 8),
-              ],
+                CircleAvatar(radius: 20, backgroundColor: _hexToColor(product.color))
+                ],
             ),
           ),
         ],
       ),
     );
   }
+}
+
+Color _hexToColor(String hex) {
+  hex = hex.replaceAll("#", "");
+  if (hex.length == 6) {
+    hex = "FF$hex";
+  }
+  return Color(int.parse("0x$hex"));
 }

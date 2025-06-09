@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:recomindweb/features/product_details/models/product_model.dart';
-import 'package:recomindweb/features/product_details/view/product_details_body/color_option.dart';
 
 class ColorSelector extends StatelessWidget {
   final Product product;
@@ -23,7 +22,12 @@ class ColorSelector extends StatelessWidget {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: [ColorOption(color: _hexToColor(product.color))],
+                children: [
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundColor: _hexToColor(product.color),
+                  ),
+                ],
               ),
             ),
           ),
@@ -35,7 +39,7 @@ class ColorSelector extends StatelessWidget {
   Color _hexToColor(String hex) {
     hex = hex.replaceAll("#", "");
     if (hex.length == 6) {
-      hex = "FF$hex"; 
+      hex = "FF$hex";
     }
     return Color(int.parse("0x$hex"));
   }

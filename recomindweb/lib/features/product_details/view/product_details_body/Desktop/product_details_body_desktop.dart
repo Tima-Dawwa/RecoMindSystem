@@ -70,6 +70,7 @@ class ProductDetailsDesktopLayout extends StatelessWidget {
               selectedImage: selectedImage,
               imageList: productData.data.images,
               onThumbnailClick: onImageChange,
+              product: productData.data,
             ),
             const SizedBox(width: 8),
             Expanded(child: ProductHeader(product: productData.data,)),
@@ -78,7 +79,7 @@ class ProductDetailsDesktopLayout extends StatelessWidget {
         Divider(thickness: 1, color: Themes.text.withAlpha(30)),
         const AddReviewSection(),
         Divider(thickness: 1, color: Themes.text.withAlpha(30)),
-        CustomerReviews(),
+        CustomerReviews(product: productData.data,),
         Divider(thickness: 1, color: Themes.text.withAlpha(30)),
         RecommendationProductDesktop(
           products: productData.recommendations,
