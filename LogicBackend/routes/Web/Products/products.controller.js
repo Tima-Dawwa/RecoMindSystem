@@ -78,16 +78,12 @@ async function httpRateProduct(req, res) {
       errors: validationErrors(error.details)
     })
   }
-  const existingRating = await checkRating(req.user.id, req.params.id)
-  if (existingRating) {
-    const oldRatingValue = existingRating.rating_value;
-    await updateRatingInteraction(existingRating._id, req.body.rating)
-    await applyChangedRatingToProduct(req.params.id, oldRatingValue, req.body.rating);
+  const product = await getProductById(req.params.id)
+  if (!product) {
+    return res.status(404).json({ error: "Product not found" });
   }
-  else {
-    await postInteraction(req.user.id, req.params.id, INTERACTION_TYPES.RATING, req.body.rating, req.body.review_text)
-    await incrementRatingCount(req.params.id, req.body.rating)
-  }
+  await postInteraction(req.user.id, req.params.id, INTERACTION_TYPES.RATING, req.body.rating, req.body.review_text)
+  await incrementRatingCount(req.params.id, req.body.rating)
 
   return res.status(200).json({
     message: 'Product rated successfully',
