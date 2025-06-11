@@ -51,6 +51,7 @@ function productDetailsData(product, interactions) {
         isNew: product.isNew,
         isTrend: product.isTrend,
         isFavorite: product.isFavorite,
+        quantity: product.quantity,
         reviews: serializedData(interactions, interactionData),
     };
 }
