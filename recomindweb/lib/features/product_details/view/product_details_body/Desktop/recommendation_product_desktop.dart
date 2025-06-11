@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/product_details/models/recommedation_product.dart';
+import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_cubit.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/product_test.dart';
 
 class RecommendationProductDesktop extends StatelessWidget {
@@ -11,6 +13,8 @@ class RecommendationProductDesktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<ProductDetailsCubit>();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -35,8 +39,10 @@ class RecommendationProductDesktop extends StatelessWidget {
           itemBuilder: (context, index) {
             final Recommendation product = products[index];
             return GestureDetector(
-              onTap: () {},
-              child: ProductCard(product: product,),
+              onTap: () {
+                cubit.fetchProduct(productId: product.id);
+              },
+              child: ProductCard(product: product),
             );
           },
         ),
