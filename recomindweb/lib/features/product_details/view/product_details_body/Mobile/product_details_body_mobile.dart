@@ -24,7 +24,7 @@ class ProductDetailsMobileLayout extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ProductImageSectionMobile(
-          selectedImage: 'https://c4dd-190-2-147-86.ngrok-free.app${product.data.images[0]}',
+          selectedImage: 'https://5768-109-236-81-168.ngrok-free.app${product.data.images[0]}',
           imageList: product.data.images,
           onThumbnailClick: onImageChange,
           product: product.data,

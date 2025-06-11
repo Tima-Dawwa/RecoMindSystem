@@ -16,6 +16,8 @@ class Product {
   final bool isNew;
   final bool isTrend;
   final List<Review> reviews;
+  final int quantity;
+  final bool willFinish;
 
   Product({
     required this.id,
@@ -33,6 +35,9 @@ class Product {
     required this.isNew,
     required this.isTrend,
     required this.reviews,
+    required this.quantity,
+    required this.willFinish,
+
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -51,6 +56,8 @@ class Product {
       images: List<String>.from(json['images']),
       isNew: json['isNew'] as bool,
       isTrend: json['isTrend'] as bool,
+      quantity: json['quantity'],
+      willFinish: json['willFinish'],
       reviews:
           (json['reviews'] as List).map((e) => Review.fromJson(e)).toList(),
     );

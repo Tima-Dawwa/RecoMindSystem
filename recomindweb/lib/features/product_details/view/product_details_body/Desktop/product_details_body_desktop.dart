@@ -28,7 +28,7 @@ class ProductDetailsDesktopLayout extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ProductImageSection(
-              selectedImage: 'https://c4dd-190-2-147-86.ngrok-free.app${productData.data.images[0]}',
+              selectedImage: 'https://5768-109-236-81-168.ngrok-free.app${productData.data.images[0]}',
               imageList: productData.data.images,
               onThumbnailClick: onImageChange,
               product: productData.data,

@@ -42,7 +42,7 @@ class _ProductImageSectionMobileState extends State<ProductImageSectionMobile> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(30),
                   child: Image.network(
-                    widget.selectedImage,
+                   widget.selectedImage,
                       headers: {"ngrok-skip-browser-warning": "true"},
                     height: 260,
                     width: double.infinity,
