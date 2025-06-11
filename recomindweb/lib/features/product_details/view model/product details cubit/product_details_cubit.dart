@@ -38,13 +38,13 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
   Future<void> addReview({
     required String productId,
     required int rating,
-    required String commit,
+    String? commit,
   }) async {
     emit(LoadingProductDetails());
     final result = await productDetailsService.addReview(
       productId: productId,
       rating: rating,
-      commit: commit,
+      commit: commit ?? "",
     );
     result.fold((failure) => emit(FailureProductDetails(failure: failure)), (
       _,
@@ -53,7 +53,7 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     });
   }
 
-  Future<void> addToFavorites(String productId,String parentId) async {
+  Future<void> addToFavorites(String productId, String parentId) async {
     emit(LoadingProductDetails());
     final result = await productDetailsService.addToFavorites(
       productId: productId,
@@ -65,7 +65,7 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     });
   }
 
-  Future<void> deleteFavorite(String productId,String parentId) async {
+  Future<void> deleteFavorite(String productId, String parentId) async {
     emit(LoadingProductDetails());
     final result = await productDetailsService.deleteFavorite(
       favoriteId: productId,

@@ -38,7 +38,7 @@ class ProductDetailsDesktopLayout extends StatelessWidget {
           ],
         ),
         Divider(thickness: 1, color: Themes.text.withAlpha(30)),
-        const AddReviewSection(),
+        AddReviewSection(product: productData.data,),
         Divider(thickness: 1, color: Themes.text.withAlpha(30)),
         CustomerReviews(product: productData.data,),
         Divider(thickness: 1, color: Themes.text.withAlpha(30)),

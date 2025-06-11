@@ -10,7 +10,7 @@ class CustomerReviews extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Review> reviews =product.reviews;
+    final List<Review> reviews = product.reviews;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
