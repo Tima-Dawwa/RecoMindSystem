@@ -8,12 +8,11 @@ import 'package:recomindweb/features/product_details/view/product_details_body/a
 import 'package:recomindweb/features/product_details/view/product_details_body/customers_review.dart';
 
 class ProductDetailsMobileLayout extends StatelessWidget {
-
   final ValueChanged<String> onImageChange;
   final ProductResponse product;
   const ProductDetailsMobileLayout({
     super.key,
- 
+
     required this.onImageChange,
     required this.product,
   });
@@ -24,14 +23,15 @@ class ProductDetailsMobileLayout extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ProductImageSectionMobile(
-          selectedImage: 'https://5768-109-236-81-168.ngrok-free.app${product.data.images[0]}',
+          selectedImage:
+              'https://5768-109-236-81-168.ngrok-free.app${product.data.images[0]}',
           imageList: product.data.images,
           onThumbnailClick: onImageChange,
           product: product.data,
         ),
         ProductHeaderMobile(product: product.data),
         Divider(thickness: 1, color: Themes.text.withAlpha(20)),
-        const AddReviewSection(),
+        AddReviewSection(product: product.data),
         Divider(thickness: 1, color: Themes.text.withAlpha(20)),
         CustomerReviews(product: product.data),
         Divider(thickness: 1, color: Themes.text.withAlpha(20)),
