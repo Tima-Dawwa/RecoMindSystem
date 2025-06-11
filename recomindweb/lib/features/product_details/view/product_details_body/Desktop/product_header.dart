@@ -4,7 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/product_details/models/product_model.dart';
 import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_cubit.dart';
+import 'package:recomindweb/features/product_details/view/product_details_body/Desktop/add_to_cart.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/Desktop/color_selctor.dart';
+import 'package:recomindweb/features/product_details/view/product_details_body/Desktop/price.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/product_attribute_card.dart';
 
 class ProductHeader extends StatelessWidget {
@@ -38,20 +40,9 @@ class ProductHeader extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _priceWidget(
-                      product.isDiscounted,
-                      product.discountedPrice,
-                      product.price,
-                    ),
+                    Price(product: product),
                     const SizedBox(height: 12),
-                    SizedBox(
-                      width: double.infinity,
-                      child: _addToCartButton(
-                        context,
-                        productDetailsCubit,
-                        product,
-                      ),
-                    ),
+                    SizedBox(width: double.infinity, child: AddToCart()),
                   ],
                 );
               } else {
@@ -59,12 +50,9 @@ class ProductHeader extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    _priceWidget(
-                      product.isDiscounted,
-                      product.discountedPrice,
-                      product.price,
-                    ),
-                    _addToCartButton(context, productDetailsCubit, product),
+                    Price(product: product),
+                    AddToCart(),
+                    // _addToCartButton(context, productDetailsCubit, product),
                   ],
                 );
               }
@@ -120,86 +108,80 @@ class ProductHeader extends StatelessWidget {
       ),
     );
   }
-
- Widget _priceWidget(
-    bool isDiscounted,
-    double? discountedPrice,
-    double originalPrice,
-  ) {
-    final displayPrice = isDiscounted ? discountedPrice! : originalPrice;
-
-    return Row(
-      children: [
-        Text(
-          "\$${displayPrice.toStringAsFixed(2)}",
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: isDiscounted ? Themes.secondary : Themes.primary,
-          ),
-        ),
-        if (isDiscounted) ...[
-          const SizedBox(width: 8),
-          Text(
-            "\$${originalPrice.toStringAsFixed(2)}",
-            style: TextStyle(
-              fontSize: 16,
-              color: Themes.text.withAlpha(120),
-              decoration: TextDecoration.lineThrough,
-            ),
-          ),
-          const SizedBox(width: 6),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-            decoration: BoxDecoration(
-              color: Themes.secondary.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Text(
-              "-${_calculateDiscountPercent(originalPrice, discountedPrice!)}%",
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: Themes.secondary,
-              ),
-            ),
-          ),
-        ],
-      ],
-    );
-  }
-
-  int _calculateDiscountPercent(double original, double discounted) {
-    return (((original - discounted) / original) * 100).round();
-  }
-
-
-  Widget _addToCartButton(
-    BuildContext context,
-    ProductDetailsCubit cubit,
-    Product product,
-  ) {
-    return OutlinedButton.icon(
-      onPressed: () {
-        cubit.addToCart(productId: product.id, count: 3);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("Added to cart !"),
-            duration: Duration(seconds: 2),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Themes.primary.withAlpha(200),
-          ),
-        );
-      },
-      icon: const Icon(Icons.add_shopping_cart_outlined, size: 18),
-      label: const Text("Add to Cart"),
-      style: OutlinedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        foregroundColor: Themes.secondary,
-        side: BorderSide(color: Themes.secondary),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-      ),
-    );
-  }
 }
+
+//   Widget _addToCartButton(
+//     BuildContext context,
+//     ProductDetailsCubit cubit,
+//     Product product,
+//   ) {
+//     return OutlinedButton.icon(
+//       onPressed: () {
+//         // cubit.addToCart(productId: product.id, count: 3);
+//       },
+//       icon: const Icon(Icons.add_shopping_cart_outlined, size: 18),
+//       label: const Text("Add to Cart"),
+//       style: OutlinedButton.styleFrom(
+//         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+//         foregroundColor: Themes.secondary,
+//         side: BorderSide(color: Themes.secondary),
+//         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+//         textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+//       ),
+//     );
+//   }
+// }
+
+  // Widget _priceWidget(
+  //   bool isDiscounted,
+  //   double? discountedPrice,
+  //   double originalPrice,
+  // ) {
+  //   final displayPrice = isDiscounted ? discountedPrice! : originalPrice;
+
+  //   return Row(
+  //     children: [
+  //       Text(
+  //         "\$${displayPrice.toStringAsFixed(2)}",
+  //         style: TextStyle(
+  //           fontSize: 22,
+  //           fontWeight: FontWeight.bold,
+  //           color: isDiscounted ? Themes.secondary : Themes.primary,
+  //         ),
+  //       ),
+  //       if (isDiscounted) ...[
+  //         const SizedBox(width: 8),
+  //         Text(
+  //           "\$${originalPrice.toStringAsFixed(2)}",
+  //           style: TextStyle(
+  //             fontSize: 16,
+  //             color: Themes.text.withAlpha(120),
+  //             decoration: TextDecoration.lineThrough,
+  //           ),
+  //         ),
+  //         const SizedBox(width: 6),
+  //         Container(
+  //           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+  //           decoration: BoxDecoration(
+  //             color: Themes.secondary.withOpacity(0.1),
+  //             borderRadius: BorderRadius.circular(4),
+  //           ),
+  //           child: Text(
+  //             "-${_calculateDiscountPercent(originalPrice, discountedPrice!)}%",
+  //             style: TextStyle(
+  //               fontSize: 12,
+  //               fontWeight: FontWeight.w500,
+  //               color: Themes.secondary,
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ],
+  //   );
+  // }
+
+  // int _calculateDiscountPercent(double original, double discounted) {
+  //   return (((original - discounted) / original) * 100).round();
+  // }
+
+ 
