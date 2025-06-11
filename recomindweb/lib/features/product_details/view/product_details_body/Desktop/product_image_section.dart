@@ -62,7 +62,7 @@ class _ProductImageSectionState extends State<ProductImageSection> {
                         borderRadius: BorderRadius.circular(6),
                         child: Image.network(
                           image,
-                            headers: {"ngrok-skip-browser-warning": "true"},
+                          headers: {"ngrok-skip-browser-warning": "true"},
                           width: 90,
                           height: 120,
                           fit: BoxFit.cover,
@@ -79,7 +79,7 @@ class _ProductImageSectionState extends State<ProductImageSection> {
               borderRadius: BorderRadius.circular(12),
               child: Image.network(
                 widget.selectedImage,
-                  headers: {"ngrok-skip-browser-warning": "true"},
+                headers: {"ngrok-skip-browser-warning": "true"},
                 height: 400,
                 fit: BoxFit.contain,
               ),

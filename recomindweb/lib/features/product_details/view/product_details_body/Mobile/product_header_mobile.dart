@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/product_details/models/product_model.dart';
 import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_cubit.dart';
+import 'package:recomindweb/features/product_details/view/product_details_body/add_to_cart.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/Mobile/color_selctor_mobile.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/product_attribute_card.dart';
 
@@ -66,40 +67,7 @@ class ProductHeaderMobile extends StatelessWidget {
 
               const Spacer(),
 
-              OutlinedButton.icon(
-                onPressed: () {
-                  productDetailsCubit.addToCart(
-                    productId: product.id,
-                    count: 3,
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text("Added to cart!"),
-                      duration: Duration(seconds: 2),
-                      behavior: SnackBarBehavior.floating,
-                      backgroundColor: Themes.primary.withAlpha(200),
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.add_shopping_cart_outlined, size: 16),
-                label: const Text("Add to Cart"),
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                  foregroundColor: Themes.secondary,
-                  side: BorderSide(color: Themes.secondary),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  textStyle: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'CoconNext',
-                  ),
-                ),
-              ),
+              AddToCart(product: product),
             ],
           ),
 
@@ -124,7 +92,7 @@ class ProductHeaderMobile extends StatelessWidget {
           Wrap(
             spacing: 12,
             runSpacing: 12,
-            children:  [
+            children: [
               ProductAttributeCard(
                 label: "Graphic",
                 value: product.graphic,
@@ -140,7 +108,6 @@ class ProductHeaderMobile extends StatelessWidget {
                 value: product.gender,
                 icon: FontAwesomeIcons.six,
               ),
-             
             ],
           ),
 
@@ -148,7 +115,7 @@ class ProductHeaderMobile extends StatelessWidget {
           Divider(thickness: 1, color: Themes.text.withAlpha(20)),
           const SizedBox(height: 12),
 
-          ColorSelectorMobile(product: product,),
+          ColorSelectorMobile(product: product),
         ],
       ),
     );

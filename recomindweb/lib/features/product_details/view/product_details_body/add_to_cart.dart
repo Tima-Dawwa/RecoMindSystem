@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:recomindweb/core/theme.dart';
+import 'package:recomindweb/features/product_details/models/product_model.dart';
+import 'package:recomindweb/features/product_details/view/product_details_body/count_dialog.dart';
 
 class AddToCart extends StatelessWidget {
-  const AddToCart({super.key});
+  final Product product;
+
+  const AddToCart({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
-    
     return OutlinedButton.icon(
-      onPressed: () {
-        // cubit.addToCart(productId: product.id, count: 3);
+      onPressed: () async {
+        final result = await showDialog<bool>(
+          context: context,
+          builder: (_) => ShowDialog(product: product),
+        );
+
+        if (result == true && context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Product added to cart')),
+          );
+        }
       },
       icon: const Icon(Icons.add_shopping_cart_outlined, size: 18),
       label: const Text("Add to Cart"),
