@@ -16,6 +16,7 @@ const orderSchema = new mongoose.Schema({
         required: true,
         min: 0
     }
+    // add type enum
 }, { timestamps: true })
 
 module.exports = mongoose.model('Order', orderSchema);

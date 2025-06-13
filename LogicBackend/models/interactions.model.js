@@ -36,7 +36,7 @@ async function postInteraction(user_id, product_id, interaction_type, rating_val
         rating_value
     };
 
-    if (review_text) {
+    if (review_text != "") {
         interactionData.review_text = review_text;
     }
 
