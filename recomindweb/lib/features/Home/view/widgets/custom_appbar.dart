@@ -18,25 +18,31 @@ class CustomAppbar extends StatelessWidget {
           width: double.infinity,
           padding: EdgeInsets.all(desktop ? 15 : 10),
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Themes.primary, Themes.bg],
+            image: DecorationImage(
+              image: AssetImage("assets/Images/bar.png"),
+              fit: BoxFit.fill,
             ),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "TRENDOVA",
-                style: TextStyle(color: Themes.bg, fontSize: desktop ? 30 : 20),
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Image.asset(
+                  'assets/Images/logo.png',
+                  height: 150,
+                  width: 150,
+                  alignment: Alignment.topCenter,
+                ),
               ),
               Row(
                 children: [
                   if (!logged)
                     CustomButton(
                       text: "Login",
+                      // color: WidgetStatePropertyAll(Themes.bg),
+                      // textColor: Themes.primary,
                       width: desktop ? 100 : 80,
                       height: desktop ? 32 : 25,
                       size: desktop ? 20 : 15,
@@ -52,10 +58,15 @@ class CustomAppbar extends StatelessWidget {
                     size: desktop ? 30 : 22,
                   ),
                   SizedBox(width: 10),
-                  Icon(
-                    Icons.local_shipping_outlined,
+                  IconButton(
+                    icon: Icon(
+                      Icons.local_shipping_outlined,
+                      size: desktop ? 30 : 22,
+                    ),
                     color: Themes.bg,
-                    size: desktop ? 30 : 22,
+                    onPressed: () {
+                      context.go('/orders');
+                    },
                   ),
                   SizedBox(width: 10),
                   Icon(
@@ -75,7 +86,11 @@ class CustomAppbar extends StatelessWidget {
             ],
           ),
         ),
-        // SizedBox(
+      ],
+    );
+  }
+}
+// SizedBox(
         //   width: 50,
         //   child: ExpansionTile(
         //     showTrailingIcon: false,
@@ -102,7 +117,3 @@ class CustomAppbar extends StatelessWidget {
         //     ],
         //   ),
         // ),
-      ],
-    );
-  }
-}

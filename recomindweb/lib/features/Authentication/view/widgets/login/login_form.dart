@@ -105,7 +105,7 @@ class _LoginFormState extends State<LoginForm> {
                       color: Themes.bg.withAlpha(120),
                       weight: FontWeight.normal,
                       press: () {
-                       context.go('/forget-password');
+                       context.go('/forgot-password');
                       },
                     ),
                   ),
