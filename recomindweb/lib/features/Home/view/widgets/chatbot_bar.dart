@@ -102,8 +102,8 @@ class ChatbotBar extends StatelessWidget {
                         ),
                         Text(
                           desktop!
-                              ? "Don't waste your time seraching normally, Let me make it easier"
-                              : "Don't waste your time seraching normally,\nLet me make it easier",
+                              ? "Don't waste your time searching normally, Let me make it easier"
+                              : "Don't waste your time searching normally,\nLet me make it easier",
                           maxLines: 2,
                           softWrap: true,
                           style: TextStyle(
@@ -128,7 +128,7 @@ class ChatbotBar extends StatelessWidget {
                         size: desktop! ? 20 : 10,
                         color: WidgetStatePropertyAll(Themes.secondary),
                         press: () {
-                           context.go('/chatbot');
+                          context.go('/chatbot');
                         },
                       ),
                     ),
