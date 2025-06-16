@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:recomindweb/features/product_details/view/product_details_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+import 'package:recomindweb/core/go_router.dart';
+import 'package:recomindweb/core/helpers/service_locator.dart';
+import 'package:recomindweb/core/theme.dart';
+import 'package:recomindweb/features/Authentication/view%20model/auth%20cubit/auth_cubit.dart';
+import 'package:recomindweb/features/Authentication/view%20model/auth_service.dart';
+import 'package:recomindweb/features/Authentication/view%20model/forget%20password%20cubit/forget_password_cubit.dart';
+import 'package:recomindweb/features/Authentication/view%20model/forget_password_services.dart';
+import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_cubit.dart';
+import 'package:recomindweb/features/product_details/view%20model/product_details_service.dart';
 
-void main() {
+void main() async {
+  await setup();
+  WidgetsFlutterBinding.ensureInitialized();
+  usePathUrlStrategy();
   runApp(const MyApp());
 }
 
@@ -10,8 +23,31 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: ProductPage(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => AuthCubit(getIt.get<AuthService>())),
+        BlocProvider(
+          create:
+              (context) =>
+                  ForgotPasswordCubit(getIt.get<ForgetPasswordServices>()),
+        ),
+        BlocProvider(
+          create:
+              (context) =>
+                  ProductDetailsCubit(getIt.get<ProductDetailsService>()),
+        ),
+      ],
+      child: MaterialApp.router(
+        routerConfig: router,
+        title: 'Trendova',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          useMaterial3: true,
+          colorSchemeSeed: Themes.primary,
+          fontFamily: 'CoconNext',
+          scaffoldBackgroundColor: Themes.bg,
+        ),
+      ),
     );
   }
 }
