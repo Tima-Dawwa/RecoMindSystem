@@ -1,4 +1,3 @@
-// Updated ExpandableItem Widget with proper alignment
 import 'package:flutter/material.dart';
 
 class ExpandableItem extends StatelessWidget {
@@ -19,7 +18,7 @@ class ExpandableItem extends StatelessWidget {
       margin: EdgeInsets.symmetric(
         horizontal: 8,
         vertical: 2,
-      ), // Same margin as SidebarItem
+      ), 
       child: Theme(
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
@@ -33,9 +32,9 @@ class ExpandableItem extends StatelessWidget {
           tilePadding: EdgeInsets.symmetric(
             horizontal: 16,
             vertical: 4,
-          ), // Same padding as SidebarItem
+          ),
           childrenPadding:
-              EdgeInsets.zero, // Remove default padding from children
+              EdgeInsets.zero, 
           children: children,
         ),
       ),

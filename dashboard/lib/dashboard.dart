@@ -33,10 +33,8 @@ class _DashboardState extends State<Dashboard> {
             color: Color(0xFF2C3E50),
             child: Column(
               children: [
-                // Header
                 DashboardHeader(),
                 Divider(color: Colors.grey[600], height: 1),
-                // Navigation Items
                 Expanded(
                   child: ListView(
                     padding: EdgeInsets.zero,
