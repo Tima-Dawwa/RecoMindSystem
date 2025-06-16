@@ -1,5 +1,4 @@
 import 'package:go_router/go_router.dart';
-import 'package:recomindweb/core/helpers/custom_shared_preferences.dart';
 import 'package:recomindweb/features/Authentication/view/login_page.dart';
 import 'package:recomindweb/features/Authentication/view/register_page.dart';
 import 'package:recomindweb/features/ChatBot/chatbot.dart';
@@ -10,12 +9,9 @@ import 'package:recomindweb/features/Show_All_Products/presentation/views/all_pr
 import 'package:recomindweb/features/product_details/view/product_details_page.dart';
 import 'package:recomindweb/features/Home/view/home_page.dart';
 
-CustomSharedPreferences prefs = CustomSharedPreferences();
-bool logged = prefs.logged();
-
 final GoRouter router = GoRouter(
   routes: [
-    GoRoute(path: '/', builder: (context, state) => HomePage(logged: logged)),
+    GoRoute(path: '/', builder: (context, state) => HomePage()),
     GoRoute(path: '/login', builder: (context, state) => LoginPage()),
     GoRoute(path: '/orders', builder: (context, state) => OrdersPage()),
     GoRoute(path: '/chatbot', builder: (context, state) => ChatWindow()),

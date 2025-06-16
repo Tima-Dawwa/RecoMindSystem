@@ -2,16 +2,21 @@ import 'package:dio/dio.dart';
 
 class Api {
   Api(this._dio);
-//'http://localhost:5000'
+  //'http://localhost:5000'
   final Dio _dio;
-  final String baseUrl = 'https://5768-109-236-81-168.ngrok-free.app';
+  final String baseUrl = 'http://localhost:5000';
   final String token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU4YTU5ZjVlNzYzMGMwYzI4ZDBkZWJkYiIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkFsbGllIiwibGFzdF9uYW1lIjoiV2ViZXIifSwiaWF0IjoxNzQ5NDg3NDEwLCJleHAiOjE3NDk3NDY2MTB9.61iU7bhfiDg6i2xPTWSr5NAnw8KDPhTtCL2h7G9oOP8";
 
   Future<Map<String, dynamic>> get({required String endPoint}) async {
     var response = await _dio.get(
       '$baseUrl$endPoint',
-      options: Options(headers: {'Authorization': 'Bearer $token',"ngrok-skip-browser-warning":"true"}),
+      options: Options(
+        headers: {
+          'Authorization': 'Bearer $token',
+          "ngrok-skip-browser-warning": "true",
+        },
+      ),
     );
     print(response.statusCode);
     print(response);
@@ -30,7 +35,7 @@ class Api {
       options: Options(
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
+          // 'Authorization': 'Bearer $token',
         },
       ),
     );

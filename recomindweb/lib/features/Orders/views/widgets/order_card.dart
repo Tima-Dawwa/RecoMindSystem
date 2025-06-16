@@ -83,7 +83,7 @@ class OrderCard extends StatelessWidget {
                     size: 18,
                     color: Themes.text.withAlpha(150),
                     press: () {
-                      context.go('/order-datails');
+                      context.go('/order-details');
                     },
                   ),
                 ],
