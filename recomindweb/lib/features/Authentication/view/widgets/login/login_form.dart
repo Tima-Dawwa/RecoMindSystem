@@ -66,7 +66,7 @@ class _LoginFormState extends State<LoginForm> {
                       type: TextInputType.emailAddress,
                       onChanged: (value) {
                         email = value;
-                        print("email : $email");
+                        // print("email : $email");
                       },
                     ),
                   ),
@@ -79,7 +79,7 @@ class _LoginFormState extends State<LoginForm> {
                       validator: validatePassword,
                       onChanged: (value) {
                         password = value;
-                        print("password : $password");
+                        // print("password : $password");
                       },
                       suffix: IconButton(
                         onPressed: () {
@@ -105,7 +105,7 @@ class _LoginFormState extends State<LoginForm> {
                       color: Themes.bg.withAlpha(120),
                       weight: FontWeight.normal,
                       press: () {
-                       context.go('/forgot-password');
+                        context.go('/forgot-password');
                       },
                     ),
                   ),

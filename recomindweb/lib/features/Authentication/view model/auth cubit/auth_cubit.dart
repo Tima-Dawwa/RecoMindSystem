@@ -19,9 +19,12 @@ class AuthCubit extends Cubit<AuthStates> {
       },
       (res) async {
         final token = res['token'];
-        print("token $token");
         await preferences.saveToken(token);
-        emit(SuccessAuthState());
+        if (await preferences.logged()) {
+          emit(SuccessAuthState());
+        } else {
+          print('not logged');
+        }
       },
     );
   }
@@ -46,15 +49,15 @@ class AuthCubit extends Cubit<AuthStates> {
       gender: gender!,
       birthDate: birthDate!,
     );
-    print(firstName);
-    print(lastName);
-    print(email);
-    print(password);
-    print(confirmPassword);
-    print(number);
-    print(code);
-    print(gender);
-    print(birthDate);
+    // print(firstName);
+    // print(lastName);
+    // print(email);
+    // print(password);
+    // print(confirmPassword);
+    // print(number);
+    // print(code);
+    // print(gender);
+    // print(birthDate);
     response.fold(
       (failure) {
         emit(FailureAuthState(failure: failure));
@@ -63,6 +66,7 @@ class AuthCubit extends Cubit<AuthStates> {
         final token = res['token'];
         print("token $token");
         await preferences.saveToken(token);
+        print('prefs token : $preferences.getToken()');
         emit(SuccessAuthState());
       },
     );
