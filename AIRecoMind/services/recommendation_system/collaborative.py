@@ -9,7 +9,7 @@ from scipy.sparse import coo_matrix
 from models.interaction import Interaction
 from sklearn.preprocessing import LabelEncoder
 from implicit.als import AlternatingLeastSquares
-from services.database import interaction_collection, product_collection
+from utils.database import interaction_collection, product_collection
 
 
 async def get_all_interactions() -> List[Interaction]:

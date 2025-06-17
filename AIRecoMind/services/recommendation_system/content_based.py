@@ -1,6 +1,6 @@
 from models.product import Product
-from services.database import product_collection
-from services.faiss_helper import add_product_to_index, search_product_by_text
+from utils.database import product_collection
+from utils.faiss_helper import add_product_to_index, search_product_by_text
 from typing import List
 from bson import ObjectId
 

@@ -6,7 +6,7 @@ import pickle
 import numpy as np
 import pandas as pd
 from models.product import Product
-from services.database import product_collection
+from utils.database import product_collection
 from typing import List
 
 # ----- CONFIG -----

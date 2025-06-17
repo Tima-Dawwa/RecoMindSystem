@@ -1,5 +1,5 @@
 from bson import ObjectId
-from services.database import product_collection
+from utils.database import product_collection
 from typing import List, Dict, Tuple
 import numpy as np
 from services.content_based import get_content_based_recommendations
