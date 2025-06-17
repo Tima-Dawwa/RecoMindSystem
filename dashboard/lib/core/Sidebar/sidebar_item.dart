@@ -1,3 +1,4 @@
+import 'package:dashboard/core/utils/theme.dart';
 import 'package:flutter/material.dart';
 
 class SidebarItem extends StatelessWidget {
@@ -21,23 +22,23 @@ class SidebarItem extends StatelessWidget {
     bool isSelected = currentRoute == route;
 
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-        color: isSelected ? Colors.blue[600] : Colors.transparent,
-        borderRadius: BorderRadius.circular(8),
+        color: isSelected ? Themes.bg : Colors.transparent,
+        borderRadius: BorderRadius.circular(10),
       ),
       child: ListTile(
         dense: true,
         leading: Icon(
           icon,
-          color: isSelected ? Colors.white : Colors.grey[400],
-          size: 20,
+          color: isSelected ? Themes.primary : Themes.bg.withAlpha(180),
+          size: isSelected ? 23 : 20,
         ),
         title: Text(
           title,
           style: TextStyle(
-            color: isSelected ? Colors.white : Colors.grey[300],
-            fontSize: 14,
+            color: isSelected ? Themes.primary : Themes.bg.withAlpha(180),
+            fontSize: isSelected ? 18 : 16,
             fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
           ),
         ),

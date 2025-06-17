@@ -1,25 +1,25 @@
-
 import 'package:dashboard/core/Header/dashboard_header.dart';
 import 'package:dashboard/core/Sidebar/expandable_item.dart';
 import 'package:dashboard/core/Sidebar/sidebar_item.dart';
 import 'package:dashboard/core/Sidebar/sub_item.dart';
+import 'package:dashboard/core/utils/theme.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
+  const Dashboard({super.key});
+
   @override
-  _DashboardState createState() => _DashboardState();
+  DashboardState createState() => DashboardState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class DashboardState extends State<Dashboard> {
   String currentRoute = '/dashboard';
 
   void _navigateToRoute(String route) {
     setState(() {
       currentRoute = route;
     });
-    print('Navigating to: $route');
-
-    
+    // print('Navigating to: $route');
   }
 
   @override
@@ -29,26 +29,26 @@ class _DashboardState extends State<Dashboard> {
         children: [
           // Sidebar
           Container(
-            width: 250,
-            color: Color(0xFF2C3E50),
+            width: 270,
+            color: Themes.primary,
             child: Column(
               children: [
                 DashboardHeader(),
-                Divider(color: Colors.grey[600], height: 1),
+                Divider(color: Themes.bg.withAlpha(150), height: 1),
                 Expanded(
                   child: ListView(
                     padding: EdgeInsets.zero,
                     children: [
                       SidebarItem(
-                        icon: Icons.home,
+                        icon: Icons.home_rounded,
                         title: 'Main Page',
                         route: '/main_page',
                         currentRoute: currentRoute,
                         onTap: _navigateToRoute,
                       ),
                       ExpandableItem(
-                        icon: Icons.inventory,
-                        title: 'Product Management',
+                        icon: Icons.inventory_2_rounded,
+                        title: 'Products Management',
                         children: [
                           SubItem(
                             title: 'Add Product',
@@ -57,7 +57,7 @@ class _DashboardState extends State<Dashboard> {
                             onTap: _navigateToRoute,
                           ),
                           SubItem(
-                            title: 'Manage Products',
+                            title: 'Modify Products',
                             route: '/product/manage',
                             currentRoute: currentRoute,
                             onTap: _navigateToRoute,
@@ -65,14 +65,14 @@ class _DashboardState extends State<Dashboard> {
                         ],
                       ),
                       SidebarItem(
-                        icon: Icons.shopping_cart,
-                        title: 'Order Page',
+                        icon: Icons.shopping_cart_rounded,
+                        title: 'Orders Page',
                         route: '/orders',
                         currentRoute: currentRoute,
                         onTap: _navigateToRoute,
                       ),
                       SidebarItem(
-                        icon: Icons.psychology,
+                        icon: Icons.psychology_rounded,
                         title: 'AI Page',
                         route: '/ai_page',
                         currentRoute: currentRoute,
@@ -86,8 +86,8 @@ class _DashboardState extends State<Dashboard> {
           ),
           Expanded(
             child: Container(
-              color: Colors.grey[100],
-              child: Center(child: Text("tima"),),
+              color: Themes.bg,
+              child: Center(child: Text("tima")),
             ),
           ),
         ],
@@ -95,15 +95,3 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-

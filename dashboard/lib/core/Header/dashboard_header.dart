@@ -1,3 +1,4 @@
+import 'package:dashboard/core/utils/theme.dart';
 import 'package:flutter/material.dart';
 
 class DashboardHeader extends StatelessWidget {
@@ -10,13 +11,13 @@ class DashboardHeader extends StatelessWidget {
       padding: EdgeInsets.all(16),
       child: Row(
         children: [
-          Icon(Icons.dashboard, color: Colors.white, size: 24),
+          Icon(Icons.dashboard_rounded, color: Themes.bg, size: 24),
           SizedBox(width: 12),
           Text(
             'DASHBOARD',
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
+              color: Themes.bg,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
