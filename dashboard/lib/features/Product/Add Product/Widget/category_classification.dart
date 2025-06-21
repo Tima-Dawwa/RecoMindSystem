@@ -38,14 +38,14 @@ class CategoryClassificationForm extends StatelessWidget {
   ];
 
   const CategoryClassificationForm({
-    Key? key,
+    super.key,
     required this.selectedCategory,
     required this.selectedGender,
     required this.selectedDepartment,
     required this.onCategoryChanged,
     required this.onGenderChanged,
     required this.onDepartmentChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -78,10 +78,10 @@ class CategoryDropdown extends StatelessWidget {
   final Function(String?) onChanged;
 
   const CategoryDropdown({
-    Key? key,
+    super.key,
     required this.selectedCategory,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

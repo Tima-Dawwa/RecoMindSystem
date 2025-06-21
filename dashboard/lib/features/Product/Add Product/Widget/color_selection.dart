@@ -21,10 +21,10 @@ class ColorSelectionWidget extends StatelessWidget {
   ];
 
   const ColorSelectionWidget({
-    Key? key,
+    super.key,
     required this.selectedColors,
     required this.onColorsChanged,
-  }) : super(key: key);
+  });
 
   void _toggleColor(String colorName) {
     List<String> newColors = List.from(selectedColors);
@@ -62,11 +62,11 @@ class ColorChip extends StatelessWidget {
   final VoidCallback onToggle;
 
   const ColorChip({
-    Key? key,
+    super.key,
     required this.colorData,
     required this.isSelected,
     required this.onToggle,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

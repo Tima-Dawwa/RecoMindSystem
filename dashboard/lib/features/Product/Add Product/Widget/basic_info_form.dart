@@ -9,12 +9,12 @@ class BasicInformationForm extends StatelessWidget {
   final TextEditingController quantityController;
 
   const BasicInformationForm({
-    Key? key,
+    super.key,
     required this.nameController,
     required this.priceController,
     required this.descriptionController,
     required this.quantityController,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +42,7 @@ class BasicInformationForm extends StatelessWidget {
 class ProductNameField extends StatelessWidget {
   final TextEditingController controller;
 
-  const ProductNameField({Key? key, required this.controller})
-    : super(key: key);
+  const ProductNameField({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +66,7 @@ class ProductNameField extends StatelessWidget {
 class PriceField extends StatelessWidget {
   final TextEditingController controller;
 
-  const PriceField({Key? key, required this.controller}) : super(key: key);
+  const PriceField({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +94,7 @@ class PriceField extends StatelessWidget {
 class QuantityField extends StatelessWidget {
   final TextEditingController controller;
 
-  const QuantityField({Key? key, required this.controller}) : super(key: key);
+  const QuantityField({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -121,8 +120,7 @@ class QuantityField extends StatelessWidget {
 class DescriptionField extends StatelessWidget {
   final TextEditingController controller;
 
-  const DescriptionField({Key? key, required this.controller})
-    : super(key: key);
+  const DescriptionField({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {

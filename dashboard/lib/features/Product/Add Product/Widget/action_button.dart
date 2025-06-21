@@ -5,8 +5,7 @@ class ActionButtons extends StatelessWidget {
   final VoidCallback onSave;
   final VoidCallback onReset;
 
-  const ActionButtons({Key? key, required this.onSave, required this.onReset})
-    : super(key: key);
+  const ActionButtons({super.key, required this.onSave, required this.onReset});
 
   @override
   Widget build(BuildContext context) {
