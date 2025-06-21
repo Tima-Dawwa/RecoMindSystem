@@ -10,12 +10,12 @@ class ProductImageSection extends StatelessWidget {
   final Function(int) onImageRemoved;
 
   const ProductImageSection({
-    Key? key,
+    super.key,
     required this.productFiles,
     required this.imageNames,
     required this.onImagesUpdated,
     required this.onImageRemoved,
-  }) : super(key: key);
+  });
 
   Future<void> _addImagesFromDesktop(BuildContext context) async {
     try {
@@ -81,7 +81,7 @@ class ProductImageSection extends StatelessWidget {
 class ImageUploadButton extends StatelessWidget {
   final VoidCallback onTap;
 
-  const ImageUploadButton({Key? key, required this.onTap}) : super(key: key);
+  const ImageUploadButton({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -142,11 +142,11 @@ class ImageGrid extends StatelessWidget {
   final Function(int) onImageRemoved;
 
   const ImageGrid({
-    Key? key,
+    super.key,
     required this.productFiles,
     required this.imageNames,
     required this.onImageRemoved,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -177,11 +177,11 @@ class ImageGridItem extends StatelessWidget {
   final VoidCallback onRemove;
 
   const ImageGridItem({
-    Key? key,
+    super.key,
     required this.platformFile,
     required this.imageName,
     required this.onRemove,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

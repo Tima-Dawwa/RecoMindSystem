@@ -10,13 +10,13 @@ class ProductSummaryCard extends StatelessWidget {
   final int colorCount;
 
   const ProductSummaryCard({
-    Key? key,
+    super.key,
     required this.imageCount,
     required this.selectedCategory,
     required this.selectedGender,
     required this.selectedDepartment,
     required this.colorCount,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +46,7 @@ class SummaryRow extends StatelessWidget {
   final String label;
   final String value;
 
-  const SummaryRow({Key? key, required this.label, required this.value})
-    : super(key: key);
+  const SummaryRow({super.key, required this.label, required this.value});
 
   @override
   Widget build(BuildContext context) {
