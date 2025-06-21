@@ -1,6 +1,7 @@
 import 'package:dashboard/core/utils/theme.dart';
 import 'package:dashboard/dashboard.dart';
 import 'package:dashboard/features/Main%20Page/main_page.dart';
+import 'package:dashboard/features/Product/Add%20Product/add_product.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Trendova Dashboard',
+      title: 'Flutter Dashboard',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'CoconNext',
@@ -21,11 +22,10 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Dashboard(),
-      // Define your routes here
       routes: {
         '/dashboard': (context) => Dashboard(),
         '/main_page': (context) => MainPageScreen(),
-        // '/product/add': (context) => AddProductScreen(),
+        '/product/add': (context) => AddProduct(),
         // '/product/manage': (context) => ManageProductsScreen(),
         // '/orders': (context) => OrderPageScreen(),
         // '/ai_page': (context) => AIPageScreen(),
