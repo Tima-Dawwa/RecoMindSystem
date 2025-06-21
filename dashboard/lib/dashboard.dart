@@ -2,7 +2,9 @@ import 'package:dashboard/core/Header/dashboard_header.dart';
 import 'package:dashboard/core/Sidebar/expandable_item.dart';
 import 'package:dashboard/core/Sidebar/sidebar_item.dart';
 import 'package:dashboard/core/Sidebar/sub_item.dart';
-import 'package:dashboard/core/utils/theme.dart';
+import 'package:dashboard/core/theme.dart';
+import 'package:dashboard/features/Main%20Page/main_page.dart';
+import 'package:dashboard/features/Product/Add%20Product/add_product.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
@@ -15,11 +17,26 @@ class Dashboard extends StatefulWidget {
 class DashboardState extends State<Dashboard> {
   String currentRoute = '/dashboard';
 
+  Widget _getBodyForRoute(String route) {
+    switch (route) {
+      case '/dashboard':
+        return Center(child: Text("Welcome to the Dashboard!"));
+      case '/main_page':
+        return MainPageScreen();
+      case '/product/add':
+        return AddProduct();
+      //contiue all url here
+      default:
+        return Center(child: Text("Page Not Found"));
+    }
+  }
+
   void _navigateToRoute(String route) {
     setState(() {
       currentRoute = route;
     });
-    // print('Navigating to: $route');
+
+    print('Navigating to: $route');
   }
 
   @override
@@ -27,9 +44,8 @@ class DashboardState extends State<Dashboard> {
     return Scaffold(
       body: Row(
         children: [
-          // Sidebar
           Container(
-            width: 270,
+            width: 250,
             color: Themes.primary,
             child: Column(
               children: [
@@ -86,8 +102,8 @@ class DashboardState extends State<Dashboard> {
           ),
           Expanded(
             child: Container(
-              color: Themes.bg,
-              child: Center(child: Text("tima")),
+              color: Colors.grey[100],
+              child: _getBodyForRoute(currentRoute),
             ),
           ),
         ],
