@@ -7,8 +7,9 @@ import 'rating_stars.dart';
 class ProductCard extends StatelessWidget {
   final Product product;
   final bool isSelected;
-  final VoidCallback onTap; 
-  final VoidCallback onDoubleTap; 
+  final VoidCallback onTap;
+  final VoidCallback onDoubleTap;
+  final bool isCompactView;
 
   const ProductCard({
     super.key,
@@ -16,6 +17,7 @@ class ProductCard extends StatelessWidget {
     required this.isSelected,
     required this.onTap,
     required this.onDoubleTap,
+    this.isCompactView = false,
   });
 
   @override
@@ -25,6 +27,280 @@ class ProductCard extends StatelessWidget {
     final imageUrl =
         product.imageUrls.isNotEmpty ? product.imageUrls.first : '';
 
+    if (isCompactView) {
+      return _buildCompactCard(context, status, amount, imageUrl);
+    } else {
+      return _buildGridCard(context, status, amount, imageUrl);
+    }
+  }
+
+  Widget _buildCompactCard(
+    BuildContext context,
+    String status,
+    int amount,
+    String imageUrl,
+  ) {
+    return Container(
+      height: 120,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: onTap,
+          onDoubleTap: onDoubleTap,
+          splashColor: Theme.of(context).primaryColor.withOpacity(0.1),
+          highlightColor: Theme.of(context).primaryColor.withOpacity(0.05),
+          child: Container(
+            decoration: BoxDecoration(
+              border:
+                  isSelected
+                      ? Border.all(
+                        color: Theme.of(context).primaryColor,
+                        width: 2,
+                      )
+                      : Border.all(color: Colors.grey.shade200, width: 1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              children: [
+                // Image section
+                Container(
+                  width: 120,
+                  height: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.horizontal(
+                      left: Radius.circular(12),
+                    ),
+                    color: Colors.grey[50],
+                  ),
+                  child: Stack(
+                    children: [
+                      Positioned.fill(
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.horizontal(
+                            left: Radius.circular(11),
+                          ),
+                          child: Image.asset(
+                            imageUrl,
+                            fit: BoxFit.contain,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[100],
+                                  borderRadius: const BorderRadius.horizontal(
+                                    left: Radius.circular(11),
+                                  ),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.image_not_supported_outlined,
+                                      size: 24,
+                                      color: Colors.grey[400],
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'No image',
+                                      style: TextStyle(
+                                        color: Colors.grey[500],
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      if (status != 'normal')
+                        Positioned(
+                          top: 8,
+                          left: 8,
+                          child: StatusBadge(status: status),
+                        ),
+                      if (isSelected)
+                        Positioned(
+                          top: 8,
+                          right: 8,
+                          child: Container(
+                            width: 20,
+                            height: 20,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.check_rounded,
+                              color: Colors.white,
+                              size: 14,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                // Content section
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Product name and price in same row
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                product.name,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                  color: Color(0xFF1A202C),
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      '\$${product.price.toStringAsFixed(2)}',
+                                      style: TextStyle(
+                                        color:
+                                            product.discountPrice != null
+                                                ? Colors.grey[500]
+                                                : Theme.of(
+                                                  context,
+                                                ).primaryColor,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize:
+                                            product.discountPrice != null
+                                                ? 11
+                                                : 14,
+                                        decoration:
+                                            product.discountPrice != null
+                                                ? TextDecoration.lineThrough
+                                                : null,
+                                      ),
+                                    ),
+                                    if (product.discountPrice != null) ...[
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        '\$${product.discountPrice!.toStringAsFixed(2)}',
+                                        style: TextStyle(
+                                          color: Theme.of(context).primaryColor,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        // Rating and category in same row
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  RatingStars(
+                                    rating: product.averageRating,
+                                    size: 12,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    product.averageRating.toStringAsFixed(1),
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      color: Color(0xFF718096),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 6,
+                                      vertical: 2,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[100],
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    child: Text(
+                                      product.category,
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        color: Colors.grey[600],
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 3,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Theme.of(
+                                  context,
+                                ).primaryColor.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Text(
+                                'Qty: $amount',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGridCard(
+    BuildContext context,
+    String status,
+    int amount,
+    String imageUrl,
+  ) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
@@ -42,7 +318,7 @@ class ProductCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
-          onTap: onTap, 
+          onTap: onTap,
           onDoubleTap: onDoubleTap,
           splashColor: Theme.of(context).primaryColor.withOpacity(0.1),
           highlightColor: Theme.of(context).primaryColor.withOpacity(0.05),
@@ -196,95 +472,109 @@ class ProductCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          product.name,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15,
-                            color: Color(0xFF1A202C),
-                            height: 1.3,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 8),
-
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 3,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            product.category,
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Colors.grey[600],
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-
-                        const SizedBox(height: 8),
-
-                        Row(
-                          children: [
-                            Text(
-                              '\$${product.price.toStringAsFixed(2)}',
-                              style: TextStyle(
-                                color:
-                                    product.discountPrice != null
-                                        ? Colors.grey[500]
-                                        : Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize:
-                                    product.discountPrice != null ? 14 : 18,
-                                decoration:
-                                    product.discountPrice != null
-                                        ? TextDecoration.lineThrough
-                                        : null,
-                              ),
-                            ),
-                            if (product.discountPrice != null) ...[
-                              const SizedBox(width: 8),
-                              Text(
-                                '\$${product.discountPrice!.toStringAsFixed(2)}',
-                                style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ],
-                          ],
-                        ),
-
-                        const Spacer(),
-
+                        // Product name and price in same row
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              children: [
-                                RatingStars(
-                                  rating: product.averageRating,
-                                  size: 16,
+                            Expanded(
+                              child: Text(
+                                product.name,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15,
+                                  color: Color(0xFF1A202C),
+                                  height: 1.3,
                                 ),
-                                const SizedBox(width: 6),
-                                Text(
-                                  product.averageRating.toStringAsFixed(1),
-                                  style: const TextStyle(
-                                    fontSize: 13,
-                                    color: Color(0xFF718096),
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      '\$${product.price.toStringAsFixed(2)}',
+                                      style: TextStyle(
+                                        color:
+                                            product.discountPrice != null
+                                                ? Colors.grey[500]
+                                                : Theme.of(
+                                                  context,
+                                                ).primaryColor,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize:
+                                            product.discountPrice != null
+                                                ? 12
+                                                : 16,
+                                        decoration:
+                                            product.discountPrice != null
+                                                ? TextDecoration.lineThrough
+                                                : null,
+                                      ),
+                                    ),
+                                    if (product.discountPrice != null) ...[
+                                      const SizedBox(width: 6),
+                                      Text(
+                                        '\$${product.discountPrice!.toStringAsFixed(2)}',
+                                        style: TextStyle(
+                                          color: Theme.of(context).primaryColor,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ],
+                                  ],
                                 ),
                               ],
                             ),
-
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        // Rating and category in same row
+                        Row(
+                          children: [
+                            RatingStars(
+                              rating: product.averageRating,
+                              size: 16,
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              product.averageRating.toStringAsFixed(1),
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: Color(0xFF718096),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 3,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[100],
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                product.category,
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.grey[600],
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
                             Container(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 8,
@@ -296,18 +586,9 @@ class ProductCard extends StatelessWidget {
                                 ).primaryColor.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child: Text(
-                                '$amount left',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Theme.of(context).primaryColor,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
                             ),
                           ],
                         ),
-
                         const SizedBox(height: 8),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
