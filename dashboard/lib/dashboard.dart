@@ -5,6 +5,7 @@ import 'package:dashboard/core/Sidebar/sub_item.dart';
 import 'package:dashboard/core/theme.dart';
 import 'package:dashboard/features/Main%20Page/main_page.dart';
 import 'package:dashboard/features/Product/Add%20Product/add_product.dart';
+import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/manage_product.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
@@ -25,6 +26,8 @@ class DashboardState extends State<Dashboard> {
         return MainPageScreen();
       case '/product/add':
         return AddProduct();
+      case '/product/manage':
+        return ManageProducts();
       //contiue all url here
       default:
         return Center(child: Text("Page Not Found"));
