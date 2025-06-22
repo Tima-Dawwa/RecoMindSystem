@@ -1,43 +1,35 @@
 class Product {
-  final String id;
-  final String name;
-  final String imageUrl;
-  final double price;
-  final double rating;
-  final String status;
-  final String category;
-  final int amount; // Added amount field
+  String id;
+  String name;
+  String category;
+  String department;
+  String gender;
+  double price;
+  double? discountPrice;
+  String description;
+  List<String> imageUrls;
+  String color;
+  int favoriteCount;
+  int salesCount;
+  int viewCount;
+  double averageRating;
+  int reviewCount;
 
   Product({
     required this.id,
     required this.name,
-    required this.imageUrl,
-    required this.price,
-    required this.rating,
-    required this.status,
     required this.category,
-    required this.amount, // Required amount parameter
+    required this.department,
+    required this.gender,
+    required this.price,
+    this.discountPrice,
+    required this.description,
+    required this.imageUrls,
+    required this.color,
+    this.favoriteCount = 0,
+    this.salesCount = 0,
+    this.viewCount = 0,
+    this.averageRating = 0.0,
+    this.reviewCount = 0,
   });
-
-  Product copyWith({
-    String? id,
-    String? name,
-    String? imageUrl,
-    double? price,
-    double? rating,
-    String? status,
-    String? category,
-    int? amount,
-  }) {
-    return Product(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      imageUrl: imageUrl ?? this.imageUrl,
-      price: price ?? this.price,
-      rating: rating ?? this.rating,
-      status: status ?? this.status,
-      category: category ?? this.category,
-      amount: amount ?? this.amount,
-    );
-  }
 }

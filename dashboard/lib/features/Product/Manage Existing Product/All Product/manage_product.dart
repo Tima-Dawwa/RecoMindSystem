@@ -1,5 +1,6 @@
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/Model/all_product.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/Widget/data_sample.dart';
+import 'package:dashboard/features/Product/Manage%20Existing%20Product/Product%20Details%20Mangment/product_details.dart';
 import 'package:flutter/material.dart';
 import 'Widget/search_bar.dart';
 import 'Widget/product_gridview.dart';
@@ -12,7 +13,6 @@ class ManageProducts extends StatefulWidget {
   @override
   State<ManageProducts> createState() => _ManageProductsState();
 }
-
 class _ManageProductsState extends State<ManageProducts>
     with TickerProviderStateMixin {
   late TabController _tabController;
@@ -83,7 +83,14 @@ class _ManageProductsState extends State<ManageProducts>
   }
 
   void _onProductTap(String productId) {
-    print('Navigating to product details for: $productId');
+    final product = _allProducts.firstWhere((p) => p.id == productId);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProductDetails(product: product),
+      ),
+    );
   }
 
   void _onProductDoubleTap(String productId) {

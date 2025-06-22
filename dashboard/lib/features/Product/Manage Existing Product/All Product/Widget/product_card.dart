@@ -1,4 +1,5 @@
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/Model/all_product.dart';
+import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/Widget/data_sample.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/Widget/widget_badge.dart';
 import 'package:flutter/material.dart';
 import 'rating_stars.dart';
@@ -6,8 +7,8 @@ import 'rating_stars.dart';
 class ProductCard extends StatelessWidget {
   final Product product;
   final bool isSelected;
-  final VoidCallback onTap; // Single tap for details
-  final VoidCallback onDoubleTap; // Double tap for selection
+  final VoidCallback onTap; 
+  final VoidCallback onDoubleTap; 
 
   const ProductCard({
     super.key,
@@ -19,6 +20,11 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final status = SampleProducts.getProductStatus(product);
+    final amount = SampleProducts.getProductAmount(product);
+    final imageUrl =
+        product.imageUrls.isNotEmpty ? product.imageUrls.first : '';
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
@@ -36,8 +42,8 @@ class ProductCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
-          onTap: onTap, // Single tap for details
-          onDoubleTap: onDoubleTap, // Double tap for selection
+          onTap: onTap, 
+          onDoubleTap: onDoubleTap,
           splashColor: Theme.of(context).primaryColor.withOpacity(0.1),
           highlightColor: Theme.of(context).primaryColor.withOpacity(0.05),
           child: Container(
@@ -54,7 +60,6 @@ class ProductCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // FIXED: Enhanced image container with proper constraints
                 Container(
                   height: 180,
                   width: double.infinity,
@@ -72,7 +77,7 @@ class ProductCard extends StatelessWidget {
                             top: Radius.circular(15),
                           ),
                           child: Image.asset(
-                            product.imageUrl,
+                            imageUrl,
                             fit: BoxFit.contain,
                             width: double.infinity,
                             height: double.infinity,
@@ -110,11 +115,11 @@ class ProductCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      if (product.status != 'normal')
+                      if (status != 'normal')
                         Positioned(
                           top: 12,
                           left: 12,
-                          child: StatusBadge(status: product.status),
+                          child: StatusBadge(status: status),
                         ),
                       if (isSelected)
                         Positioned(
@@ -173,7 +178,7 @@ class ProductCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
-                            'Qty: ${product.amount}',
+                            'Qty: $amount',
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 11,
@@ -225,13 +230,36 @@ class ProductCard extends StatelessWidget {
 
                         const SizedBox(height: 8),
 
-                        Text(
-                          '\$${product.price.toStringAsFixed(2)}',
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              '\$${product.price.toStringAsFixed(2)}',
+                              style: TextStyle(
+                                color:
+                                    product.discountPrice != null
+                                        ? Colors.grey[500]
+                                        : Theme.of(context).primaryColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize:
+                                    product.discountPrice != null ? 14 : 18,
+                                decoration:
+                                    product.discountPrice != null
+                                        ? TextDecoration.lineThrough
+                                        : null,
+                              ),
+                            ),
+                            if (product.discountPrice != null) ...[
+                              const SizedBox(width: 8),
+                              Text(
+                                '\$${product.discountPrice!.toStringAsFixed(2)}',
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ],
                         ),
 
                         const Spacer(),
@@ -241,10 +269,13 @@ class ProductCard extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                RatingStars(rating: product.rating, size: 16),
+                                RatingStars(
+                                  rating: product.averageRating,
+                                  size: 16,
+                                ),
                                 const SizedBox(width: 6),
                                 Text(
-                                  product.rating.toString(),
+                                  product.averageRating.toStringAsFixed(1),
                                   style: const TextStyle(
                                     fontSize: 13,
                                     color: Color(0xFF718096),
@@ -266,7 +297,7 @@ class ProductCard extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
-                                '${product.amount} left',
+                                '$amount left',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Theme.of(context).primaryColor,
