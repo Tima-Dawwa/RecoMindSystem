@@ -1,18 +1,16 @@
-import 'package:dashboard/core/theme.dart';
+import 'package:dashboard/core/utils/theme.dart';
 import 'package:flutter/material.dart';
 
-class SidebarItem extends StatelessWidget {
-  final IconData icon;
+class SubItem extends StatelessWidget {
   final String title;
   final String route;
   final String currentRoute;
   final Function(String) onTap;
 
-  const SidebarItem({
+  const SubItem({
     super.key,
-    required this.icon,
-    required this.title,
     required this.route,
+    required this.title,
     required this.currentRoute,
     required this.onTap,
   });
@@ -22,24 +20,24 @@ class SidebarItem extends StatelessWidget {
     bool isSelected = currentRoute == route;
 
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      decoration: BoxDecoration(
-        color: isSelected ? Themes.text : Themes.primary,
-        borderRadius: BorderRadius.circular(8),
-      ),
+      margin: EdgeInsets.only(left: 32, right: 8, top: 2, bottom: 2),
       child: ListTile(
         dense: true,
-        leading: Icon(icon, color: Themes.bg, size: 20),
+        leading: Icon(
+          Icons.insert_drive_file_rounded,
+          color: isSelected ? Themes.bg : Themes.bg.withAlpha(150),
+          size: isSelected ? 23 : 20,
+        ),
         title: Text(
           title,
           style: TextStyle(
-            color: isSelected ? Themes.bg : Themes.bg,
-            fontSize: 14,
+            color: isSelected ? Themes.bg : Themes.bg.withAlpha(150),
+            fontSize: isSelected ? 18 : 16,
             fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
           ),
         ),
         onTap: () => onTap(route),
-        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
       ),
     );
   }

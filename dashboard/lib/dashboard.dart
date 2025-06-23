@@ -1,7 +1,7 @@
-import 'package:dashboard/core/Header/dashboard_header.dart';
-import 'package:dashboard/core/Sidebar/expandable_item.dart';
-import 'package:dashboard/core/Sidebar/sidebar_item.dart';
-import 'package:dashboard/core/Sidebar/sub_item.dart';
+import 'package:dashboard/core/widgets/dashboard_header.dart';
+import 'package:dashboard/core/widgets/expandable_item.dart';
+import 'package:dashboard/core/widgets/sidebar_item.dart';
+import 'package:dashboard/core/widgets/sub_item.dart';
 import 'package:dashboard/core/theme.dart';
 import 'package:dashboard/features/Main%20Page/main_page.dart';
 import 'package:dashboard/features/Product/Add%20Product/add_product.dart';
@@ -48,7 +48,7 @@ class DashboardState extends State<Dashboard> {
       body: Row(
         children: [
           Container(
-            width: 250,
+            width: 270,
             color: Themes.primary,
             child: Column(
               children: [
@@ -104,10 +104,7 @@ class DashboardState extends State<Dashboard> {
             ),
           ),
           Expanded(
-            child: Container(
-              color: Colors.grey[100],
-              child: _getBodyForRoute(currentRoute),
-            ),
+            child: _getBodyForRoute(currentRoute),
           ),
         ],
       ),

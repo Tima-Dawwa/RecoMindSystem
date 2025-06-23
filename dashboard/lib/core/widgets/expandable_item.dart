@@ -20,14 +20,12 @@ class ExpandableItem extends StatelessWidget {
       child: Theme(
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
-          leading: Icon(icon, color: Themes.bg.withAlpha(180), size: 20),
+          leading: Icon(icon, color: Themes.bg.withAlpha(150), size: 20),
           title: Text(
             title,
-            style: TextStyle(color: Themes.bg.withAlpha(180), fontSize: 16),
+            style: TextStyle(color: Themes.bg.withAlpha(150), fontSize: 16),
           ),
-          // iconColor: Themes.bg.withAlpha(200),
           showTrailingIcon: false,
-          collapsedIconColor: Themes.bg.withAlpha(180),
           tilePadding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           childrenPadding: EdgeInsets.zero,
           children: children,
