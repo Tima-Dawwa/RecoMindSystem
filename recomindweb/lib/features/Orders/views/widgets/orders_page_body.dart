@@ -33,7 +33,7 @@ class OrdersPageBody extends StatelessWidget {
                 itemCount: 10,
                 itemBuilder: (context, index) {
                   return OrderCard(
-                    state: 'Accepted',
+                    state: 'Preparing',
                     orderNum: '3653',
                     price: '628',
                     items: '10',
@@ -50,7 +50,7 @@ class OrdersPageBody extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: OrderCard(
-                      state: 'delivered',
+                      state: 'Delivered',
                       orderNum: '3653',
                       price: '628',
                       items: '10',
