@@ -1,4 +1,5 @@
 const Product = require('./products.mongo');
+const mongoose = require('mongoose');
 const Interaction = require('./interactions.mongo');
 const { INTERACTION_TYPES, RATING } = require('../public/constants/interaction')
 
@@ -243,6 +244,36 @@ async function checkRating(userId, productId) {
     });
 }
 
+async function getProductRatings(productId) {
+    const result = await Interaction.aggregate([
+        {
+            $match: {
+                product_id: new mongoose.Types.ObjectId(productId),
+                interaction_type: 'rating',
+                rating_value: { $ne: null }
+            }
+        },
+        {
+            $group: {
+                _id: "$rating_value",
+                count: { $sum: 1 }
+            }
+        },
+        {
+            $sort: { _id: 1 }
+        }
+    ]);
+
+    // Fill missing rating values with 0
+    const ratingCounts = {};
+    for (let i = 1; i <= 5; i++) {
+        const match = result.find(r => r._id === i);
+        ratingCounts[i] = match ? match.count : 0;
+    }
+
+    return ratingCounts;
+}
+
 module.exports = {
     getInteractions,
     getInteraction,
@@ -253,5 +284,6 @@ module.exports = {
     getUserInteractions,
     checkRating,
     updateRatingInteraction,
-    removeProductInteraction
+    removeProductInteraction,
+    getProductRatings
 };
