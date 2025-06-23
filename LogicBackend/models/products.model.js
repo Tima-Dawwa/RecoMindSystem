@@ -11,7 +11,7 @@ async function buildProductQuery(filters) {
     const tenDaysAgo = new Date();
     tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
 
-    if (filters.type.length > 0) query.type = { $in: filters.type };
+    if (filters.type && filters.type.length > 0) query.type = { $in: filters.type };
 
     if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
         query.price = {};
@@ -36,6 +36,13 @@ async function buildProductQuery(filters) {
     if (filters.isNew) {
         query.createdAt = { $gte: tenDaysAgo };
     }
+
+    if (filters.name) {
+        query.name = { $regex: filters.name, $options: 'i' };
+    }
+
+    if (filters.gender) query.gender = filters.gender;
+
 
     return { query, tenDaysAgo, trendingIds };
 }
@@ -81,8 +88,8 @@ async function getProductById(_id) {
     };
 }
 
-async function deleteProduct(product_id) {
-    return await Product.deleteOne({ _id: product_id });
+async function deleteProducts(productIds) {
+    return await Product.deleteMany({ _id: { $in: productIds } });
 }
 
 async function getProductsByIds(ids) {
@@ -131,14 +138,28 @@ async function applyChangedRatingToProduct(product_id, oldRatingValue, rating_va
     return await product.save()
 }
 
+async function getManyProducts(ids) {
+    return await Product.find({ _id: { $in: ids } });
+}
+
+async function updateProduct(productId, updates) {
+    return await Product.findByIdAndUpdate(
+        productId,
+        { $set: updates },
+        { new: true, runValidators: true }
+    );
+}
+
 module.exports = {
     postProduct,
     getProducts,
     getProductById,
-    deleteProduct,
+    deleteProducts,
     getProductsCount,
     getProductsByIds,
     incrementInteractionCount,
     incrementRatingCount,
-    applyChangedRatingToProduct
+    applyChangedRatingToProduct,
+    getManyProducts,
+    updateProduct
 }
