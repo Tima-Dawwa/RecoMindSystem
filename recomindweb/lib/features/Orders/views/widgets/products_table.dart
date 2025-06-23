@@ -3,8 +3,10 @@ import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Orders/views/widgets/row_content.dart';
 
 class ProductsTable extends StatelessWidget {
-  const ProductsTable({super.key, required this.desktop});
+  const ProductsTable({super.key, required this.desktop, required this.items});
   final bool desktop;
+  final String items;
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -30,7 +32,7 @@ class ProductsTable extends StatelessWidget {
             showFirstLastButtons: true,
             rowsPerPage: 3,
             header: Text(
-              "Products",
+              "$items Products",
               style: TextStyle(fontSize: desktop ? 25 : 22, color: Themes.text),
             ),
             arrowHeadColor: Themes.primary,

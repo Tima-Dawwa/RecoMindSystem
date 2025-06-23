@@ -7,13 +7,12 @@ class OrderInfo extends StatelessWidget {
     required this.state,
     required this.orderNum,
     required this.price,
-    required this.items,
     required this.desktop,
   });
+
   final String state;
   final String orderNum;
   final String price;
-  final String items;
   final bool desktop;
   @override
   Widget build(BuildContext context) {
@@ -34,17 +33,28 @@ class OrderInfo extends StatelessWidget {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
-                color:
-                    state == 'delivered'
-                        ? Themes.text.withAlpha(50)
-                        : Themes.primary.withAlpha(50),
+                // color:
+                //     state == 'Delivered'
+                //         ? Themes.text.withAlpha(50)
+                //         : Themes.primary.withAlpha(50),
                 borderRadius: BorderRadius.circular(38),
               ),
               child: Text(
                 state,
                 style: TextStyle(
-                  fontSize: desktop ? 25 : 18,
-                  color: state == 'delivered' ? Themes.text : Themes.primary,
+                  fontSize: desktop ? 30 : 20,
+                  color: state == 'Delivered' ? Themes.text : Themes.primary,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.w500,
+                  shadows: [
+                    Shadow(
+                      color:
+                          state == 'Delivered'
+                              ? Themes.text.withAlpha(180)
+                              : Themes.primary.withAlpha(180),
+                      blurRadius: 2,
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -62,24 +72,27 @@ class OrderInfo extends StatelessWidget {
                 color: Themes.text.withAlpha(150),
               ),
             ),
-            Text(
-              "10 Items",
-              style: TextStyle(fontSize: desktop ? 25 : 18, color: Themes.text),
-            ),
+            // Text(
+            //   "10 Items",
+            //   style: TextStyle(fontSize: desktop ? 25 : 18, color: Themes.text),
+            // ),
           ],
         ),
         SizedBox(height: 20),
-        Row(
+        Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "Products cost : \$606",
               style: TextStyle(fontSize: desktop ? 22 : 18, color: Themes.text),
             ),
+            SizedBox(height: 10),
             Text(
-              "Delivering cost : \$22",
+              "Shipping cost : \$22",
               style: TextStyle(fontSize: desktop ? 22 : 18, color: Themes.text),
             ),
+            SizedBox(height: 10),
             Text(
               "Total bill : \$628",
               style: TextStyle(

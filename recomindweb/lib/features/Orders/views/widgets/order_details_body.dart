@@ -18,14 +18,14 @@ class OrderDetailsBody extends StatelessWidget {
         child: Column(
           children: [
             OrderInfo(
-              state: 'delivered',
+              state: 'Preparing',
               orderNum: '3653',
               price: '1590',
-              items: '26',
+              
               desktop: desktop,
             ),
             SizedBox(height: 15),
-            ProductsTable(desktop: desktop),
+            ProductsTable(desktop: desktop,items: '26',),
           ],
         ),
       ),
