@@ -1,3 +1,4 @@
+import 'package:dashboard/core/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'card_wrapper.dart';
 
@@ -5,37 +6,11 @@ class CategoryClassificationForm extends StatelessWidget {
   final String? selectedCategory;
   final String? selectedGender;
   final String? selectedDepartment;
+  final String? selectedAppearance;
   final Function(String?) onCategoryChanged;
   final Function(String?) onGenderChanged;
   final Function(String?) onDepartmentChanged;
-
-  static const List<String> _categories = [
-    'Electronics',
-    'Clothing',
-    'Books',
-    'Home & Garden',
-    'Sports',
-    'Beauty',
-    'Toys',
-    'Automotive',
-    'Health',
-    'Food & Beverages',
-  ];
-
-  static const List<String> _genders = ['Male', 'Female', 'Unisex', 'Kids'];
-
-  static const List<String> _departments = [
-    'Fashion',
-    'Technology',
-    'Home',
-    'Sports & Outdoors',
-    'Health & Beauty',
-    'Books & Media',
-    'Toys & Games',
-    'Automotive',
-    'Food & Grocery',
-    'Office Supplies',
-  ];
+  final Function(String?) onApperanceChanged;
 
   const CategoryClassificationForm({
     super.key,
@@ -45,6 +20,8 @@ class CategoryClassificationForm extends StatelessWidget {
     required this.onCategoryChanged,
     required this.onGenderChanged,
     required this.onDepartmentChanged,
+    required this.selectedAppearance,
+    required this.onApperanceChanged,
   });
 
   @override
@@ -66,6 +43,11 @@ class CategoryClassificationForm extends StatelessWidget {
           DepartmentDropdown(
             selectedDepartment: selectedDepartment,
             onChanged: onDepartmentChanged,
+          ),
+          SizedBox(height: 16),
+          AppearanceDropdown(
+            selectedAppearance: selectedAppearance,
+            onChanged: onApperanceChanged,
           ),
         ],
       ),
@@ -93,9 +75,10 @@ class CategoryDropdown extends StatelessWidget {
       ),
       value: selectedCategory,
       items:
-          CategoryClassificationForm._categories.map((category) {
+          categories.map((category) {
             return DropdownMenuItem(value: category, child: Text(category));
           }).toList(),
+
       onChanged: onChanged,
       validator: (value) {
         if (value == null) {
@@ -112,10 +95,10 @@ class GenderDropdown extends StatelessWidget {
   final Function(String?) onChanged;
 
   const GenderDropdown({
-    Key? key,
+    super.key,
     required this.selectedGender,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +110,7 @@ class GenderDropdown extends StatelessWidget {
       ),
       value: selectedGender,
       items:
-          CategoryClassificationForm._genders.map((gender) {
+          genders.map((gender) {
             return DropdownMenuItem(value: gender, child: Text(gender));
           }).toList(),
       onChanged: onChanged,
@@ -146,10 +129,10 @@ class DepartmentDropdown extends StatelessWidget {
   final Function(String?) onChanged;
 
   const DepartmentDropdown({
-    Key? key,
+    super.key,
     required this.selectedDepartment,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -161,13 +144,47 @@ class DepartmentDropdown extends StatelessWidget {
       ),
       value: selectedDepartment,
       items:
-          CategoryClassificationForm._departments.map((department) {
+          departments.map((department) {
             return DropdownMenuItem(value: department, child: Text(department));
           }).toList(),
       onChanged: onChanged,
       validator: (value) {
         if (value == null) {
           return 'Please select a department';
+        }
+        return null;
+      },
+    );
+  }
+}
+
+class AppearanceDropdown extends StatelessWidget {
+  final String? selectedAppearance;
+  final Function(String?) onChanged;
+
+  const AppearanceDropdown({
+    super.key,
+    required this.selectedAppearance,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonFormField<String>(
+      decoration: InputDecoration(
+        labelText: 'Appearance',
+        border: OutlineInputBorder(),
+        prefixIcon: Icon(Icons.visibility),
+      ),
+      value: selectedAppearance,
+      items:
+          appearances.map((appearance) {
+            return DropdownMenuItem(value: appearance, child: Text(appearance));
+          }).toList(),
+      onChanged: onChanged,
+      validator: (value) {
+        if (value == null) {
+          return 'Please select an appearance';
         }
         return null;
       },
