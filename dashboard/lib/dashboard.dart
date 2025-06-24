@@ -4,7 +4,7 @@ import 'package:dashboard/core/widgets/sidebar_item.dart';
 import 'package:dashboard/core/widgets/sub_item.dart';
 import 'package:dashboard/core/theme.dart';
 import 'package:dashboard/features/Main%20Page/main_page.dart';
-import 'package:dashboard/features/Product/Add%20Product/add_product.dart';
+import 'package:dashboard/features/Product/Add%20Product/view/add_product.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/manage_product.dart';
 import 'package:flutter/material.dart';
 
