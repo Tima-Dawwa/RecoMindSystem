@@ -81,7 +81,7 @@ class _AddProductState extends State<AddProduct> {
     });
   }
 
- void _saveProduct() {
+  void _saveProduct() {
     if (_formKey.currentState!.validate()) {
       // Validate required fields
       if (_selectedCategory == null ||
@@ -121,8 +121,7 @@ class _AddProductState extends State<AddProduct> {
         gender: _selectedGender!,
         price: double.tryParse(_priceController.text.trim()) ?? 0.0,
         quantity: int.tryParse(_quantityController.text.trim()) ?? 0,
-        appearance:
-            _selectedApperance!, 
+        appearance: _selectedApperance!,
         images: imageFiles,
       );
 
@@ -202,8 +201,8 @@ class _AddProductState extends State<AddProduct> {
                           return Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(flex: 2, child: _buildLeftColumn()),
-                              SizedBox(width: 32),
+                              Expanded(flex: 1, child: _buildLeftColumn()),
+                              SizedBox(width: 8),
                               Expanded(flex: 1, child: _buildRightColumn()),
                             ],
                           );
@@ -211,7 +210,7 @@ class _AddProductState extends State<AddProduct> {
                           return Column(
                             children: [
                               _buildLeftColumn(),
-                              SizedBox(height: 24),
+                              SizedBox(height: 18),
                               _buildRightColumn(),
                             ],
                           );
@@ -279,7 +278,7 @@ class _AddProductState extends State<AddProduct> {
           onDepartmentChanged: _onDepartmentChanged,
           onApperanceChanged: _onApperanceChanged,
         ),
-        // SizedBox(height: 18),
+        SizedBox(height: 18),
         ProductSummaryCard(
           imageCount: _productFiles.length,
           selectedCategory: _selectedCategory,
