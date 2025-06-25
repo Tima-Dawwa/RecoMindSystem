@@ -1,5 +1,3 @@
-const { serializedData } = require("../../../services/serializeArray");
-
 function productData(product) {
     return {
         id: product._id,
@@ -15,6 +13,7 @@ function productData(product) {
         isFavorite: product.isFavorite,
         isFinished: product.quantity == 0,
         image: product.images[0],
+        quantity: product.quantity,
     };
 }
 
