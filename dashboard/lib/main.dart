@@ -1,5 +1,6 @@
 import 'package:dashboard/core/helper/service_locator.dart';
 import 'package:dashboard/dashboard.dart';
+import 'package:dashboard/features/Orders/view/orders_page.dart';
 import 'package:dashboard/features/Product/Add%20Product/view%20model/add_product_service.dart';
 import 'package:dashboard/features/Product/Add%20Product/view%20model/cubit/add_product_cubit.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
           '/main_page': (context) => MainPageScreen(),
           '/product/add': (context) => AddProduct(),
           '/product/manage': (context) => ManageProducts(),
-          // '/orders': (context) => OrderPageScreen(),
+          '/orders': (context) => OrdersPage(),
           // '/ai_page': (context) => AIPageScreen(),
         },
       ),
