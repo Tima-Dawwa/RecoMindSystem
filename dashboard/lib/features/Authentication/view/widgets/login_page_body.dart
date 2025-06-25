@@ -1,3 +1,4 @@
+import 'package:dashboard/core/helper/validators.dart';
 import 'package:dashboard/core/utils/theme.dart';
 import 'package:dashboard/core/widgets/custom_button.dart';
 import 'package:dashboard/core/widgets/custom_textfield.dart';
@@ -51,6 +52,7 @@ class _LoginPageBodyState extends State<LoginPageBody> {
                 child: CustomTextfield(
                   hint: 'Email',
                   type: TextInputType.emailAddress,
+                  validator: validateEmail,
                   onChanged: (value) {
                     email = value;
                   },
@@ -61,6 +63,7 @@ class _LoginPageBodyState extends State<LoginPageBody> {
                 child: CustomTextfield(
                   hint: 'Password',
                   obscure: obsecureText,
+                  validator: validatePassword,
                   onChanged: (value) {
                     password = value;
                   },
