@@ -123,14 +123,19 @@ class AllProductCubit extends Cubit<AllProductState> {
     }
   }
 
-  Future<void> deleteProduct(String productId, {int currentPage = 1}) async {
+  Future<void> deleteMultipleProducts(
+    List<String> productIds, {
+    int currentPage = 1,
+  }) async {
     if (_isLoading) return;
 
     try {
       _isLoading = true;
-      emit(DeletingAllProduct(productId: productId));
+      emit(
+        DeletingAllProduct(productId: productIds.join(',')),
+      ); 
 
-      final result = await allProductService.deleteProduct(productId);
+      final result = await allProductService.deleteMultipleProducts(productIds);
 
       _isLoading = false;
 
@@ -140,15 +145,11 @@ class AllProductCubit extends Cubit<AllProductState> {
         },
         (success) {
           if (success) {
-            emit(DeleteSuccessAllProduct(deletedProductId: productId));
-            loadPage(currentPage);
-          } else {
             emit(
-              FailureAllProduct(
-                failure: Failure(errMessage: 'Failed to delete product'),
-              ),
+              DeleteSuccessAllProduct(deletedProductId: productIds.join(',')),
             );
-          }
+            loadPage(currentPage);
+          } 
         },
       );
     } catch (e) {

@@ -22,7 +22,7 @@ class PaginatedProductResponse {
 
   factory PaginatedProductResponse.fromJson(Map<String, dynamic> json) {
     try {
-      print('API Response: $json'); // Debug log
+    
 
       final List<dynamic> productsJson =
           json['products'] ??
@@ -155,9 +155,9 @@ class AllProductService {
     }
   }
 
-  Future<Either<Failure, bool>> deleteProduct(String id) async {
+  Future<Either<Failure, bool>> deleteMultipleProducts(List<String> ids) async {
     try {
-      await api.delete(endPoint: 'dashboard/products/$id', body: {});
+      await api.delete(endPoint: 'dashboard/products', body: {"ids": ids});
       return const Right(true);
     } on DioException catch (e) {
       return Left(Failure.fromDioException(e, statusCodeHandler));
@@ -165,7 +165,7 @@ class AllProductService {
       return Left(
         Failure(
           errTitle: 'Delete Error',
-          errMessage: 'Error deleting product: $e',
+          errMessage: 'Error deleting products: $e',
         ),
       );
     }
