@@ -133,7 +133,7 @@ const List<String> categories = [
 ];
 
 const List<String> genders = [
-  ' Ladieswear',
+  'Ladieswear',
   'Baby/Children',
   'Divided',
   'Menswear',

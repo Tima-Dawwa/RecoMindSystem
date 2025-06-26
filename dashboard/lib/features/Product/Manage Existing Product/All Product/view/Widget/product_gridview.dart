@@ -1,12 +1,13 @@
-import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/Model/all_product.dart';
-import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/Widget/product_card.dart';
+import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/Model/all_product_model.dart';
+import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/view/Widget/product_card.dart';
 import 'package:flutter/material.dart';
 
-class ProductsGridView extends StatelessWidget {
-  final List<Product> products;
+class ProductsGridView extends StatefulWidget {
+  final List<AllProductModel> products;
   final Set<String> selectedProducts;
   final Function(String) onProductTap;
   final Function(String) onProductDoubleTap;
+  final VoidCallback? onLoadMore;
 
   const ProductsGridView({
     super.key,
@@ -14,11 +15,40 @@ class ProductsGridView extends StatelessWidget {
     required this.selectedProducts,
     required this.onProductTap,
     required this.onProductDoubleTap,
+    this.onLoadMore,
   });
 
   @override
+  State<ProductsGridView> createState() => _ProductsGridViewCubitState();
+}
+
+class _ProductsGridViewCubitState extends State<ProductsGridView> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent * 0.8) {
+      if (widget.onLoadMore != null) {
+        widget.onLoadMore!();
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (products.isEmpty) {
+    if (widget.products.isEmpty) {
       return const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -44,16 +74,17 @@ class ProductsGridView extends StatelessWidget {
 
         if (screenWidth < 700) {
           return ListView.separated(
+            controller: _scrollController,
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-            itemCount: products.length,
+            itemCount: widget.products.length,
             separatorBuilder: (context, index) => const SizedBox(height: 12),
             itemBuilder: (context, index) {
-              final product = products[index];
+              final product = widget.products[index];
               return ProductCard(
                 product: product,
-                isSelected: selectedProducts.contains(product.id),
-                onTap: () => onProductTap(product.id),
-                onDoubleTap: () => onProductDoubleTap(product.id),
+                isSelected: widget.selectedProducts.contains(product.id),
+                onTap: () => widget.onProductTap(product.id),
+                onDoubleTap: () => widget.onProductDoubleTap(product.id),
                 isCompactView: true,
               );
             },
@@ -81,6 +112,7 @@ class ProductsGridView extends StatelessWidget {
           }
 
           return GridView.builder(
+            controller: _scrollController,
             padding: const EdgeInsets.all(8),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: crossAxisCount,
@@ -88,14 +120,15 @@ class ProductsGridView extends StatelessWidget {
               crossAxisSpacing: crossAxisSpacing,
               mainAxisSpacing: mainAxisSpacing,
             ),
-            itemCount: products.length,
+            itemCount: widget.products.length,
             itemBuilder: (context, index) {
-              final product = products[index];
+              final product = widget.products[index];
+              
               return ProductCard(
                 product: product,
-                isSelected: selectedProducts.contains(product.id),
-                onTap: () => onProductTap(product.id),
-                onDoubleTap: () => onProductDoubleTap(product.id),
+                isSelected: widget.selectedProducts.contains(product.id),
+                onTap: () => widget.onProductTap(product.id),
+                onDoubleTap: () => widget.onProductDoubleTap(product.id),
                 isCompactView: false,
               );
             },
