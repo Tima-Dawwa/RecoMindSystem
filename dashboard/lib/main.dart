@@ -1,16 +1,17 @@
-import 'package:dashboard/core/helper/service_locator.dart';
+import 'package:flutter/material.dart';
 import 'package:dashboard/dashboard.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dashboard/core/utils/theme.dart';
+import 'package:dashboard/features/Main Page/main_page.dart';
+import 'package:dashboard/features/Product/Add Product/view/add_product.dart';
+import 'package:dashboard/core/helper/service_locator.dart';
+import 'package:dashboard/features/AI/views/ai_page.dart';
 import 'package:dashboard/features/Orders/view/orders_page.dart';
 import 'package:dashboard/features/Product/Add%20Product/view%20model/add_product_service.dart';
 import 'package:dashboard/features/Product/Add%20Product/view%20model/cubit/add_product_cubit.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/view%20model/all_product_cubit.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/view%20model/all_product_service.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/view/manage_product.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dashboard/core/utils/theme.dart';
-import 'package:dashboard/features/Main Page/main_page.dart';
-import 'package:dashboard/features/Product/Add Product/view/add_product.dart';
 
 void main() async {
   // Ensure Flutter is initialized
@@ -33,10 +34,7 @@ class MyApp extends StatelessWidget {
           create: (context) => AddProductCubit(getIt.get<AddProductService>()),
         ),
         BlocProvider(
-          create:
-              (context) =>
-                  AllProductCubit(getIt.get<AllProductService>())
-                    ,
+          create: (context) => AllProductCubit(getIt.get<AllProductService>()),
         ),
       ],
       child: MaterialApp(
@@ -54,7 +52,7 @@ class MyApp extends StatelessWidget {
           '/product/add': (context) => AddProduct(),
           '/product/manage': (context) => ManageProducts(),
           '/orders': (context) => OrdersPage(),
-          // '/ai_page': (context) => AIPageScreen(),
+          '/ai_page': (context) => AiPage(),
         },
       ),
     );
