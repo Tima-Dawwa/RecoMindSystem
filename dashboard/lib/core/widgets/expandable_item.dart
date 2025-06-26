@@ -26,7 +26,7 @@ class ExpandableItem extends StatelessWidget {
             style: TextStyle(color: Themes.bg.withAlpha(150), fontSize: 16),
           ),
           showTrailingIcon: false,
-          tilePadding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          tilePadding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           childrenPadding: EdgeInsets.zero,
           children: children,
         ),

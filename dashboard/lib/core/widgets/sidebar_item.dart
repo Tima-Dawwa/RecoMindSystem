@@ -39,7 +39,7 @@ class SidebarItem extends StatelessWidget {
           ),
         ),
         onTap: () => onTap(route),
-        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       ),
     );
   }

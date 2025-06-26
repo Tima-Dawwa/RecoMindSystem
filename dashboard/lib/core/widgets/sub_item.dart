@@ -20,7 +20,7 @@ class SubItem extends StatelessWidget {
     bool isSelected = currentRoute == route;
 
     return Container(
-      margin: EdgeInsets.only(left: 32, right: 8, top: 2, bottom: 2),
+      margin: EdgeInsets.only(left: 30),
       child: ListTile(
         dense: true,
         leading: Icon(
@@ -37,7 +37,7 @@ class SubItem extends StatelessWidget {
           ),
         ),
         onTap: () => onTap(route),
-        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+        contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       ),
     );
   }

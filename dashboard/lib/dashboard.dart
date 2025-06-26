@@ -1,13 +1,14 @@
+import 'package:flutter/material.dart';
+import 'package:dashboard/core/utils/theme.dart';
 import 'package:dashboard/core/widgets/dashboard_header.dart';
 import 'package:dashboard/core/widgets/expandable_item.dart';
 import 'package:dashboard/core/widgets/sidebar_item.dart';
 import 'package:dashboard/core/widgets/sub_item.dart';
-import 'package:dashboard/core/theme.dart';
+import 'package:dashboard/features/AI/views/ai_page.dart';
 import 'package:dashboard/features/Main%20Page/main_page.dart';
 import 'package:dashboard/features/Orders/view/orders_page.dart';
 import 'package:dashboard/features/Product/Add%20Product/view/add_product.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/view/manage_product.dart';
-import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -31,7 +32,8 @@ class DashboardState extends State<Dashboard> {
         return ManageProducts();
       case '/orders':
         return OrdersPage();
-      //contiue all url here
+      case '/ai_page':
+        return AiPage();
       default:
         return Center(child: Text("Page Not Found"));
     }
@@ -41,8 +43,6 @@ class DashboardState extends State<Dashboard> {
     setState(() {
       currentRoute = route;
     });
-
-    print('Navigating to: $route');
   }
 
   @override
@@ -88,14 +88,14 @@ class DashboardState extends State<Dashboard> {
                       ),
                       SidebarItem(
                         icon: Icons.shopping_cart_rounded,
-                        title: 'Orders Page',
+                        title: 'Orders Archive',
                         route: '/orders',
                         currentRoute: currentRoute,
                         onTap: _navigateToRoute,
                       ),
                       SidebarItem(
                         icon: Icons.psychology_rounded,
-                        title: 'AI Page',
+                        title: 'AI Tools Performance',
                         route: '/ai_page',
                         currentRoute: currentRoute,
                         onTap: _navigateToRoute,

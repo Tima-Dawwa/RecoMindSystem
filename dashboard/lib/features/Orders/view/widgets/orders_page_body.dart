@@ -27,12 +27,23 @@ class OrdersPageBody extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(width: 20),
+                SizedBox(width: 25),
                 OrdersSearchBar(
                   controller: editingController,
                   searchQuery: "",
-                  onChanged: (p0) {},
+                  onChanged: (str) {},
                   onClear: () {},
+                ),
+                SizedBox(width: 10),
+                IconButton(
+                  onPressed: () {
+                    Themes.customDatePicker(context: context);
+                  },
+                  icon: Icon(
+                    Icons.calendar_today,
+                    color: Themes.primary,
+                    size: 25,
+                  ),
                 ),
               ],
             ),
@@ -41,9 +52,9 @@ class OrdersPageBody extends StatelessWidget {
               "Total orders statistics :",
               style: TextStyle(
                 fontSize: 25,
-                color: Themes.primary,
+                color: Themes.text.withAlpha(150),
                 fontWeight: FontWeight.w600,
-                fontStyle: FontStyle.italic,
+                // fontStyle: FontStyle.italic,
               ),
             ),
             SizedBox(height: 10),

@@ -18,26 +18,28 @@ class OrdersSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
+      child: SizedBox(
         height: 40,
-        constraints: const BoxConstraints(maxWidth: 300),
         child: TextField(
           controller: controller,
           decoration: InputDecoration(
             hintText: 'Search orders...',
-            hintStyle: TextStyle(color: Colors.grey[500], fontSize: 14),
+            hintStyle: TextStyle(
+              color: Themes.text.withAlpha(80),
+              fontSize: 15,
+            ),
             prefixIcon: Icon(
               Icons.search_rounded,
-              color: Colors.grey[500],
-              size: 20,
+              color: Themes.text.withAlpha(80),
+              size: 22,
             ),
             suffixIcon:
                 searchQuery.isNotEmpty
                     ? IconButton(
                       icon: Icon(
                         Icons.clear_rounded,
-                        color: Colors.grey[500],
-                        size: 18,
+                        color: Themes.text.withAlpha(80),
+                        size: 22,
                       ),
                       onPressed: onClear,
                     )
@@ -47,7 +49,7 @@ class OrdersSearchBar extends StatelessWidget {
               borderSide: BorderSide.none,
             ),
             filled: true,
-            fillColor: Themes.primary.withAlpha(20),
+            fillColor: Themes.text.withAlpha(15),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
               vertical: 8,
