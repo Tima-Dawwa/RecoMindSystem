@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const orderItemSchema = require('./orderItem.mongo');
 
 const orderSchema = new mongoose.Schema({
     user_id: {
@@ -6,17 +7,19 @@ const orderSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    products_id: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
-        required: true
-    }],
+    orderItems: [orderItemSchema],
     total_price: {
         type: Number,
         required: true,
         min: 0
+    },
+    status: {
+        type: String,
+        enum: ['breaber', 'delevery'],
+        default: 'breaber',
+        required: true
     }
-    // add type enum
+
 }, { timestamps: true })
 
-module.exports = mongoose.model('Order', orderSchema);
+module.exports = mongoose.model('Order', orderSchema)
