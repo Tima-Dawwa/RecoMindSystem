@@ -3,7 +3,6 @@ import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Pro
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/view%20model/all_product_state.dart';
 import 'package:dashboard/core/helper/failure.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dartz/dartz.dart';
 
 class AllProductCubit extends Cubit<AllProductState> {
   final AllProductService allProductService;
@@ -21,7 +20,6 @@ class AllProductCubit extends Cubit<AllProductState> {
     if (_isLoading) return;
 
     _isLoading = true;
-
     _currentGenderFilter = gender;
     _currentNameFilter = name;
 
@@ -36,20 +34,16 @@ class AllProductCubit extends Cubit<AllProductState> {
     _isLoading = false;
 
     result.fold(
-      (failure) {
-        emit(FailureAllProduct(failure: failure));
-      },
-      (paginatedResponse) {
-        emit(
-          SuccessAllProduct(
-            products: paginatedResponse.products,
-            totalCount: paginatedResponse.totalCount,
-            currentPage: paginatedResponse.currentPage,
-            totalPages: paginatedResponse.totalPages,
-            hasMore: paginatedResponse.hasMore,
-          ),
-        );
-      },
+      (failure) => emit(FailureAllProduct(failure: failure)),
+      (paginatedResponse) => emit(
+        SuccessAllProduct(
+          products: paginatedResponse.products,
+          totalCount: paginatedResponse.totalCount,
+          currentPage: paginatedResponse.currentPage,
+          totalPages: paginatedResponse.totalPages,
+          hasMore: paginatedResponse.hasMore,
+        ),
+      ),
     );
   }
 
@@ -74,21 +68,17 @@ class AllProductCubit extends Cubit<AllProductState> {
     _isLoading = false;
 
     result.fold(
-      (failure) {
-        emit(FailureAllProduct(failure: failure));
-      },
-      (paginatedResponse) {
-        emit(
-          SearchSuccessAllProduct(
-            searchResults: paginatedResponse.products,
-            searchQuery: query,
-            totalCount: paginatedResponse.totalCount,
-            currentPage: paginatedResponse.currentPage,
-            totalPages: paginatedResponse.totalPages,
-            hasMore: paginatedResponse.hasMore,
-          ),
-        );
-      },
+      (failure) => emit(FailureAllProduct(failure: failure)),
+      (paginatedResponse) => emit(
+        SearchSuccessAllProduct(
+          searchResults: paginatedResponse.products,
+          searchQuery: query,
+          totalCount: paginatedResponse.totalCount,
+          currentPage: paginatedResponse.currentPage,
+          totalPages: paginatedResponse.totalPages,
+          hasMore: paginatedResponse.hasMore,
+        ),
+      ),
     );
   }
 
@@ -107,7 +97,6 @@ class AllProductCubit extends Cubit<AllProductState> {
   Future<void> clearFilters({int page = 1}) async {
     _currentGenderFilter = null;
     _currentNameFilter = null;
-
     await getAllProducts(page: page);
   }
 
@@ -129,41 +118,33 @@ class AllProductCubit extends Cubit<AllProductState> {
   }) async {
     if (_isLoading) return;
 
-    try {
-      _isLoading = true;
-      emit(
-        DeletingAllProduct(productId: productIds.join(',')),
-      ); 
+    _isLoading = true;
+    emit(DeletingAllProduct(productId: productIds.join(',')));
 
-      final result = await allProductService.deleteMultipleProducts(productIds);
+    final result = await allProductService.deleteMultipleProducts(productIds);
 
-      _isLoading = false;
+    _isLoading = false;
 
-      result.fold(
-        (failure) {
-          emit(FailureAllProduct(failure: failure));
-        },
-        (success) {
-          if (success) {
-            emit(
-              DeleteSuccessAllProduct(deletedProductId: productIds.join(',')),
-            );
-            loadPage(currentPage);
-          } 
-        },
-      );
-    } catch (e) {
-      _isLoading = false;
-      emit(FailureAllProduct(failure: Failure(errMessage: e.toString())));
-    }
+    result.fold((failure) => emit(FailureAllProduct(failure: failure)), (
+      success,
+    ) {
+      if (success) {
+        emit(DeleteSuccessAllProduct(deletedProductId: productIds.join(',')));
+        loadPage(currentPage);
+      }
+    });
   }
 
-  Future<Either<Failure, AllProductModel?>?> getProductById(String id) async {
+  Future<void> getProductById(String id) async {
     try {
-      return await allProductService.getProductById(id);
+      final result = await allProductService.getProductById(id);
+      result.fold((failure) => emit(FailureAllProduct(failure: failure)), (
+        product,
+      ) {
+        // Handle success case if needed
+      });
     } catch (e) {
       emit(FailureAllProduct(failure: Failure(errMessage: e.toString())));
-      return null;
     }
   }
 
@@ -181,7 +162,6 @@ class AllProductCubit extends Cubit<AllProductState> {
   }
 
   bool get isLoading => _isLoading;
-
   String? get currentGenderFilter => _currentGenderFilter;
   String? get currentNameFilter => _currentNameFilter;
 }

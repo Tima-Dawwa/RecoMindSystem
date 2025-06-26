@@ -22,8 +22,6 @@ class PaginatedProductResponse {
 
   factory PaginatedProductResponse.fromJson(Map<String, dynamic> json) {
     try {
-    
-
       final List<dynamic> productsJson =
           json['products'] ??
           json['data'] ??
@@ -38,8 +36,8 @@ class PaginatedProductResponse {
             products.add(AllProductModel.fromJson(productJson));
           }
         } catch (e) {
-          print('Error parsing product: $e');
-          print('Product JSON: $productJson');
+          // Skip invalid product data
+          continue;
         }
       }
 
@@ -61,9 +59,6 @@ class PaginatedProductResponse {
         hasMore: hasMore,
       );
     } catch (e) {
-      print('Error parsing PaginatedProductResponse: $e');
-      print('JSON: $json');
-
       return PaginatedProductResponse(
         products: [],
         totalCount: 0,
@@ -78,9 +73,7 @@ class PaginatedProductResponse {
     if (value == null) return 0;
     if (value is int) return value;
     if (value is double) return value.toInt();
-    if (value is String) {
-      return int.tryParse(value) ?? 0;
-    }
+    if (value is String) return int.tryParse(value) ?? 0;
     return 0;
   }
 }
@@ -101,28 +94,17 @@ class AllProductService {
       if (page != null) queryParams['page'] = page.toString();
       if (name != null && name.isNotEmpty) queryParams['name'] = name;
       if (gender != null && gender.isNotEmpty) queryParams['gender'] = gender;
-    
-
-      print('Making API call with params: $queryParams'); 
 
       final response = await api.get(
         endPoint: 'dashboard/products',
         queryParameters: queryParams.isNotEmpty ? queryParams : null,
       );
 
-      print('API Response received: ${response.runtimeType}');
-
-      Map<String, dynamic> responseMap;
-      responseMap = response;
-    
-      final paginatedResponse = PaginatedProductResponse.fromJson(responseMap);
+      final paginatedResponse = PaginatedProductResponse.fromJson(response);
       return Right(paginatedResponse);
     } on DioException catch (e) {
-      print('DioException: ${e.message}');
-      print('Response data: ${e.response?.data}');
       return Left(Failure.fromDioException(e, statusCodeHandler));
     } catch (e) {
-      print('General error: $e');
       return Left(
         Failure(
           errTitle: 'Parse Error',
@@ -135,11 +117,7 @@ class AllProductService {
   Future<Either<Failure, AllProductModel?>> getProductById(String id) async {
     try {
       final response = await api.get(endPoint: 'dashboard/products/$id');
-
-      Map<String, dynamic> productMap;
-      productMap = response;
-    
-      return Right(AllProductModel.fromJson(productMap));
+      return Right(AllProductModel.fromJson(response));
     } on DioException catch (e) {
       if (e.response?.statusCode == 404) {
         return const Right(null);
@@ -173,18 +151,15 @@ class AllProductService {
 
   Future<Either<Failure, PaginatedProductResponse>> searchProducts({
     required String query,
-    int? limit,
     int? page,
   }) async {
-    return getAllProducts(name: query,  page: page);
+    return getAllProducts(name: query, page: page);
   }
 
   Future<Either<Failure, PaginatedProductResponse>> getProductsByGender({
     required String gender,
-
     int? page,
   }) async {
-    return getAllProducts(gender: gender,  page: page);
+    return getAllProducts(gender: gender, page: page);
   }
-
 }
