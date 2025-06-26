@@ -1,4 +1,3 @@
-import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/Model/all_product_model.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/view%20model/all_product_service.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/view%20model/all_product_state.dart';
 import 'package:dashboard/core/helper/failure.dart';
