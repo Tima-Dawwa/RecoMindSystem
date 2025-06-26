@@ -23,14 +23,12 @@ class _ManageProductsState extends State<ManageProducts>
   final Set<String> _selectedProducts = <String>{};
   String _searchQuery = '';
   String? _currentGenderFilter;
-
   int _currentPage = 1;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: genders.length, vsync: this);
-
     _currentGenderFilter = genders[0];
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -60,25 +58,24 @@ class _ManageProductsState extends State<ManageProducts>
   }
 
   void _onDelete() {
-    //    context.read<AllProductCubit>().deleteProduct(
+    if (_selectedProducts.isEmpty) return;
 
-    // );
+    final List<String> productIdsToDelete = _selectedProducts.toList();
+
+    context.read<AllProductCubit>().deleteMultipleProducts(
+      productIdsToDelete,
+      currentPage: _currentPage,
+    );
+
     setState(() {
       _selectedProducts.clear();
     });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Delete test'),
-        backgroundColor: Colors.orange,
-      ),
-    );
   }
 
   void _onSearchChanged(String value) {
     setState(() {
       _searchQuery = value;
-      _currentPage = 1;
+      _currentPage = 1; // Reset to first page when searching
     });
 
     if (value.isEmpty) {
@@ -100,22 +97,34 @@ class _ManageProductsState extends State<ManageProducts>
   void _onTabChanged(int index) {
     setState(() {
       _selectedProducts.clear();
-      _currentPage = 1;
+      _currentPage = 1; // Reset to first page when changing tabs
       _currentGenderFilter = genders[index];
     });
-    print(genders[index]);
+    print('Selected gender: ${genders[index]}');
     _applyCurrentFilters();
   }
 
   void _applyCurrentFilters() {
-    context.read<AllProductCubit>().applyFilters(
-      gender: _currentGenderFilter,
-      name: _searchQuery.isEmpty ? null : _searchQuery,
-      page: _currentPage,
+    print(
+      'Applying filters - Gender: $_currentGenderFilter, Page: $_currentPage, Search: $_searchQuery',
     );
+
+    if (_searchQuery.isNotEmpty) {
+      context.read<AllProductCubit>().searchProducts(
+        _searchQuery,
+        page: _currentPage,
+      );
+    } else {
+      context.read<AllProductCubit>().applyFilters(
+        gender: _currentGenderFilter,
+        name: null,
+        page: _currentPage,
+      );
+    }
   }
 
   void _onPageChanged(int page) {
+    print('Page changed to: $page');
     setState(() {
       _currentPage = page;
       _selectedProducts.clear();
@@ -233,190 +242,211 @@ class _ManageProductsState extends State<ManageProducts>
             ),
           ),
           Expanded(
-            child: BlocBuilder<AllProductCubit, AllProductState>(
-              builder: (context, state) {
-                if (state is LoadingAllProduct) {
-                  return const Center(child: CircularProgressIndicator());
+            child: BlocListener<AllProductCubit, AllProductState>(
+              listener: (context, state) {
+                if (state is DeleteSuccessAllProduct) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Products deleted successfully'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
                 }
-
                 if (state is FailureAllProduct) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.error_outline,
-                          size: 64,
-                          color: Colors.red[300],
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'Error loading products',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.red[600],
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          state.failure.errMessage,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[600],
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 16),
-                        ElevatedButton(
-                          onPressed: _refreshProducts,
-                          child: const Text('Retry'),
-                        ),
-                      ],
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Error: ${state.failure.errMessage}'),
+                      backgroundColor: Colors.red,
                     ),
                   );
                 }
+              },
+              child: BlocBuilder<AllProductCubit, AllProductState>(
+                builder: (context, state) {
+                  if (state is LoadingAllProduct ||
+                      state is SearchingAllProduct) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
 
-                if (state is SearchingAllProduct) {
-                  return const Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircularProgressIndicator(),
-                        SizedBox(height: 16),
-                        Text('Searching products...'),
-                      ],
-                    ),
-                  );
-                }
-
-                List<AllProductModel> products = [];
-                int totalCount = 0;
-                int currentPage = 1;
-                int totalPages = 1;
-
-                if (state is SuccessAllProduct) {
-                  products = state.products;
-                  totalCount = state.totalCount;
-                  currentPage = state.currentPage;
-                  totalPages = state.totalPages;
-
-                  _currentPage = currentPage;
-                } else if (state is SearchSuccessAllProduct) {
-                  products = state.searchResults;
-                  totalCount = state.totalCount;
-                  currentPage = state.currentPage;
-                  totalPages = state.totalPages;
-
-                  _currentPage = currentPage;
-                }
-
-                if (products.isEmpty &&
-                    (state is! LoadingAllProduct &&
-                        state is! SearchingAllProduct)) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.sentiment_dissatisfied,
-                          size: 64,
-                          color: Colors.grey,
-                        ),
-                        const SizedBox(height: 16),
-                        const Text(
-                          'No products found',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Try adjusting your search or filters.',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        ElevatedButton(
-                          onPressed: _refreshProducts,
-                          child: const Text('Refresh'),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-
-                return Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  if (state is FailureAllProduct) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          Icon(
+                            Icons.error_outline,
+                            size: 64,
+                            color: Colors.red[300],
+                          ),
+                          const SizedBox(height: 16),
                           Text(
-                            'Showing ${products.length} of $totalCount products',
+                            'Error loading products',
                             style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[600],
+                              fontSize: 18,
+                              color: Colors.red[600],
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          if (totalPages > 1)
+                          const SizedBox(height: 8),
+                          Text(
+                            state.failure.errMessage,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600],
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: _refreshProducts,
+                            child: const Text('Retry'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+
+                  List<AllProductModel> products = [];
+                  int totalCount = 0;
+                  int currentPage = 1;
+                  int totalPages = 1;
+
+                  if (state is SuccessAllProduct) {
+                    products = state.products;
+                    totalCount = state.totalCount;
+                    currentPage = state.currentPage;
+                    totalPages = state.totalPages;
+                  } else if (state is SearchSuccessAllProduct) {
+                    products = state.searchResults;
+                    totalCount = state.totalCount;
+                    currentPage = state.currentPage;
+                    totalPages = state.totalPages;
+                  }
+
+                  // Don't update _currentPage from state if we're navigating
+                  // Only sync it during initial load or refresh
+                  if (state is SuccessAllProduct ||
+                      state is SearchSuccessAllProduct) {
+                    // Only update local page state if it's the initial load
+                    if (_currentPage == 1 && currentPage == 1) {
+                      // This is likely an initial load, safe to sync
+                    } else {
+                      // Use our local page state for display
+                      currentPage = _currentPage;
+                    }
+                  }
+
+                  if (products.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.sentiment_dissatisfied,
+                            size: 64,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'No products found',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            _searchQuery.isNotEmpty
+                                ? 'No products match your search "${_searchQuery}"'
+                                : 'Try adjusting your filters or refresh the page.',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600],
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: _refreshProducts,
+                            child: const Text('Refresh'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+
+                  return Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
                             Text(
-                              'Page $currentPage of $totalPages',
+                              'Showing ${products.length} of $totalCount products',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey[600],
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                        ],
-                      ),
-                    ),
-
-                    Expanded(
-                      child: RefreshIndicator(
-                        onRefresh: () async {
-                          _refreshProducts();
-                        },
-                        child: ProductsGridView(
-                          products: products,
-                          selectedProducts: _selectedProducts,
-                          onProductTap: _onProductTap,
-                          onProductDoubleTap: _onProductDoubleTap,
-                          onLoadMore: null,
+                            if (totalPages > 1)
+                              Text(
+                                'Page ${_currentPage} of $totalPages',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey[600],
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                          ],
                         ),
                       ),
-                    ),
 
-                    // Pagination widget
-                    if (totalPages > 1)
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
-                        ),
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          border: Border(
-                            top: BorderSide(color: Color(0xFFE2E8F0), width: 1),
+                      Expanded(
+                        child: RefreshIndicator(
+                          onRefresh: () async {
+                            _refreshProducts();
+                          },
+                          child: ProductsGridView(
+                            products: products,
+                            selectedProducts: _selectedProducts,
+                            onProductTap: _onProductTap,
+                            onProductDoubleTap: _onProductDoubleTap,
+                            onLoadMore: null,
                           ),
                         ),
-                        child: PaginationWidget(
-                          currentPage: currentPage,
-                          totalPages: totalPages,
-                          onPageChanged: _onPageChanged,
-                        ),
                       ),
-                  ],
-                );
-              },
+
+                      // Pagination widget
+                      if (totalPages > 1)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            border: Border(
+                              top: BorderSide(
+                                color: Color(0xFFE2E8F0),
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                          child: PaginationWidget(
+                            currentPage: _currentPage,
+                            totalPages: totalPages,
+                            onPageChanged: _onPageChanged,
+                          ),
+                        ),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
         ],
