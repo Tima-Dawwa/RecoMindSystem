@@ -1,4 +1,5 @@
-import 'package:dashboard/features/Product/Manage%20Existing%20Product/Product%20Details%20Mangment/view/widgets/form_component.dart';
+import 'package:dashboard/features/Product/Manage%20Existing%20Product/Product%20Details%20Mangment/view/widgets/form_component.dart'
+    as custom_form;
 import 'package:flutter/material.dart';
 
 class ProductForm extends StatelessWidget {
@@ -7,6 +8,7 @@ class ProductForm extends StatelessWidget {
   final TextEditingController priceController;
   final TextEditingController discountPriceController;
   final TextEditingController colorController;
+  final TextEditingController quantityController;
   final String selectedCategory;
   final String selectedDepartment;
   final String selectedGender;
@@ -28,6 +30,7 @@ class ProductForm extends StatelessWidget {
     required this.priceController,
     required this.discountPriceController,
     required this.colorController,
+    required this.quantityController, // Add this to constructor
     required this.selectedCategory,
     required this.selectedDepartment,
     required this.selectedGender,
@@ -43,242 +46,279 @@ class ProductForm extends StatelessWidget {
     required this.isMobile,
   });
 
-  Widget _buildFormField({required String label, required Widget child}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-        ),
-        const SizedBox(height: 8),
-        child,
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // Name and Color Row
-        isMobile
-            ? Column(
-              children: [
-                _buildFormField(
-                  label: 'Product Name',
-                  child: CustomTextField(
-                    controller: nameController,
-                    label: 'Product Name',
+    if (isMobile) {
+      return Column(
+        children: [
+          // Product Name
+          custom_form.FormField(
+            label: 'Product Name',
+            child: custom_form.CustomTextField(
+              controller: nameController,
+              label: 'Product Name',
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Description
+          custom_form.FormField(
+            label: 'Description',
+            child: custom_form.CustomTextField(
+              controller: descriptionController,
+              label: 'Description',
+              maxLines: 3,
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Price and Discount Price
+          Row(
+            children: [
+              Expanded(
+                child: custom_form.FormField(
+                  label: 'Price',
+                  child: custom_form.CustomTextField(
+                    controller: priceController,
+                    label: 'Price',
+                    keyboardType: TextInputType.number,
+                    prefix: '\$',
                   ),
                 ),
-                const SizedBox(height: 20),
-                _buildFormField(
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: custom_form.FormField(
+                  label: 'Discount Price',
+                  child: custom_form.CustomTextField(
+                    controller: discountPriceController,
+                    label: 'Discount Price',
+                    keyboardType: TextInputType.number,
+                    prefix: '\$',
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+
+          // Quantity and Color
+          Row(
+            children: [
+              Expanded(
+                child: custom_form.FormField(
+                  label: 'Quantity',
+                  child: custom_form.CustomTextField(
+                    controller: quantityController,
+                    label: 'Quantity',
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: custom_form.FormField(
                   label: 'Color',
-                  child: CustomTextField(
+                  child: custom_form.CustomTextField(
                     controller: colorController,
                     label: 'Color',
                   ),
                 ),
-              ],
-            )
-            : Row(
-              children: [
-                Expanded(
-                  child: _buildFormField(
-                    label: 'Product Name',
-                    child: CustomTextField(
-                      controller: nameController,
-                      label: 'Product Name',
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 15),
-                Expanded(
-                  child: _buildFormField(
-                    label: 'Color',
-                    child: CustomTextField(
-                      controller: colorController,
-                      label: 'Color',
-                    ),
-                  ),
-                ),
-              ],
-            ),
-        const SizedBox(height: 15),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
 
-        // Category, Department, Gender, and Appearance Row
-        isMobile
-            ? Column(
-              children: [
-                _buildFormField(
+          // Category Dropdown
+          custom_form.FormField(
+            label: 'Category',
+            child: custom_form.CustomDropdown<String>(
+              value: selectedCategory,
+              items: categories,
+              label: 'Category',
+              onChanged: onCategoryChanged,
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Department Dropdown
+          custom_form.FormField(
+            label: 'Department',
+            child: custom_form.CustomDropdown<String>(
+              value: selectedDepartment,
+              items: departments,
+              label: 'Department',
+              onChanged: onDepartmentChanged,
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Gender Dropdown
+          custom_form.FormField(
+            label: 'Gender',
+            child: custom_form.CustomDropdown<String>(
+              value: selectedGender,
+              items: genders,
+              label: 'Gender',
+              onChanged: onGenderChanged,
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Appearance Dropdown
+          custom_form.FormField(
+            label: 'Appearance',
+            child: custom_form.CustomDropdown<String>(
+              value: selectedAppearance,
+              items: appearances,
+              label: 'Appearance',
+              onChanged: onAppearanceChanged,
+            ),
+          ),
+        ],
+      );
+    } else {
+      // Desktop/tablet layout
+      return Column(
+        children: [
+          // Product Name
+          custom_form.FormField(
+            label: 'Product Name',
+            child: custom_form.CustomTextField(
+              controller: nameController,
+              label: 'Product Name',
+            ),
+          ),
+          const SizedBox(height: 20),
+
+          // Description
+          custom_form.FormField(
+            label: 'Description',
+            child: custom_form.CustomTextField(
+              controller: descriptionController,
+              label: 'Description',
+              maxLines: 3,
+            ),
+          ),
+          const SizedBox(height: 20),
+
+          // Price Row
+          Row(
+            children: [
+              Expanded(
+                child: custom_form.FormField(
+                  label: 'Price',
+                  child: custom_form.CustomTextField(
+                    controller: priceController,
+                    label: 'Price',
+                    keyboardType: TextInputType.number,
+                    prefix: '\$',
+                  ),
+                ),
+              ),
+              const SizedBox(width: 20),
+              Expanded(
+                child: custom_form.FormField(
+                  label: 'Discount Price',
+                  child: custom_form.CustomTextField(
+                    controller: discountPriceController,
+                    label: 'Discount Price',
+                    keyboardType: TextInputType.number,
+                    prefix: '\$',
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+
+          // Quantity and Color Row
+          Row(
+            children: [
+              Expanded(
+                child: custom_form.FormField(
+                  label: 'Quantity',
+                  child: custom_form.CustomTextField(
+                    controller: quantityController,
+                    label: 'Quantity',
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 20),
+              Expanded(
+                child: custom_form.FormField(
+                  label: 'Color',
+                  child: custom_form.CustomTextField(
+                    controller: colorController,
+                    label: 'Color',
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+
+          // Dropdowns Row 1
+          Row(
+            children: [
+              Expanded(
+                child: custom_form.FormField(
                   label: 'Category',
-                  child: CustomDropdown<String>(
+                  child: custom_form.CustomDropdown<String>(
                     value: selectedCategory,
                     items: categories,
                     label: 'Category',
                     onChanged: onCategoryChanged,
                   ),
                 ),
-                const SizedBox(height: 15),
-                _buildFormField(
+              ),
+              const SizedBox(width: 20),
+              Expanded(
+                child: custom_form.FormField(
                   label: 'Department',
-                  child: CustomDropdown<String>(
+                  child: custom_form.CustomDropdown<String>(
                     value: selectedDepartment,
                     items: departments,
                     label: 'Department',
                     onChanged: onDepartmentChanged,
                   ),
                 ),
-                const SizedBox(height: 15),
-                _buildFormField(
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+
+          // Dropdowns Row 2
+          Row(
+            children: [
+              Expanded(
+                child: custom_form.FormField(
                   label: 'Gender',
-                  child: CustomDropdown<String>(
+                  child: custom_form.CustomDropdown<String>(
                     value: selectedGender,
                     items: genders,
                     label: 'Gender',
                     onChanged: onGenderChanged,
                   ),
                 ),
-                const SizedBox(height: 15),
-                _buildFormField(
+              ),
+              const SizedBox(width: 20),
+              Expanded(
+                child: custom_form.FormField(
                   label: 'Appearance',
-                  child: CustomDropdown<String>(
+                  child: custom_form.CustomDropdown<String>(
                     value: selectedAppearance,
                     items: appearances,
                     label: 'Appearance',
                     onChanged: onAppearanceChanged,
                   ),
                 ),
-              ],
-            )
-            : Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildFormField(
-                        label: 'Category',
-                        child: CustomDropdown<String>(
-                          value: selectedCategory,
-
-                          items: categories,
-                          label: 'Category',
-                          onChanged: onCategoryChanged,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: _buildFormField(
-                        label: 'Department',
-                        child: CustomDropdown<String>(
-                          value: selectedDepartment,
-
-                          items: departments,
-                          label: 'Department',
-                          onChanged: onDepartmentChanged,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 15),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildFormField(
-                        label: 'Gender',
-                        child: CustomDropdown<String>(
-                          value: selectedGender,
-                          items: genders,
-                          label: 'Gender',
-                          onChanged: onGenderChanged,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: _buildFormField(
-                        label: 'Appearance',
-                        child: CustomDropdown<String>(
-                          value: selectedAppearance,
-                          items: appearances,
-                          label: 'Appearance',
-                          onChanged: onAppearanceChanged,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-        const SizedBox(height: 15),
-
-        // Price Fields Row
-        isMobile
-            ? Column(
-              children: [
-                _buildFormField(
-                  label: 'Regular Price',
-                  child: CustomTextField(
-                    controller: priceController,
-                    label: 'Price',
-                    keyboardType: TextInputType.number,
-                    prefix: '\$ ',
-                  ),
-                ),
-                const SizedBox(height: 20),
-                _buildFormField(
-                  label: 'Discount Price',
-                  child: CustomTextField(
-                    controller: discountPriceController,
-                    label: 'Discount Price',
-                    keyboardType: TextInputType.number,
-                    prefix: '\$ ',
-                  ),
-                ),
-              ],
-            )
-            : Row(
-              children: [
-                Expanded(
-                  child: _buildFormField(
-                    label: 'Regular Price',
-                    child: CustomTextField(
-                      controller: priceController,
-                      label: 'Price',
-                      keyboardType: TextInputType.number,
-                      prefix: '\$ ',
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: _buildFormField(
-                    label: 'Discount Price',
-                    child: CustomTextField(
-                      controller: discountPriceController,
-                      label: 'Discount Price',
-                      keyboardType: TextInputType.number,
-                      prefix: '\$ ',
-                    ),
-                  ),
-                ),
-              ],
-            ),
-        const SizedBox(height: 20),
-
-        // Description Field
-        _buildFormField(
-          label: 'Product Description',
-          child: CustomTextField(
-            controller: descriptionController,
-            label: 'Description',
-            maxLines: 5,
+              ),
+            ],
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    }
   }
 }

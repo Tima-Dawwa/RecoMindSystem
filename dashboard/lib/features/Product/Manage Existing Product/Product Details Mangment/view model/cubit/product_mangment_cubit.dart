@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/Product%20Details%20Mangment/model/product_Model.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/Product%20Details%20Mangment/view%20model/cubit/product_managment_states.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/Product%20Details%20Mangment/view%20model/manage_product_service.dart';
@@ -34,8 +35,9 @@ class ManageProductCubit extends Cubit<ManageProductStates> {
     int? quantity,
     String? appearance,
     double? discountPrice,
-   required List<String>imagesToKeep,
+    required List<String> imagesToKeep,
     List<String>? newImages,
+    List<Uint8List>? newImageBytes, // Add this parameter
   }) async {
     emit(LoadingManageProduct());
 
@@ -53,6 +55,7 @@ class ManageProductCubit extends Cubit<ManageProductStates> {
       appearance: appearance,
       imagesToKeep: imagesToKeep,
       newImages: newImages,
+      newImageBytes: newImageBytes, // Pass the bytes
     );
 
     result.fold((failure) => emit(FailureManageProduct(failure: failure)), (
