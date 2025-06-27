@@ -1,4 +1,4 @@
-import 'package:dashboard/features/Product/Manage%20Existing%20Product/Product%20Details%20Mangment/widgets/form_component.dart';
+import 'package:dashboard/features/Product/Manage%20Existing%20Product/Product%20Details%20Mangment/view/widgets/form_component.dart';
 import 'package:flutter/material.dart';
 
 class ProductForm extends StatelessWidget {
