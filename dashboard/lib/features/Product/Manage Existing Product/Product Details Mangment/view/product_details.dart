@@ -571,14 +571,12 @@ class _ProductDetailsState extends State<ProductDetails> {
         width: double.infinity,
         height: double.infinity,
         fit: BoxFit.cover,
+        headers: {"ngrok-skip-browser-warning": "true"},
         errorBuilder: (context, error, stackTrace) {
+          print(error.toString());
           return Container(
             color: Colors.grey[200],
-            child: Icon(
-              Icons.broken_image,
-              color: Colors.grey[600],
-              size: 32,
-            ),
+            child: Icon(Icons.broken_image, color: Colors.grey[600], size: 32),
           );
         },
       );
@@ -604,15 +602,10 @@ class _ProductDetailsState extends State<ProductDetails> {
         } else {
           return Container(
             color: Colors.grey[200],
-            child: Icon(
-              Icons.broken_image,
-              color: Colors.grey[600],
-              size: 32,
-            ),
+            child: Icon(Icons.broken_image, color: Colors.grey[600], size: 32),
           );
         }
       } else {
-
         return Image.file(
           File(imagePath),
           width: double.infinity,
@@ -702,6 +695,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                               height: 60,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
+                                print(error.toString());
+
                                 return Container(
                                   color: Colors.grey[300],
                                   child: Icon(
