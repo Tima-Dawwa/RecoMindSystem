@@ -26,7 +26,7 @@ class ProductCard extends StatelessWidget {
         product.isTrend ? 'trending' : (product.isNew ? 'new' : 'normal');
     final amount = product.quantity;
     final imageUrl =
-        "https://5689-185-182-194-242.ngrok-free.app${product.image}";
+        "https://8a35-185-165-243-137.ngrok-free.app${product.image}";
 
     if (isCompactView) {
       return _buildCompactCard(context, status, amount, imageUrl);

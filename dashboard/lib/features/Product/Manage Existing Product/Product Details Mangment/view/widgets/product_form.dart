@@ -10,12 +10,15 @@ class ProductForm extends StatelessWidget {
   final String selectedCategory;
   final String selectedDepartment;
   final String selectedGender;
+  final String selectedAppearance;
   final List<String> categories;
   final List<String> departments;
   final List<String> genders;
+  final List<String> appearances;
   final Function(String?) onCategoryChanged;
   final Function(String?) onDepartmentChanged;
   final Function(String?) onGenderChanged;
+  final Function(String?) onAppearanceChanged;
   final bool isMobile;
 
   const ProductForm({
@@ -28,12 +31,15 @@ class ProductForm extends StatelessWidget {
     required this.selectedCategory,
     required this.selectedDepartment,
     required this.selectedGender,
+    required this.selectedAppearance,
     required this.categories,
     required this.departments,
     required this.genders,
+    required this.appearances,
     required this.onCategoryChanged,
     required this.onDepartmentChanged,
     required this.onGenderChanged,
+    required this.onAppearanceChanged,
     required this.isMobile,
   });
 
@@ -55,6 +61,7 @@ class ProductForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        // Name and Color Row
         isMobile
             ? Column(
               children: [
@@ -100,6 +107,7 @@ class ProductForm extends StatelessWidget {
             ),
         const SizedBox(height: 15),
 
+        // Category, Department, Gender, and Appearance Row
         isMobile
             ? Column(
               children: [
@@ -132,49 +140,82 @@ class ProductForm extends StatelessWidget {
                     onChanged: onGenderChanged,
                   ),
                 ),
+                const SizedBox(height: 15),
+                _buildFormField(
+                  label: 'Appearance',
+                  child: CustomDropdown<String>(
+                    value: selectedAppearance,
+                    items: appearances,
+                    label: 'Appearance',
+                    onChanged: onAppearanceChanged,
+                  ),
+                ),
               ],
             )
-            : Row(
+            : Column(
               children: [
-                Expanded(
-                  child: _buildFormField(
-                    label: 'Category',
-                    child: CustomDropdown<String>(
-                      value: selectedCategory,
-                      items: categories,
-                      label: 'Category',
-                      onChanged: onCategoryChanged,
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildFormField(
+                        label: 'Category',
+                        child: CustomDropdown<String>(
+                          value: selectedCategory,
+
+                          items: categories,
+                          label: 'Category',
+                          onChanged: onCategoryChanged,
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: _buildFormField(
+                        label: 'Department',
+                        child: CustomDropdown<String>(
+                          value: selectedDepartment,
+
+                          items: departments,
+                          label: 'Department',
+                          onChanged: onDepartmentChanged,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: _buildFormField(
-                    label: 'Department',
-                    child: CustomDropdown<String>(
-                      value: selectedDepartment,
-                      items: departments,
-                      label: 'Department',
-                      onChanged: onDepartmentChanged,
+                const SizedBox(height: 15),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildFormField(
+                        label: 'Gender',
+                        child: CustomDropdown<String>(
+                          value: selectedGender,
+                          items: genders,
+                          label: 'Gender',
+                          onChanged: onGenderChanged,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: _buildFormField(
-                    label: 'Gender',
-                    child: CustomDropdown<String>(
-                      value: selectedGender,
-                      items: genders,
-                      label: 'Gender',
-                      onChanged: onGenderChanged,
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: _buildFormField(
+                        label: 'Appearance',
+                        child: CustomDropdown<String>(
+                          value: selectedAppearance,
+                          items: appearances,
+                          label: 'Appearance',
+                          onChanged: onAppearanceChanged,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),
         const SizedBox(height: 15),
 
+        // Price Fields Row
         isMobile
             ? Column(
               children: [
@@ -227,6 +268,8 @@ class ProductForm extends StatelessWidget {
               ],
             ),
         const SizedBox(height: 20),
+
+        // Description Field
         _buildFormField(
           label: 'Product Description',
           child: CustomTextField(
