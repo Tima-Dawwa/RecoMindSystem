@@ -1,3 +1,5 @@
+import 'package:dashboard/features/Product/Manage%20Existing%20Product/Product%20Details%20Mangment/view%20model/cubit/product_mangment_cubit.dart';
+import 'package:dashboard/features/Product/Manage%20Existing%20Product/Product%20Details%20Mangment/view%20model/manage_product_service.dart';
 import 'package:flutter/material.dart';
 import 'package:dashboard/dashboard.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,6 +37,11 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => AllProductCubit(getIt.get<AllProductService>()),
+        ),
+        BlocProvider(
+          create:
+              (context) =>
+                  ManageProductCubit(getIt.get<ManageProductService>()),
         ),
       ],
       child: MaterialApp(
