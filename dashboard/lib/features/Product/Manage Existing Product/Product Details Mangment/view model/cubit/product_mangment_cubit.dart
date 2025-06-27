@@ -33,7 +33,8 @@ class ManageProductCubit extends Cubit<ManageProductStates> {
     double? price,
     int? quantity,
     String? appearance,
-    List<String>? imagesToKeep,
+    double? discountPrice,
+   required List<String>imagesToKeep,
     List<String>? newImages,
   }) async {
     emit(LoadingManageProduct());
@@ -46,6 +47,7 @@ class ManageProductCubit extends Cubit<ManageProductStates> {
       department: department,
       color: color,
       gender: gender,
+      discountedPrice: discountPrice,
       price: price,
       quantity: quantity,
       appearance: appearance,

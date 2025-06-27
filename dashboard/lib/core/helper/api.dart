@@ -4,7 +4,7 @@ class Api {
   Api(this._dio);
   //'http://localhost:5000'
   final Dio _dio;
-  final String baseUrl = 'https://5689-185-182-194-242.ngrok-free.app/';
+  final String baseUrl = 'https://8a35-185-165-243-137.ngrok-free.app/';
   final String token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU4YTU5ZjVlNzYzMGMwYzI4ZDBkZWJkYiIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkFsbGllIiwibGFzdF9uYW1lIjoiV2ViZXIifSwiaWF0IjoxNzQ5NDg3NDEwLCJleHAiOjE3NDk3NDY2MTB9.61iU7bhfiDg6i2xPTWSr5NAnw8KDPhTtCL2h7G9oOP8";
 

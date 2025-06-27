@@ -38,8 +38,9 @@ class ManageProductService {
     String? gender,
     double? price,
     int? quantity,
+    double? discountedPrice,
     String? appearance,
-    List<String>? imagesToKeep,
+    required List<String> imagesToKeep,
     List<String>? newImages,
   }) async {
     try {
@@ -54,7 +55,7 @@ class ManageProductService {
       if (price != null) body['price'] = price.toString();
       if (quantity != null) body['quantity'] = quantity.toString();
       if (appearance != null) body['appearance'] = appearance;
-
+      if (appearance != null) body['discounted_price'] = discountedPrice;
       if (imagesToKeep != null && imagesToKeep.isNotEmpty) {
         for (int i = 0; i < imagesToKeep.length; i++) {
           body['imagesToKeep[$i]'] = imagesToKeep[i];

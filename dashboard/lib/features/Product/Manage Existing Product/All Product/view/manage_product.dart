@@ -1,9 +1,9 @@
 import 'package:dashboard/core/utils/constant.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/view%20model/all_product_cubit.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/view/Widget/manage_product_content.dart';
+import 'package:dashboard/features/Product/Manage%20Existing%20Product/Product%20Details%20Mangment/view/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 class ManageProducts extends StatefulWidget {
   const ManageProducts({super.key});
@@ -40,7 +40,12 @@ class _ManageProductsState extends State<ManageProducts>
   }
 
   void _onProductTap(String productId) {
-    Navigator.pushNamed(context, '/product-details', arguments: productId);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProductDetails(productId: productId),
+      ),
+    );
   }
 
   void _onProductDoubleTap(String productId) {

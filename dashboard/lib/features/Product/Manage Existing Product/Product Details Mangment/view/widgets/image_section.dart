@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
-import 'package:flutter/foundation.dart';
 
 class ImageGallery extends StatelessWidget {
   final List<String> imageUrls;
@@ -101,7 +99,7 @@ class ImageGallery extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Colors.grey[100], // Fallback background color
+                      color: Colors.grey[100],
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
@@ -143,76 +141,17 @@ class ImageGallery extends StatelessWidget {
   }
 
   Widget _buildImage(String imagePath) {
-    // Check if it's a network URL or local file path
-    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-      // Network image
-      return Image.network(
-        imagePath,
-        width: double.infinity,
-        height: double.infinity,
-        fit: BoxFit.cover,
-        loadingBuilder: (context, child, loadingProgress) {
-          if (loadingProgress == null) return child;
-          return Container(
-            width: double.infinity,
-            height: double.infinity,
-            color: Colors.grey[200],
-            child: Center(
-              child: CircularProgressIndicator(
-                value:
-                    loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded /
-                            loadingProgress.expectedTotalBytes!
-                        : null,
-                strokeWidth: 2,
-                color: const Color(0xFF3B82F6),
-              ),
-            ),
-          );
-        },
-        errorBuilder: (context, error, stackTrace) {
-          return _buildErrorContainer('Failed to load');
-        },
-      );
-    } else {
-      // Handle local files differently for web vs mobile
-      if (kIsWeb) {
-        // For web, treat as network image or asset
-        if (imagePath.startsWith('assets/')) {
-          return Image.asset(
-            imagePath,
-            width: double.infinity,
-            height: double.infinity,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) {
-              return _buildErrorContainer('Asset not found');
-            },
-          );
-        } else {
-          // For web, if it's not an asset, try as network image
-          return Image.network(
-            imagePath,
-            width: double.infinity,
-            height: double.infinity,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) {
-              return _buildErrorContainer('Image not found');
-            },
-          );
-        }
-      } else {
-        // For mobile, use file image
-        return Image.file(
-          File(imagePath),
-          width: double.infinity,
-          height: double.infinity,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) {
-            return _buildErrorContainer('File not found');
-          },
-        );
-      }
-    }
+    print("https://8a35-185-165-243-137.ngrok-free.app/${imagePath}");
+    return Image.network(
+      "https://8a35-185-165-243-137.ngrok-free.app${imagePath}",
+      width: double.infinity,
+      height: double.infinity,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) {
+        print(error.toString());
+        return _buildErrorContainer(error.toString());
+      },
+    );
   }
 
   Widget _buildErrorContainer(String message) {
