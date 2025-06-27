@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:dartz/dartz.dart';
 import 'package:dashboard/core/helper/api.dart';
 import 'package:dashboard/core/helper/failure.dart';
@@ -38,39 +39,74 @@ class ManageProductService {
     String? gender,
     double? price,
     int? quantity,
-    double? discountedPrice,
     String? appearance,
-    required List<String> imagesToKeep,
+    double? discountedPrice,
+    List<String>? imagesToKeep,
     List<String>? newImages,
+    List<Uint8List>? newImageBytes, // Add this parameter for web support
   }) async {
     try {
-      final Map<String, dynamic> body = {};
+      // Use FormData for multipart requests when uploading files
+      final FormData formData = FormData();
 
-      if (name != null) body['name'] = name;
-      if (details != null) body['details'] = details;
-      if (type != null) body['type'] = type;
-      if (department != null) body['department'] = department;
-      if (color != null) body['color'] = color;
-      if (gender != null) body['gender'] = gender;
-      if (price != null) body['price'] = price.toString();
-      if (quantity != null) body['quantity'] = quantity.toString();
-      if (appearance != null) body['appearance'] = appearance;
-      if (appearance != null) body['discounted_price'] = discountedPrice;
+      // Add text fields
+      if (name != null) formData.fields.add(MapEntry('name', name));
+      if (details != null) formData.fields.add(MapEntry('details', details));
+      if (type != null) formData.fields.add(MapEntry('type', type));
+      if (department != null)
+        formData.fields.add(MapEntry('department', department));
+      if (color != null) formData.fields.add(MapEntry('color', color));
+      if (gender != null) formData.fields.add(MapEntry('gender', gender));
+      if (price != null)
+        formData.fields.add(MapEntry('price', price.toString()));
+      if (quantity != null)
+        formData.fields.add(MapEntry('quantity', quantity.toString()));
+      if (appearance != null)
+        formData.fields.add(MapEntry('appearance', appearance));
+      if (discountedPrice != null)
+        formData.fields.add(
+          MapEntry('discounted_price', discountedPrice.toString()),
+        );
+
+      // Add images to keep (existing images)
       if (imagesToKeep != null && imagesToKeep.isNotEmpty) {
         for (int i = 0; i < imagesToKeep.length; i++) {
-          body['imagesToKeep[$i]'] = imagesToKeep[i];
+          formData.fields.add(MapEntry('imagesToKeep[$i]', imagesToKeep[i]));
         }
       }
 
-      if (newImages != null && newImages.isNotEmpty) {
+      // Add new images
+      if (newImageBytes != null && newImageBytes.isNotEmpty) {
+        // For web - use bytes
+        for (int i = 0; i < newImageBytes.length; i++) {
+          formData.files.add(
+            MapEntry(
+              'images', // Use 'images' as the field name for new images
+              MultipartFile.fromBytes(
+                newImageBytes[i],
+                filename: 'image_$i.jpg', // Provide a filename
+              ),
+            ),
+          );
+        }
+      } else if (newImages != null && newImages.isNotEmpty) {
+        // For mobile/desktop - use file paths
         for (int i = 0; i < newImages.length; i++) {
-          body['images[$i]'] = newImages[i];
+          formData.files.add(
+            MapEntry(
+              'images', // Use 'images' as the field name for new images
+              await MultipartFile.fromFile(
+                newImages[i],
+                filename: 'image_$i.jpg',
+              ),
+            ),
+          );
         }
       }
 
       final response = await api.put(
         endPoint: 'dashboard/products/$id',
-        body: body,
+        body: formData,
       );
 
       final productData = response['data'];

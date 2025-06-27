@@ -1,15 +1,22 @@
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ImageGallery extends StatelessWidget {
   final List<String> imageUrls;
   final VoidCallback onPickImages;
   final Function(int) onRemoveImage;
+  final String? baseUrl;
+  final List<Uint8List>? webImageBytes; // Add this for web compatibility
 
   const ImageGallery({
     super.key,
     required this.imageUrls,
     required this.onPickImages,
     required this.onRemoveImage,
+    this.baseUrl,
+    this.webImageBytes,
   });
 
   @override
@@ -103,7 +110,7 @@ class ImageGallery extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: _buildImage(imageUrls[index]),
+                      child: _buildImage(imageUrls[index], index),
                     ),
                   ),
                   Positioned(
@@ -140,18 +147,118 @@ class ImageGallery extends StatelessWidget {
     );
   }
 
-  Widget _buildImage(String imagePath) {
-    print("https://8a35-185-165-243-137.ngrok-free.app/${imagePath}");
-    return Image.network(
-      "https://8a35-185-165-243-137.ngrok-free.app${imagePath}",
-      width: double.infinity,
-      height: double.infinity,
-      fit: BoxFit.cover,
-      errorBuilder: (context, error, stackTrace) {
-        print(error.toString());
-        return _buildErrorContainer(error.toString());
-      },
-    );
+  Widget _buildImage(String imagePath, int index) {
+    // Check if running on web
+    if (kIsWeb) {
+      // For web, check if we have byte data for this image
+      if (webImageBytes != null && index < webImageBytes!.length) {
+        return Image.memory(
+          webImageBytes![index],
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            print('Memory image error: $error');
+            return _buildErrorContainer('Failed to load image');
+          },
+        );
+      } else if (!imagePath.startsWith('/') && !imagePath.contains(':\\')) {
+        // Network image
+        final String imageUrl = _buildImageUrl(imagePath);
+        return Image.network(
+          imageUrl,
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.cover,
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return Container(
+              width: double.infinity,
+              height: double.infinity,
+              color: Colors.grey[200],
+              child: Center(
+                child: CircularProgressIndicator(
+                  value:
+                      loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                          : null,
+                  strokeWidth: 2,
+                  color: const Color(0xFF3B82F6),
+                ),
+              ),
+            );
+          },
+          errorBuilder: (context, error, stackTrace) {
+            print('Network image error: $error');
+            return _buildErrorContainer('Failed to load image');
+          },
+        );
+      } else {
+        // Local file path on web - not supported
+        return _buildErrorContainer('Local files not supported on web');
+      }
+    } else {
+      // For mobile/desktop platforms
+      if (imagePath.startsWith('/') || imagePath.contains(':\\')) {
+        // Local file path
+        return Image.file(
+          File(imagePath),
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            print('File image error: $error');
+            return _buildErrorContainer('Failed to load local image');
+          },
+        );
+      } else {
+        // Network image from backend
+        final String imageUrl = _buildImageUrl(imagePath);
+        return Image.network(
+          imageUrl,
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.cover,
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return Container(
+              width: double.infinity,
+              height: double.infinity,
+              color: Colors.grey[200],
+              child: Center(
+                child: CircularProgressIndicator(
+                  value:
+                      loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                          : null,
+                  strokeWidth: 2,
+                  color: const Color(0xFF3B82F6),
+                ),
+              ),
+            );
+          },
+          errorBuilder: (context, error, stackTrace) {
+            print('Network image error: $error');
+            return _buildErrorContainer('Failed to load image');
+          },
+        );
+      }
+    }
+  }
+
+  String _buildImageUrl(String imagePath) {
+    // Use provided baseUrl or default - make sure this matches your backend URL
+    final String base =
+        baseUrl ?? 'https://8a35-185-165-243-137.ngrok-free.app';
+
+    // Ensure imagePath starts with '/' for proper URL construction
+    if (!imagePath.startsWith('/')) {
+      imagePath = '/$imagePath';
+    }
+
+    return '$base$imagePath';
   }
 
   Widget _buildErrorContainer(String message) {
@@ -164,9 +271,15 @@ class ImageGallery extends StatelessWidget {
         children: [
           Icon(Icons.broken_image_outlined, color: Colors.grey[400], size: 32),
           const SizedBox(height: 4),
-          Text(
-            message,
-            style: TextStyle(color: Colors.grey[500], fontSize: 10),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Text(
+              message,
+              style: TextStyle(color: Colors.grey[500], fontSize: 10),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),
