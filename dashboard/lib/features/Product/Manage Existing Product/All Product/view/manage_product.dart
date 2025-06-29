@@ -43,7 +43,7 @@ class _ManageProductsState extends State<ManageProducts>
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ProductDetails(productId: productId),
+        builder: (context) => ProductDetailsScreen(productId: productId),
       ),
     );
   }

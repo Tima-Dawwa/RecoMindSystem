@@ -1,3 +1,4 @@
+import 'package:dashboard/core/utils/constant.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/Model/all_product_model.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/view/Widget/selected_card.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/view/Widget/widget_badge.dart';
@@ -25,8 +26,8 @@ class ProductCard extends StatelessWidget {
     final status =
         product.isTrend ? 'trending' : (product.isNew ? 'new' : 'normal');
     final amount = product.quantity;
-    final imageUrl =
-        "https://54d9-143-244-44-175.ngrok-free.app${product.image}";
+    final imageUrl = ngrok + product.image;
+
 
     if (isCompactView) {
       return _buildCompactCard(context, status, amount, imageUrl);
