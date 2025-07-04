@@ -248,6 +248,15 @@ async function updateAllProductAggregates() {
         throw error;
     }
 }
+const Admins = require('../models/admins.mongo');
+
+async function createAdmins() {
+    const admins = [
+        { username: 'ZYZZ', password: '12345678', role: 'Super-Admin' },
+    ]
+
+    await Admins.create(admins)
+}
 
 
 // async function createNotifications() {
@@ -268,6 +277,7 @@ module.exports = {
     createUsers,
     createProducts,
     createInteractions,
-    updateAllProductAggregates
+    updateAllProductAggregates,
+    createAdmins
     // createNotifications
 }
