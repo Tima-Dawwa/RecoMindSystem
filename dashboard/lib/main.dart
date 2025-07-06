@@ -1,6 +1,7 @@
+import 'package:dashboard/features/Authentication/view%20model/auth%20cubit/auth_cubit.dart';
+import 'package:dashboard/features/Authentication/view%20model/auth_service.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/Product%20Details%20Mangment/view%20model/cubit/product_mangment_cubit.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/Product%20Details%20Mangment/view%20model/manage_product_service.dart';
-import 'package:dashboard/features/Product/Manage%20Existing%20Product/Product%20Details%20Mangment/view/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:dashboard/dashboard.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,6 +44,11 @@ class MyApp extends StatelessWidget {
           create:
               (context) =>
                   ManageProductCubit(getIt.get<ManageProductService>()),
+        ),
+        BlocProvider(
+          create:
+              (context) =>
+                  AuthCubit(getIt.get<AuthService>()),
         ),
       ],
       child: MaterialApp(
