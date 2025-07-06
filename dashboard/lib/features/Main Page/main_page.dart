@@ -23,11 +23,6 @@ class MainPageScreen extends StatelessWidget {
             ),
             SizedBox(height: 8),
             Text('Welcome to the main page of your application'),
-            SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('Back to Dashboard'),
-            ),
           ],
         ),
       ),
