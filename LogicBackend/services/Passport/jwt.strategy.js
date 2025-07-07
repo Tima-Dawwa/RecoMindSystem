@@ -1,6 +1,7 @@
 require('dotenv').config();
 const passport = require('passport');
 const User = require('../../models/users.mongo');
+const Admin = require('../../models/admins.mongo');
 const { getBlacklist } = require('../../models/blacklist.model');
 
 var JwtStrategy = require('passport-jwt').Strategy,
@@ -14,11 +15,18 @@ passport.use(new JwtStrategy(opts, async (req, jwt_payload, done) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         const user = await User.findById(jwt_payload.id);
+
         if (user) {
             const check = await checkBlacklist(user.id, token)
             if (!check) return done(null, false);
             return done(null, user);
         } else {
+            const admin = await Admin.findById(jwt_payload.id);
+            if (admin) {
+                const check = await checkBlacklist(admin.id, token)
+                if (!check) return done(null, false);
+                return done(null, admin);
+            }
             return done(null, false);
             // or you could create a new account
         }
