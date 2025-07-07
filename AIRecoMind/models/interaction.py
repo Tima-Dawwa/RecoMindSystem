@@ -6,4 +6,4 @@ class Interaction(BaseModel):
     user_id: str
     product_id: str
     interaction_type: str
-    Interaction_weight: str
+    interaction_weight: float
