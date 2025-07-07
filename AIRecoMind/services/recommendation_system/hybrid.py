@@ -2,8 +2,8 @@ from bson import ObjectId
 from utils.database import product_collection
 from typing import List, Dict, Tuple
 import numpy as np
-from services.content_based import get_content_based_recommendations
-from services.collaborative import get_collaborative_recommendations
+from services.recommendation_system.content_based import get_content_based_recommendations
+from services.recommendation_system.collaborative import get_collaborative_recommendations
 
 
 def rerank_with_content_scores(

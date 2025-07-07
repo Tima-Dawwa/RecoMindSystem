@@ -1,3 +1,4 @@
+import asyncio
 import os
 import joblib
 import numpy as np
@@ -17,10 +18,11 @@ async def get_all_interactions() -> List[Interaction]:
     interactions = []
     async for doc in cursor:
         interactions.append(Interaction(
-            user_id=doc.get("user_id", ""),
-            product_id=doc.get("product_id", ""),
+            user_id=str(doc["user_id"]),
+            product_id=str(doc["product_id"]),
             interaction_type=doc.get("interaction_type", ""),
-            interaction_weight=doc.get("interaction_weight", ""),
+            interaction_weight=float(
+                doc.get("interaction_weight", 1.0)),  # default to 1.0
         ))
     return interactions
 
@@ -50,7 +52,6 @@ async def return_compute_interaction_score():
 
 
 def build_sparse_matrix(interactions: List[Interaction]) -> Tuple[coo_matrix, LabelEncoder, LabelEncoder]:
-
     user_ids = [interaction.user_id for interaction in interactions]
     product_ids = [interaction.product_id for interaction in interactions]
     weights = [float(interaction.interaction_weight)
@@ -89,19 +90,19 @@ def train_als_model(
 
 def save_model_and_encoders(model: AlternatingLeastSquares, user_encoder: LabelEncoder,
                             item_encoder: LabelEncoder, matrix: coo_matrix):
-    os.makedirs('models', exist_ok=True)
+    os.makedirs('data', exist_ok=True)
 
-    dump(model, 'models/als_model.joblib', compress=3)
-    dump(user_encoder, 'models/user_encoder.joblib', compress=3)
-    dump(item_encoder, 'models/item_encoder.joblib', compress=3)
-    dump(matrix, 'models/interaction_matrix.joblib', compress=3)
+    dump(model, 'data/als_model.joblib', compress=3)
+    dump(user_encoder, 'data/user_encoder.joblib', compress=3)
+    dump(item_encoder, 'data/item_encoder.joblib', compress=3)
+    dump(matrix, 'data/interaction_matrix.joblib', compress=3)
 
 
 def load_model_and_encoders():
-    model = joblib.load('models/als_model.joblib')
-    user_encoder = joblib.load('models/user_encoder.joblib')
-    item_encoder = joblib.load('models/item_encoder.joblib')
-    matrix = joblib.load('models/interaction_matrix.joblib')
+    model = joblib.load('data/als_model.joblib')
+    user_encoder = joblib.load('data/user_encoder.joblib')
+    item_encoder = joblib.load('data/item_encoder.joblib')
+    matrix = joblib.load('data/interaction_matrix.joblib')
     return model, user_encoder, item_encoder, matrix
 
 
@@ -112,9 +113,7 @@ async def get_fallback_recommendations(top_n=20) -> List[str]:
 
 
 async def get_collaborative_recommendations(user_id: str, top_n: int = 20) -> List[str]:
-
     model, user_encoder, item_encoder, user_item_matrix = load_model_and_encoders()
-
     if user_id not in user_encoder.classes_:
         return await get_fallback_recommendations(top_n)
     user_index = np.where(user_encoder.classes_ == user_id)[0][0]
@@ -130,3 +129,12 @@ async def retrain_als_model():
     model = train_als_model(matrix)
     save_model_and_encoders(model, user_encoder, item_encoder, matrix)
     return True
+
+
+# here for the first time
+# async def main():
+#     await retrain_als_model()
+
+
+# # Run the async main function
+# asyncio.run(main())

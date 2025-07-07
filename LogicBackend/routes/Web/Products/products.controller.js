@@ -25,6 +25,17 @@ async function httpGetAllProducts(req, res) {
   return res.status(200).json({ data: serializedData(data, productData), count: length })
 }
 
+async function httpGetCollaborativeProducts(req, res) {
+  let recommendedProducts = [];
+  try {
+    const recommendations = await axios.get(
+      "http://127.0.0.1:8000/collaborative-recommendations",
+    );
+    recommendedProducts = await getProductsByIds(recommendations.data);
+  } catch (error) { }
+  return res.status(200).json({ data: recommendedProducts, count: recommendedProducts.length })
+}
+
 // Done
 async function httpGetOneProduct(req, res) {
   const product = await getProductById(req.params.id);
@@ -93,5 +104,6 @@ async function httpRateProduct(req, res) {
 module.exports = {
   httpGetAllProducts,
   httpGetOneProduct,
-  httpRateProduct
+  httpRateProduct,
+  httpGetCollaborativeProducts
 };
