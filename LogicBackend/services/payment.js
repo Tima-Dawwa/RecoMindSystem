@@ -1,7 +1,7 @@
 require('dotenv').config()
 const URL = process.env.URL;
 
-function createPaymentData(data, amount, type) {
+function createPaymentData(cart, amount, type) {
     const currency = 'USD';
 
     // Transform cart items into PayPal-compatible items
