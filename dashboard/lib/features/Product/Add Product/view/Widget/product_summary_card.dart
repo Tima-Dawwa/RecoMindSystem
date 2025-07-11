@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dashboard/core/theme.dart';
+import 'package:dashboard/core/utils/theme.dart';
 import 'card_wrapper.dart';
 
 class ProductSummaryCard extends StatelessWidget {

@@ -1,4 +1,3 @@
-import 'package:dashboard/features/Main%20Page/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dashboard/core/helper/validators.dart';
@@ -8,6 +7,7 @@ import 'package:dashboard/core/widgets/custom_textfield.dart';
 import 'package:dashboard/features/Authentication/view%20model/auth%20cubit/auth_cubit.dart';
 import 'package:dashboard/features/Authentication/view%20model/auth%20cubit/auth_states.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPageBody extends StatefulWidget {
   const LoginPageBody({super.key});
@@ -38,14 +38,7 @@ class _LoginPageBodyState extends State<LoginPageBody> {
         child: BlocConsumer<AuthCubit, AuthStates>(
           listener: (context, state) {
             if (state is SuccessAuthState) {
-               Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const MainPageScreen();
-                  },
-                ),
-              );
+              context.go('/dashboard');
             }
           },
           builder: (context, state) {

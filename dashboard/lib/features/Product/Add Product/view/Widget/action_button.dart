@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dashboard/core/theme.dart';
+import 'package:dashboard/core/utils/theme.dart';
 
 class ActionButtons extends StatelessWidget {
   final VoidCallback onSave;
