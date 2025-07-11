@@ -11,14 +11,18 @@ const { incrementInteractionCount } = require('../../../models/products.model');
 async function httpGetOrders(req, res) {
     const { skip, limit } = getPagination(req.query);
     const data = await getOrdersForUser(req.user.id, skip, limit);
-    const orders = data.map((order, idx) => ({
-        order_number: skip + idx + 1,
-        order_id: order._id,
-        products_count: order.orderItems.length,
-        total_price: order.total_price,
-        created_at: order.createdAt,
-        status: order.status
-    }));
+    const orders = data.map((order, idx) => {
+
+        const products_count = order.orderItems.reduce((sum, item) => sum + (item.quantity || 0), 0);
+        return {
+            order_number: skip + idx + 1,
+            order_id: order._id,
+            products_count: products_count,
+            total_price: order.total_price,
+            created_at: order.createdAt,
+            status: order.status
+        };
+    });
     const count = orders.length;
     return res.status(200).json({ data: orders, count });
 }
@@ -37,14 +41,14 @@ async function httpGetOrder(req, res) {
             name: product ? product.name : undefined,
             price: item.price,
             discounted_price: product ? product.discounted_price : undefined,
-            department: product ? product.department : undefined,
+            department: product ? (product.department || product.category) : undefined,
             image: product && product.images ? product.images[0] : undefined,
             quantity: item.quantity
         };
     });
     const orderDetails = {
         order_id: order._id,
-        products_count: order.orderItems.length,
+        products_count: order.orderItems.reduce((sum, item) => sum + (item.quantity || 0), 0),
         total_price: order.total_price,
         created_at: order.createdAt,
         status: order.status,
