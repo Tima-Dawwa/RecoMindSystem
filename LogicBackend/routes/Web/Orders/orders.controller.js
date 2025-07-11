@@ -59,7 +59,7 @@ async function httpPostOrder(req, res) {
 
     for (let i = 0; i < cart.items.length; i++) {
         await postInteraction(req.user._id, cart.items[i].product._id, INTERACTION_TYPES.ORDER)
-        await incrementInteractionCount(req.params.id, INTERACTION_TYPES.FAVORITE)
+        await incrementInteractionCount(cart.items[i].product, INTERACTION_TYPES.FAVORITE)
     }
     await resetCart(req.user._id)
 
