@@ -63,8 +63,11 @@ async function httpPostOrder(req, res) {
     }
     await resetCart(req.user._id)
 
-    req.body.data = createPaymentData(cart);
-    paymentSheet(req, res)
+    return res.status(200).json({ message: "Order Success" });
+
+
+    // req.body.data = createPaymentData(cart);
+    // paymentSheet(req, res)
 }
 
 module.exports = {
