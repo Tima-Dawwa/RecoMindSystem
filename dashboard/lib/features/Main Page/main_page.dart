@@ -1,16 +1,12 @@
 import 'package:dashboard/core/utils/theme.dart';
 import 'package:flutter/material.dart';
 
-class MainPageScreen extends StatelessWidget {
-  const MainPageScreen({super.key});
+class MainPage extends StatelessWidget {
+  const MainPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Main Page', style: TextStyle(color: Themes.bg)),
-        backgroundColor: Themes.primary,
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

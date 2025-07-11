@@ -1,4 +1,5 @@
 import 'package:dashboard/core/utils/constant.dart';
+import 'package:dashboard/core/utils/theme.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/Model/all_product_model.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/view%20model/all_product_cubit.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/view%20model/all_product_state.dart';
@@ -8,7 +9,6 @@ import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Pro
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/view/Widget/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 class ManageProductsContent extends StatelessWidget {
   final TabController tabController;
@@ -47,7 +47,7 @@ class ManageProductsContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7FAFC),
+      backgroundColor: Themes.bg,
       appBar: _buildAppBar(),
       body: Column(
         children: [

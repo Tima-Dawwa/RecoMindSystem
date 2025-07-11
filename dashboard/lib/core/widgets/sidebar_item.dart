@@ -1,5 +1,5 @@
-import 'package:dashboard/core/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:dashboard/core/utils/theme.dart';
 
 class SidebarItem extends StatelessWidget {
   final IconData icon;
@@ -19,8 +19,7 @@ class SidebarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isSelected = currentRoute == route;
-
+  bool isSelected = currentRoute == route ;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: ListTile(
@@ -38,7 +37,9 @@ class SidebarItem extends StatelessWidget {
             fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
           ),
         ),
-        onTap: () => onTap(route),
+        onTap: () {
+          onTap(route);
+        },
         contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       ),
     );

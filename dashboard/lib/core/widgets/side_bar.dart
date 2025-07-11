@@ -10,22 +10,20 @@ import 'package:dashboard/features/Orders/view/orders_page.dart';
 import 'package:dashboard/features/Product/Add%20Product/view/add_product.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Product/view/manage_product.dart';
 
-class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
+class SideBar extends StatefulWidget {
+  const SideBar({super.key});
 
   @override
-  DashboardState createState() => DashboardState();
+  SideBarState createState() => SideBarState();
 }
 
-class DashboardState extends State<Dashboard> {
-  String currentRoute = '/dashboard';
+class SideBarState extends State<SideBar> {
+  String currentRoute = '/main_page';
 
-  Widget _getBodyForRoute(String route) {
+  Widget getBody(String route) {
     switch (route) {
-      case '/dashboard':
-        return Center(child: Text("Welcome to the Dashboard!"));
       case '/main_page':
-        return MainPageScreen();
+        return MainPage();
       case '/product/add':
         return AddProduct();
       case '/product/manage':
@@ -39,9 +37,9 @@ class DashboardState extends State<Dashboard> {
     }
   }
 
-  void _navigateToRoute(String route) {
+  void goToPage(String page) {
     setState(() {
-      currentRoute = route;
+      currentRoute = page;
     });
   }
 
@@ -66,7 +64,7 @@ class DashboardState extends State<Dashboard> {
                         title: 'Main Page',
                         route: '/main_page',
                         currentRoute: currentRoute,
-                        onTap: _navigateToRoute,
+                        onTap: goToPage,
                       ),
                       ExpandableItem(
                         icon: Icons.inventory_2_rounded,
@@ -76,13 +74,13 @@ class DashboardState extends State<Dashboard> {
                             title: 'Add Product',
                             route: '/product/add',
                             currentRoute: currentRoute,
-                            onTap: _navigateToRoute,
+                            onTap: goToPage,
                           ),
                           SubItem(
                             title: 'Modify Products',
                             route: '/product/manage',
                             currentRoute: currentRoute,
-                            onTap: _navigateToRoute,
+                            onTap: goToPage,
                           ),
                         ],
                       ),
@@ -91,14 +89,14 @@ class DashboardState extends State<Dashboard> {
                         title: 'Orders Archive',
                         route: '/orders',
                         currentRoute: currentRoute,
-                        onTap: _navigateToRoute,
+                        onTap: goToPage,
                       ),
                       SidebarItem(
                         icon: Icons.psychology_rounded,
                         title: 'AI Tools Performance',
                         route: '/ai_page',
                         currentRoute: currentRoute,
-                        onTap: _navigateToRoute,
+                        onTap: goToPage,
                       ),
                     ],
                   ),
@@ -106,9 +104,7 @@ class DashboardState extends State<Dashboard> {
               ],
             ),
           ),
-          Expanded(
-            child: _getBodyForRoute(currentRoute),
-          ),
+          Expanded(child: getBody(currentRoute)),
         ],
       ),
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dashboard/core/theme.dart';
+import 'package:dashboard/core/utils/theme.dart';
 
 class CardWrapper extends StatelessWidget {
   final String title;

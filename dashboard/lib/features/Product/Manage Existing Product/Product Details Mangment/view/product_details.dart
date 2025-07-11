@@ -1,4 +1,4 @@
-import 'package:dashboard/core/theme.dart';
+import 'package:dashboard/core/utils/theme.dart';
 import 'package:dashboard/features/Product/Manage%20Existing%20Product/Product%20Details%20Mangment/view/widgets/product_details_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:dashboard/core/utils/constant.dart';

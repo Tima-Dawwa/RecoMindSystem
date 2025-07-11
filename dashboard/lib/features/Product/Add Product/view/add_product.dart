@@ -1,3 +1,4 @@
+import 'package:dashboard/core/utils/theme.dart';
 import 'package:dashboard/features/Product/Add%20Product/view/Widget/action_button.dart';
 import 'package:dashboard/features/Product/Add%20Product/view/Widget/basic_info_form.dart';
 import 'package:dashboard/features/Product/Add%20Product/view/Widget/category_classification.dart';
@@ -11,7 +12,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dashboard/core/theme.dart';
 import 'dart:io';
 
 class AddProduct extends StatefulWidget {
@@ -149,7 +149,7 @@ class _AddProductState extends State<AddProduct> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Themes.bg,
       body: BlocListener<AddProductCubit, AddProductState>(
         listener: (context, state) {
           if (state is SuccessAddProduct) {

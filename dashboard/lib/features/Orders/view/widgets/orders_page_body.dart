@@ -54,7 +54,6 @@ class OrdersPageBody extends StatelessWidget {
                 fontSize: 25,
                 color: Themes.text.withAlpha(150),
                 fontWeight: FontWeight.w600,
-                // fontStyle: FontStyle.italic,
               ),
             ),
             SizedBox(height: 10),
