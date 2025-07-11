@@ -107,6 +107,11 @@ async function updateOrderStatus(orderId, newStatus) {
     );
 }
 
+async function createOrder(orderData) {
+    const order = new Order(orderData);
+    return await order.save();
+}
+
 module.exports = {
     getOrdersForUser,
     getOrders,
@@ -117,5 +122,6 @@ module.exports = {
     getUniqueUsersCount,
     getTotalProfit,
     getAllOrdersWithUserDetails,
-    updateOrderStatus
+    updateOrderStatus,
+    createOrder
 }

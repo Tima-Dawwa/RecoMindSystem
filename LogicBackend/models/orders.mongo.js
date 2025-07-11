@@ -15,8 +15,8 @@ const orderSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['breaber', 'delevery'],
-        default: 'breaber',
+        enum: ['prepare', 'delevery'],
+        default: 'prepare',
         required: true
     }
 

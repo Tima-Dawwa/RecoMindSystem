@@ -1,8 +1,8 @@
 const { getCart, resetCart } = require('../../../models/cart.model');
-const { getOrdersForUser, getOrder, getOrdersCountForUser } = require('../../../models/orders.model');
+const { getOrdersForUser, getOrder, getOrdersCountForUser, createOrder } = require('../../../models/orders.model');
 const { getPagination } = require('../../../services/query');
 const { getProductsByIds } = require('../../../models/products.model');
-const createPaymentData = require('../../../services/payment');
+const { createPaymentData } = require('../../../services/payment');
 const { paymentSheet } = require('../Payments/payments.controller')
 const { postInteraction } = require('../../../models/interactions.model');
 const { INTERACTION_TYPES } = require('../../../public/constants/interaction');
@@ -57,17 +57,23 @@ async function httpPostOrder(req, res) {
     const cart = await getCart(req.user._id)
     if (!cart) return res.status(404).json({ message: "No Cart Found" })
 
+
+    const order = await createOrder({
+        user_id: req.user._id,
+        orderItems: cart.items,
+        total_price: cart.total_price,
+        status: 'prepare'
+    });
+
     for (let i = 0; i < cart.items.length; i++) {
         await postInteraction(req.user._id, cart.items[i].product._id, INTERACTION_TYPES.ORDER)
-        await incrementInteractionCount(cart.items[i].product, INTERACTION_TYPES.FAVORITE)
+        await incrementInteractionCount(cart.items[i].product._id, INTERACTION_TYPES.FAVORITE)
     }
     await resetCart(req.user._id)
 
-    return res.status(200).json({ message: "Order Success" });
-
-
     // req.body.data = createPaymentData(cart);
     // paymentSheet(req, res)
+    return res.status(200).json({ message: "Order Success", order_id: order._id });
 }
 
 module.exports = {
