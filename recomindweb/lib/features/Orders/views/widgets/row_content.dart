@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:recomindweb/core/helpers/api.dart';
 import 'package:recomindweb/core/theme.dart';
+import 'package:recomindweb/features/Orders/model/product_model.dart';
 
 class RowContent extends DataTableSource {
-  RowContent({required this.desktop});
+  RowContent({required this.desktop, required this.products});
   final bool desktop;
-
+  final List<ProductModel> products;
+  Api? api;
+  
   @override
   DataRow? getRow(int index) {
     return DataRow(
@@ -13,19 +17,20 @@ class RowContent extends DataTableSource {
           Center(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.asset(
-                "assets/Images/main_side.png",
-                width: desktop ? 90 : 75,
-                height: desktop ? 90 : 75,
-                fit: BoxFit.cover,
-              ),
+              child: Text(''),
+              // Image.network(
+              //   "${api!.baseUrl}${products[index].image}",
+              //   width: desktop ? 90 : 75,
+              //   height: desktop ? 90 : 75,
+              //   fit: BoxFit.cover,
+              // ),
             ),
           ),
         ),
         DataCell(
           Center(
             child: Text(
-              'Name${index + 1}',
+              products[index].name,
               style: TextStyle(fontSize: desktop ? 18 : 16, color: Themes.text),
             ),
           ),
@@ -33,7 +38,7 @@ class RowContent extends DataTableSource {
         DataCell(
           Center(
             child: Text(
-              'Category${index + 1}',
+              products[index].category,
               style: TextStyle(fontSize: desktop ? 18 : 16, color: Themes.text),
             ),
           ),
@@ -41,7 +46,7 @@ class RowContent extends DataTableSource {
         DataCell(
           Center(
             child: Text(
-              '\$${index + 1}0',
+              '\$${products[index].price.toString()}',
               style: TextStyle(fontSize: desktop ? 18 : 16, color: Themes.text),
             ),
           ),
@@ -49,7 +54,7 @@ class RowContent extends DataTableSource {
         DataCell(
           Center(
             child: Text(
-              '${index + 1}',
+              products[index].quantity.toString(),
               style: TextStyle(fontSize: desktop ? 18 : 16, color: Themes.text),
             ),
           ),
@@ -57,7 +62,7 @@ class RowContent extends DataTableSource {
         DataCell(
           Center(
             child: Text(
-              '\$${(index + 1) * (index + 1)}0',
+              '\$${products[index].price* products[index].quantity}',
               style: TextStyle(fontSize: desktop ? 18 : 16, color: Themes.text),
             ),
           ),
@@ -69,7 +74,7 @@ class RowContent extends DataTableSource {
   @override
   bool get isRowCountApproximate => false;
   @override
-  int get rowCount => 10;
+  int get rowCount => products.length;
   @override
   int get selectedRowCount => 0;
 }

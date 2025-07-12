@@ -1,4 +1,4 @@
-import 'package:go_router/go_router.dart';
+import 'package:get/get.dart';
 import 'package:recomindweb/features/Authentication/view/login_page.dart';
 import 'package:recomindweb/features/Authentication/view/register_page.dart';
 import 'package:recomindweb/features/ChatBot/chatbot.dart';
@@ -9,31 +9,47 @@ import 'package:recomindweb/features/Show_All_Products/presentation/views/all_pr
 import 'package:recomindweb/features/product_details/view/product_details_page.dart';
 import 'package:recomindweb/features/Home/view/home_page.dart';
 
-final GoRouter router = GoRouter(
-  routes: [
-    GoRoute(path: '/', builder: (context, state) => HomePage()),
-    GoRoute(path: '/login', builder: (context, state) => LoginPage()),
-    GoRoute(path: '/orders', builder: (context, state) => OrdersPage()),
-    GoRoute(path: '/chatbot', builder: (context, state) => ChatWindow()),
-    GoRoute(
-      path: '/register',
-      builder: (context, state) => const RegisterPage(),
-    ),
-    GoRoute(
-      path: '/all-products',
-      builder: (context, state) => AllProductsPage(),
-    ),
-    GoRoute(
-      path: '/product-details',
-      builder: (context, state) => ProductDetailsPage(),
-    ),
-    GoRoute(
-      path: '/order-details',
-      builder: (context, state) => OrderDetailsPage(),
-    ),
-    GoRoute(
-      path: '/forgot-password',
-      builder: (context, state) => ForgotPasswordPage(),
-    ),
-  ],
-);
+List<GetPage> routes = [
+  GetPage(name: '/', page: () => HomePage()),
+
+  GetPage(name: '/login', page: () => LoginPage()),
+  GetPage(name: '/register', page: () => RegisterPage()),
+  GetPage(name: '/forgot-password', page: () => ForgotPasswordPage()),
+
+  GetPage(name: '/all-products', page: () => AllProductsPage()),
+  GetPage(name: '/product-details', page: () => ProductDetailsPage()),
+
+  GetPage(name: '/chatbot', page: () => ChatWindow()),
+
+  GetPage(name: '/orders', page: () => OrdersPage()),
+  GetPage(name: '/order_details', page: () => OrderDetailsPage()),
+];
+
+// final GoRouter router = GoRouter(
+//   routes: [
+//     GoRoute(path: '/', builder: (context, state) => HomePage()),
+//     GoRoute(path: '/login', builder: (context, state) => LoginPage()),
+//     GoRoute(path: '/orders', builder: (context, state) => OrdersPage()),
+//     GoRoute(path: '/chatbot', builder: (context, state) => ChatWindow()),
+//     GoRoute(
+//       path: '/register',
+//       builder: (context, state) => const RegisterPage(),
+//     ),
+//     GoRoute(
+//       path: '/all-products',
+//       builder: (context, state) => AllProductsPage(),
+//     ),
+//     GoRoute(
+//       path: '/product-details',
+//       builder: (context, state) => ProductDetailsPage(),
+//     ),
+//     // GoRoute(
+//     //   path: '/order-details',
+//     //   builder: (context, state) => OrderDetailsPage(),
+//     // ),
+//     GoRoute(
+//       path: '/forgot-password',
+//       builder: (context, state) => ForgotPasswordPage(),
+//     ),
+//   ],
+// );

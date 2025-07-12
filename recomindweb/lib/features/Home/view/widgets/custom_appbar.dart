@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
+import 'package:get/get.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/core/Widgets/custom_button.dart';
 
@@ -41,14 +41,12 @@ class CustomAppbar extends StatelessWidget {
                   if (!logged)
                     CustomButton(
                       text: "Login",
-                      // color: WidgetStatePropertyAll(Themes.bg),
-                      // textColor: Themes.primary,
                       width: desktop ? 100 : 80,
                       height: desktop ? 32 : 25,
                       size: desktop ? 20 : 15,
                       borderRadius: 40,
                       press: () {
-                        context.go('/login');
+                        Get.toNamed('/login', preventDuplicates: false);
                       },
                     ),
                   SizedBox(width: 20),
@@ -65,7 +63,7 @@ class CustomAppbar extends StatelessWidget {
                     ),
                     color: Themes.bg,
                     onPressed: () {
-                      context.go('/orders');
+                      Get.toNamed('/orders', preventDuplicates: false);
                     },
                   ),
                   SizedBox(width: 10),
@@ -90,30 +88,3 @@ class CustomAppbar extends StatelessWidget {
     );
   }
 }
-// SizedBox(
-        //   width: 50,
-        //   child: ExpansionTile(
-        //     showTrailingIcon: false,
-        //     tilePadding: const EdgeInsets.symmetric(horizontal: 5),
-        //     childrenPadding: const EdgeInsets.all(10),
-        //     title: Icon(Icons.person, size: 30, color: Themes.bg),
-        //     backgroundColor: Themes.bg,
-        //     collapsedBackgroundColor: Colors.transparent,
-        //     shape: RoundedRectangleBorder(
-        //       borderRadius: BorderRadius.circular(20),
-        //     ),
-        //     collapsedShape: RoundedRectangleBorder(
-        //       borderRadius: BorderRadius.circular(20),
-        //     ),
-        //     expansionAnimationStyle: AnimationStyle(
-        //       curve: Curves.fastOutSlowIn,
-        //       duration: const Duration(milliseconds: 500),
-        //     ),
-        //     children: [
-        //       Icon(Icons.settings, color: Themes.primary, size: 30),
-        //       Icon(Icons.settings, color: Themes.primary, size: 30),
-        //       Icon(Icons.settings, color: Themes.primary, size: 30),
-        //       Icon(Icons.settings, color: Themes.primary, size: 30),
-        //     ],
-        //   ),
-        // ),
