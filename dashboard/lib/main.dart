@@ -1,4 +1,6 @@
 import 'package:dashboard/core/helper/go_router.dart';
+import 'package:dashboard/features/Orders/view%20model/cubit/orders_cubit.dart';
+import 'package:dashboard/features/Orders/view%20model/orders_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dashboard/core/utils/theme.dart';
@@ -15,7 +17,6 @@ import 'package:dashboard/features/Product/Manage%20Existing%20Product/All%20Pro
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setup();
-  // usePathUrlStrategy();
   runApp(const MyApp());
 }
 
@@ -27,6 +28,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit(getIt.get<AuthService>())),
+        BlocProvider(
+          create: (context) => OrdersCubit(getIt.get<OrdersService>()),
+        ),
         BlocProvider(
           create: (context) => AddProductCubit(getIt.get<AddProductService>()),
         ),
