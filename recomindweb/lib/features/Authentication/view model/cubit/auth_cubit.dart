@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/helpers/custom_shared_preferences.dart';
-import 'package:recomindweb/features/Authentication/view%20model/auth%20cubit/auth_states.dart';
+import 'package:recomindweb/features/Authentication/view%20model/cubit/auth_states.dart';
 import 'package:recomindweb/features/Authentication/view%20model/auth_service.dart';
 
 class AuthCubit extends Cubit<AuthStates> {

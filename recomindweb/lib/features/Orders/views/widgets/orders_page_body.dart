@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/theme.dart';
+import 'package:recomindweb/features/Orders/model/orders_model.dart';
+import 'package:recomindweb/features/Orders/view%20model/cubit/orders_cubit.dart';
 import 'package:recomindweb/features/Orders/views/widgets/filters.dart';
 import 'package:recomindweb/features/Orders/views/widgets/order_card.dart';
 
-class OrdersPageBody extends StatelessWidget {
-  const OrdersPageBody({
-    super.key,
-    required this.ordersNum,
-    required this.desktop,
-  });
-  final int ordersNum;
+class OrdersPageBody extends StatefulWidget {
+  const OrdersPageBody({super.key, required this.desktop});
   final bool desktop;
+
+  @override
+  State<OrdersPageBody> createState() => _OrdersPageBodyState();
+}
+
+class _OrdersPageBodyState extends State<OrdersPageBody> {
+  List<OrderModel> orders = [];
+
+  @override
+  void initState() {
+    super.initState();
+    orders = BlocProvider.of<OrdersCubit>(context).orders;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +32,7 @@ class OrdersPageBody extends StatelessWidget {
         children: [
           Filters(),
           Divider(thickness: 1, color: Themes.text.withAlpha(50)),
-          if (desktop)
+          if (widget.desktop)
             Expanded(
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -30,30 +41,34 @@ class OrdersPageBody extends StatelessWidget {
                   mainAxisSpacing: 10,
                   mainAxisExtent: 265,
                 ),
-                itemCount: 10,
+                itemCount: orders.length,
                 itemBuilder: (context, index) {
                   return OrderCard(
-                    state: 'Preparing',
-                    orderNum: '3653',
-                    price: '628',
-                    items: '10',
+                    id: orders[index].id,
+                    state: orders[index].status,
+                    date: orders[index].date,
+                    orderNum: orders[index].orderNum.toString(),
+                    price: orders[index].totalPrice.toString(),
+                    items: orders[index].productsCount.toString(),
                   );
                 },
               ),
             ),
-          if (!desktop)
+          if (!widget.desktop)
             Expanded(
               child: ListView.builder(
-                itemCount: ordersNum,
+                itemCount: orders.length,
                 physics: ClampingScrollPhysics(),
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: OrderCard(
-                      state: 'Delivered',
-                      orderNum: '3653',
-                      price: '628',
-                      items: '10',
+                      id: orders[index].id,
+                      state: orders[index].status,
+                      date: orders[index].date,
+                      orderNum: orders[index].orderNum.toString(),
+                      price: orders[index].totalPrice.toString(),
+                      items: orders[index].productsCount.toString(),
                     ),
                   );
                 },
@@ -64,40 +79,3 @@ class OrdersPageBody extends StatelessWidget {
     );
   }
 }
-    // Column(
-    //   children: [
-    // TabBar(
-    //   tabAlignment: TabAlignment.fill,
-    //   labelStyle: TextStyle(
-    //     fontSize: 22,
-    //     color: Themes.primary,
-    //     fontWeight: FontWeight.w600,
-    //   ),
-    //   unselectedLabelStyle: TextStyle(
-    //     fontSize: 18,
-    //     color: Themes.text.withAlpha(180),
-    //     fontWeight: FontWeight.w300,
-    //   ),
-    //   dividerHeight: 1.5,
-    //   dividerColor: Themes.text.withAlpha(80),
-    //   indicatorWeight: 3,
-    //   indicatorColor: Themes.primary,
-    //   indicatorSize: TabBarIndicatorSize.tab,
-    //   indicatorAnimation: TabIndicatorAnimation.elastic,
-    //   tabs: [
-    //     Tab(
-    //       child: Text(
-    //         'Current',
-    //         textAlign: TextAlign.center,
-    //         style: TextStyle(fontFamily: 'CoconNext'),
-    //       ),
-    //     ),
-    //     Tab(
-    //       child: Text(
-    //         'Previous',
-    //         textAlign: TextAlign.center,
-    //         style: TextStyle(fontFamily: 'CoconNext'),
-    //       ),
-    //     ),
-    //   ],
-    // ),

@@ -2,7 +2,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/theme.dart';
-import 'package:recomindweb/features/Authentication/view%20model/auth%20cubit/auth_cubit.dart';
+import 'package:recomindweb/features/Authentication/view%20model/cubit/auth_cubit.dart';
 
 // ignore: must_be_immutable
 class CustomCountryCode extends StatefulWidget {

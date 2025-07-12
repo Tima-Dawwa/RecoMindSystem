@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:recomindweb/core/theme.dart';
+import 'package:recomindweb/features/Orders/model/product_model.dart';
 import 'package:recomindweb/features/Orders/views/widgets/row_content.dart';
 
 class ProductsTable extends StatelessWidget {
-  const ProductsTable({super.key, required this.desktop, required this.items});
+  const ProductsTable({super.key, required this.desktop, required this.products});
   final bool desktop;
-  final String items;
+  final List<ProductModel> products;
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +29,11 @@ class ProductsTable extends StatelessWidget {
             ),
           ),
           child: PaginatedDataTable(
-            source: RowContent(desktop: desktop),
+            source: RowContent(desktop: desktop, products: products),
             showFirstLastButtons: true,
             rowsPerPage: 3,
             header: Text(
-              "$items Products",
+              "${products.length} Products",
               style: TextStyle(fontSize: desktop ? 25 : 22, color: Themes.text),
             ),
             arrowHeadColor: Themes.primary,

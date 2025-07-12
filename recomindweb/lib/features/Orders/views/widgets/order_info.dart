@@ -1,4 +1,5 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recomindweb/core/theme.dart';
 
 class OrderInfo extends StatelessWidget {
@@ -8,101 +9,127 @@ class OrderInfo extends StatelessWidget {
     required this.orderNum,
     required this.price,
     required this.desktop,
+    required this.date,
   });
 
-  final String state;
-  final String orderNum;
-  final String price;
   final bool desktop;
+  final String state;
+  final String price;
+  final String date;
+  final String orderNum;
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Order #$orderNum',
-              style: TextStyle(
-                fontSize: desktop ? 35 : 28,
-                color: Themes.text,
-                fontWeight: FontWeight.bold,
-              ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 30),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Order #$orderNum',
+                  style: TextStyle(
+                    fontSize: desktop ? 35 : 28,
+                    color: Themes.text,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  state.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: desktop ? 35 : 20,
+                    color: state == 'Delivered' ? Themes.text : Themes.primary,
+                    fontWeight: FontWeight.w500,
+                    shadows: [
+                      Shadow(
+                        color:
+                            state == 'Delivered'
+                                ? Themes.text.withAlpha(180)
+                                : Themes.primary.withAlpha(180),
+                        blurRadius: 2,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                // color:
-                //     state == 'Delivered'
-                //         ? Themes.text.withAlpha(50)
-                //         : Themes.primary.withAlpha(50),
-                borderRadius: BorderRadius.circular(38),
+          ),
+          SizedBox(height: 20),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.calendar_month,
+                size: 25,
+                color: Themes.text.withAlpha(170),
               ),
-              child: Text(
-                state,
+              SizedBox(width: 10),
+              Text(
+                'Order sent in   ${date.substring(0, 10)}  |  ${date.substring(11, 16)}',
+                textAlign: TextAlign.left,
                 style: TextStyle(
-                  fontSize: desktop ? 30 : 20,
-                  color: state == 'Delivered' ? Themes.text : Themes.primary,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.w500,
-                  shadows: [
-                    Shadow(
-                      color:
-                          state == 'Delivered'
-                              ? Themes.text.withAlpha(180)
-                              : Themes.primary.withAlpha(180),
-                      blurRadius: 2,
-                    ),
-                  ],
+                  fontSize: desktop ? 28 : 18,
+                  color: Themes.text.withAlpha(170),
                 ),
               ),
-            ),
-          ],
-        ),
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Order sent in : 5 JUN 2025  8:28 pm',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontSize: desktop ? 25 : 18,
-                color: Themes.text.withAlpha(150),
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(FontAwesomeIcons.tags, size: 25, color: Themes.text),
+              SizedBox(width: 10),
+              Text(
+                "All products cost  \$606",
+                style: TextStyle(
+                  fontSize: desktop ? 25 : 18,
+                  color: Themes.text,
+                ),
               ),
-            ),
-            // Text(
-            //   "10 Items",
-            //   style: TextStyle(fontSize: desktop ? 25 : 18, color: Themes.text),
-            // ),
-          ],
-        ),
-        SizedBox(height: 20),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Products cost : \$606",
-              style: TextStyle(fontSize: desktop ? 22 : 18, color: Themes.text),
-            ),
-            SizedBox(height: 10),
-            Text(
-              "Shipping cost : \$22",
-              style: TextStyle(fontSize: desktop ? 22 : 18, color: Themes.text),
-            ),
-            SizedBox(height: 10),
-            Text(
-              "Total bill : \$628",
-              style: TextStyle(
-                fontSize: desktop ? 22 : 18,
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(Icons.local_shipping, size: 25, color: Themes.text),
+              SizedBox(width: 10),
+              Text(
+                "Shipping cost  \$20",
+                style: TextStyle(
+                  fontSize: desktop ? 25 : 18,
+                  color: Themes.text,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                FontAwesomeIcons.moneyCheckDollar,
+                size: 22,
                 color: Themes.secondary,
               ),
-            ),
-          ],
-        ),
-      ],
+              SizedBox(width: 10),
+              Text(
+                "Total bill  \$$price",
+                style: TextStyle(
+                  fontSize: desktop ? 25 : 18,
+                  color: Themes.secondary,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
