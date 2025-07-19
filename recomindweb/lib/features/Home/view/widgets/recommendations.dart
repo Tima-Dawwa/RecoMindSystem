@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:get/get.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/ChatBot/Model/product.dart';
 import 'package:recomindweb/features/Home/view/widgets/home_product_card.dart';
@@ -68,7 +68,7 @@ class _RecommendationsState extends State<Recommendations> {
                       width: cardWidth,
                       product: products[index],
                       onTap: () {
-                         context.go('/product-details');
+                        Get.toNamed('/product_details', preventDuplicates: false);
                       },
                     );
                   },
