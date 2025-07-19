@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
+import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:recomindweb/core/Widgets/custom_button.dart';
 import 'package:recomindweb/core/Widgets/custom_loading.dart';
@@ -35,7 +35,7 @@ class _LoginFormState extends State<LoginForm> {
     return BlocConsumer<AuthCubit, AuthStates>(
       listener: (BuildContext context, AuthStates state) {
         if (state is SuccessAuthState) {
-          context.go('/');
+          Get.toNamed('/', preventDuplicates: false);
         }
       },
       builder: (context, state) {
@@ -105,7 +105,7 @@ class _LoginFormState extends State<LoginForm> {
                       color: Themes.bg.withAlpha(120),
                       weight: FontWeight.normal,
                       press: () {
-                        context.go('/forgot-password');
+                        Get.toNamed('/forgot-password', preventDuplicates: false);
                       },
                     ),
                   ),

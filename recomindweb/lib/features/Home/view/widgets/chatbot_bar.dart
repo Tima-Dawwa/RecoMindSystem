@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:recomindweb/core/Widgets/custom_button.dart';
 import 'package:recomindweb/core/theme.dart';
@@ -124,11 +124,12 @@ class ChatbotBar extends StatelessWidget {
                       aspectRatio: 2 / 0.6,
                       child: CustomButton(
                         text: "Try now",
+                        textColor: Themes.text,
                         borderRadius: 40,
                         size: desktop! ? 20 : 10,
-                        color: WidgetStatePropertyAll(Themes.secondary),
+                        color: WidgetStatePropertyAll(Themes.third),
                         press: () {
-                          context.go('/chatbot');
+                          Get.toNamed('/chatbot', preventDuplicates: false);
                         },
                       ),
                     ),
