@@ -10,6 +10,7 @@ class AuthCubit extends Cubit<AuthStates> {
   final AuthService authService;
   CustomSharedPreferences preferences = CustomSharedPreferences();
   String? code, gender, birthDate;
+
   Future<void> login({required String email, required String password}) async {
     emit(LoadingAuthState());
     var response = await authService.login(email: email, password: password);
@@ -24,6 +25,24 @@ class AuthCubit extends Cubit<AuthStates> {
           emit(SuccessAuthState());
         } else {
           print('not logged');
+        }
+      },
+    );
+  }
+
+  Future<void> logout() async {
+    emit(LoadingAuthState());
+    var response = await authService.logout();
+    response.fold(
+      (failure) {
+        emit(FailureAuthState(failure: failure));
+      },
+      (res) async {
+        await preferences.clearToken();
+        if (await preferences.cleared()) {
+          emit(SuccessLogoutState());
+        } else {
+          print('log out failed');
         }
       },
     );

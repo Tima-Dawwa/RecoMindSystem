@@ -24,4 +24,13 @@ class CustomSharedPreferences {
       return false;
     }
   }
+
+  Future<bool> cleared() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey("token")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

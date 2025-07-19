@@ -6,21 +6,31 @@ import 'package:recomindweb/features/Authentication/view%20model/auth_service.da
 import 'package:recomindweb/features/Authentication/view%20model/forget_password_services.dart';
 import 'package:recomindweb/features/Orders/view%20model/orders_services.dart';
 import 'package:recomindweb/features/product_details/view%20model/product_details_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final getIt = GetIt.instance;
 
 Future<void> setup() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  getIt.registerSingleton<SharedPreferences>(prefs);
+  
   getIt.registerSingleton<Api>(Api(Dio()));
+
   getIt.registerSingleton<AuthService>(AuthService(getIt.get<Api>()));
+
   getIt.registerSingleton<OrdersService>(OrdersService(getIt.get<Api>()));
+
   getIt.registerSingleton<DefaultStatusCodeHandler>(DefaultStatusCodeHandler());
+  
   getIt.registerSingleton<ForgetPasswordServices>(
     ForgetPasswordServices(getIt.get<Api>()),
   );
+
   getIt.registerSingleton<ProductDetailsService>(
     ProductDetailsService(
       getIt.get<Api>(),
       getIt.get<DefaultStatusCodeHandler>(),
     ),
   );
+
 }
