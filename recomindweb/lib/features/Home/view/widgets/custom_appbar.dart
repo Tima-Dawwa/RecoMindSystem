@@ -1,11 +1,14 @@
 import 'dart:typed_data';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:recomindweb/core/Widgets/custom_loading.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/core/Widgets/custom_button.dart';
+import 'package:recomindweb/features/Authentication/view%20model/cubit/auth_cubit.dart';
+import 'package:recomindweb/features/Authentication/view%20model/cubit/auth_states.dart';
 
 class CustomAppbar extends StatefulWidget {
   const CustomAppbar({super.key, required this.desktop, required this.logged});
@@ -116,7 +119,7 @@ class _CustomAppbarState extends State<CustomAppbar>
                                         child: CircleAvatar(
                                           radius: 28,
                                           backgroundImage: AssetImage(
-                                            'assets/user.jpg',
+                                            'assets/image.png',
                                           ),
                                         ),
                                       ),
@@ -179,21 +182,33 @@ class _CustomAppbarState extends State<CustomAppbar>
                               ),
                               const SizedBox(height: 10),
                               Divider(),
-                              ListTile(
-                                leading: Icon(
-                                  Icons.logout,
-                                  size: 20,
-                                  color: Themes.secondary,
-                                ),
-                                title: Text(
-                                  "Log out",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Themes.text,
-                                  ),
-                                ),
-                                onTap: () {
-                                  closeOverlay();
+                              BlocConsumer<AuthCubit, AuthStates>(
+                                listener: (context, state) {
+                                  if (state is SuccessLogoutState) {
+                                    setState(() {});
+                                    Get.toNamed('/', preventDuplicates: false);
+                                  }
+                                },
+                                builder: (context, state) {
+                                  if (state is LoadingAuthState) {
+                                    return Center(child: CustomLoading());
+                                  } else {
+                                    return ListTile(
+                                      leading: Icon(
+                                        Icons.logout,
+                                        size: 20,
+                                        color: Themes.secondary,
+                                      ),
+                                      title: Text(
+                                        "Log out",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Themes.text,
+                                        ),
+                                      ),
+                                      onTap: logoutTap,
+                                    );
+                                  }
                                 },
                               ),
                             ],
@@ -293,5 +308,10 @@ class _CustomAppbarState extends State<CustomAppbar>
         ),
       ],
     );
+  }
+
+  void logoutTap() async {
+    await BlocProvider.of<AuthCubit>(context).logout();
+    closeOverlay();
   }
 }

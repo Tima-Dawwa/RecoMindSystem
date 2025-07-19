@@ -32,6 +32,24 @@ class AuthService {
     }
   }
 
+  Future<Either<Failure, Map<String, dynamic>>> logout() async {
+    try {
+      Map<String, dynamic> response = await api.post(
+        endPoint: '/auth/logout',
+        body: {},
+      );
+      return right(response);
+    } catch (e) {
+      if (e is DioException) {
+        return left(Failure.fromDioException(e, DefaultStatusCodeHandler()));
+      } else {
+        return left(
+          Failure(errMessage: 'something went wrong (not DioException)'),
+        );
+      }
+    }
+  }
+
   Future<Either<Failure, Map<String, dynamic>>> register({
     required String firstName,
     required String lastName,
@@ -63,7 +81,9 @@ class AuthService {
       if (e is DioException) {
         return left(Failure.fromDioException(e, RegisterStatusCodeHandler()));
       }
-      return left(Failure(errMessage: 'Something went wrong (not DioException)'));
+      return left(
+        Failure(errMessage: 'Something went wrong (not DioException)'),
+      );
     }
   }
 }
