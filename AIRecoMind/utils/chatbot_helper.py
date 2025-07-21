@@ -1,8 +1,3 @@
-# Required Libraries:
-# - torch: for tensor operations (normalization, device management)
-# - transformers: for tokenizer usage
-# - typing: for type hints (optional)
-
 def l2_normalize(embeddings):
     """
     Normalize embeddings with L2 norm.

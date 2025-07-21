@@ -73,9 +73,9 @@ def train_als_model(
     factors: int = 20,
     regularization: float = 0.1,
     iterations: int = 20
-) -> AlternatingLeastSquares:
-
-    item_user_matrix = interaction_matrix.T.tocsr()
+) -> Tuple[AlternatingLeastSquares, coo_matrix]:
+    user_item_matrix = interaction_matrix.tocsr()  # shape (num_users, num_items)
+    item_user_matrix = user_item_matrix.T.tocsr()  # shape (num_items, num_users)
 
     model = AlternatingLeastSquares(
         factors=factors,
@@ -85,7 +85,7 @@ def train_als_model(
     )
     model.fit(item_user_matrix)
 
-    return model
+    return model, user_item_matrix
 
 
 def save_model_and_encoders(model: AlternatingLeastSquares, user_encoder: LabelEncoder,
@@ -114,11 +114,24 @@ async def get_fallback_recommendations(top_n=20) -> List[str]:
 
 async def get_collaborative_recommendations(user_id: str, top_n: int = 20) -> List[str]:
     model, user_encoder, item_encoder, user_item_matrix = load_model_and_encoders()
+
     if user_id not in user_encoder.classes_:
         return await get_fallback_recommendations(top_n)
+
     user_index = np.where(user_encoder.classes_ == user_id)[0][0]
-    recommended = model.recommend(user_index, user_item_matrix.T, num=top_n)
-    item_indices = [item_idx for item_idx, _ in recommended]
+
+    user_item_matrix = user_item_matrix.T.tocsr()
+
+    # Confirm user index is within bounds
+    if user_index >= user_item_matrix.shape[0]:
+        return await get_fallback_recommendations(top_n)
+
+    # Check if user has any known interactions
+    if user_item_matrix.getrow(user_index).nnz == 0:
+        return await get_fallback_recommendations(top_n)
+
+    user_vector = user_item_matrix[user_index]
+    item_indices, _ = model.recommend(user_index, user_vector, N=top_n)
     product_ids = item_encoder.inverse_transform(item_indices)
     return product_ids.tolist()
 
@@ -126,8 +139,9 @@ async def get_collaborative_recommendations(user_id: str, top_n: int = 20) -> Li
 async def retrain_als_model():
     interactions = await load_interaction_data()
     matrix, user_encoder, item_encoder = build_sparse_matrix(interactions)
-    model = train_als_model(matrix)
-    save_model_and_encoders(model, user_encoder, item_encoder, matrix)
+    model, user_item_matrix = train_als_model(matrix)
+    save_model_and_encoders(model, user_encoder,
+                            item_encoder, user_item_matrix)
     return True
 
 

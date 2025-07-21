@@ -1,19 +1,3 @@
-"""
-Handles encoding user input (text/image) using BLIP-2 model,
-searching the FAISS index for similar product embeddings,
-and returning matching product IDs.
-
-Recommended libraries:
-- torch
-- transformers
-- faiss
-- numpy
-- PIL (for image processing)
-
-Use image_preprocessing.py and chatbot_helper.py if needed
-"""
-
-
 def encode_input(user_text: str = None, user_image=None):
     """
     Encode user input (text and/or image) into embedding vector.

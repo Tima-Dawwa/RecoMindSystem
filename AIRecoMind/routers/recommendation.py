@@ -19,7 +19,7 @@ async def add_product_for_recommendation(product_id: str):
 
 
 @router.get("/collaborative-recommendations", response_model=List[str])
-async def get_collaborative_recommendations_route(user_id: str = "ss", top_n: int = 20):
+async def get_collaborative_recommendations_route(user_id: str = "", top_n: int = 20):
     return await get_collaborative_recommendations(user_id, top_n)
 
 
