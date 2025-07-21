@@ -9,7 +9,7 @@ const checkObjectID = require('../../../middlewares/checkObjectID');
 const productsRouter = express.Router();
 
 productsRouter.get('/', asyncHandler(httpGetAllProducts));
-productsRouter.get('/collaborative', asyncHandler(httpGetCollaborativeProducts));
+productsRouter.get('/collaborative', optionalJwtAuth, asyncHandler(httpGetCollaborativeProducts));
 productsRouter.get('/:id', optionalJwtAuth, checkObjectID, asyncHandler(httpGetOneProduct));
 productsRouter.post('/:id/rate', requireJwtAuth, checkObjectID, asyncHandler(httpRateProduct));
 

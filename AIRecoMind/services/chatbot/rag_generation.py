@@ -1,14 +1,3 @@
-# rag_generation.py
-"""
-Handles generating a natural language response using a RAG model
-given user query and retrieved product information.
-
-Recommended libraries:
-- transformers
-- torch
-"""
-
-
 def build_generation_prompt(user_query: str, products_info: list):
     """
     Build prompt text combining user query and product details

@@ -28,9 +28,11 @@ async function httpGetAllProducts(req, res) {
 async function httpGetCollaborativeProducts(req, res) {
   let recommendedProducts = [];
   try {
-    const recommendations = await axios.get(
-      "http://127.0.0.1:8000/collaborative-recommendations",
-    );
+    const params = new URLSearchParams();
+    if (req.user) params.append("user_id", req.user.id);
+    const fastApiUrl = `http://127.0.0.1:8000/collaborative-recommendations?${params.toString()}`;
+
+    const recommendations = await axios.get(fastApiUrl);
     recommendedProducts = await getProductsByIds(recommendations.data);
   } catch (error) { }
   return res.status(200).json({ data: recommendedProducts, count: recommendedProducts.length })

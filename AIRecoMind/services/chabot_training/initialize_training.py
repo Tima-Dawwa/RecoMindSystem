@@ -1,10 +1,3 @@
-# services/model_service.py
-
-# Required Libraries (to be imported when implementing):
-# - torch, transformers, faiss, etc.
-# - your modified BLIP-2 Arabic-compatible model components
-# - data loaders, tokenizers
-
 def initialize_model():
     """
     Initialize and load the modified BLIP-2 model with Arabic support.

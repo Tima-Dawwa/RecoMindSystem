@@ -1,8 +1,3 @@
-# Required Libraries:
-# - Pillow (PIL): for image loading and basic image operations
-# - torch (PyTorch): for tensor operations and transforms
-# - torchvision: for image transformations and preprocessing utilities
-
 def get_image_transform():
     """
     Return image preprocessing pipeline.
