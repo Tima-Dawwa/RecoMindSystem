@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_print
-
 import 'package:dio/dio.dart';
 import 'package:recomindweb/core/helpers/service_locator.dart';
 import 'package:recomindweb/features/Authentication/view%20model/auth_service.dart';

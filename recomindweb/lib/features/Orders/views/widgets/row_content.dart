@@ -17,13 +17,14 @@ class RowContent extends DataTableSource {
           Center(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Text(''),
-              // Image.network(
-              //   "${api!.baseUrl}${products[index].image}",
-              //   width: desktop ? 90 : 75,
-              //   height: desktop ? 90 : 75,
-              //   fit: BoxFit.cover,
-              // ),
+              child: 
+              Image.network(
+                'https://255bc506b87c.ngrok-free.app${products[index].image}',
+                headers: {"ngrok-skip-browser-warning": "true"},
+                width: desktop ? 90 : 75,
+                height: desktop ? 90 : 75,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),

@@ -9,6 +9,8 @@ import 'package:recomindweb/features/Authentication/view%20model/cubit/auth_cubi
 import 'package:recomindweb/features/Authentication/view%20model/auth_service.dart';
 import 'package:recomindweb/features/Authentication/view%20model/forget%20password%20cubit/forget_password_cubit.dart';
 import 'package:recomindweb/features/Authentication/view%20model/forget_password_services.dart';
+import 'package:recomindweb/features/Home/view%20model/cubit/home_cubit.dart';
+import 'package:recomindweb/features/Home/view%20model/home_service.dart';
 import 'package:recomindweb/features/Orders/view%20model/cubit/orders_cubit.dart';
 import 'package:recomindweb/features/Orders/view%20model/orders_services.dart';
 import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_cubit.dart';
@@ -29,6 +31,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit(getIt.get<AuthService>())),
+        BlocProvider(create: (context) => HomeCubit(getIt.get<HomeService>())),
         BlocProvider(
           create: (context) => OrdersCubit(getIt.get<OrdersService>()),
         ),

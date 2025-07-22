@@ -4,6 +4,7 @@ import 'package:recomindweb/core/helpers/api.dart';
 import 'package:recomindweb/core/helpers/status_code_handler.dart';
 import 'package:recomindweb/features/Authentication/view%20model/auth_service.dart';
 import 'package:recomindweb/features/Authentication/view%20model/forget_password_services.dart';
+import 'package:recomindweb/features/Home/view%20model/home_service.dart';
 import 'package:recomindweb/features/Orders/view%20model/orders_services.dart';
 import 'package:recomindweb/features/product_details/view%20model/product_details_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,6 +18,8 @@ Future<void> setup() async {
   getIt.registerSingleton<Api>(Api(Dio()));
 
   getIt.registerSingleton<AuthService>(AuthService(getIt.get<Api>()));
+
+  getIt.registerSingleton<HomeService>(HomeService(getIt.get<Api>()));
 
   getIt.registerSingleton<OrdersService>(OrdersService(getIt.get<Api>()));
 

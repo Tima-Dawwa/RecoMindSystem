@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recomindweb/core/Widgets/custom_loading.dart';
 import 'package:recomindweb/core/responsive_layout.dart';
 import 'package:recomindweb/core/helpers/custom_shared_preferences.dart';
+import 'package:recomindweb/features/Home/view%20model/cubit/home_cubit.dart';
+import 'package:recomindweb/features/Home/view%20model/cubit/home_state.dart';
 import 'package:recomindweb/features/Home/view/widgets/home_page_body.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,15 +21,26 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    getCollab();
     isLogged();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ResponsiveLayout(
-        mobileBody: HomePageBody(desktop: false, logged: logged),
-        desktopBody: HomePageBody(desktop: true, logged: logged),
+      body: BlocBuilder<HomeCubit, HomeState>(
+        builder: (context, state) {
+          if (state is LoadingHomeState) {
+            return Center(child: CustomLoading());
+          } else if (state is SuccessHomeState) {
+            return ResponsiveLayout(
+              mobileBody: HomePageBody(desktop: false, logged: logged),
+              desktopBody: HomePageBody(desktop: true, logged: logged),
+            );
+          } else {
+            return Text('fail');
+          }
+        },
       ),
     );
   }
@@ -40,5 +55,9 @@ class _HomePageState extends State<HomePage> {
         logged = false;
       });
     }
+  }
+
+  Future<void> getCollab() async {
+    await BlocProvider.of<HomeCubit>(context).getCollab();
   }
 }

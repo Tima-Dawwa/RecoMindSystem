@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:recomindweb/core/helpers/api.dart';
 import 'package:recomindweb/core/theme.dart';
-import 'package:recomindweb/features/ChatBot/Model/product.dart';
+import 'package:recomindweb/features/Home/model/collab_product_model.dart';
 
 class HomeProductCard extends StatefulWidget {
   const HomeProductCard({
@@ -9,7 +10,7 @@ class HomeProductCard extends StatefulWidget {
     required this.onTap,
     required this.width,
   });
-  final Product product;
+  final CollabProductModel product;
   final VoidCallback onTap;
   final double width;
 
@@ -22,6 +23,11 @@ class _HomeProductCardState extends State<HomeProductCard> {
   int totalStars = 5;
   int fullStars = 0;
   bool halfStar = false;
+  Api? api;
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +59,9 @@ class _HomeProductCardState extends State<HomeProductCard> {
                 aspectRatio: 1 / 1,
                 child: Stack(
                   children: [
-                    Image.asset(
-                      widget.product.imageUrl,
+                    Image.network(
+                      'https://255bc506b87c.ngrok-free.app${widget.product.image}',
+                      headers: {"ngrok-skip-browser-warning": "true"},
                       fit: BoxFit.cover,
                       width: double.infinity,
                       errorBuilder:
@@ -81,13 +88,23 @@ class _HomeProductCardState extends State<HomeProductCard> {
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
-                            isFavorite ? Icons.favorite : Icons.favorite_border,
+                            widget.product.isNew
+                                ? Icons.new_label
+                                : Icons.favorite_border,
                             color:
                                 isFavorite
                                     ? Themes.secondary
                                     : Themes.text.withAlpha(100),
                             size: 20,
                           ),
+                          // Icon(
+                          //   isFavorite ? Icons.favorite : Icons.favorite_border,
+                          //   color:
+                          //       isFavorite
+                          //           ? Themes.secondary
+                          //           : Themes.text.withAlpha(100),
+                          //   size: 20,
+                          // ),
                         ),
                       ),
                     ),
@@ -114,7 +131,7 @@ class _HomeProductCardState extends State<HomeProductCard> {
                   Row(
                     children: [
                       Text(
-                        '\$${widget.product.price.toStringAsFixed(2)}',
+                        '\$${widget.product.discount.toStringAsFixed(2)}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: MediaQuery.of(context).size.width * 0.013,
@@ -136,21 +153,17 @@ class _HomeProductCardState extends State<HomeProductCard> {
                   Row(
                     children: List.generate(totalStars, (index) {
                       if (index < fullStars) {
-                        return const Icon(
-                          Icons.star,
-                          size: 16,
-                          color: Colors.amber,
-                        );
+                        return Icon(Icons.star, size: MediaQuery.of(context).size.width * 0.015, color: Themes.third);
                       } else if (index == fullStars && halfStar) {
-                        return const Icon(
+                        return Icon(
                           Icons.star_half,
-                          size: 16,
-                          color: Colors.amber,
+                          size: MediaQuery.of(context).size.width * 0.015,
+                          color: Themes.third,
                         );
                       } else {
-                        return const Icon(
+                        return  Icon(
                           Icons.star_border,
-                          size: 16,
+                          size: MediaQuery.of(context).size.width * 0.015,
                           color: Colors.grey,
                         );
                       }
