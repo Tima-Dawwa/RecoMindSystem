@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:recomindweb/features/Authentication/view/login_page.dart';
 import 'package:recomindweb/features/Authentication/view/register_page.dart';
+import 'package:recomindweb/features/Cart/view/cart_page.dart';
 import 'package:recomindweb/features/ChatBot/chatbot.dart';
 import 'package:recomindweb/features/Authentication/view/forget_password.dart';
 import 'package:recomindweb/features/Orders/views/order_details.dart';
@@ -23,6 +24,9 @@ List<GetPage> routes = [
 
   GetPage(name: '/orders', page: () => OrdersPage()),
   GetPage(name: '/order_details', page: () => OrderDetailsPage()),
+
+  GetPage(name: '/cart', page: () => CartPage()),
+
 ];
 
 // final GoRouter router = GoRouter(
