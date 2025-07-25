@@ -22,6 +22,7 @@ async function httpAddToCart(req, res) {
     const product_found = await getCartItem(req.user._id, product._id)
     if (product_found) return res.status(200).json({ error: 'Product Already in Cart' })
 
+    // decrease quantity
     await addToCart(req.user._id, req.params.id, product.discounted_price, req.body.quantity)
     await postInteraction(req.user.id, req.params.id, INTERACTION_TYPES.CART_ADD)
     await incrementInteractionCount(req.params.id, INTERACTION_TYPES.CART_ADD)

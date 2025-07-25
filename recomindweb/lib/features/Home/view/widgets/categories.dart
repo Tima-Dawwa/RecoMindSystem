@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:recomindweb/core/Widgets/custom_button.dart';
 import 'package:recomindweb/features/Home/view/widgets/category_card.dart';
 
@@ -36,21 +37,27 @@ class Categories extends StatelessWidget {
                     height: desktop ? 40 : 25,
                     size: desktop ? 20 : 12,
                     width: width,
-                    press: () {},
+                    press: () {
+                      Get.toNamed('/all-products', preventDuplicates: false);
+                    },
                   ),
                   CustomButton(
                     text: "MEN",
                     height: desktop ? 40 : 25,
                     size: desktop ? 20 : 12,
                     width: width,
-                    press: () {},
+                    press: () {
+                      Get.toNamed('/all-products', preventDuplicates: false);
+                    },
                   ),
                   CustomButton(
                     text: "KIDS",
                     height: desktop ? 40 : 25,
                     size: desktop ? 20 : 12,
                     width: width,
-                    press: () {},
+                    press: () {
+                      Get.toNamed('/all-products', preventDuplicates: false);
+                    },
                   ),
                 ],
               ),

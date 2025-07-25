@@ -1,22 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:recomindweb/core/theme.dart';
+import 'package:recomindweb/features/product_details/models/review_model.dart';
 
-class ReviewData {
-  final String name;
-  final String reviewText;
-  final double rating;
-  final String time;
 
-  ReviewData({
-    required this.name,
-    required this.reviewText,
-    required this.rating,
-    required this.time,
-  });
-}
 
 class ReviewItem extends StatelessWidget {
-  final ReviewData data;
+  final Review data;
 
   const ReviewItem({super.key, required this.data});
 
@@ -55,7 +44,7 @@ class ReviewItem extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        data.time,
+                        data.createdAt,
                         style: TextStyle(
                           color: Themes.text.withAlpha(100),
                           fontSize: 12,
@@ -77,7 +66,7 @@ class ReviewItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    data.reviewText,
+                    data.review ?? "",
                     style: TextStyle(
                       fontSize: 14,
                       height: 1.4,

@@ -11,16 +11,19 @@ class CustomTextfield extends StatelessWidget {
     this.hint,
     this.suffix,
     this.onChanged,
-    this.onFieldSubmitted,
+    this.onFieldSubmitted, this.onTap, this.controller, this.value,
   });
   final String? hint;
+  final String? value;
   final bool? obscure;
   final TextInputType? type;
   final IconButton? suffix;
   final String? Function(String?)? validator;
   final void Function(String?)? onSaved;
   final void Function(String?)? onChanged;
+  final void Function()? onTap;
   final void Function(String?)? onFieldSubmitted;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +31,13 @@ class CustomTextfield extends StatelessWidget {
       validator: validator,
       onChanged: onChanged,
       onFieldSubmitted: onFieldSubmitted,
+      onTap: onTap,
       keyboardType: type,
       cursorRadius: Radius.circular(5),
       cursorColor: Themes.primary,
       cursorOpacityAnimates: true,
       obscureText: obscure ?? false,
+      initialValue : value,
       style: TextStyle(color: Themes.text, fontSize: 16),
       decoration: InputDecoration(
         contentPadding: EdgeInsets.all(10),

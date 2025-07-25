@@ -1,3 +1,4 @@
+const { mongoose } = require('mongoose');
 const Favorite = require('./favorites.mongo');
 
 async function getFavorites(user_id, skip, limit) {

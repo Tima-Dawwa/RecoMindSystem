@@ -6,7 +6,7 @@ import 'package:recomindweb/core/helpers/status_code_handler.dart';
 
 class AuthService {
   final Api api;
-  String? token;
+  String? token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg3Njg2ZmVhYzc2YjY4YjIwYjdlYWU0ZiIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkphbmUiLCJsYXN0X25hbWUiOiJZdW5kdCJ9LCJpYXQiOjE3NTMxMDkyNDYsImV4cCI6MTc1MzM2ODQ0Nn0.HbwiBQmDPZKhkzzhlDt9rS36c-nWhH2nUVEuDqczOX8';
 
   AuthService(this.api);
 
@@ -20,6 +20,24 @@ class AuthService {
         body: {'email': email, 'password': password},
       );
       token = response['token'];
+      return right(response);
+    } catch (e) {
+      if (e is DioException) {
+        return left(Failure.fromDioException(e, DefaultStatusCodeHandler()));
+      } else {
+        return left(
+          Failure(errMessage: 'something went wrong (not DioException)'),
+        );
+      }
+    }
+  }
+
+  Future<Either<Failure, Map<String, dynamic>>> logout() async {
+    try {
+      Map<String, dynamic> response = await api.post(
+        endPoint: '/auth/logout',
+        body: {},
+      );
       return right(response);
     } catch (e) {
       if (e is DioException) {
@@ -57,12 +75,15 @@ class AuthService {
           "phone": {"country_code": code, "number": number},
         },
       );
+      token = response['token'];
       return right(response);
     } catch (e) {
       if (e is DioException) {
         return left(Failure.fromDioException(e, RegisterStatusCodeHandler()));
       }
-      return left(Failure(errMessage: 'Something went wrong (not DioException)'));
+      return left(
+        Failure(errMessage: 'Something went wrong (not DioException)'),
+      );
     }
   }
 }

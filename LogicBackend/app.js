@@ -8,13 +8,17 @@ const app = express();
 
 const cron = require('./services/cron')
 
+app.use(helmet())
+app.use(cors());
+
+var path = require('path');
+// Images
+app.use(express.static(path.resolve('./public')));
+app.use('/public', express.static(path.resolve('./public')));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 app.use(logger);
-
-app.use(helmet())
-app.use(cors());
 
 // Web
 app.use('/auth', require('./routes/Web/Auth/auth.route'))
@@ -26,8 +30,9 @@ app.use('/orders', require('./routes/Web/Orders/orders.route'))
 app.use('/payment', require('./routes/Web/Payments/payments.route'))
 
 // Dashboard
-app.use('/admin', require('./routes/Dashboard/Admins/admins.route'))
-app.use('/products', require('./routes/Dashboard/Products/products.route'))
+app.use('/dashboard/admins', require('./routes/Dashboard/Admins/admins.route'))
+app.use('/dashboard/products', require('./routes/Dashboard/Products/products.route'))
+app.use('/dashboard/orders', require('./routes/Dashboard/Orders/orders.route'))
 
 // Error Handling
 app.use(errorHandler);

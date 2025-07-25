@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/theme.dart';
+import 'package:recomindweb/features/product_details/models/product_model.dart';
+import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_cubit.dart';
 
 class ProductImageSectionMobile extends StatefulWidget {
   final String selectedImage;
   final Function(String) onThumbnailClick;
   final List<String> imageList;
+  final Product product;
 
   const ProductImageSectionMobile({
     super.key,
     required this.selectedImage,
     required this.onThumbnailClick,
     required this.imageList,
+    required this.product,
   });
 
   @override
@@ -23,6 +28,8 @@ class _ProductImageSectionMobileState extends State<ProductImageSectionMobile> {
 
   @override
   Widget build(BuildContext context) {
+    final productDetailsCubit = context.read<ProductDetailsCubit>();
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Column(
@@ -34,8 +41,9 @@ class _ProductImageSectionMobileState extends State<ProductImageSectionMobile> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(30),
-                  child: Image.asset(
-                    widget.selectedImage,
+                  child: Image.network(
+                   widget.selectedImage,
+                      headers: {"ngrok-skip-browser-warning": "true"},
                     height: 260,
                     width: double.infinity,
                     fit: BoxFit.contain,
@@ -47,7 +55,15 @@ class _ProductImageSectionMobileState extends State<ProductImageSectionMobile> {
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
-                        isFavorite = !isFavorite;
+                        if (widget.product.isfavorite) {
+                          productDetailsCubit.deleteFavorite(widget.product.id,
+                            widget.product.id,
+                          );
+                        } else {
+                          productDetailsCubit.addToFavorites(widget.product.id,
+                            widget.product.id,
+                          );
+                        }
                       });
                     },
                     child: Container(
@@ -63,7 +79,9 @@ class _ProductImageSectionMobileState extends State<ProductImageSectionMobile> {
                         ],
                       ),
                       child: Icon(
-                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        widget.product.isfavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
                         color:
                             isFavorite
                                 ? Themes.secondary
@@ -117,8 +135,9 @@ class _ProductImageSectionMobileState extends State<ProductImageSectionMobile> {
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8),
-                            child: Image.asset(
+                            child: Image.network(
                               image,
+                                headers: {"ngrok-skip-browser-warning": "true"},
                               width: 80,
                               height: 120,
                               fit: BoxFit.cover,

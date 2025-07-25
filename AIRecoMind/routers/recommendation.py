@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Response
-from services.content_based import get_content_based_recommendations, add_product
-from services.collaborative import get_collaborative_recommendations, retrain_als_model
-from services.hybrid import get_cascade_hybrid_recommendations
+from services.recommendation_system.content_based import get_content_based_recommendations, add_product
+from services.recommendation_system.collaborative import get_collaborative_recommendations, retrain_als_model
+from services.recommendation_system.hybrid import get_cascade_hybrid_recommendations
 from typing import List
 
 router = APIRouter()
@@ -19,12 +19,12 @@ async def add_product_for_recommendation(product_id: str):
 
 
 @router.get("/collaborative-recommendations", response_model=List[str])
-async def get_collaborative_recommendations(user_id: str, top_n: int = 20):
+async def get_collaborative_recommendations_route(user_id: str = "", top_n: int = 20):
     return await get_collaborative_recommendations(user_id, top_n)
 
 
 @router.post("/collaborative-recommendations")
-async def add_product_for_recommendation():
+async def train_collaborative_recommendations():
     await retrain_als_model()
     return Response(status_code=200, content=b"")
 

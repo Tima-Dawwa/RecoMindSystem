@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:recomindweb/core/theme.dart';
-import 'package:recomindweb/features/ChatBot/Model/product.dart';
+import 'package:recomindweb/features/Home/model/collab_product_model.dart';
+import 'package:recomindweb/features/Home/view%20model/cubit/home_cubit.dart';
 import 'package:recomindweb/features/Home/view/widgets/home_product_card.dart';
-import 'package:recomindweb/features/product_details/view/product_details_page.dart';
 
 class Recommendations extends StatefulWidget {
   const Recommendations({super.key});
@@ -12,22 +14,14 @@ class Recommendations extends StatefulWidget {
 }
 
 class _RecommendationsState extends State<Recommendations> {
-  final List<Product> products = List.generate(
-    20,
-    (index) => Product(
-      name: "Product A",
-      imageUrl: "assets/Images/main_side.png",
-      price: 29.99,
-      discountPercent: 25,
-      isFavorite: false,
-      gender: "Female",
-      category: "Ladieswear",
-      isTrending: true,
-      rating: 4.5,
-      tagType: "Trend",
-    ),
-  );
+  List<CollabProductModel> products = [];
   bool showAll = false;
+
+  @override
+  void initState() {
+    super.initState();
+    products = BlocProvider.of<HomeCubit>(context).products;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,13 +62,9 @@ class _RecommendationsState extends State<Recommendations> {
                       width: cardWidth,
                       product: products[index],
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder:
-                                (BuildContext context) =>
-                                    const ProductDetailsPage(),
-                          ),
+                        Get.toNamed(
+                          '/product_details',
+                          preventDuplicates: false,
                         );
                       },
                     );

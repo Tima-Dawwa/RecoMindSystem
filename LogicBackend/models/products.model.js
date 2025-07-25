@@ -11,7 +11,7 @@ async function buildProductQuery(filters) {
     const tenDaysAgo = new Date();
     tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
 
-    if (filters.type.length > 0) query.type = { $in: filters.type };
+    if (filters.type && filters.type.length > 0) query.type = { $in: filters.type };
 
     if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
         query.price = {};
@@ -37,6 +37,13 @@ async function buildProductQuery(filters) {
         query.createdAt = { $gte: tenDaysAgo };
     }
 
+    if (filters.name) {
+        query.name = { $regex: filters.name, $options: 'i' };
+    }
+
+    if (filters.gender) query.gender = filters.gender;
+
+
     return { query, tenDaysAgo, trendingIds };
 }
 
@@ -60,15 +67,49 @@ async function getProductsCount(filters) {
 }
 
 async function getProductById(_id) {
-    return await Product.findById(_id)
+    const tenDaysAgo = new Date();
+    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
+
+    const trendingIds = await getTrendingProductIds(10, 3);
+    const trendingSet = new Set(trendingIds.map(id => id.toString()));
+
+    const product = await Product.findById(_id);
+
+    if (!product) {
+        return null;
+    }
+
+    const productObject = product.toObject();
+
+    return {
+        ...productObject,
+        isNew: productObject.createdAt >= tenDaysAgo,
+        isTrend: trendingSet.has(productObject._id.toString())
+    };
 }
 
-async function deleteProduct(product_id) {
-    return await Product.deleteOne({ _id: product_id });
+async function deleteProducts(productIds) {
+    return await Product.deleteMany({ _id: { $in: productIds } });
 }
 
 async function getProductsByIds(ids) {
-    return await Product.find({ _id: { $in: ids } });
+    // Calculate the date for the 'isNew' check
+    const tenDaysAgo = new Date();
+    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
+
+    const trendingIds = await getTrendingProductIds(10, 3);
+    const trendingSet = new Set(trendingIds.map(id => id.toString()));
+
+    const products = await Product.find({ _id: { $in: ids } });
+
+    return products.map(p => {
+        const obj = p.toObject();
+        return {
+            ...obj,
+            isNew: obj.createdAt >= tenDaysAgo,
+            isTrend: trendingSet.has(obj._id.toString())
+        };
+    });
 }
 
 async function incrementInteractionCount(product_id, type, rating_value = null) {
@@ -87,23 +128,38 @@ async function incrementRatingCount(product_id, rating_value) {
     return await product.save()
 }
 
-async function applyChangedRatingToProduct(product_id, rating_value) {
+async function applyChangedRatingToProduct(product_id, oldRatingValue, rating_value) {
     product = await Product.findOne({ _id: product_id });
     const currentTotalRatingSum = product.rating * product.rating_count;
+
     product.rating = (currentTotalRatingSum - oldRatingValue + rating_value) / product.rating_count;
     product.rating = parseFloat(product.rating.toFixed(2));
     product.total_interaction_score = product.total_interaction_score - oldRatingValue + rating_value;
     return await product.save()
 }
 
+async function getManyProducts(ids) {
+    return await Product.find({ _id: { $in: ids } });
+}
+
+async function updateProduct(productId, updates) {
+    return await Product.findByIdAndUpdate(
+        productId,
+        { $set: updates },
+        { new: true, runValidators: true }
+    );
+}
+
 module.exports = {
     postProduct,
     getProducts,
     getProductById,
-    deleteProduct,
+    deleteProducts,
     getProductsCount,
     getProductsByIds,
     incrementInteractionCount,
     incrementRatingCount,
-    applyChangedRatingToProduct
+    applyChangedRatingToProduct,
+    getManyProducts,
+    updateProduct
 }

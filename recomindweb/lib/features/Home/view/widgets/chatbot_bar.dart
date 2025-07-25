@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:recomindweb/core/Widgets/custom_button.dart';
 import 'package:recomindweb/core/theme.dart';
-import 'package:recomindweb/features/Chatbot/chatbot.dart';
 
 class ChatbotBar extends StatelessWidget {
   const ChatbotBar({super.key, this.desktop});
@@ -103,8 +102,8 @@ class ChatbotBar extends StatelessWidget {
                         ),
                         Text(
                           desktop!
-                              ? "Don't waste your time seraching normally, Let me make it easier"
-                              : "Don't waste your time seraching normally,\nLet me make it easier",
+                              ? "Don't waste your time searching normally, Let me make it easier"
+                              : "Don't waste your time searching normally,\nLet me make it easier",
                           maxLines: 2,
                           softWrap: true,
                           style: TextStyle(
@@ -125,21 +124,12 @@ class ChatbotBar extends StatelessWidget {
                       aspectRatio: 2 / 0.6,
                       child: CustomButton(
                         text: "Try now",
+                        textColor: Themes.text,
                         borderRadius: 40,
                         size: desktop! ? 20 : 10,
-                        color: WidgetStatePropertyAll(Themes.secondary),
+                        color: WidgetStatePropertyAll(Themes.third),
                         press: () {
-                          Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.scale,
-                              alignment: Alignment.center,
-                              duration: Duration(milliseconds: 800),
-                              curve: Curves.fastLinearToSlowEaseIn,
-                              child: ChatWindow(),
-                              childCurrent: ChatbotBar(),
-                            ),
-                          );
+                          Get.toNamed('/chatbot', preventDuplicates: false);
                         },
                       ),
                     ),

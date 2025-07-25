@@ -8,8 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const csv = require('csv-parser');
 const Interaction = require('../models/interactions.mongo');
-const { INTERACTION_TYPES } = require('../models/interactions.model');
-const { WEIGHT_MAP } = require('../public/constants/interaction');
+const { WEIGHT_MAP, INTERACTION_TYPES } = require('../public/constants/interaction');
 
 // Done
 async function createUsers(count = 1000) {
@@ -81,7 +80,7 @@ async function createProducts() {
                     price,
                     discounted_price,
                     quantity: faker.number.int({ min: 0, max: 100 }),
-                    images: row.images ? row.images.split('|').map(img => img.trim()) : []
+                    images: ['/images/products/recomind1.jpg']
                 };
                 products.push(product);
             })
@@ -249,6 +248,15 @@ async function updateAllProductAggregates() {
         throw error;
     }
 }
+const Admins = require('../models/admins.mongo');
+
+async function createAdmins() {
+    const admins = [
+        { username: 'ZYZZ', password: '12345678', role: 'Super-Admin' },
+    ]
+
+    await Admins.create(admins)
+}
 
 
 // async function createNotifications() {
@@ -269,6 +277,7 @@ module.exports = {
     createUsers,
     createProducts,
     createInteractions,
-    updateAllProductAggregates
+    updateAllProductAggregates,
+    createAdmins
     // createNotifications
 }

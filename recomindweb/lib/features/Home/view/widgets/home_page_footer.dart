@@ -32,14 +32,24 @@ class _HomePageFooterState extends State<HomePageFooter> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "TRENDOVA",
-            style: TextStyle(
-              color: Themes.bg,
-              fontSize: widget.desktop ? 40 : 30,
+          // Text(
+          //   "TRENDOVA",
+          //   style: TextStyle(
+          //     color: Themes.bg,
+          //     fontSize: widget.desktop ? 40 : 30,
+          //   ),
+          // ),
+          Container(
+            height: 50,
+            width: 200,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/Images/logo.png'),
+                fit: BoxFit.contain,
+              ),
             ),
           ),
-          SizedBox(height: 15),
+          SizedBox(height: 10),
           Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

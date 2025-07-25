@@ -1,4 +1,5 @@
 const Product = require('./products.mongo');
+const mongoose = require('mongoose');
 const Interaction = require('./interactions.mongo');
 const { INTERACTION_TYPES, RATING } = require('../public/constants/interaction')
 
@@ -28,13 +29,19 @@ async function getInteraction(interaction_id) {
     }
 }
 
-async function postInteraction(user_id, product_id, interaction_type, rating_value = null) {
-    return await Interaction.create({
+async function postInteraction(user_id, product_id, interaction_type, rating_value = null, review_text) {
+    const interactionData = {
         user_id,
         product_id,
         interaction_type,
-        rating_value: rating_value
-    });
+        rating_value
+    };
+
+    if (review_text != "") {
+        interactionData.review_text = review_text;
+    }
+
+    return await Interaction.create(interactionData);
 }
 
 async function updateRatingInteraction(interaction_id, rating_value) {
@@ -154,8 +161,8 @@ async function updateProductInteraction(productId, userId, interactionType, rati
 
 async function getProductInteractions(productId) {
     try {
-        return await Interaction.find({ product_id: productId })
-            .populate('user_id', 'name email')
+        return await Interaction.find({ product_id: productId, interaction_type: INTERACTION_TYPES.RATING })
+            .populate('user_id', 'name')
             .sort({ createdAt: -1 });
     } catch (error) {
         throw new Error(`Failed to fetch product interactions: ${error.message}`);
@@ -237,6 +244,36 @@ async function checkRating(userId, productId) {
     });
 }
 
+async function getProductRatings(productId) {
+    const result = await Interaction.aggregate([
+        {
+            $match: {
+                product_id: new mongoose.Types.ObjectId(productId),
+                interaction_type: 'rating',
+                rating_value: { $ne: null }
+            }
+        },
+        {
+            $group: {
+                _id: "$rating_value",
+                count: { $sum: 1 }
+            }
+        },
+        {
+            $sort: { _id: 1 }
+        }
+    ]);
+
+    // Fill missing rating values with 0
+    const ratingCounts = {};
+    for (let i = 1; i <= 5; i++) {
+        const match = result.find(r => r._id === i);
+        ratingCounts[i] = match ? match.count : 0;
+    }
+
+    return ratingCounts;
+}
+
 module.exports = {
     getInteractions,
     getInteraction,
@@ -247,5 +284,6 @@ module.exports = {
     getUserInteractions,
     checkRating,
     updateRatingInteraction,
-    removeProductInteraction
+    removeProductInteraction,
+    getProductRatings
 };

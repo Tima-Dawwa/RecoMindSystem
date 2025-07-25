@@ -9,8 +9,8 @@ const { getFavorites, addFavorite, deleteFavorite, getFavoritesCount, checkFavor
 // Done
 async function httpGetFavorites(req, res) {
     const { skip, limit } = getPagination(req.query)
-    const data = await getFavorites(req.user._id, skip, limit) ?? [];
-    const length = await getFavoritesCount(req.user._id)
+    const data = await getFavorites(req.user.id, skip, limit) ?? [];
+    const length = await getFavoritesCount(req.user.id)
     if (data.length == 0) return res.status(200).json({ data: [], count: 0 })
     return res.status(200).json({ data: serializedData(data.products_id, productData), count: length })
 }
@@ -20,13 +20,12 @@ async function httpAddFavorite(req, res) {
     const product = await getProductById(req.params.id)
     if (!product) return res.status(400).json({ error: "Product Not Found" });
 
-    const check = await checkFavorite(req.user._id, req.params.id)
+    const check = await checkFavorite(req.user.id, req.params.id)
     if (check) return res.status(400).json({ error: "Product Already Favorited" });
 
-    await addFavorite(req.user._id, req.params.id)
+    await addFavorite(req.user.id, product._id)
     await postInteraction(req.user.id, req.params.id, INTERACTION_TYPES.FAVORITE)
     await incrementInteractionCount(req.params.id, INTERACTION_TYPES.FAVORITE)
-
     return res.status(200).json({
         message: 'Product favorited successfully',
     });
@@ -36,10 +35,8 @@ async function httpAddFavorite(req, res) {
 async function httpRemoveFavorite(req, res) {
     const product = await getProductById(req.params.id);
     if (!product) return res.status(404).json({ message: "Product Not Found" });
-
-    await deleteFavorite(req.user._id, product.id);
-    await removeProductInteraction(req.params.id, req.user._id, INTERACTION_TYPES.FAVORITE);
-
+    await deleteFavorite(req.user.id, product._id);
+    await removeProductInteraction(req.params.id, req.user.id, INTERACTION_TYPES.FAVORITE);
     return res.status(200).json({
         message: "Removed From Favorites Successfully",
     });
