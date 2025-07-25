@@ -6,6 +6,8 @@ class CartItemCard extends StatelessWidget {
   final String imageUrl;
   final double price;
   final int quantity;
+  final String color;
+  final String department;
   final VoidCallback onIncrease;
   final VoidCallback onDecrease;
   final VoidCallback onDelete;
@@ -19,6 +21,8 @@ class CartItemCard extends StatelessWidget {
     required this.onIncrease,
     required this.onDecrease,
     required this.onDelete,
+    required this.color,
+    required this.department,
   });
 
   @override
@@ -63,7 +67,7 @@ class CartItemCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    name,
+                    department,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -71,7 +75,7 @@ class CartItemCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    name,
+                    color,
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.grey,
