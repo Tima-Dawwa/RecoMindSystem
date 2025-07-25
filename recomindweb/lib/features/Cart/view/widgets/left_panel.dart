@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:recomindweb/core/theme.dart';
+import 'package:recomindweb/features/Cart/model/cart_model.dart';
 import 'package:recomindweb/features/Cart/view/widgets/cart_item_card.dart';
-import 'package:recomindweb/features/Cart/view/widgets/cart_page_body.dart';
 
 class LeftPanel extends StatefulWidget {
   const LeftPanel({super.key, required this.cartItems});
 
-  final List<CartItem> cartItems;
+  final List<CartModel> cartItems;
 
   @override
   State<LeftPanel> createState() => _LeftPanelState();
@@ -47,23 +47,36 @@ class _LeftPanelState extends State<LeftPanel> {
               ),
             ),
             Divider(height: 20),
-            Expanded(
-              child: ListView.builder(
-                itemCount: widget.cartItems.length,
-                itemBuilder: (context, index) {
-                  final item = widget.cartItems[index];
-                  return CartItemCard(
-                    name: item.name,
-                    imageUrl: item.imageUrl,
-                    price: item.price,
-                    quantity: item.quantity,
-                    onIncrease: () => _increaseQuantity(index),
-                    onDecrease: () => _decreaseQuantity(index),
-                    onDelete: () => _confirmDeleteItem(index),
-                  );
-                },
+            if (widget.cartItems.isEmpty)
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 250),
+                  child: Text(
+                    "Not Items",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                  ),
+                ),
+              )
+            else
+              Expanded(
+                child: ListView.builder(
+                  itemCount: widget.cartItems.length,
+                  itemBuilder: (context, index) {
+                    final item = widget.cartItems[index];
+                    return CartItemCard(
+                      name: item.name,
+                      imageUrl: item.image,
+                      price: item.price,
+                      quantity: item.quantity,
+                      color: item.color,
+                      department: item.department,
+                      onIncrease: () => _increaseQuantity(index),
+                      onDecrease: () => _decreaseQuantity(index),
+                      onDelete: () => _confirmDeleteItem(index),
+                    );
+                  },
+                ),
               ),
-            ),
           ],
         ),
       ),
@@ -113,5 +126,3 @@ class _LeftPanelState extends State<LeftPanel> {
     );
   }
 }
-
-
