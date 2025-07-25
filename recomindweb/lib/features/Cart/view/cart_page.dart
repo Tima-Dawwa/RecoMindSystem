@@ -8,11 +8,9 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      child: ResponsiveLayout(
-        mobileBody: CartPageBody(),
-        desktopBody: CartPageBody(),
-      ),
+    return ResponsiveLayout(
+      mobileBody: AppScaffold(size: false, child: CartPageBody()),
+      desktopBody: AppScaffold(size: false, child: CartPageBody()),
     );
   }
 }

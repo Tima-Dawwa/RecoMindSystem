@@ -17,8 +17,6 @@ class _ContentAllProductsState extends State<ContentAllProducts> {
     "Books",
     "Toys",
     "Food",
-    "Electronics",
-    "Clothes",
   ];
 
   @override
