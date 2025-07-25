@@ -14,26 +14,66 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
   late TabController _tabController;
 
   final List<label> labels = [
-    label(name: "All", urlImage1: "", urlImage2: ""),
+    label(
+      name: "All",
+      urlImage1: "assets/Images/labels/all1.jpg",
+      urlImage2: "assets/Images/labels/all.jpg",
+    ),
     label(
       name: "Tops",
-      urlImage1: "assets/Images/labels/tops1.png",
-      urlImage2: "assets/Images/labels/top.png",
+      urlImage1: "assets/Images/labels/top1.jpg",
+      urlImage2: "assets/Images/labels/top.jpg",
     ),
-    label(name: "Bottoms", urlImage1: "", urlImage2: ""),
-    label(name: "Jackets", urlImage1: "", urlImage2: ""),
-    label(name: "Pyjama", urlImage1: "", urlImage2: ""),
-    label(name: "Suits", urlImage1: "", urlImage2: ""),
-    label(name: "Overall", urlImage1: "", urlImage2: ""),
-    label(name: "Shoes", urlImage1: "", urlImage2: ""),
-    label(name: "Bags", urlImage1: "", urlImage2: ""),
-    label(name: "Hats", urlImage1: "", urlImage2: ""),
+    label(
+      name: "Bottoms",
+      urlImage1: "assets/Images/labels/bottom1.jpg",
+      urlImage2: "assets/Images/labels/bottom.jpg",
+    ),
+    label(
+      name: "Jackets",
+      urlImage1: "assets/Images/labels/jacket1.jpg",
+      urlImage2: "assets/Images/labels/jacket.jpg",
+    ),
+    label(
+      name: "Pyjama",
+      urlImage1: "assets/Images/labels/pyjama1.jpg",
+      urlImage2: "assets/Images/labels/pyjama.jpg",
+    ),
+    label(
+      name: "Suits",
+      urlImage1: "assets/Images/labels/suits1.jpg",
+      urlImage2: "assets/Images/labels/suits.jpg",
+    ),
+    label(
+      name: "Overall",
+      urlImage1: "assets/Images/labels/overall1.jpg",
+      urlImage2: "assets/Images/labels/overall.jpg",
+    ),
+    label(
+      name: "Shoes",
+      urlImage1: "assets/Images/labels/shoes1.jpg",
+      urlImage2: "assets/Images/labels/shoes.jpg",
+    ),
+    label(
+      name: "Bags",
+      urlImage1: "assets/Images/labels/bag1.jpg",
+      urlImage2: "assets/Images/labels/bags.jpg",
+    ),
+    label(
+      name: "Hats",
+      urlImage1: "assets/Images/labels/hat1.jpg",
+      urlImage2: "assets/Images/labels/hat.jpg",
+    ),
     label(
       name: "Accessory",
-      urlImage1: "",
-      urlImage2: "assets/Images/labels/accessory-01.jpg",
+      urlImage1: "assets/Images/labels/accessory1.jpg",
+      urlImage2: "assets/Images/labels/accessory.jpg",
     ),
-    label(name: "Additions", urlImage1: "", urlImage2: ""),
+    label(
+      name: "Additions",
+      urlImage1: "assets/Images/labels/additions1.jpg",
+      urlImage2: "assets/Images/labels/additions.jpg",
+    ),
   ];
 
   @override
@@ -53,7 +93,7 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
     return Column(
       children: [
         Wrap(
-          spacing: 8,
+          spacing: 15,
           runSpacing: 8,
           children: List.generate(labels.length, (index) {
             final isSelected = _tabController.index == index;
@@ -63,7 +103,7 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
                 setState(() {});
               },
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                 decoration: BoxDecoration(
                   color: isSelected ? Themes.primary : Themes.bg,
                   borderRadius: BorderRadius.circular(20),
@@ -77,14 +117,8 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
                 ),
                 child:
                     isSelected
-                        ? Image.asset(
-                          "assets/Images/labels/tops1.png",
-                          width: 60,
-                        )
-                        : Image.asset(
-                          "assets/Images/labels/accessory-01.jpg",
-                          width: 80,
-                        ),
+                        ? Image.asset(labels[index].urlImage1, width: 80)
+                        : Image.asset(labels[index].urlImage2, width: 80),
               ),
             );
           }),
