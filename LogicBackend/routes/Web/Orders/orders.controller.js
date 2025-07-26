@@ -61,7 +61,6 @@ async function httpPostOrder(req, res) {
     const cart = await getCart(req.user._id)
     if (!cart) return res.status(404).json({ message: "No Cart Found" })
 
-
     const order = await createOrder({
         user_id: req.user._id,
         orderItems: cart.items,
