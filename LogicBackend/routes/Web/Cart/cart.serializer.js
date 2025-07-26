@@ -1,11 +1,13 @@
 function cartData(product) {
+    console.log(product)
     return {
         id: product.product._id,
         name: product.product.name,
-        price: product.product.price,
-        discounted_price: product.product.discounted_price,
-        is_discounted: (product.product.price - product.product.discounted_price) > 0,
+        price: product.price,
         department: product.product.department,
+        image: product.product.images[0],
+        color: product.product.color,
+        quantity: product.quantity,
     }
 }
 

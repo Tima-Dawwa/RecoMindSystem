@@ -10,7 +10,7 @@ const { getCart, addToCart, deleteFromCart, getCartCount, getCartItem } = requir
 async function httpGetCart(req, res) {
     const { skip, limit } = getPagination(req.query)
     const data = await getCart(req.user.id, skip, limit) ?? []
-    const length = getCartCount(req.user.id)
+    const length = await getCartCount(req.user.id)
     if (data.length == 0) return res.status(200).json({ data: [], count: 0 })
     return res.status(200).json({ data: serializedData(data.items, cartData), count: length })
 }
@@ -23,6 +23,7 @@ async function httpAddToCart(req, res) {
     if (product_found) return res.status(200).json({ error: 'Product Already in Cart' })
 
     // decrease quantity
+    // if (product.quantity < req.body.quantity) return res.status(400).json({ error: 'Not Enough Items in Storage' })
     await addToCart(req.user._id, req.params.id, product.discounted_price, req.body.quantity)
     await postInteraction(req.user.id, req.params.id, INTERACTION_TYPES.CART_ADD)
     await incrementInteractionCount(req.params.id, INTERACTION_TYPES.CART_ADD)
