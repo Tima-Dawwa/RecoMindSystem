@@ -150,6 +150,14 @@ async function updateProduct(productId, updates) {
     );
 }
 
+async function decrementQuantity(productId, quantity) {
+    return await Product.findByIdAndUpdate(
+        productId,
+        { $inc: { quantity: -quantity } },
+        { new: true, runValidators: true }
+    );
+}
+
 module.exports = {
     postProduct,
     getProducts,
@@ -161,5 +169,6 @@ module.exports = {
     incrementRatingCount,
     applyChangedRatingToProduct,
     getManyProducts,
-    updateProduct
+    updateProduct,
+    decrementQuantity
 }

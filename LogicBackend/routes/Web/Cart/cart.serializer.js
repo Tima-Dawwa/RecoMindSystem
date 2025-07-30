@@ -1,5 +1,4 @@
 function cartData(product) {
-    console.log(product)
     return {
         id: product.product._id,
         name: product.product.name,

@@ -16,7 +16,6 @@ const cartSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-// Calculate total price before saving
 cartSchema.pre('save', function (next) {
     this.total_price = this.items.reduce((total, item) => {
         return total + (item.price * item.quantity);
@@ -24,7 +23,6 @@ cartSchema.pre('save', function (next) {
     next();
 });
 
-// Update total price when items are modified
 cartSchema.post('findOneAndUpdate', async function (doc) {
     if (doc) { // Make sure doc exists
         doc.total_price = doc.items.reduce((total, item) => {

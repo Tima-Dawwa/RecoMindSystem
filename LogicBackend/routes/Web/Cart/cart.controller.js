@@ -39,7 +39,8 @@ async function httpRemoveFromCart(req, res) {
     const product_found = await getCartItem(req.user._id, product._id)
     if (!product_found) return res.status(200).json({ error: 'Product not in Cart' })
 
-    await deleteFromCart(req.user._id, product.id);
+
+    await deleteFromCart(req.user._id, product._id);
     await removeProductInteraction(req.params.id, req.user._id, INTERACTION_TYPES.CART_ADD);
 
     return res.status(200).json({

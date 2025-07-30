@@ -12,10 +12,6 @@ def rerank_with_content_scores(
     seen_items: List[str],
     top_n: int
 ) -> List[str]:
-    """
-    Reranks a list of product_ids using content-based similarity scores.
-    Filters out already seen items.
-    """
     filtered_products = [pid for pid in product_ids if pid not in seen_items]
     scored_products = [(pid, content_scores.get(pid, 0.0))
                        for pid in filtered_products]
@@ -44,9 +40,6 @@ async def get_cascade_hybrid_recommendations(
     top_n: int = 10,
     initial_pool_size: int = 50
 ) -> List[str]:
-    """
-    Uses collaborative filtering to generate a candidate pool, then reranks using content-based similarity to the given product_id.
-    """
     collab_pool = await get_collaborative_recommendations(user_id, top_n=initial_pool_size)
 
     seen_items = await get_seen_product_ids(user_id)
