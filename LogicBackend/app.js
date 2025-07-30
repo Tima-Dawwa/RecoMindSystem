@@ -28,6 +28,7 @@ app.use('/favorites', require('./routes/Web/Favorites/favorites.route'))
 app.use('/cart', require('./routes/Web/Cart/cart.route'))
 app.use('/orders', require('./routes/Web/Orders/orders.route'))
 app.use('/payment', require('./routes/Web/Payments/payments.route'))
+app.use('/chats', require('./routes/Web/Chat/chats.route'))
 
 // Dashboard
 app.use('/dashboard/admins', require('./routes/Dashboard/Admins/admins.route'))
