@@ -1,9 +1,16 @@
-# Required: fastapi, pydantic
-# from fastapi import APIRouter, Request
-# from services.chatbot.rag_chat_engine import retrieve_products_and_response
+from fastapi import APIRouter
+from pydantic import BaseModel
+from typing import Optional
 
-# router = APIRouter()
+router = APIRouter()
 
-# @router.post("/chat")
-# async def chat_endpoint(request: str):
-#     return retrieve_products_and_response(request.message)
+
+class ChatRequest(BaseModel):
+    message: Optional[str] = None
+    image: Optional[str] = None
+    userId: str
+
+
+@router.post("/chatbot")
+async def chat_endpoint(request: ChatRequest):
+    return "Hello! This is a test response from the chatbot."

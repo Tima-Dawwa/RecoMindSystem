@@ -11,7 +11,7 @@ async function getChatsCount(user_id) {
 }
 
 async function getChat(id) {
-    return await Chat.findOneById(id)
+    return await Chat.findById(id)
 }
 
 async function postChat(data) {
@@ -22,17 +22,6 @@ async function postChatMessage(chat, message) {
     chat.messages.push(message)
     await chat.save()
 }
-
-// async function getLatestMessage(chatId) {
-//     const chat = await Chat.findOne({ _id: chatId })
-//         .populate({
-//             path: 'messages.sender_id',
-//             select: 'name profile_pic'
-//         })
-//         .select({ messages: { $slice: -1 } });
-
-//     return chat.messages[0];
-// }
 
 module.exports = {
     getChats,
