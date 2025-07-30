@@ -1,12 +1,14 @@
 const { getCart, resetCart } = require('../../../models/cart.model');
 const { getOrdersForUser, getOrder, getOrdersCountForUser, createOrder } = require('../../../models/orders.model');
 const { getPagination } = require('../../../services/query');
-const { getProductsByIds } = require('../../../models/products.model');
+const { getProductsByIds, decrementQuantity } = require('../../../models/products.model');
 const { createPaymentData } = require('../../../services/payment');
 const { paymentSheet } = require('../Payments/payments.controller')
 const { postInteraction } = require('../../../models/interactions.model');
 const { INTERACTION_TYPES } = require('../../../public/constants/interaction');
 const { incrementInteractionCount } = require('../../../models/products.model');
+const { validatePostOrder } = require('./orders.validation');
+const productsMongo = require('../../../models/products.mongo');
 
 async function httpGetOrders(req, res) {
     const { skip, limit } = getPagination(req.query);
@@ -58,19 +60,42 @@ async function httpGetOrder(req, res) {
 }
 
 async function httpPostOrder(req, res) {
-    const cart = await getCart(req.user._id)
-    if (!cart) return res.status(404).json({ message: "No Cart Found" })
+    const { error } = validatePostOrder(req.body)
+    if (error) {
+        return res.status(400).json({
+            errors: validationErrors(error.details)
+        })
+    }
 
-    const order = await createOrder({
+    let cart = req.body
+
+    const orderData = {
         user_id: req.user._id,
         orderItems: cart.items,
         total_price: cart.total_price,
         status: 'prepare'
-    });
+    }
+    const order = await createOrder(orderData);
 
     for (let i = 0; i < cart.items.length; i++) {
-        await postInteraction(req.user._id, cart.items[i].product._id, INTERACTION_TYPES.ORDER)
-        await incrementInteractionCount(cart.items[i].product._id, INTERACTION_TYPES.FAVORITE)
+        const item = cart.items[i];
+        const product = await productsMongo.findById(item.product);
+
+        if (!product) {
+            return res.status(404).json({ message: `Product not found: ${item.product}` });
+        }
+
+        if (product.quantity < item.quantity) {
+            return res.status(400).json({
+                message: `Insufficient stock for "${product.name}". Available: ${product.quantity}, Requested: ${item.quantity}`
+            });
+        }
+    }
+
+    for (let i = 0; i < cart.items.length; i++) {
+        await decrementQuantity(cart.items[i].product, cart.items[i].quantity)
+        await postInteraction(req.user._id, cart.items[i].product, INTERACTION_TYPES.ORDER)
+        await incrementInteractionCount(cart.items[i].product, INTERACTION_TYPES.FAVORITE)
     }
     await resetCart(req.user._id)
 
