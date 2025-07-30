@@ -1,6 +1,5 @@
 const multer = require('multer');
 
-// Set up storage
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'public/images/products');
@@ -11,8 +10,6 @@ const storage = multer.diskStorage({
     }
 });
 
-// Use the storage
 const upload = multer({ storage: storage });
 
-// In your controller
 module.exports = upload

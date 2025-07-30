@@ -5,7 +5,7 @@ const { encodeImage } = require('../../../services/imageUploading');
 const { default: mongoose } = require('mongoose');
 require('dotenv').config()
 
-const userSocketMap = {}; // Change from object to Map if necessary for better performance with large datasets
+const userSocketMap = {};
 
 async function socketFunctionality(io, socket) {
     const token = socket.handshake.query.token;
