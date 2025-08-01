@@ -158,6 +158,11 @@ async function decrementQuantity(productId, quantity) {
     );
 }
 
+async function getLowQuantityProducts(threshold = 50) {
+    return await Product.find({ quantity: { $lt: threshold } })
+}
+
+
 module.exports = {
     postProduct,
     getProducts,
@@ -170,5 +175,6 @@ module.exports = {
     applyChangedRatingToProduct,
     getManyProducts,
     updateProduct,
-    decrementQuantity
+    decrementQuantity,
+    getLowQuantityProducts
 }
