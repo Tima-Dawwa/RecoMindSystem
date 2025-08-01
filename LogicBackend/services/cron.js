@@ -1,5 +1,6 @@
 const schedule = require('node-schedule');
 const { getLowQuantityProducts } = require('../models/products.model');
+const { addNotification } = require('../routes/Dashboard/Notifications/notifications.helper');
 
 schedule.scheduleJob('0 3 * * *', async () => {
     // Runs every day at 3:00 AM
