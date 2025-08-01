@@ -1,4 +1,5 @@
-const schedule = require('node-schedule')
+const schedule = require('node-schedule');
+const { getLowQuantityProducts } = require('../models/products.model');
 
 schedule.scheduleJob('0 3 * * *', async () => {
     // Runs every day at 3:00 AM
@@ -9,4 +10,11 @@ schedule.scheduleJob('0 3 * * *', async () => {
     } catch (error) {
         console.error('Error calling retrain route:', error.message);
     }
+});
+
+schedule.scheduleJob('/10 * * * *', async () => {
+    const lowProducts = await getLowQuantityProducts();
+    lowProducts.forEach(async product => {
+        await addNotification(product)
+    })
 });

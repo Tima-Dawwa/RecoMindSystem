@@ -6,7 +6,6 @@ const { validateCreateChat } = require('./chat.validation');
 
 // Done
 async function httpGetAllChats(req, res) {
-    req.query.limit = 10;
     const { skip, limit } = getPagination(req.query)
     const user_id = req.user._id
     let chats = await getChats(user_id, skip, limit)
