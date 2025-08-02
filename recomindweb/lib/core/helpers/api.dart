@@ -13,7 +13,7 @@ class Api {
       '$baseUrl$endPoint',
       options: Options(
         headers: {
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ODNkZTQxMGE1NzU3ODQ2ZDViNGM0ZCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJEb2UifSwiaWF0IjoxNzUzNDcyNTc3LCJleHAiOjE3NTM3MzE3Nzd9.2gMQj3pZvKwrto8OYwqQMwhI8RubczID8DtTNAbom-s',
+          'Authorization': 'Bearer ${getIt.get<AuthService>().token}',
           // "ngrok-skip-browser-warning": "true",
         },
       ),
