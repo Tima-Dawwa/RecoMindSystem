@@ -110,69 +110,71 @@ class _CustomAppbarState extends State<CustomAppbar>
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Image.asset(
-                  'assets/Images/logo.png',
-                  height: 150,
-                  width: 150,
-                  alignment: Alignment.topCenter,
-                ),
+              Image.asset(
+                'assets/Images/logo.png',
+                height: 150,
+                width: 150,
+                alignment: Alignment.topCenter,
+                fit: BoxFit.contain,
               ),
-              Row(
-                children: [
-                  if (!widget.logged)
-                    CustomButton(
-                      text: "Login",
-                      width: widget.desktop ? 100 : 80,
-                      height: widget.desktop ? 32 : 25,
-                      size: widget.desktop ? 20 : 15,
-                      borderRadius: 40,
-                      press: () {
-                        Get.toNamed('/login', preventDuplicates: false);
+              Spacer(flex: 1),
+              if (!widget.logged)
+                CustomButton(
+                  text: "Login",
+                  borderRadius: 40,
+                  size: widget.desktop ? 20 : 15,
+                  width: widget.desktop ? 100 : 80,
+                  height: widget.desktop ? 32 : 25,
+                  press: () {
+                    Get.toNamed('/login', preventDuplicates: false);
+                  },
+                ),
+              if (widget.logged)
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    IconButton(
+                      padding: EdgeInsets.all(0),
+                      icon: Icon(
+                        Icons.shopping_cart_outlined,
+                        size: widget.desktop ? 30 : 22,
+                      ),
+                      color: Themes.bg,
+                      onPressed: () {
+                        Get.toNamed('/cart', preventDuplicates: false);
                       },
                     ),
-                  const SizedBox(width: 20),
-                  IconButton(
-                    icon: Icon(
-                      Icons.shopping_cart_outlined,
-                      size: widget.desktop ? 30 : 22,
+                    const SizedBox(width: 5),
+                    IconButton(
+                      padding: EdgeInsets.all(0),
+                      icon: Icon(
+                        Icons.local_shipping_outlined,
+                        size: widget.desktop ? 30 : 22,
+                      ),
+                      color: Themes.bg,
+                      onPressed: () {
+                        Get.toNamed('/orders', preventDuplicates: false);
+                      },
                     ),
-                    color: Themes.bg,
-                    onPressed: () {
-                      Get.toNamed('/cart', preventDuplicates: false);
-                    },
-                  ),
-
-                  const SizedBox(width: 5),
-                  IconButton(
-                    icon: Icon(
-                      Icons.local_shipping_outlined,
-                      size: widget.desktop ? 30 : 22,
+                    const SizedBox(width: 5),
+                    IconButton(
+                      padding: EdgeInsets.all(0),
+                      icon: Icon(
+                        Icons.favorite_outline_rounded,
+                        size: widget.desktop ? 30 : 22,
+                      ),
+                      color: Themes.bg,
+                      onPressed: () {
+                        // Get.toNamed('/favorites', preventDuplicates: false);
+                      },
                     ),
-                    color: Themes.bg,
-                    onPressed: () {
-                      Get.toNamed('/orders', preventDuplicates: false);
-                    },
-                  ),
-                  const SizedBox(width: 5),
-                  IconButton(
-                    icon: Icon(
-                      Icons.favorite_outline_rounded,
-                      size: widget.desktop ? 30 : 22,
-                    ),
-                    color: Themes.bg,
-                    onPressed: () {
-                      // Get.toNamed('/favorites', preventDuplicates: false);
-                    },
-                  ),
-                  if (widget.logged) const SizedBox(width: 10),
-                  if (widget.logged)
+                    const SizedBox(width: 5),
                     CompositedTransformTarget(
                       link: layerLink,
                       child: IconButton(
+                        padding: EdgeInsets.all(0),
                         icon: Icon(
                           FontAwesomeIcons.circleUser,
                           color: Themes.bg,
@@ -181,8 +183,9 @@ class _CustomAppbarState extends State<CustomAppbar>
                         onPressed: () => toggleOverlay(context),
                       ),
                     ),
-                ],
-              ),
+                  ],
+                ),
+              if (!widget.logged) SizedBox(width: 10),
             ],
           ),
         ),
