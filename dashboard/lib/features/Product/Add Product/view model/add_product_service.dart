@@ -68,7 +68,7 @@ class AddProductService {
       });
 
       final response = await api.post(
-        endPoint: 'dashboard/products/',
+        endPoint: '/dashboard/products/',
         body: formData,
       );
 

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Home/model/collab_product_model.dart';
 import 'package:recomindweb/features/Home/view%20model/cubit/home_cubit.dart';
 import 'package:recomindweb/features/Home/view/widgets/home_product_card.dart';
+// import 'package:get/get.dart';
+// import 'package:recomindweb/features/product_details/view/product_details_page.dart';
 
 class Recommendations extends StatefulWidget {
-  const Recommendations({super.key});
+  const Recommendations({super.key, required this.logged});
+  final bool logged;
 
   @override
   State<Recommendations> createState() => _RecommendationsState();
@@ -40,7 +42,7 @@ class _RecommendationsState extends State<Recommendations> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "For you",
+                  widget.logged ? 'For You' : 'Recommended',
                   style: TextStyle(
                     color: Themes.text,
                     fontSize: 40,
@@ -62,10 +64,7 @@ class _RecommendationsState extends State<Recommendations> {
                       width: cardWidth,
                       product: products[index],
                       onTap: () {
-                        Get.toNamed(
-                          '/product_details',
-                          preventDuplicates: false,
-                        );
+                        // Get.to(ProductDetailsPage(id: products[index].id));
                       },
                     );
                   },

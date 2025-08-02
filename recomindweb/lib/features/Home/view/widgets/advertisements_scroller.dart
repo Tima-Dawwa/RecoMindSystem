@@ -15,12 +15,12 @@ class AdvertisementsScroller extends StatefulWidget {
 class _AdvertisementsScrollerState extends State<AdvertisementsScroller> {
   int activeIndex = 0;
   final controller = CarouselSliderController();
-  final List<String> images = [];
+  final List<String> images = ["assets/Images/adv1.jpg","assets/Images/adv2.jpg","assets/Images/adv3.jpg","assets/Images/adv4.jpg"];
 
   @override
   void initState() {
     super.initState();
-    chooseAdv();
+    // chooseAdv();
   }
 
   @override

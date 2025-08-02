@@ -1,14 +1,11 @@
-import 'dart:typed_data';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:recomindweb/core/Widgets/custom_loading.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/core/Widgets/custom_button.dart';
 import 'package:recomindweb/features/Authentication/view%20model/cubit/auth_cubit.dart';
-import 'package:recomindweb/features/Authentication/view%20model/cubit/auth_states.dart';
+import 'package:recomindweb/features/Home/view/widgets/user_slidebox.dart';
 
 class CustomAppbar extends StatefulWidget {
   const CustomAppbar({super.key, required this.desktop, required this.logged});
@@ -22,8 +19,7 @@ class CustomAppbar extends StatefulWidget {
 class _CustomAppbarState extends State<CustomAppbar>
     with SingleTickerProviderStateMixin {
   OverlayEntry? overlayEntry;
-  final LayerLink _layerLink = LayerLink();
-  Uint8List? pickedImage;
+  final LayerLink layerLink = LayerLink();
   late AnimationController animationController;
   late Animation<Offset> slideAnimation;
 
@@ -64,20 +60,6 @@ class _CustomAppbarState extends State<CustomAppbar>
     overlayEntry = null;
   }
 
-  void chooseImage() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-      allowMultiple: false,
-      withData: true,
-    );
-
-    if (result != null && result.files.single.bytes != null) {
-      setState(() {
-        pickedImage = result.files.single.bytes;
-      });
-    }
-  }
-
   OverlayEntry createOverlayEntry(BuildContext context) {
     RenderBox renderBox = context.findRenderObject() as RenderBox;
     final offset = renderBox.localToGlobal(Offset.zero);
@@ -100,120 +82,7 @@ class _CustomAppbarState extends State<CustomAppbar>
                       child: Material(
                         elevation: 10,
                         borderRadius: BorderRadius.circular(10),
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Themes.bg,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Stack(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: CircleAvatar(
-                                          radius: 28,
-                                          backgroundImage: AssetImage(
-                                            'assets/image.png',
-                                          ),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        bottom: 2,
-                                        right: 2,
-                                        child: Container(
-                                          padding: EdgeInsets.all(2),
-                                          decoration: BoxDecoration(
-                                            color: Themes.primary,
-                                            borderRadius: BorderRadius.circular(
-                                              20,
-                                            ),
-                                          ),
-                                          child: GestureDetector(
-                                            onTap: chooseImage,
-                                            child: Icon(
-                                              Icons.add,
-                                              color: Themes.bg,
-                                              size: 15,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Sara Najati",
-                                        style: TextStyle(
-                                          color: Themes.text,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            "Damascus, Syria",
-                                            style: TextStyle(
-                                              color: Themes.text,
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 6),
-                                          Icon(
-                                            Icons.edit,
-                                            size: 16,
-                                            color: Themes.text.withAlpha(150),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 10),
-                              Divider(),
-                              BlocConsumer<AuthCubit, AuthStates>(
-                                listener: (context, state) {
-                                  if (state is SuccessLogoutState) {
-                                    setState(() {});
-                                    Get.toNamed('/', preventDuplicates: false);
-                                  }
-                                },
-                                builder: (context, state) {
-                                  if (state is LoadingAuthState) {
-                                    return Center(child: CustomLoading());
-                                  } else {
-                                    return ListTile(
-                                      leading: Icon(
-                                        Icons.logout,
-                                        size: 20,
-                                        color: Themes.secondary,
-                                      ),
-                                      title: Text(
-                                        "Log out",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Themes.text,
-                                        ),
-                                      ),
-                                      onTap: logoutTap,
-                                    );
-                                  }
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
+                        child: UserSlidebox(logoutTap: logoutTap),
                       ),
                     ),
                   ),
@@ -266,12 +135,18 @@ class _CustomAppbarState extends State<CustomAppbar>
                       },
                     ),
                   const SizedBox(width: 20),
-                  Icon(
-                    Icons.shopping_cart_outlined,
+                  IconButton(
+                    icon: Icon(
+                      Icons.shopping_cart_outlined,
+                      size: widget.desktop ? 30 : 22,
+                    ),
                     color: Themes.bg,
-                    size: widget.desktop ? 30 : 22,
+                    onPressed: () {
+                      Get.toNamed('/cart', preventDuplicates: false);
+                    },
                   ),
-                  const SizedBox(width: 10),
+
+                  const SizedBox(width: 5),
                   IconButton(
                     icon: Icon(
                       Icons.local_shipping_outlined,
@@ -282,16 +157,21 @@ class _CustomAppbarState extends State<CustomAppbar>
                       Get.toNamed('/orders', preventDuplicates: false);
                     },
                   ),
-                  const SizedBox(width: 10),
-                  Icon(
-                    Icons.favorite_outline_rounded,
+                  const SizedBox(width: 5),
+                  IconButton(
+                    icon: Icon(
+                      Icons.favorite_outline_rounded,
+                      size: widget.desktop ? 30 : 22,
+                    ),
                     color: Themes.bg,
-                    size: widget.desktop ? 30 : 22,
+                    onPressed: () {
+                      // Get.toNamed('/favorites', preventDuplicates: false);
+                    },
                   ),
                   if (widget.logged) const SizedBox(width: 10),
                   if (widget.logged)
                     CompositedTransformTarget(
-                      link: _layerLink,
+                      link: layerLink,
                       child: IconButton(
                         icon: Icon(
                           FontAwesomeIcons.circleUser,

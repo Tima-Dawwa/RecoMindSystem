@@ -6,8 +6,7 @@ import 'package:recomindweb/core/helpers/status_code_handler.dart';
 
 class AuthService {
   final Api api;
-  String? token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg3Njg2ZmVhYzc2YjY4YjIwYjdlYWU0ZiIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkphbmUiLCJsYXN0X25hbWUiOiJZdW5kdCJ9LCJpYXQiOjE3NTMxMDkyNDYsImV4cCI6MTc1MzM2ODQ0Nn0.HbwiBQmDPZKhkzzhlDt9rS36c-nWhH2nUVEuDqczOX8';
-
+  String? token;
   AuthService(this.api);
 
   Future<Either<Failure, Map<String, dynamic>>> login({
