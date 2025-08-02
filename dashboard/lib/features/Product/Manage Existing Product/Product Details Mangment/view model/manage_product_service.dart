@@ -15,7 +15,7 @@ class ManageProductService {
     required String id,
   }) async {
     try {
-      final response = await api.get(endPoint: 'dashboard/products/$id');
+      final response = await api.get(endPoint: '/dashboard/products/$id');
       final productData = response['data'];
       final product = ProductModel.fromJson(productData);
 
@@ -105,7 +105,7 @@ class ManageProductService {
       }
 
       final response = await api.put(
-        endPoint: 'dashboard/products/$id',
+        endPoint: '/dashboard/products/$id',
         body: formData,
       );
 

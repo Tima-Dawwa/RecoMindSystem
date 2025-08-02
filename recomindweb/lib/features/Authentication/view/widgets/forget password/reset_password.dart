@@ -17,7 +17,7 @@ class NewPasswordPage extends StatefulWidget {
 class _NewPasswordPageState extends State<NewPasswordPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmController = TextEditingController();
-
+  String? password, confirm;
   @override
   void dispose() {
     _passwordController.dispose();
@@ -104,6 +104,9 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                       validator: validatePassword,
                       obscure: true,
                       hint: 'New Password',
+                      onChanged: (value) {
+                        password = value;
+                      },
                     ),
                     const SizedBox(height: 16),
                     CustomTextfield(
@@ -111,6 +114,9 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                       validator: validatePassword,
                       obscure: true,
                       hint: 'Confirm Password',
+                      onChanged: (value) {
+                        confirm = value;
+                      },
                     ),
                     const SizedBox(height: 24),
                     SizedBox(
@@ -131,10 +137,10 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
   }
 
   void _submit() {
-    final password = _passwordController.text.trim();
-    final confirm = _confirmController.text.trim();
+    // final password = _passwordController.text.trim();
+    // final confirm = _confirmController.text.trim();
 
-    if (password.isEmpty || confirm.isEmpty) {
+    if (password == null || confirm == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please fill in all fields')),
       );
@@ -146,6 +152,6 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
       ).showSnackBar(const SnackBar(content: Text('Passwords do not match')));
       return;
     }
-    context.read<ForgotPasswordCubit>().resetPassword(password, confirm);
+    context.read<ForgotPasswordCubit>().resetPassword(password!, confirm!);
   }
 }

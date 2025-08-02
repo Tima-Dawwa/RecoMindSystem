@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    getCollab();
+    // getCollab();
     isLogged();
   }
 
@@ -32,14 +32,17 @@ class _HomePageState extends State<HomePage> {
         builder: (context, state) {
           if (state is LoadingHomeState) {
             return Center(child: CustomLoading());
-          } else if (state is SuccessHomeState) {
+          } else 
+          // if (state is SuccessHomeState) 
+          {
             return ResponsiveLayout(
               mobileBody: HomePageBody(desktop: false, logged: logged),
               desktopBody: HomePageBody(desktop: true, logged: logged),
             );
-          } else {
-            return Text('fail');
-          }
+          } 
+          // else {
+          //   return Text('fail');
+          // }
         },
       ),
     );

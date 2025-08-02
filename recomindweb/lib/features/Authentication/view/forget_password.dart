@@ -8,11 +8,16 @@ import 'package:recomindweb/features/Authentication/view%20model/forget%20passwo
 import 'package:recomindweb/features/Authentication/view%20model/forget%20password%20cubit/forget_password_stpes_state.dart';
 import 'package:recomindweb/features/Authentication/view/widgets/forget%20password/verification_screen.dart';
 
-class ForgotPasswordPage extends StatelessWidget {
+class ForgotPasswordPage extends StatefulWidget {
+  const ForgotPasswordPage({super.key});
+
+  @override
+  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
+}
+
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final TextEditingController _emailController = TextEditingController();
-
-  ForgotPasswordPage({super.key});
-
+  String? email;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,6 +86,9 @@ class ForgotPasswordPage extends StatelessWidget {
                       controller: _emailController,
                       validator: validateEmail,
                       hint: 'Email address',
+                      onChanged: (value) {
+                        email = value;
+                      },
                     ),
                     const SizedBox(height: 24),
                     SizedBox(
@@ -89,7 +97,7 @@ class ForgotPasswordPage extends StatelessWidget {
                         text: 'Send Code',
                         press: () {
                           final cubit = context.read<ForgotPasswordCubit>();
-                          cubit.updateEmail(_emailController.text.trim());
+                          cubit.updateEmail(email!);
                           cubit.sendResetCode();
                         },
                       ),

@@ -96,7 +96,7 @@ class AllProductService {
       if (gender != null && gender.isNotEmpty) queryParams['gender'] = gender;
 
       final response = await api.get(
-        endPoint: 'dashboard/products',
+        endPoint: '/dashboard/products',
         queryParameters: queryParams.isNotEmpty ? queryParams : null,
       );
 
@@ -116,7 +116,7 @@ class AllProductService {
 
   Future<Either<Failure, AllProductModel?>> getProductById(String id) async {
     try {
-      final response = await api.get(endPoint: 'dashboard/products/$id');
+      final response = await api.get(endPoint: '/dashboard/products/$id');
       return Right(AllProductModel.fromJson(response));
     } on DioException catch (e) {
       if (e.response?.statusCode == 404) {
@@ -135,7 +135,7 @@ class AllProductService {
 
   Future<Either<Failure, bool>> deleteMultipleProducts(List<String> ids) async {
     try {
-      await api.delete(endPoint: 'dashboard/products', body: {"ids": ids});
+      await api.delete(endPoint: '/dashboard/products', body: {"ids": ids});
       return const Right(true);
     } on DioException catch (e) {
       return Left(Failure.fromDioException(e, statusCodeHandler));

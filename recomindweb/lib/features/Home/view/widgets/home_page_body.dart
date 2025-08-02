@@ -4,7 +4,7 @@ import 'package:recomindweb/features/Home/view/widgets/categories.dart';
 import 'package:recomindweb/features/Home/view/widgets/advertisements_scroller.dart';
 import 'package:recomindweb/features/Home/view/widgets/chatbot_bar.dart';
 import 'package:recomindweb/features/Home/view/widgets/home_page_footer.dart';
-import 'package:recomindweb/features/Home/view/widgets/recommendations.dart';
+// import 'package:recomindweb/features/Home/view/widgets/recommendations.dart';
 
 class HomePageBody extends StatefulWidget {
   const HomePageBody({super.key, required this.desktop, required this.logged});
@@ -31,7 +31,7 @@ class _HomePageBodyState extends State<HomePageBody> {
               ChatbotBar(desktop: widget.desktop),
               AdvertisementsScroller(),
               Categories(desktop: widget.desktop),
-              Recommendations(),
+              // Recommendations(logged: widget.logged),
               HomePageFooter(desktop: widget.desktop),
             ],
           ),
