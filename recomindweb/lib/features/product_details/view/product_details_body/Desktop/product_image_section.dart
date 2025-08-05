@@ -28,7 +28,6 @@ class _ProductImageSectionState extends State<ProductImageSection> {
   @override
   void initState() {
     super.initState();
-    // initialize local favorite state from the product
     isFavorite = widget.product.isfavorite;
   }
 

@@ -5,7 +5,6 @@ from sentence_transformers import SentenceTransformer
 import os
 from typing import List
 
-# ----- CONFIG -----
 BATCH_SIZE = 1000
 MODEL_NAME = "all-MiniLM-L6-v2"
 FAISS_INDEX_FILE = "data/product_index_hnsw.faiss"
@@ -13,10 +12,8 @@ EMBEDDING_STORE_FILE = "data/product_embeddings.pkl"
 ID_MAPPING_FILE = "data/id_mapping.pkl"
 REVERSE_ID_MAPPING_FILE = "data/reverse_id_mapping.pkl"
 
-# Load model once
-# model = SentenceTransformer(MODEL_NAME)
+
 model = SentenceTransformer("saved_models/all-MiniLM-L6-v2")
-# Global shared objects
 index = None
 all_embeddings = {}
 id_mapping = {}
@@ -47,7 +44,6 @@ def load_index_and_mappings():
         int_counter = 1
 
 
-# Load once on script start
 load_index_and_mappings()
 
 

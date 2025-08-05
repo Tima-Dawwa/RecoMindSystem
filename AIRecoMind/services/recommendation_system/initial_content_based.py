@@ -9,7 +9,6 @@ from models.product import Product
 from utils.database import product_collection
 from typing import List
 
-# ----- CONFIG -----
 BATCH_SIZE = 1000
 MODEL_NAME = "all-MiniLM-L6-v2"
 FAISS_INDEX_FILE = "data/product_index_hnsw.faiss"
@@ -22,14 +21,12 @@ ID_MAPPING_FILE = "data/id_mapping.pkl"
 
 model = SentenceTransformer("saved_models/all-MiniLM-L6-v2")
 
-# ----- BUILD INDEX -----
 embedding_dim = model.get_sentence_embedding_dimension()
 hnsw_index = faiss.IndexHNSWFlat(embedding_dim, 32)
 hnsw_index.hnsw.efConstruction = 200
 index = faiss.IndexIDMap(hnsw_index)
 
 
-# ----- Get All -----------
 async def get_all_products() -> List[Product]:
     cursor = product_collection.find({})
     products = []
@@ -47,9 +44,6 @@ async def get_all_products() -> List[Product]:
     return products
 
 
-# ----- COMBINE FEATURES -----
-
-
 def combine_features(product) -> str:
     return " ".join([
         product.get('name', ''),
@@ -61,61 +55,48 @@ def combine_features(product) -> str:
         product.get('details', '')
     ]).lower()
 
-# ----- BUILD FAISS INDEX FUNCTION -----
 
 
 def build_faiss_index_for_products(product_data: pd.DataFrame, index_filename='product_faiss.index'):
-    # Initialize the index and mapping
     all_embeddings = {}
-    id_mapping = {}  # int_id -> ObjectId
-    reverse_id_mapping = {}  # ObjectId -> int_id for quick lookup
-    int_counter = 1  # ID counter for FAISS
+    id_mapping = {}  
+    reverse_id_mapping = {}  
+    int_counter = 1 
 
-    # Process the products in batches
     batch, ids = [], []
 
-    # Iterate through the product data
     for idx, row in tqdm(product_data.iterrows(), total=len(product_data), desc="Embedding Products"):
         try:
-            # Combine features into a single text string
             product_text = combine_features(row)
             batch.append(product_text)
 
-            # Use integer ID for FAISS and map it to ObjectId
             int_id = int_counter
             ids.append(int_id)
-            id_mapping[int_id] = row['id']  # BSON ObjectId to int_id mapping
-            # reverse map for later retrieval
+            id_mapping[int_id] = row['id'] 
             reverse_id_mapping[row['id']] = int_id
 
             int_counter += 1
 
-            # Process the batch when it reaches the defined batch size
             if len(batch) >= BATCH_SIZE:
                 process_batch(batch, ids, model, index, all_embeddings)
-                batch, ids = [], []  # Reset batch and ids after processing
+                batch, ids = [], [] 
         except Exception as e:
             print(f"Skipping product {row['id']} due to error: {e}")
 
-    # Process the last batch (if any)
     if batch:
         process_batch(batch, ids, model, index, all_embeddings)
 
-    # Save the FAISS index
     faiss.write_index(index, index_filename)
     print(f"FAISS index saved to: {index_filename}")
 
-    # Save the embeddings (optional)
     with open(EMBEDDING_STORE_FILE, "wb") as f:
         pickle.dump(all_embeddings, f)
     print(f" Embeddings saved to: {EMBEDDING_STORE_FILE}")
 
-    # Save ID mappings
     with open(ID_MAPPING_FILE, "wb") as f:
         pickle.dump(id_mapping, f)
     print(f" ID Mapping saved to: {ID_MAPPING_FILE}")
 
-    # Save reverse ID mapping (ObjectId -> int_id)
     with open("data/reverse_id_mapping.pkl", "wb") as f:
         pickle.dump(reverse_id_mapping, f)
     print(f" Reverse ID Mapping saved.")
@@ -128,22 +109,17 @@ def process_batch(batch, ids, model, index, all_embeddings):
     embeddings = np.array(embeddings).astype("float32")
     id_array = np.array(ids).astype("int64")
 
-    # Store embeddings
     for i, emb in zip(ids, embeddings):
         all_embeddings[i] = emb
 
-    # Add to FAISS index
     index.add_with_ids(embeddings, id_array)
 
 
-# How to run
 
 
 async def main():
     products = await get_all_products()
-    # Convert list of Product objects to DataFrame
     df = pd.DataFrame([vars(p) for p in products])
     build_faiss_index_for_products(df, index_filename=FAISS_INDEX_FILE)
 
-# Run the async main function
 asyncio.run(main())

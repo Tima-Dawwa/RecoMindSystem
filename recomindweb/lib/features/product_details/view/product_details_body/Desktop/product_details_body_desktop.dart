@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:recomindweb/core/theme.dart';
-import 'package:recomindweb/features/product_details/models/product_model.dart';
 import 'package:recomindweb/features/product_details/models/product_response.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/Desktop/recommendation_product_desktop.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/add_review_selection.dart';

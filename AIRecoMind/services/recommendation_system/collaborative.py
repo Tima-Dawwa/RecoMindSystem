@@ -74,8 +74,8 @@ def train_als_model(
     regularization: float = 0.1,
     iterations: int = 20
 ) -> Tuple[AlternatingLeastSquares, coo_matrix]:
-    user_item_matrix = interaction_matrix.tocsr()  # shape (num_users, num_items)
-    item_user_matrix = user_item_matrix.T.tocsr()  # shape (num_items, num_users)
+    user_item_matrix = interaction_matrix.tocsr() 
+    item_user_matrix = user_item_matrix.T.tocsr() 
 
     model = AlternatingLeastSquares(
         factors=factors,
@@ -122,11 +122,9 @@ async def get_collaborative_recommendations(user_id: str, top_n: int = 20) -> Li
 
     user_item_matrix = user_item_matrix.T.tocsr()
 
-    # Confirm user index is within bounds
     if user_index >= user_item_matrix.shape[0]:
         return await get_fallback_recommendations(top_n)
 
-    # Check if user has any known interactions
     if user_item_matrix.getrow(user_index).nnz == 0:
         return await get_fallback_recommendations(top_n)
 

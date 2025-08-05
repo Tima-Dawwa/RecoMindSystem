@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/product_details/models/product_model.dart';
-import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_cubit.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/add_to_cart.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/Mobile/color_selctor_mobile.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/product_attribute_card.dart';
@@ -14,10 +12,7 @@ class ProductHeaderMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productDetailsCubit = context.read<ProductDetailsCubit>();
-    final double originalPrice = 39.99;
-    final double discountedPrice = 29.99;
-    final bool isDiscounted = discountedPrice < originalPrice;
+
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),

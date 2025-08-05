@@ -32,14 +32,10 @@ class MessageBubble extends StatelessWidget {
               isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (message.imageBytes != null)
+            if (message.imageBytes != null || message.imagePath != null)
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
-                child: Image.memory(
-                  message.imageBytes!,
-                  width: 150,
-                  fit: BoxFit.cover,
-                ),
+                child: _buildImage(),
               ),
 
             if (message.text != null && message.text!.trim().isNotEmpty)
@@ -48,5 +44,62 @@ class MessageBubble extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildImage() {
+    if (message.imageBytes != null) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Image.memory(message.imageBytes!, width: 150, fit: BoxFit.cover),
+      );
+    }
+
+    if (message.imagePath != null) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Image.network(
+          message.imagePath!,
+          width: 150,
+          fit: BoxFit.cover,
+          headers: {"ngrok-skip-browser-warning": "true"},
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return Container(
+              width: 150,
+              height: 100,
+              color: Colors.grey[200],
+              child: Center(
+                child: CircularProgressIndicator(
+                  value:
+                      loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                          : null,
+                ),
+              ),
+            );
+          },
+          errorBuilder: (context, error, stackTrace) {
+            return Container(
+              width: 150,
+              height: 100,
+              color: Colors.red[100],
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.broken_image, color: Colors.red),
+                  Text(
+                    'Image failed to load',
+                    style: TextStyle(color: Colors.red, fontSize: 10),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      );
+    }
+
+    return SizedBox.shrink();
   }
 }

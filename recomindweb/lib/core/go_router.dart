@@ -11,7 +11,7 @@ import 'package:recomindweb/features/Show_All_Products/presentation/views/all_pr
 import 'package:recomindweb/features/Home/view/home_page.dart';
 
 List<GetPage> routes = [
-  GetPage(name: '/', page: () => HomePage()),
+  GetPage(name: '/', page: () => ChatWindow()),
 
   GetPage(name: '/login', page: () => LoginPage()),
   GetPage(name: '/register', page: () => RegisterPage()),
