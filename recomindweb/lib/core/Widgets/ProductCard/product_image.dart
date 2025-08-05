@@ -24,8 +24,9 @@ class _ProductImageState extends State<ProductImage> {
         aspectRatio: 4 / 3,
         child: Stack(
           children: [
-            Image.asset(
-              product.imageUrl,
+            Image.network(
+              'https://85fe4d4072e4.ngrok-free.app/${product.imageUrl}',
+              headers: {"ngrok-skip-browser-warning": "true"},
               fit: BoxFit.fill,
               width: double.infinity,
               errorBuilder:
@@ -34,29 +35,28 @@ class _ProductImageState extends State<ProductImage> {
                     child: const Center(child: Icon(Icons.image, size: 40)),
                   ),
             ),
-            if (product.tagType != null)
-              Positioned(
-                top: 8,
-                left: 8,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: getTagColor(product.tagType),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    product.tagType!.toUpperCase(),
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+            Positioned(
+              top: 8,
+              left: 8,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: getTagColor(product.tagType),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  product.tagType.toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
+            ),
             Positioned(
               top: 8,
               right: 8,

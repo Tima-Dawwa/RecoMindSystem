@@ -293,9 +293,51 @@ class SocketService {
           .where((item) => item != null)
           .map((productData) {
             try {
-              return Product.fromJson(Map<String, dynamic>.from(productData));
+              // Check if productData is a Map (valid product object)
+              if (productData is Map<String, dynamic>) {
+                // Map the server response fields to the expected Product fields
+                final mappedData = <String, dynamic>{
+                  'name': productData['name'] ?? '',
+                  'imageUrl':
+                      productData['image'] ?? productData['imageUrl'] ?? '',
+                  'price': (productData['price'] ?? 0).toDouble(),
+                  'discountPercent':
+                      productData['is_discounted'] == true
+                          ? ((productData['price'] -
+                                      productData['discounted_price']) /
+                                  productData['price'] *
+                                  100)
+                              .round()
+                          : null,
+                  'isFavorite': productData['isFavorite'] ?? false,
+                  'gender': productData['gender'] ?? '',
+                  'category':
+                      productData['department'] ??
+                      productData['category'] ??
+                      '',
+                  'isTrending': productData['isTrend'] ?? false,
+                  'rating': (productData['rating'] ?? 0).toDouble(),
+                  'tagType':
+                      productData['isNew'] == true
+                          ? 'new'
+                          : (productData['isTrend'] == true ? 'trending' : ''),
+                };
+
+                return Product.fromJson(mappedData);
+              } else if (productData is String) {
+                // If it's just a string (like an ID), skip it and log
+                print(
+                  'Skipping product data - received ID instead of object: $productData',
+                );
+                return null;
+              } else {
+                // Try to convert other types to Map
+                return Product.fromJson(Map<String, dynamic>.from(productData));
+              }
             } catch (e) {
               print('Error parsing individual product: $e');
+              print('Product data type: ${productData.runtimeType}');
+              print('Product data: $productData');
               return null;
             }
           })
