@@ -39,7 +39,6 @@ class ColorSelector extends StatelessWidget {
   Color _hexToColor(String value) {
 
 final Map<String, Color> colorMap = {
-  // Direct Matches & Shades
   'Black': Colors.black,
   'Dark Blue': Colors.blue.shade900,
   'White': Colors.white,
@@ -68,7 +67,6 @@ final Map<String, Color> colorMap = {
   'Light Red': Colors.red.shade200,
   'Purple': Colors.purple,
 
-  // Custom Colors (Not in Material Palette)
   'Light Beige': const Color(0xFFF5F5DC),
   'Greenish Khaki': const Color(0xFFBDB76B),
   'Off White': const Color(0xFFFAF9F6),
@@ -82,7 +80,6 @@ final Map<String, Color> colorMap = {
   'Greyish Beige': const Color(0xFFC8BBAE),
   'Bronze/Copper': const Color(0xFFCD7F32),
 
-  // Mappings for "Other" categories
   'Other Pink': Colors.pink,
   'Other Yellow': Colors.yellow,
   'Other Orange': Colors.orange,
@@ -92,7 +89,6 @@ final Map<String, Color> colorMap = {
   'Other Purple': Colors.purple,
   'Other Turquoise': Colors.teal,
 
-  // Unmapped/Transparent categories
   'Other': Colors.transparent,
   'Transparent': Colors.transparent,
   'Unknown': Colors.transparent,

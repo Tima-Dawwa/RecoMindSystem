@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class ProductHeader extends StatelessWidget {
   const ProductHeader({super.key});
 
-//////fixes
   @override
   Widget build(BuildContext context) {
     return Container(

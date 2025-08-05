@@ -24,7 +24,7 @@ class _ContentAllProductsState extends State<ContentAllProducts> {
     return Row(
       children: [
         FilterDepartment(price: price, categories: categories),
-        GridAllProducts(price: price),
+        // GridAllProducts(price: price),
       ],
     );
   }

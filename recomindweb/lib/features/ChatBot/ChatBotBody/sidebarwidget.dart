@@ -35,9 +35,9 @@ class SidebarWidget extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           ...[
-            "Data Cleaning and Analysis",
-            "Code Translation Request",
-            "Flutter UI Code",
+            "Side Bar title 1",
+            "Side Bar title 1",
+            "Side Bar title 1",
           ].map(
             (e) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 4),

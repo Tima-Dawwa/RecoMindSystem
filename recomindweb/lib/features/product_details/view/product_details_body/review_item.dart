@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/product_details/models/review_model.dart';
-
-
-
 class ReviewItem extends StatelessWidget {
   final Review data;
 

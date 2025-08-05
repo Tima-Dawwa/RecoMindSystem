@@ -11,7 +11,6 @@ class ProductImageSection extends StatelessWidget {
     required this.onThumbnailClick,
     required this.imageList,
   });
-//////fixes
   @override
   Widget build(BuildContext context) {
     final bool showThumbnails = imageList.length > 1;
