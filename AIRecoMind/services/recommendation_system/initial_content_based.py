@@ -59,9 +59,9 @@ def combine_features(product) -> str:
 
 def build_faiss_index_for_products(product_data: pd.DataFrame, index_filename='product_faiss.index'):
     all_embeddings = {}
-    id_mapping = {}  
-    reverse_id_mapping = {}  
-    int_counter = 1 
+    id_mapping = {}
+    reverse_id_mapping = {}
+    int_counter = 1
 
     batch, ids = [], []
 
@@ -72,14 +72,14 @@ def build_faiss_index_for_products(product_data: pd.DataFrame, index_filename='p
 
             int_id = int_counter
             ids.append(int_id)
-            id_mapping[int_id] = row['id'] 
+            id_mapping[int_id] = row['id']
             reverse_id_mapping[row['id']] = int_id
 
             int_counter += 1
 
             if len(batch) >= BATCH_SIZE:
                 process_batch(batch, ids, model, index, all_embeddings)
-                batch, ids = [], [] 
+                batch, ids = [], []
         except Exception as e:
             print(f"Skipping product {row['id']} due to error: {e}")
 

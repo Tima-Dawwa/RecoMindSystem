@@ -6,6 +6,9 @@ const { default: mongoose } = require('mongoose');
 require('dotenv').config()
 
 const { getChatbotResponse } = require('./chatbot');
+const { productData } = require('./chat.serializer');
+const { getProductById } = require('../../../models/products.model');
+const { getProductsData } = require('./chat.helper');
 
 const userSocketMap = {};
 
@@ -16,6 +19,7 @@ async function socketFunctionality(io, socket) {
     if (!checkUser) {
         return socket.disconnect();
     }
+
     const userID = checkUser.id;
     let mainChatID = null;
     userSocketMap[userID] = socket.id;
@@ -40,12 +44,14 @@ async function socketFunctionality(io, socket) {
         let messages = [];
         for (let i = 0; i < chat.messages.length; i++) {
             const message = chat.messages[i];
+            const recommendedProducts = await getProductsData(message.recommendedProducts)
             let messageData = {
                 content: message.content || '',
                 timestamp: message.timestamp,
                 senderType: message.senderType,
+                image: message.image,
                 from_me: message.senderType === 'user',
-                recommendedProducts: message.recommendedProducts || []
+                recommendedProducts: recommendedProducts
             };
             messages.push(messageData);
         }
@@ -82,13 +88,17 @@ async function socketFunctionality(io, socket) {
             }
 
             let processedImage = null;
+
             if (image) {
                 processedImage = encodeImage(image);
             }
+            console.log(processedImage)
+
 
             let userMessage = {
                 senderType: 'user',
                 content: message || '',
+                image: processedImage ? `${process.env.URL}/${processedImage}` : null,
                 timestamp: new Date()
             };
 
@@ -122,12 +132,13 @@ async function socketFunctionality(io, socket) {
 
                 await postChatMessage(chat, botMessage);
 
+                const recommendedProducts = await getProductsData(botMessage.recommendedProducts)
                 socket.emit('receive-message', {
                     content: botMessage.content,
                     timestamp: botMessage.timestamp,
                     senderType: 'system',
                     from_me: false,
-                    recommendedProducts: botMessage.recommendedProducts
+                    recommendedProducts: recommendedProducts
                 });
 
             } catch (botError) {

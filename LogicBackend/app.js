@@ -38,5 +38,4 @@ app.use('/dashboard/orders', require('./routes/Dashboard/Orders/orders.route'))
 // Error Handling
 app.use(errorHandler);
 
-
 module.exports = app;

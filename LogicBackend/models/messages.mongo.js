@@ -10,6 +10,11 @@ const messageSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    image: {
+        type: String,
+        required: false,
+        default: null
+    },
     timestamp: {
         type: Date,
         default: Date.now

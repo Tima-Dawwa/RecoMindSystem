@@ -1,4 +1,6 @@
 const axios = require('axios');
+const { getProductById } = require('../../../models/products.model');
+const { productData } = require('./chat.serializer');
 
 async function getChatbotResponse({ message, image, userId }) {
     const response = await axios.post(
@@ -11,7 +13,9 @@ async function getChatbotResponse({ message, image, userId }) {
     );
     return {
         message: response.data,
-        recommendedProducts: []
+        recommendedProducts: [
+            "686bf63efaa50d1ee8f52a1d"
+        ]
     };
 }
 
