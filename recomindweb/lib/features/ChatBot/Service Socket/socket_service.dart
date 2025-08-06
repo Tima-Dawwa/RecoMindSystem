@@ -1,5 +1,5 @@
-import 'dart:convert';
 import 'dart:typed_data';
+import 'package:recomindweb/core/helpers/constant.dart';
 import 'package:recomindweb/features/ChatBot/Model/chat_message.dart';
 import 'package:recomindweb/features/ChatBot/Model/product.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -23,15 +23,15 @@ class SocketService {
   bool get isConnected => _socket?.connected ?? false;
   String? get currentChatId => _currentChatId;
 
-  void initialize(String serverUrl, {Map<String, dynamic>? queryParameters}) {
+  void initialize( {Map<String, dynamic>? queryParameters}) {
     disconnect();
 
-    print('Initializing socket connection to: $serverUrl');
+ 
     if (queryParameters != null) {
       print('Query parameters: $queryParameters');
     }
 
-    _socket = IO.io(serverUrl, <String, dynamic>{
+    _socket = IO.io(ngrok, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': true,
       'enableReconnection': true,
@@ -46,45 +46,38 @@ class SocketService {
   }
 
   void initializeWithAuth(
-    String serverUrl,
     String token, {
     Map<String, dynamic>? additionalQuery,
   }) {
     final queryParams = <String, dynamic>{'token': token, ...?additionalQuery};
 
-    initialize(serverUrl, queryParameters: queryParams);
+    initialize( queryParameters: queryParams);
   }
 
   void _setupEventListeners() {
     if (_socket == null) return;
 
     _socket!.on('connect', (_) {
-      print('✅ Connected to server');
       onConnected?.call();
     });
 
     _socket!.on('disconnect', (reason) {
-      print('❌ Disconnected from server: $reason');
       onDisconnected?.call();
     });
 
     _socket!.on('connect_error', (error) {
-      print('🔥 Connection error: $error');
       onError?.call('Connection failed: $error');
     });
 
     _socket!.on('reconnect', (attemptNumber) {
-      print('🔄 Reconnected after $attemptNumber attempts');
       onConnected?.call();
     });
 
     _socket!.on('reconnect_error', (error) {
-      print('🔥 Reconnection error: $error');
       onError?.call('Reconnection failed: $error');
     });
 
     _socket!.on('chat-history', (data) {
-      print('📜 Received chat history');
       try {
         final messages = _parseMessageHistory(data);
         onChatHistory?.call(messages);
@@ -105,7 +98,6 @@ class SocketService {
     });
 
     _socket!.on('receive-message', (data) {
-      print('📨 Received message from bot');
       try {
         final message = _parseMessage(data);
         onMessageReceived?.call(message);
@@ -116,7 +108,6 @@ class SocketService {
     });
 
     _socket!.on('bot-typing', (data) {
-      print('⌨️ Bot typing status: $data');
       try {
         final isTyping = data is bool ? data : (data == true || data == 'true');
         onBotTyping?.call(isTyping);
@@ -126,7 +117,6 @@ class SocketService {
     });
 
     _socket!.on('chat-error', (data) {
-      print('🔥 Chat error: $data');
       String error = 'Chat error occurred';
       if (data is Map<String, dynamic>) {
         error = data['message'] ?? error;
@@ -137,7 +127,6 @@ class SocketService {
     });
 
     _socket!.on('message-error', (data) {
-      print('🔥 Message error: $data');
       String error = 'Message error occurred';
       if (data is Map<String, dynamic>) {
         error = data['message'] ?? error;
@@ -161,7 +150,6 @@ class SocketService {
   void leaveChat() {
     if (_socket == null) return;
 
-    print('🚪 Leaving current chat');
     _socket!.emit('leave-chat');
     _currentChatId = null;
   }
@@ -183,13 +171,10 @@ class SocketService {
       data['message'] = message.trim();
     }
 
-    // Send image as Uint8List (binary data)
     if (imageBytes != null) {
       try {
-        // Send the raw bytes directly without base64 encoding
         data['imageData'] = imageBytes;
         data['hasImage'] = true;
-        print('📷 Sending image as binary data (${imageBytes.length} bytes)');
       } catch (e) {
         print('Error preparing image data: $e');
         onError?.call('Failed to prepare image');
@@ -202,7 +187,6 @@ class SocketService {
       return;
     }
 
-    print('📤 Sending message: ${data.keys.join(', ')}');
     _socket!.emit('send-message', data);
   }
 
@@ -293,9 +277,7 @@ class SocketService {
           .where((item) => item != null)
           .map((productData) {
             try {
-              // Check if productData is a Map (valid product object)
               if (productData is Map<String, dynamic>) {
-                // Map the server response fields to the expected Product fields
                 final mappedData = <String, dynamic>{
                   'name': productData['name'] ?? '',
                   'imageUrl':
@@ -325,13 +307,11 @@ class SocketService {
 
                 return Product.fromJson(mappedData);
               } else if (productData is String) {
-                // If it's just a string (like an ID), skip it and log
                 print(
                   'Skipping product data - received ID instead of object: $productData',
                 );
                 return null;
               } else {
-                // Try to convert other types to Map
                 return Product.fromJson(Map<String, dynamic>.from(productData));
               }
             } catch (e) {

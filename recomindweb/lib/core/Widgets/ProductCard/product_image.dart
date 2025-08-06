@@ -25,7 +25,7 @@ class _ProductImageState extends State<ProductImage> {
         child: Stack(
           children: [
             Image.network(
-              'https://85fe4d4072e4.ngrok-free.app/${product.imageUrl}',
+              'https://29368a0364f1.ngrok-free.app/${product.imageUrl}',
               headers: {"ngrok-skip-browser-warning": "true"},
               fit: BoxFit.fill,
               width: double.infinity,

@@ -13,7 +13,9 @@ class ChatBotService {
 
   Future<Either<Failure, Map<String, dynamic>>> getAllChats() async {
     try {
-      final response = await api.get(endPoint: '/chats/');
+      final response = await api.get(endPoint: '/chats');
+      print(response['data']);
+      print("=============================================");
       return right(response);
     } on DioException catch (dioError) {
       return left(Failure.fromDioException(dioError, statusCodeHandler));
