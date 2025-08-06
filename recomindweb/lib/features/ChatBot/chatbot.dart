@@ -1,20 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/features/ChatBot/ChatBotBody/main_panel.dart';
 import 'package:recomindweb/features/ChatBot/ChatBotBody/sidebarwidget.dart';
+import 'package:recomindweb/features/ChatBot/view%20model/chatbot_cubit.dart';
 
-class ChatWindow extends StatelessWidget {
-  const ChatWindow({super.key});
+class ChatPage extends StatefulWidget {
+  final String token;
+
+  const ChatPage({
+    Key? key,
+    required this.token,
+  }) : super(key: key);
+
+  @override
+  _ChatPageWrapperState createState() => _ChatPageWrapperState();
+}
+
+class _ChatPageWrapperState extends State<ChatPage> {
+  String? _selectedChatId;
+
+  void _handleChatSelected(String? chatId) {
+    setState(() {
+      _selectedChatId = chatId;
+    });
+  }
+
+  void _handleNewChat() {
+    setState(() {
+      _selectedChatId = null;
+    });
+  }
+
+  void _handleChatIdChanged(String newChatId) {
+    setState(() {
+      _selectedChatId = newChatId;
+    });
+
+    context.read<ChatBotCubit>().getAllChats();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Row(
         children: [
-          SidebarWidget(),
+          SidebarWidget(
+            currentChatId: _selectedChatId,
+            onChatSelected: _handleChatSelected,
+            onNewChat: _handleNewChat,
+          ),
+
           Expanded(
             child: CenterPanelWidget(
-              serverUrl: 'https://85fe4d4072e4.ngrok-free.app',
-              token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg3Njg2ZmVhYzc2YjY4YjIwYjdlYWU0ZiIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkphbmUiLCJsYXN0X25hbWUiOiJZdW5kdCJ9LCJpYXQiOjE3NTQ0MDgxMzgsImV4cCI6MTc1NDY2NzMzOH0.TJr1bbj9hi7_oJiucJfnNh7Nkorm-DUCZ1dZlqMk6EU',
+              chatId: _selectedChatId,
+              token: widget.token,
+              onChatIdChanged: _handleChatIdChanged,
             ),
           ),
         ],

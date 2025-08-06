@@ -11,6 +11,8 @@ import 'package:recomindweb/features/Authentication/view%20model/forget%20passwo
 import 'package:recomindweb/features/Authentication/view%20model/forget_password_services.dart';
 import 'package:recomindweb/features/Cart/view%20model/cart_service.dart';
 import 'package:recomindweb/features/Cart/view%20model/cubit/cart_cubit.dart';
+import 'package:recomindweb/features/ChatBot/view%20model/chatBot_services.dart';
+import 'package:recomindweb/features/ChatBot/view%20model/chatbot_cubit.dart';
 import 'package:recomindweb/features/Home/view%20model/cubit/home_cubit.dart';
 import 'package:recomindweb/features/Home/view%20model/home_service.dart';
 import 'package:recomindweb/features/Orders/view%20model/cubit/orders_cubit.dart';
@@ -34,6 +36,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthCubit(getIt.get<AuthService>())),
         BlocProvider(create: (context) => HomeCubit(getIt.get<HomeService>())),
+        BlocProvider(create: (context)=> ChatBotCubit(getIt.get<ChatBotService>())),
         BlocProvider(
           create: (context) => OrdersCubit(getIt.get<OrdersService>()),
         ),

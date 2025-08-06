@@ -38,13 +38,11 @@ class ChatController extends ChangeNotifier {
   }
 
   Future<void> connectToServer(
-    String serverUrl,
     String token, {
     Map<String, dynamic>? additionalQuery,
   }) async {
     try {
       _socketService.initializeWithAuth(
-        serverUrl,
         token,
         additionalQuery: additionalQuery,
       );
@@ -60,7 +58,7 @@ class ChatController extends ChangeNotifier {
     String token, {
     Map<String, dynamic>? additionalQuery,
   }) async {
-    await connectToServer(serverUrl, token, additionalQuery: additionalQuery);
+    await connectToServer(token, additionalQuery: additionalQuery);
   }
 
   Future<void> connectAndJoinTestChat(
@@ -68,7 +66,7 @@ class ChatController extends ChangeNotifier {
     String token, {
     Map<String, dynamic>? additionalQuery,
   }) async {
-    await connectToServer(serverUrl, token, additionalQuery: additionalQuery);
+    await connectToServer( token, additionalQuery: additionalQuery);
   }
 
   Future<void> connectWithTokenAndJoinTestChat(
@@ -76,7 +74,7 @@ class ChatController extends ChangeNotifier {
     String token, {
     Map<String, dynamic>? additionalQuery,
   }) async {
-    await connectToServer(serverUrl, token, additionalQuery: additionalQuery);
+    await connectToServer( token, additionalQuery: additionalQuery);
   }
 
   Future<void> joinChat(String chatId) async {
@@ -131,7 +129,6 @@ class ChatController extends ChangeNotifier {
   }
 
   void _handleConnected() {
-    print('🎉 Connection established, joining test chat...');
     _isConnected = true;
     notifyListeners();
 
@@ -139,7 +136,6 @@ class ChatController extends ChangeNotifier {
   }
 
   void _handleDisconnected() {
-    print('💔 Connection lost');
     _isConnected = false;
     _currentChatId = null;
     notifyListeners();
@@ -215,5 +211,21 @@ class ChatController extends ChangeNotifier {
   void dispose() {
     _socketService.disconnect();
     super.dispose();
+  }
+
+
+  void clearMessages() {
+    _messages.clear();
+    notifyListeners();
+  }
+
+  Future<void> switchToChat(String chatId) async {
+    clearMessages();
+    await joinChat(chatId);
+  }
+
+  Future<void> leaveCurrentChat() async {
+   
+    clearMessages();
   }
 }
