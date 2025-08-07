@@ -3,17 +3,17 @@ import 'package:flutter/foundation.dart';
 import 'package:recomindweb/features/ChatBot/Model/chat_message.dart';
 import 'package:recomindweb/features/ChatBot/Model/product.dart';
 import 'package:recomindweb/features/ChatBot/Service%20Socket/socket_service.dart';
+import 'package:recomindweb/features/ChatBot/view%20model/chatBot_services.dart';
 
 class ChatController extends ChangeNotifier {
   final SocketService _socketService = SocketService();
-
-  static const String TEST_CHAT_ID = "68923cd449b443251af1aec4";
 
   List<ChatMessage> _messages = [];
   bool _isConnected = false;
   bool _isBotTyping = false;
   String? _currentChatId;
   String? _errorMessage;
+  bool _isCreatingChat = false;
 
   List<ChatMessage> get messages => List.unmodifiable(_messages);
   bool get isConnected => _isConnected;
@@ -21,6 +21,10 @@ class ChatController extends ChangeNotifier {
   String? get currentChatId => _currentChatId;
   String? get errorMessage => _errorMessage;
   bool get hasMessages => _messages.isNotEmpty;
+  bool get isCreatingChat => _isCreatingChat;
+
+  // Callback to notify about new chat creation
+  Function(String)? onChatCreated;
 
   ChatController() {
     _initializeSocketService();
@@ -66,7 +70,7 @@ class ChatController extends ChangeNotifier {
     String token, {
     Map<String, dynamic>? additionalQuery,
   }) async {
-    await connectToServer( token, additionalQuery: additionalQuery);
+    await connectToServer(token, additionalQuery: additionalQuery);
   }
 
   Future<void> connectWithTokenAndJoinTestChat(
@@ -74,7 +78,70 @@ class ChatController extends ChangeNotifier {
     String token, {
     Map<String, dynamic>? additionalQuery,
   }) async {
-    await connectToServer( token, additionalQuery: additionalQuery);
+    await connectToServer(token, additionalQuery: additionalQuery);
+  }
+
+  // Add dependency injection for ChatBotService
+  static ChatBotService? _chatBotService;
+
+  static void setChatBotService(ChatBotService chatBotService) {
+    _chatBotService = chatBotService;
+  }
+
+  Future<String?> createNewChat() async {
+    if (!_isConnected) {
+      _setError('Not connected to server');
+      return null;
+    }
+
+    if (_isCreatingChat) {
+      return null; // Already creating a chat
+    }
+
+    if (_chatBotService == null) {
+      _setError('ChatBot service not initialized');
+      return null;
+    }
+
+    try {
+      _isCreatingChat = true;
+      notifyListeners();
+
+      // Call the actual API to create a new chat
+      final result = await _chatBotService!.creatChat();
+
+      return result.fold(
+        (failure) {
+          _setError('Failed to create chat: ${failure.errMessage}');
+          return null;
+        },
+        (data) {
+          String? newChatId;
+          if (data['chatID'] != null) {
+            newChatId = data['chatID'].toString();
+          }
+
+          if (newChatId != null && newChatId.isNotEmpty) {
+            _currentChatId = newChatId;
+            _clearError();
+
+            // Notify about new chat creation
+            onChatCreated?.call(newChatId);
+
+            return newChatId;
+          } else {
+            _setError('Chat created but no chat ID returned from server');
+            return null;
+          }
+        },
+      );
+    } catch (e) {
+      _setError('Failed to create chat: $e');
+      return null;
+    } finally {
+      _isCreatingChat = false;
+      notifyListeners();
+    }
   }
 
   Future<void> joinChat(String chatId) async {
@@ -100,10 +167,21 @@ class ChatController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void sendMessage({String? text, Uint8List? imageBytes}) {
+  Future<void> sendMessage({String? text, Uint8List? imageBytes}) async {
     if ((text == null || text.trim().isEmpty) && imageBytes == null) {
       _setError('Please enter a message or select an image');
       return;
+    }
+
+    // If no current chat, create one first
+    if (_currentChatId == null) {
+      final newChatId = await createNewChat();
+      if (newChatId == null) {
+        return; // Error already set in createNewChat
+      }
+
+      // Join the newly created chat
+      await joinChat(newChatId);
     }
 
     final userMessage = ChatMessage.user(
@@ -116,23 +194,24 @@ class ChatController extends ChangeNotifier {
     _socketService.sendMessage(message: text, imageBytes: imageBytes);
   }
 
-  void sendTextMessage(String text) {
-    sendMessage(text: text);
+  void sendTextMessage(String text) async {
+    await sendMessage(text: text);
   }
 
-  void sendImageMessage(Uint8List imageBytes) {
-    sendMessage(imageBytes: imageBytes);
+  void sendImageMessage(Uint8List imageBytes) async {
+    await sendMessage(imageBytes: imageBytes);
   }
 
-  void sendTextWithImage(String text, Uint8List imageBytes) {
-    sendMessage(text: text, imageBytes: imageBytes);
+  void sendTextWithImage(String text, Uint8List imageBytes) async {
+    await sendMessage(text: text, imageBytes: imageBytes);
   }
 
   void _handleConnected() {
     _isConnected = true;
     notifyListeners();
 
-    joinChat(TEST_CHAT_ID);
+    // Don't automatically join a chat anymore
+    // Let the user decide when to create/join a chat
   }
 
   void _handleDisconnected() {
@@ -213,7 +292,6 @@ class ChatController extends ChangeNotifier {
     super.dispose();
   }
 
-
   void clearMessages() {
     _messages.clear();
     notifyListeners();
@@ -225,7 +303,19 @@ class ChatController extends ChangeNotifier {
   }
 
   Future<void> leaveCurrentChat() async {
-   
     clearMessages();
+  }
+
+  // Method to set the current chat ID (for when user selects an existing chat)
+  void setCurrentChatId(String? chatId) {
+    if (_currentChatId != chatId) {
+      _currentChatId = chatId;
+      clearMessages();
+      notifyListeners();
+
+      if (chatId != null) {
+        joinChat(chatId);
+      }
+    }
   }
 }

@@ -35,27 +35,10 @@ class _SidebarWidgetState extends State<SidebarWidget> {
     });
   }
 
-  void _handleNewChat() async {
-    try {
-      final cubit = context.read<ChatBotCubit>();
-
-      // Clear current chat and notify parent
-      cubit.clearCurrentChat();
-      widget.onNewChat();
-
-      // Create new chat
-      await cubit.creatChat();
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error creating new chat: ${e.toString()}'),
-            backgroundColor: Colors.red,
-            duration: Duration(seconds: 3),
-          ),
-        );
-      }
-    }
+  void _handleNewChat() {
+    // Simply notify parent to start a new chat
+    // The main panel will handle the actual chat creation
+    widget.onNewChat();
   }
 
   @override
@@ -91,38 +74,17 @@ class _SidebarWidgetState extends State<SidebarWidget> {
           // Create New Chat Button
           SizedBox(
             width: double.infinity,
-            child: BlocBuilder<ChatBotCubit, ChatBotStatus>(
-              builder: (context, state) {
-                final isLoading = state is LoadingChatBot;
-                return ElevatedButton.icon(
-                  onPressed: isLoading ? null : _handleNewChat,
-                  icon:
-                      isLoading
-                          ? SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                Themes.text,
-                              ),
-                            ),
-                          )
-                          : Icon(Icons.add, color: Themes.text),
-                  label: Text(
-                    isLoading ? 'Creating...' : 'New Chat',
-                    style: TextStyle(color: Themes.text),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        isLoading ? Themes.bg.withOpacity(0.6) : Themes.bg,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                  ),
-                );
-              },
+            child: ElevatedButton.icon(
+              onPressed: _handleNewChat,
+              icon: Icon(Icons.add, color: Themes.text),
+              label: Text('New Chat', style: TextStyle(color: Themes.text)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Themes.bg,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 12),
+              ),
             ),
           ),
           const SizedBox(height: 24),
@@ -131,19 +93,7 @@ class _SidebarWidgetState extends State<SidebarWidget> {
           Expanded(
             child: BlocConsumer<ChatBotCubit, ChatBotStatus>(
               listener: (context, state) {
-                if (state is ChatCreatedSuccessfully) {
-                  // When a new chat is created successfully, select it
-                  widget.onChatSelected(state.chatId);
-
-                  // Show success message
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('New chat created successfully!'),
-                      backgroundColor: Colors.green,
-                      duration: Duration(seconds: 2),
-                    ),
-                  );
-                } else if (state is FailureChatBot) {
+                if (state is FailureChatBot) {
                   // Show error message
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(

@@ -6,7 +6,8 @@ import 'package:recomindweb/features/ChatBot/ChatBotBody/response_card.dart';
 import 'package:recomindweb/features/ChatBot/Model/chat_message.dart';
 import 'package:recomindweb/features/ChatBot/Model/product.dart';
 import 'package:recomindweb/features/ChatBot/Service%20Socket/chat_controller.dart';
-
+import 'package:recomindweb/features/ChatBot/view%20model/chatbot_cubit.dart';
+import 'package:recomindweb/features/ChatBot/view%20model/chatbot_status.dart';
 import 'message_bubble.dart';
 import 'chat_input_field.dart';
 
@@ -14,14 +15,14 @@ class CenterPanelWidget extends StatefulWidget {
   final String? chatId;
   final String token;
   final Function(String)?
-  onChatIdChanged; // Callback to update parent with new chat ID
+  onChatIdChanged;
 
   const CenterPanelWidget({
-    Key? key,
+    super.key,
     this.chatId,
     required this.token,
     this.onChatIdChanged,
-  }) : super(key: key);
+  });
 
   @override
   _CenterPanelWidgetState createState() => _CenterPanelWidgetState();
@@ -31,6 +32,8 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
   final TextEditingController _controller = TextEditingController();
   late ChatController _chatController;
   String? _currentChatId;
+  bool _isCreatingChat = false;
+  bool _hasAutoCreatedChat = false; 
 
   @override
   void initState() {
@@ -44,34 +47,102 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
   void didUpdateWidget(CenterPanelWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    // Check if chatId has changed
     if (widget.chatId != oldWidget.chatId) {
       _currentChatId = widget.chatId;
+      _hasAutoCreatedChat =
+          _currentChatId != null; 
       _reinitializeChat();
     }
   }
 
   Future<void> _initializeChat() async {
-    await _chatController.connectToServer( widget.token);
+    await _chatController.connectToServer(widget.token);
 
     if (_currentChatId != null) {
       await _chatController.joinChat(_currentChatId!);
+      _hasAutoCreatedChat = true;
+    } else if (!_hasAutoCreatedChat) {
+      await _autoCreateNewChat();
     }
   }
 
   Future<void> _reinitializeChat() async {
-    // Clear previous chat state
     _chatController.clearMessages();
 
     if (_currentChatId != null) {
       await _chatController.joinChat(_currentChatId!);
+    } else if (!_hasAutoCreatedChat) {
+      await _autoCreateNewChat();
+    }
+  }
+
+  Future<void> _autoCreateNewChat() async {
+    if (_isCreatingChat || _hasAutoCreatedChat) return;
+
+    setState(() {
+      _isCreatingChat = true;
+    });
+
+    try {
+      final chatBotCubit = context.read<ChatBotCubit>();
+
+      final subscription = chatBotCubit.stream.listen((state) {
+        if (state is ChatCreatedSuccessfully) {
+          setState(() {
+            _currentChatId = state.chatId;
+            _hasAutoCreatedChat = true;
+          });
+
+          if (widget.onChatIdChanged != null) {
+            widget.onChatIdChanged!(state.chatId);
+          }
+
+          _chatController.joinChat(state.chatId);
+        } else if (state is FailureChatBot) {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'Failed to auto-create chat: ${state.failure.errMessage}',
+                ),
+                backgroundColor: Colors.red,
+                duration: const Duration(seconds: 3),
+              ),
+            );
+          }
+        }
+
+        if (state is! LoadingChatBot) {
+          setState(() {
+            _isCreatingChat = false;
+          });
+        }
+      });
+
+      await chatBotCubit.creatChat();
+
+      Future.delayed(const Duration(seconds: 2), () {
+        subscription.cancel();
+      });
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error auto-creating chat: ${e.toString()}'),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+      setState(() {
+        _isCreatingChat = false;
+      });
     }
   }
 
   void _handleSend(String? text, Uint8List? imageBytes) {
     if ((text == null || text.trim().isEmpty) && imageBytes == null) return;
 
-    // If no current chat ID, create a new chat first
     if (_currentChatId == null) {
       _createNewChatAndSend(text, imageBytes);
     } else {
@@ -82,22 +153,57 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
   }
 
   void _createNewChatAndSend(String? text, Uint8List? imageBytes) async {
-    // This would typically involve creating a new chat via your API
-    // For now, we'll simulate creating a chat ID
-    final newChatId = 'chat_${DateTime.now().millisecondsSinceEpoch}';
+    if (_isCreatingChat) return; 
 
     setState(() {
-      _currentChatId = newChatId;
+      _isCreatingChat = true;
     });
 
-    // Notify parent about the new chat ID
-    if (widget.onChatIdChanged != null) {
-      widget.onChatIdChanged!(newChatId);
-    }
+    try {
+      final chatBotCubit = context.read<ChatBotCubit>();
+      await chatBotCubit.creatChat();
 
-    // Join the new chat and send the message
-    await _chatController.joinChat(newChatId);
-    _chatController.sendMessage(text: text, imageBytes: imageBytes);
+      final newChatId = chatBotCubit.currentChatId;
+
+      if (newChatId != null) {
+        setState(() {
+          _currentChatId = newChatId;
+          _hasAutoCreatedChat = true;
+        });
+
+        if (widget.onChatIdChanged != null) {
+          widget.onChatIdChanged!(newChatId);
+        }
+
+        await _chatController.joinChat(newChatId);
+        _chatController.sendMessage(text: text, imageBytes: imageBytes);
+      } else {
+        // Handle error case
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Failed to create new chat. Please try again.'),
+              backgroundColor: Colors.red,
+              duration: Duration(seconds: 3),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error creating chat: ${e.toString()}'),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    } finally {
+      setState(() {
+        _isCreatingChat = false;
+      });
+    }
   }
 
   void _handleProductTap(Product product) {
@@ -121,7 +227,6 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                // Connection status indicators
                 if (controller.errorMessage != null)
                   Container(
                     width: double.infinity,
@@ -172,7 +277,39 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
                     ),
                   ),
 
-                // Chat ID indicator (for debugging - can be removed in production)
+                if (_isCreatingChat)
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    margin: const EdgeInsets.only(bottom: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.withOpacity(0.1),
+                      border: Border.all(color: Colors.blue),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.blue,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          _hasAutoCreatedChat
+                              ? 'Creating new chat...'
+                              : 'Setting up chat...',
+                          style: const TextStyle(color: Colors.blue),
+                        ),
+                      ],
+                    ),
+                  ),
+
                 if (_currentChatId != null)
                   Container(
                     width: double.infinity,
@@ -191,7 +328,6 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
                     ),
                   ),
 
-                // Messages area
                 Expanded(
                   child:
                       controller.hasMessages
@@ -216,11 +352,13 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
                           : _buildWelcomeScreen(),
                 ),
 
-                // Input field
                 ChatInputField(
                   controller: _controller,
                   onSubmitted: _handleSend,
-                  enabled: controller.isConnected,
+                  enabled:
+                      controller.isConnected &&
+                      !_isCreatingChat &&
+                      _currentChatId != null,
                 ),
               ],
             ),
@@ -243,14 +381,16 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
           const SizedBox(height: 16),
           Text(
             _currentChatId == null
-                ? 'Start a new conversation'
+                ? (_isCreatingChat
+                    ? 'Setting up your chat...'
+                    : 'Starting conversation...')
                 : 'Welcome! Ask anything...',
             style: TextStyle(color: Themes.bg.withAlpha(100), fontSize: 18),
           ),
           const SizedBox(height: 8),
           Text(
             _currentChatId == null
-                ? 'Type a message below to create a new chat'
+                ? 'Please wait while we prepare your chat'
                 : 'Start a conversation to get product recommendations',
             style: TextStyle(color: Themes.bg.withAlpha(80), fontSize: 14),
           ),
