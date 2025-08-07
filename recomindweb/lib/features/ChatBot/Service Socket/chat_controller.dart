@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:recomindweb/features/ChatBot/Model/chat_message.dart';
 import 'package:recomindweb/features/ChatBot/Model/product.dart';
@@ -24,6 +23,7 @@ class ChatController extends ChangeNotifier {
   bool get isCreatingChat => _isCreatingChat;
 
   Function(String)? onChatCreated;
+  static ChatBotService? _chatBotService;
 
   ChatController() {
     _initializeSocketService();
@@ -35,52 +35,19 @@ class ChatController extends ChangeNotifier {
     _socketService.onMessageReceived = _handleMessageReceived;
     _socketService.onBotTyping = _handleBotTyping;
     _socketService.onError = _handleError;
-
     _socketService.onConnected = _handleConnected;
     _socketService.onDisconnected = _handleDisconnected;
   }
 
-  Future<void> connectToServer(
-     {
-    Map<String, dynamic>? additionalQuery,
-  }) async {
+  Future<void> connectToServer({Map<String, dynamic>? additionalQuery}) async {
     try {
-      _socketService.initializeWithAuth(
-        
-        additionalQuery: additionalQuery,
-      );
+      _socketService.initializeWithAuth(additionalQuery: additionalQuery);
       _clearError();
       notifyListeners();
     } catch (e) {
       _setError('Failed to connect to server: $e');
     }
   }
-
-  Future<void> connectWithToken(
-    String serverUrl,
-    String token, {
-    Map<String, dynamic>? additionalQuery,
-  }) async {
-    await connectToServer( additionalQuery: additionalQuery);
-  }
-
-  Future<void> connectAndJoinTestChat(
-    String serverUrl,
-    String token, {
-    Map<String, dynamic>? additionalQuery,
-  }) async {
-    await connectToServer( additionalQuery: additionalQuery);
-  }
-
-  Future<void> connectWithTokenAndJoinTestChat(
-    String serverUrl,
-    String token, {
-    Map<String, dynamic>? additionalQuery,
-  }) async {
-    await connectToServer( additionalQuery: additionalQuery);
-  }
-
-  static ChatBotService? _chatBotService;
 
   static void setChatBotService(ChatBotService chatBotService) {
     _chatBotService = chatBotService;
@@ -93,7 +60,7 @@ class ChatController extends ChangeNotifier {
     }
 
     if (_isCreatingChat) {
-      return null; 
+      return null;
     }
 
     if (_chatBotService == null) {
@@ -105,7 +72,6 @@ class ChatController extends ChangeNotifier {
       _isCreatingChat = true;
       notifyListeners();
 
-   
       final result = await _chatBotService!.creatChat();
 
       return result.fold(
@@ -122,10 +88,7 @@ class ChatController extends ChangeNotifier {
           if (newChatId != null && newChatId.isNotEmpty) {
             _currentChatId = newChatId;
             _clearError();
-
-           
             onChatCreated?.call(newChatId);
-
             return newChatId;
           } else {
             _setError('Chat created but no chat ID returned from server');
@@ -174,7 +137,7 @@ class ChatController extends ChangeNotifier {
     if (_currentChatId == null) {
       final newChatId = await createNewChat();
       if (newChatId == null) {
-        return; 
+        return;
       }
 
       await joinChat(newChatId);
@@ -188,18 +151,6 @@ class ChatController extends ChangeNotifier {
 
     _addMessage(userMessage);
     _socketService.sendMessage(message: text, imageBytes: imageBytes);
-  }
-
-  void sendTextMessage(String text) async {
-    await sendMessage(text: text);
-  }
-
-  void sendImageMessage(Uint8List imageBytes) async {
-    await sendMessage(imageBytes: imageBytes);
-  }
-
-  void sendTextWithImage(String text, Uint8List imageBytes) async {
-    await sendMessage(text: text, imageBytes: imageBytes);
   }
 
   void _handleConnected() {
@@ -279,24 +230,9 @@ class ChatController extends ChangeNotifier {
     print('Product tapped: ${product.name}');
   }
 
-  @override
-  void dispose() {
-    _socketService.disconnect();
-    super.dispose();
-  }
-
   void clearMessages() {
     _messages.clear();
     notifyListeners();
-  }
-
-  Future<void> switchToChat(String chatId) async {
-    clearMessages();
-    await joinChat(chatId);
-  }
-
-  Future<void> leaveCurrentChat() async {
-    clearMessages();
   }
 
   void setCurrentChatId(String? chatId) {
@@ -309,5 +245,11 @@ class ChatController extends ChangeNotifier {
         joinChat(chatId);
       }
     }
+  }
+
+  @override
+  void dispose() {
+    _socketService.disconnect();
+    super.dispose();
   }
 }

@@ -23,13 +23,14 @@ class SocketService {
   bool get isConnected => _socket?.connected ?? false;
   String? get currentChatId => _currentChatId;
 
-  void initialize( {Map<String, dynamic>? queryParameters}) {
+  void initializeWithAuth({Map<String, dynamic>? additionalQuery}) {
     disconnect();
 
- 
-    if (queryParameters != null) {
-      print('Query parameters: $queryParameters');
-    }
+    final queryParams = <String, dynamic>{
+      'token':
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg3Njg2ZmVhYzc2YjY4YjIwYjdlYWU0ZiIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkphbmUiLCJsYXN0X25hbWUiOiJZdW5kdCJ9LCJpYXQiOjE3NTQ1ODQwOTUsImV4cCI6MTc1NDg0MzI5NX0.dbkkO6lPSUcZM-cgRZi4WKsj_dzNfnD_PUDLCFwJ0ew",
+      ...?additionalQuery,
+    };
 
     _socket = IO.io(ngrok, <String, dynamic>{
       'transports': ['websocket'],
@@ -37,21 +38,11 @@ class SocketService {
       'enableReconnection': true,
       'reconnectionAttempts': 5,
       'reconnectionDelay': 1000,
-      'query': queryParameters ?? {},
+      'query': queryParams,
     });
 
     _socket!.connect();
-
     _setupEventListeners();
-  }
-
-  void initializeWithAuth(
-    {
-    Map<String, dynamic>? additionalQuery,
-  }) {
-    final queryParams = <String, dynamic>{'token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg3Njg2ZmVhYzc2YjY4YjIwYjdlYWU0ZiIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkphbmUiLCJsYXN0X25hbWUiOiJZdW5kdCJ9LCJpYXQiOjE3NTQ1ODQwOTUsImV4cCI6MTc1NDg0MzI5NX0.dbkkO6lPSUcZM-cgRZi4WKsj_dzNfnD_PUDLCFwJ0ew", ...?additionalQuery};
-
-    initialize( queryParameters: queryParams);
   }
 
   void _setupEventListeners() {
@@ -82,13 +73,11 @@ class SocketService {
         final messages = _parseMessageHistory(data);
         onChatHistory?.call(messages);
       } catch (e) {
-        print('Error parsing chat history: $e');
         onError?.call('Failed to load chat history');
       }
     });
 
     _socket!.on('message-sent', (data) {
-      print('✉️ Message sent confirmation');
       try {
         final message = _parseMessage(data);
         onMessageSent?.call(message);
@@ -102,7 +91,6 @@ class SocketService {
         final message = _parseMessage(data);
         onMessageReceived?.call(message);
       } catch (e) {
-        print('Error parsing received message: $e');
         onError?.call('Failed to receive message');
       }
     });
@@ -142,7 +130,6 @@ class SocketService {
       throw Exception('Socket not connected');
     }
 
-    print('🏠 Joining chat: $chatId');
     _currentChatId = chatId;
     _socket!.emit('join-chat', chatId);
   }
@@ -176,7 +163,6 @@ class SocketService {
         data['imageData'] = imageBytes;
         data['hasImage'] = true;
       } catch (e) {
-        print('Error preparing image data: $e');
         onError?.call('Failed to prepare image');
         return;
       }
@@ -192,7 +178,6 @@ class SocketService {
 
   void disconnect() {
     if (_socket != null) {
-      print('🔌 Disconnecting socket');
       _socket!.disconnect();
       _socket!.dispose();
       _socket = null;
@@ -210,7 +195,6 @@ class SocketService {
           .where((msg) => msg.hasContent)
           .toList();
     } catch (e) {
-      print('Error parsing message history: $e');
       return [];
     }
   }
@@ -237,7 +221,6 @@ class SocketService {
 
     if (msgData['imagePath'] != null) {
       imagePath = msgData['imagePath'].toString();
-      print('📷 Received image path: $imagePath');
     } else if (msgData['image'] != null) {
       final imageData = msgData['image'];
       if (imageData is String) {
@@ -247,14 +230,11 @@ class SocketService {
             imageData.contains('.jpg') ||
             imageData.contains('.jpeg')) {
           imagePath = imageData;
-          print('📷 Received image URL/path: $imagePath');
         } else {
-          print('📷 Received base64 image data, skipping...');
         }
       }
     } else if (msgData['imageUrl'] != null) {
       imagePath = msgData['imageUrl'].toString();
-      print('📷 Received image URL: $imagePath');
     }
 
     return ChatMessage(
@@ -307,17 +287,12 @@ class SocketService {
 
                 return Product.fromJson(mappedData);
               } else if (productData is String) {
-                print(
-                  'Skipping product data - received ID instead of object: $productData',
-                );
+             
                 return null;
               } else {
                 return Product.fromJson(Map<String, dynamic>.from(productData));
               }
             } catch (e) {
-              print('Error parsing individual product: $e');
-              print('Product data type: ${productData.runtimeType}');
-              print('Product data: $productData');
               return null;
             }
           })
@@ -325,18 +300,7 @@ class SocketService {
           .cast<Product>()
           .toList();
     } catch (e) {
-      print('Error parsing products: $e');
       return null;
     }
-  }
-
-  void reconnect() {
-    if (_socket != null) {
-      _socket!.connect();
-    }
-  }
-
-  void forceReconnect() {
-    disconnect();
   }
 }

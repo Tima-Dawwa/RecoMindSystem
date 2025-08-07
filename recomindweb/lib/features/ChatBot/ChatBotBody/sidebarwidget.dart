@@ -10,11 +10,11 @@ class SidebarWidget extends StatefulWidget {
   final Function() onNewChat;
 
   const SidebarWidget({
-    Key? key,
+    super.key,
     this.currentChatId,
     required this.onChatSelected,
     required this.onNewChat,
-  }) : super(key: key);
+  });
 
   @override
   _SidebarWidgetState createState() => _SidebarWidgetState();
@@ -26,7 +26,6 @@ class _SidebarWidgetState extends State<SidebarWidget> {
   @override
   void initState() {
     super.initState();
-    // Use post frame callback to ensure the context is ready
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!_hasInitialized && mounted) {
         _hasInitialized = true;
@@ -36,8 +35,6 @@ class _SidebarWidgetState extends State<SidebarWidget> {
   }
 
   void _handleNewChat() {
-    // Simply notify parent to start a new chat
-    // The main panel will handle the actual chat creation
     widget.onNewChat();
   }
 
@@ -50,7 +47,6 @@ class _SidebarWidgetState extends State<SidebarWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header with actions
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -58,20 +54,17 @@ class _SidebarWidgetState extends State<SidebarWidget> {
               IconButton(
                 icon: Icon(Icons.search, color: Themes.bg),
                 onPressed: () {
-                  // TODO: Implement search functionality
                 },
               ),
               IconButton(
                 icon: Icon(Icons.delete_outline, color: Themes.bg),
                 onPressed: () {
-                  // TODO: Implement delete functionality
                 },
               ),
             ],
           ),
           const SizedBox(height: 16),
 
-          // Create New Chat Button
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
@@ -89,12 +82,10 @@ class _SidebarWidgetState extends State<SidebarWidget> {
           ),
           const SizedBox(height: 24),
 
-          // Chat List
           Expanded(
             child: BlocConsumer<ChatBotCubit, ChatBotStatus>(
               listener: (context, state) {
                 if (state is FailureChatBot) {
-                  // Show error message
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(state.failure.errMessage),
@@ -108,7 +99,6 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                 final chatBotCubit = context.read<ChatBotCubit>();
                 final chats = chatBotCubit.allChats;
 
-                // Show loading only if we don't have any chats yet and we're loading
                 if (state is LoadingChatBot && chats.isEmpty) {
                   return Center(
                     child: Column(
@@ -130,7 +120,6 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                   );
                 }
 
-                // Show error state only if we don't have chats
                 if (state is FailureChatBot && chats.isEmpty) {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -164,7 +153,6 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                   );
                 }
 
-                // Show empty state if no chats
                 if (chats.isEmpty && state is! LoadingChatBot) {
                   return Center(
                     child: Column(
@@ -197,11 +185,9 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                   );
                 }
 
-                // Show chat list
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Header with refresh option
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -228,7 +214,6 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                     ),
                     const SizedBox(height: 8),
 
-                    // Chat list
                     Expanded(
                       child: ListView.builder(
                         itemCount: chats.length,

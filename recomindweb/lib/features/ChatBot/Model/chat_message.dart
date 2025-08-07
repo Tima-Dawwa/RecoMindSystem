@@ -63,8 +63,5 @@ class ChatMessage {
     return ChatMessage(type: MessageType.waiting);
   }
 
-  @override
-  String toString() {
-    return 'ChatMessage(type: $type, text: $text, hasImage: $hasImage, hasProducts: $hasProducts, timestamp: $timestamp)';
-  }
+ 
 }

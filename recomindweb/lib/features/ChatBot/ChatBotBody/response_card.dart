@@ -10,8 +10,8 @@ class ResponseCards extends StatelessWidget {
   const ResponseCards({
     required this.products,
     required this.onCardTap,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
