@@ -46,10 +46,10 @@ class SocketService {
   }
 
   void initializeWithAuth(
-    String token, {
+    {
     Map<String, dynamic>? additionalQuery,
   }) {
-    final queryParams = <String, dynamic>{'token': token, ...?additionalQuery};
+    final queryParams = <String, dynamic>{'token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg3Njg2ZmVhYzc2YjY4YjIwYjdlYWU0ZiIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkphbmUiLCJsYXN0X25hbWUiOiJZdW5kdCJ9LCJpYXQiOjE3NTQ1ODQwOTUsImV4cCI6MTc1NDg0MzI5NX0.dbkkO6lPSUcZM-cgRZi4WKsj_dzNfnD_PUDLCFwJ0ew", ...?additionalQuery};
 
     initialize( queryParameters: queryParams);
   }

@@ -10,7 +10,7 @@ import 'package:recomindweb/features/Show_All_Products/presentation/views/all_pr
 // import 'package:recomindweb/features/product_details/view/product_details_page.dart';
 
 List<GetPage> routes = [
-  GetPage(name: '/', page: () => ChatPage( token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg3Njg2ZmVhYzc2YjY4YjIwYjdlYWU0ZiIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkphbmUiLCJsYXN0X25hbWUiOiJZdW5kdCJ9LCJpYXQiOjE3NTQ1ODQwOTUsImV4cCI6MTc1NDg0MzI5NX0.dbkkO6lPSUcZM-cgRZi4WKsj_dzNfnD_PUDLCFwJ0ew")),
+  GetPage(name: '/', page: () => ChatPage()),
 
   GetPage(name: '/login', page: () => LoginPage()),
   GetPage(name: '/register', page: () => RegisterPage()),

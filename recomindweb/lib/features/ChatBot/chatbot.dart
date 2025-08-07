@@ -6,9 +6,8 @@ import 'package:recomindweb/features/ChatBot/view%20model/chatbot_cubit.dart';
 import 'package:recomindweb/features/ChatBot/Service%20Socket/chat_controller.dart';
 
 class ChatPage extends StatefulWidget {
-  final String token;
 
-  const ChatPage({super.key, required this.token});
+  const ChatPage({super.key,});
 
   @override
   _ChatPageWrapperState createState() => _ChatPageWrapperState();
@@ -61,7 +60,6 @@ class _ChatPageWrapperState extends State<ChatPage> {
           Expanded(
             child: CenterPanelWidget(
               chatId: _selectedChatId,
-              token: widget.token,
               onChatIdChanged: _handleChatIdChanged,
             ),
           ),

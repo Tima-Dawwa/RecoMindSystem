@@ -23,7 +23,6 @@ class ChatController extends ChangeNotifier {
   bool get hasMessages => _messages.isNotEmpty;
   bool get isCreatingChat => _isCreatingChat;
 
-  // Callback to notify about new chat creation
   Function(String)? onChatCreated;
 
   ChatController() {
@@ -42,12 +41,12 @@ class ChatController extends ChangeNotifier {
   }
 
   Future<void> connectToServer(
-    String token, {
+     {
     Map<String, dynamic>? additionalQuery,
   }) async {
     try {
       _socketService.initializeWithAuth(
-        token,
+        
         additionalQuery: additionalQuery,
       );
       _clearError();
@@ -62,7 +61,7 @@ class ChatController extends ChangeNotifier {
     String token, {
     Map<String, dynamic>? additionalQuery,
   }) async {
-    await connectToServer(token, additionalQuery: additionalQuery);
+    await connectToServer( additionalQuery: additionalQuery);
   }
 
   Future<void> connectAndJoinTestChat(
@@ -70,7 +69,7 @@ class ChatController extends ChangeNotifier {
     String token, {
     Map<String, dynamic>? additionalQuery,
   }) async {
-    await connectToServer(token, additionalQuery: additionalQuery);
+    await connectToServer( additionalQuery: additionalQuery);
   }
 
   Future<void> connectWithTokenAndJoinTestChat(
@@ -78,10 +77,9 @@ class ChatController extends ChangeNotifier {
     String token, {
     Map<String, dynamic>? additionalQuery,
   }) async {
-    await connectToServer(token, additionalQuery: additionalQuery);
+    await connectToServer( additionalQuery: additionalQuery);
   }
 
-  // Add dependency injection for ChatBotService
   static ChatBotService? _chatBotService;
 
   static void setChatBotService(ChatBotService chatBotService) {
@@ -95,7 +93,7 @@ class ChatController extends ChangeNotifier {
     }
 
     if (_isCreatingChat) {
-      return null; // Already creating a chat
+      return null; 
     }
 
     if (_chatBotService == null) {
@@ -107,7 +105,7 @@ class ChatController extends ChangeNotifier {
       _isCreatingChat = true;
       notifyListeners();
 
-      // Call the actual API to create a new chat
+   
       final result = await _chatBotService!.creatChat();
 
       return result.fold(
@@ -125,7 +123,7 @@ class ChatController extends ChangeNotifier {
             _currentChatId = newChatId;
             _clearError();
 
-            // Notify about new chat creation
+           
             onChatCreated?.call(newChatId);
 
             return newChatId;
@@ -173,14 +171,12 @@ class ChatController extends ChangeNotifier {
       return;
     }
 
-    // If no current chat, create one first
     if (_currentChatId == null) {
       final newChatId = await createNewChat();
       if (newChatId == null) {
-        return; // Error already set in createNewChat
+        return; 
       }
 
-      // Join the newly created chat
       await joinChat(newChatId);
     }
 
@@ -209,9 +205,6 @@ class ChatController extends ChangeNotifier {
   void _handleConnected() {
     _isConnected = true;
     notifyListeners();
-
-    // Don't automatically join a chat anymore
-    // Let the user decide when to create/join a chat
   }
 
   void _handleDisconnected() {
@@ -306,7 +299,6 @@ class ChatController extends ChangeNotifier {
     clearMessages();
   }
 
-  // Method to set the current chat ID (for when user selects an existing chat)
   void setCurrentChatId(String? chatId) {
     if (_currentChatId != chatId) {
       _currentChatId = chatId;
