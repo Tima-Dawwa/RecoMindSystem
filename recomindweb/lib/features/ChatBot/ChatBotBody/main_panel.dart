@@ -13,14 +13,12 @@ import 'chat_input_field.dart';
 
 class CenterPanelWidget extends StatefulWidget {
   final String? chatId;
-  final String token;
   final Function(String)?
   onChatIdChanged;
 
   const CenterPanelWidget({
     super.key,
     this.chatId,
-    required this.token,
     this.onChatIdChanged,
   });
 
@@ -56,7 +54,7 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
   }
 
   Future<void> _initializeChat() async {
-    await _chatController.connectToServer(widget.token);
+    await _chatController.connectToServer();
 
     if (_currentChatId != null) {
       await _chatController.joinChat(_currentChatId!);
