@@ -5,7 +5,7 @@ import 'package:recomindweb/features/ChatBot/Model/chat_message.dart';
 class MessageBubble extends StatelessWidget {
   final ChatMessage message;
 
-  const MessageBubble({required this.message, Key? key}) : super(key: key);
+  const MessageBubble({required this.message, super.key});
 
   @override
   Widget build(BuildContext context) {
