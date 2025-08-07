@@ -3,14 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/features/ChatBot/ChatBotBody/main_panel.dart';
 import 'package:recomindweb/features/ChatBot/ChatBotBody/sidebarwidget.dart';
 import 'package:recomindweb/features/ChatBot/view%20model/chatbot_cubit.dart';
+import 'package:recomindweb/features/ChatBot/Service%20Socket/chat_controller.dart';
 
 class ChatPage extends StatefulWidget {
   final String token;
 
-  const ChatPage({
-    Key? key,
-    required this.token,
-  }) : super(key: key);
+  const ChatPage({super.key, required this.token});
 
   @override
   _ChatPageWrapperState createState() => _ChatPageWrapperState();
@@ -18,6 +16,17 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageWrapperState extends State<ChatPage> {
   String? _selectedChatId;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        final chatBotCubit = context.read<ChatBotCubit>();
+        ChatController.setChatBotService(chatBotCubit.chatBotService);
+      }
+    });
+  }
 
   void _handleChatSelected(String? chatId) {
     setState(() {
@@ -49,7 +58,6 @@ class _ChatPageWrapperState extends State<ChatPage> {
             onChatSelected: _handleChatSelected,
             onNewChat: _handleNewChat,
           ),
-
           Expanded(
             child: CenterPanelWidget(
               chatId: _selectedChatId,
