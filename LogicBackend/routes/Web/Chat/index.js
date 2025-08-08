@@ -25,7 +25,7 @@ async function socketFunctionality(io, socket) {
     userSocketMap[userID] = socket.id;
 
     socket.on('join-chat', async (chatId) => {
-        console.log(chatId)
+        console.log("joined-chat")
         if (!mongoose.isValidObjectId(chatId)) {
             socket.emit('chat-error', { message: "Chat not found or access denied." });
             return;
@@ -68,6 +68,8 @@ async function socketFunctionality(io, socket) {
     });
 
     socket.on('send-message', async (data) => {
+        console.log("send-message")
+
         try {
             let { message, image } = data;
             const { error } = validateSendMessage({ message });
@@ -87,13 +89,17 @@ async function socketFunctionality(io, socket) {
                 return;
             }
 
+            if (!chat.name || chat.name.trim() === "") {
+                const newName = message.trim().substring(0, 10);
+                chat.name = newName;
+                await chat.save();
+            }
+
             let processedImage = null;
 
             if (image) {
                 processedImage = encodeImage(image);
             }
-            console.log(processedImage)
-
 
             let userMessage = {
                 senderType: 'user',
