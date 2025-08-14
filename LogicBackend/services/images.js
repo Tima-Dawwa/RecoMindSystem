@@ -12,7 +12,7 @@ function encodeImage(image) {
     const base64Data = matches[1];
     const imageBuffer = Buffer.from(base64Data, 'base64');
     const imageName = `chat_${Date.now()}.png`;
-    const imagePath = path.join(__dirname, '../public', imageName);
+    const imagePath = path.join(__dirname, '../public/chat', imageName);
 
     fs.mkdirSync(path.dirname(imagePath), { recursive: true });
 

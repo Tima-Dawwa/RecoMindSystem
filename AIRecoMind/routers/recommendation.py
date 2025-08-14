@@ -30,5 +30,5 @@ async def train_collaborative_recommendations():
 
 
 @router.get("/hybrid-recommendations", response_model=List[str])
-async def get_hybrid_recommendations(user_id: str, product_id: str, top_n: int = 20):
+async def get_hybrid_recommendations(user_id: str = "", product_id: str = "", top_n: int = 20):
     return await get_cascade_hybrid_recommendations(user_id, product_id, top_n)

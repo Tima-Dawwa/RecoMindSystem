@@ -45,7 +45,6 @@ async function createUsers(count = 1000) {
     return await User.insertMany(data1)
 }
 
-// Done
 function createPhoneNumber() {
     const countryNumber = numbers[Math.floor(Math.random() * numbers.length)]
     let length = countryNumber.phone_length
@@ -68,7 +67,12 @@ async function createProducts() {
                 const price = parseFloat(faker.commerce.price({ min: 10, max: 300 }));
                 const hasDiscount = Math.random() < 0.5;
                 const discountAmount = faker.number.float({ min: 1, max: 20, multipleOf: 0.01 });
-                const discounted_price = hasDiscount ? Math.max(price - discountAmount, 0) : price;
+                let discounted_price = hasDiscount ? Math.max(price - discountAmount, 0) : price;
+                discounted_price = parseFloat(discounted_price.toFixed(2));
+
+                const folderNumber = "0" + String(row.article_id).slice(0, 2);
+                const imageNumber = "0" + row.article_id;
+
                 const product = {
                     name: row.prod_name?.trim(),
                     type: row.product_type_name?.trim(),
@@ -80,22 +84,22 @@ async function createProducts() {
                     price,
                     discounted_price,
                     quantity: faker.number.int({ min: 0, max: 100 }),
-                    images: ['/images/products/recomind1.jpg']
+                    images: [`/images/products/${folderNumber}/${imageNumber}.jpg`]
                 };
                 products.push(product);
             })
             .on('end', async () => {
                 try {
                     await Product.insertMany(products);
-                    console.log(`✅ Inserted ${products.length} products`);
+                    console.log(`Inserted ${products.length} products`);
                     resolve();
                 } catch (err) {
-                    console.error('❌ Error inserting products:', err);
+                    console.error('Error inserting products:', err);
                     reject(err);
                 }
             })
             .on('error', (err) => {
-                console.error('❌ Error reading CSV file:', err);
+                console.error('Error reading CSV file:', err);
                 reject(err);
             });
     });
@@ -129,18 +133,17 @@ async function createInteractions(count = 1000000) {
 }
 
 async function updateAllProductAggregates() {
-    console.log('🚀 Starting optimized update of all product aggregates using MongoDB aggregation...');
+    console.log('Starting optimized update of all product aggregates using MongoDB aggregation...');
     const aggregationPipeline = [
         {
-            // Stage 1: Group interactions by product_id and calculate initial aggregates
             $group: {
-                _id: "$product_id", // Group by the product ID
+                _id: "$product_id",
                 ratingSum: {
-                    $sum: { // Sum rating_value only for 'rating' interactions with a valid number
+                    $sum: {
                         $cond: [
                             {
                                 $and: [
-                                    { $eq: ["$interaction_type", "rating"] }, // Ensure this matches your schema/data
+                                    { $eq: ["$interaction_type", "rating"] },
                                     { $isNumber: "$rating_value" }
                                 ]
                             },
@@ -150,7 +153,7 @@ async function updateAllProductAggregates() {
                     }
                 },
                 ratingCount: {
-                    $sum: { // Count 'rating' interactions with a valid number
+                    $sum: {
                         $cond: [
                             {
                                 $and: [
@@ -175,19 +178,18 @@ async function updateAllProductAggregates() {
                 ordersCount: {
                     $sum: { $cond: [{ $eq: ["$interaction_type", "order"] }, 1, 0] }
                 },
-                totalProductInteractions: { $sum: 1 }, // Total number of interactions for this product
-                totalInteractionScore: { $sum: { $ifNull: ["$interaction_weight", 0] } } // Sum existing weights
+                totalProductInteractions: { $sum: 1 },
+                totalInteractionScore: { $sum: { $ifNull: ["$interaction_weight", 0] } }
             }
         },
         {
-            // Stage 2: Project the final fields, including calculated averageRating
             $project: {
-                _id: 1, // This is the product_id, crucial for $merge
+                _id: 1,
                 calculatedAverageRating: {
                     $cond: {
                         if: { $gt: ["$ratingCount", 0] },
-                        then: { $round: [{ $divide: ["$ratingSum", "$ratingCount"] }, 2] }, // Round to 2 decimal places
-                        else: 0 // Default to 0 if no ratings
+                        then: { $round: [{ $divide: ["$ratingSum", "$ratingCount"] }, 2] },
+                        else: 0
                     }
                 },
                 ratingCount: 1,
@@ -200,11 +202,10 @@ async function updateAllProductAggregates() {
             }
         },
         {
-            // Stage 3: Merge the results into the 'products' collection (MongoDB 4.2+)
             $merge: {
-                into: "products", // The target collection name (Mongoose usually pluralizes model names)
-                on: "_id",        // Match documents in "products" where its _id equals the _id from this pipeline
-                let: {            // Define variables from the current aggregated document for use in the update
+                into: "products",
+                on: "_id",
+                let: {
                     agg_rating: "$calculatedAverageRating",
                     agg_rating_count: "$ratingCount",
                     agg_views: "$viewsCount",
@@ -214,9 +215,9 @@ async function updateAllProductAggregates() {
                     agg_total_interactions: "$totalProductInteractions",
                     agg_total_score: "$totalInteractionScore"
                 },
-                whenMatched: [ // Pipeline to execute when a product is matched
+                whenMatched: [
                     {
-                        $set: { // Update these fields on the matched product
+                        $set: {
                             rating: "$$agg_rating",
                             rating_count: "$$agg_rating_count",
                             "interactions.view": "$$agg_views",
@@ -225,26 +226,20 @@ async function updateAllProductAggregates() {
                             "interactions.order": "$$agg_orders",
                             "interactions.total_interactions": "$$agg_total_interactions",
                             total_interaction_score: "$$agg_total_score",
-                            updatedAt: new Date() // Manually set updatedAt if not using schema timestamps for this operation
+                            updatedAt: new Date()
                         }
                     }
                 ],
-                whenNotMatched: "discard" // If an interaction's product_id doesn't exist in Products, do nothing
+                whenNotMatched: "discard"
             }
         }
     ];
 
     try {
-        // Execute the aggregation pipeline.
-        // The $merge stage writes directly to the 'products' collection and does not return documents to the client.
         await Interaction.aggregate(aggregationPipeline).exec();
-
-        console.log('✅ Product aggregates update process completed using $merge.');
-        // Note: $merge doesn't directly return a count of updated documents to the client.
-        // You would verify the updates by querying the Product collection afterwards.
+        console.log('Product aggregates update process completed using $merge.');
     } catch (error) {
-        console.error('❌ Error during optimized product aggregates update:', error);
-        // Consider re-throwing or more specific error handling
+        console.error('Error during optimized product aggregates update:', error);
         throw error;
     }
 }
