@@ -3,3 +3,6 @@ saved_models/*
 
 data/*
 !data/.gitkeep
+
+*.pyc
+__pycache__/
