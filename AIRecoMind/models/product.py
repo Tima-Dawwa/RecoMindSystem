@@ -13,3 +13,4 @@ class Product(BaseModel):
     details: Optional[str] = None
     total_interactions: Optional[int] = None
     total_interaction_score: Optional[int] = None
+    images: Optional[str] = None
