@@ -8,10 +8,9 @@ import re
 from PIL import Image
 
 
-# need to put the blip2, arabert, bert-base and our model
-BLIP2_PATH = ''
-ARABERT_PATH = ''
-BERT_EN_PATH = ''
+BLIP2_PATH = 'saved_models/MultilingualFashionRetrieval/blip2-opt-2.7b'
+ARABERT_PATH = 'saved_models/MultilingualFashionRetrieval/arabertv2'
+BERT_EN_PATH = 'saved_models/MultilingualFashionRetrieval/bert-base-uncased'
 
 
 class MultilingualFashionRetrieval(nn.Module):

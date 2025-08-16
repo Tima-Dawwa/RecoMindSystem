@@ -1,59 +1,75 @@
+import asyncio
 import os
+from typing import List
 import torch
-from your_model import MultilingualFashionRetrieval
-from fashion_retriever import FashionRetriever, load_model_checkpoint
+from services.chatbot.model import MultilingualFashionRetrieval
+from services.chatbot.fashion_retriever import FashionRetriever, load_model_checkpoint
+from models.product import Product
+from utils.database import product_collection
+from PIL import Image
 
-# -------------------- #
-# 1. Load the model
-# -------------------- #
+MODEL_PATH = 'saved_models/MultilingualFashionRetrieval/multilingual_fashion_model_final.pth'
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model = load_model_checkpoint(
-    MultilingualFashionRetrieval, 'checkpoint.pth', device)
 
-# -------------------- #
-# 2. Initialize retriever
-# -------------------- #
+model = load_model_checkpoint(
+    MultilingualFashionRetrieval, MODEL_PATH, device)
+
 retriever = FashionRetriever(model, device)
 
-# -------------------- #
-# 3. Encode products or load existing index
-# -------------------- #
-image_folder = 'products/images/'
-metadata_file = 'products.csv'
-index_file = 'products.faiss'
-metadata_pkl = 'products_metadata.pkl'
 
-if os.path.exists(index_file) and os.path.exists(metadata_pkl):
-    # Load existing FAISS index and metadata
-    retriever.load_index(index_file, metadata_pkl)
-else:
-    # List all image files
-    image_files = [f for f in os.listdir(image_folder) if f.lower().endswith(
-        ('jpg', 'jpeg', 'png', 'bmp', 'webp'))]
+async def get_all_products() -> List[Product]:
+    cursor = product_collection.find({})
+    products = []
+    async for doc in cursor:
+        images_array = doc.get('images', [])
+        if images_array:
+            products.append(Product(
+                id=str(doc["_id"]),
+                images=images_array[0]
+            ))
+    return products
 
-    # Automatically choose FAISS index type based on dataset size
-    if len(image_files) < 10000:
-        index_type = 'flat'  # Exact search
+
+async def load_and_encode_data():
+    image_folder = '../LogicBackend/public/'
+    index_file = 'data/chatbot/products.faiss'
+    metadata_pkl = 'data/chatbot/products_metadata.pkl'
+
+    if os.path.exists(index_file) and os.path.exists(metadata_pkl):
+        print("Loading existing index...")
+        retriever.load_index(index_file, metadata_pkl)
     else:
-        index_type = 'ivf'   # Approximate search
+        print("Index not found. Encoding products from database...")
+        products_from_db = await get_all_products()
 
-    # Encode and build FAISS index
-    retriever.encode_products_from_folder(
-        image_folder, metadata_file, index_type=index_type)
+        images = []
+        metadata = []
+        for product in products_from_db:
+            relative_image_path = product.images.lstrip('/')
+            image_path = os.path.join(image_folder, relative_image_path)
 
-    # Save for future use
-    retriever.save_index(index_file, metadata_pkl)
+            if os.path.exists(image_path):
+                try:
+                    img = Image.open(image_path).convert('RGB')
+                    images.append(img)
+                    metadata.append({'product_id': product.id})
+                except Exception as e:
+                    print(f"Error loading image {image_path}: {e}")
 
-# -------------------- #
-# 4. Check index stats
-# -------------------- #
-print(retriever.get_index_stats())
+        print(len(images))
+        print(len(metadata))
 
-# -------------------- #
-# 5. Chatbot recommendations function
-# -------------------- #
+        # if len(images) < 10000:
+        #     index_type = 'flat'
+        # else:
+        #     index_type = 'ivf'
 
+        # retriever.encode_products(images, metadata, index_type=index_type)
+        # retriever.save_index(index_file, metadata_pkl)
 
+    # print(retriever.get_index_stats())
+
+# this used for production
 def get_chatbot_recommendations(query_image=None, query_text=None, top_k=5):
     if query_image and query_text:
         results = retriever.search_by_image_and_text(
@@ -65,6 +81,11 @@ def get_chatbot_recommendations(query_image=None, query_text=None, top_k=5):
     else:
         return []
 
-    product_ids = [res['product'].get(
-        'product_id') for res in results if 'product_id' in res['product']]
+    # 💡 Corrected: Retrieve 'product_id' from the simplified metadata
+    product_ids = [res['product'].get('product_id') for res in results]
     return product_ids
+
+
+# this run for initial
+# if __name__ == "__main__":
+    # asyncio.run(load_and_encode_data())
