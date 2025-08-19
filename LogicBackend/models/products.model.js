@@ -93,7 +93,6 @@ async function deleteProducts(productIds) {
 }
 
 async function getProductsByIds(ids) {
-    // Calculate the date for the 'isNew' check
     const tenDaysAgo = new Date();
     tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
 

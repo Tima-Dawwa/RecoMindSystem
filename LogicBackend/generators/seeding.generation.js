@@ -9,6 +9,7 @@ const path = require('path');
 const csv = require('csv-parser');
 const Interaction = require('../models/interactions.mongo');
 const { WEIGHT_MAP, INTERACTION_TYPES } = require('../public/constants/interaction');
+const fsp = require('fs').promises;
 
 // Done
 async function createUsers(count = 1000) {
@@ -64,14 +65,18 @@ async function createProducts() {
         fs.createReadStream(filePath)
             .pipe(csv())
             .on('data', (row) => {
+                const folderNumber = "0" + String(row.article_id).slice(0, 2);
+                const imageNumber = "0" + row.article_id;
+                const imagePath = path.join(__dirname, '../public/images/products', folderNumber, `${imageNumber}.jpg`);
+
+                // Only include product if the image exists
+                if (!fs.existsSync(imagePath)) return;
+
                 const price = parseFloat(faker.commerce.price({ min: 10, max: 300 }));
                 const hasDiscount = Math.random() < 0.5;
                 const discountAmount = faker.number.float({ min: 1, max: 20, multipleOf: 0.01 });
                 let discounted_price = hasDiscount ? Math.max(price - discountAmount, 0) : price;
                 discounted_price = parseFloat(discounted_price.toFixed(2));
-
-                const folderNumber = "0" + String(row.article_id).slice(0, 2);
-                const imageNumber = "0" + row.article_id;
 
                 const product = {
                     name: row.prod_name?.trim(),
@@ -83,15 +88,16 @@ async function createProducts() {
                     details: row.detail_desc?.trim() || faker.commerce.productDescription(),
                     price,
                     discounted_price,
-                    quantity: faker.number.int({ min: 0, max: 100 }),
+                    quantity: faker.number.int({ min: 100, max: 3000 }),
                     images: [`/images/products/${folderNumber}/${imageNumber}.jpg`]
                 };
+
                 products.push(product);
             })
             .on('end', async () => {
                 try {
                     await Product.insertMany(products);
-                    console.log(`Inserted ${products.length} products`);
+                    console.log(`Inserted ${products.length} products (with existing images)`);
                     resolve();
                 } catch (err) {
                     console.error('Error inserting products:', err);
@@ -267,6 +273,58 @@ async function createAdmins() {
 //     }
 //     await Notification.insertMany(data)
 // }
+
+
+async function checkImagesFromCSV() {
+    const filePath = path.join(__dirname, '../public/json/filtered_data.csv');
+
+    let totalProducts = 0;
+    let imagesFound = 0;
+    let imagesMissing = 0;
+    let missingPaths = [];
+
+    return new Promise((resolve, reject) => {
+        fs.createReadStream(filePath)
+            .pipe(csv())
+            .on('data', async (row) => {
+                totalProducts++;
+
+                const folderNumber = "0" + String(row.article_id).slice(0, 2);
+                const imageNumber = "0" + row.article_id;
+                const imagePath = path.join(__dirname, '../public/images/products', folderNumber, `${imageNumber}.jpg`);
+
+                try {
+                    await fsp.access(imagePath);
+                    imagesFound++;
+                } catch {
+                    imagesMissing++;
+                    missingPaths.push(imagePath);
+                }
+            })
+            .on('end', () => {
+                console.log("===== IMAGE CHECK REPORT =====");
+                console.log(`Total products: ${totalProducts}`);
+                console.log(`Images found: ${imagesFound}`);
+                console.log(`Missing images: ${imagesMissing}`);
+
+                if (missingPaths.length > 0) {
+                    console.log("\n--- Missing image paths ---");
+                    missingPaths.forEach(p => console.log(p));
+                }
+
+                resolve({ totalProducts, imagesFound, imagesMissing, missingPaths });
+            })
+            .on('error', (err) => {
+                console.error('Error reading CSV file:', err);
+                reject(err);
+            });
+    });
+}
+
+// if (require.main === module) {
+//     checkImagesFromCSV().then(() => process.exit(0));
+// }
+
 
 module.exports = {
     createUsers,

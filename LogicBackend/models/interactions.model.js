@@ -126,14 +126,12 @@ async function updateProductInteraction(productId, userId, interactionType, rati
         };
 
         if (interactionType === INTERACTION_TYPES.RATING) {
-            // Update rating statistics
             update.$inc = {
                 ...update.$inc,
                 rating: ratingValue,
                 rating_count: 1
             };
         } else {
-            // Update other interaction types
             const updateField = `interactions.${interactionType}s`;
             update.$inc[updateField] = 1;
         }
@@ -144,7 +142,6 @@ async function updateProductInteraction(productId, userId, interactionType, rati
             { new: true }
         );
 
-        // Calculate and update average rating
         if (interactionType === INTERACTION_TYPES.RATING) {
             const avgRating = updatedProduct.rating / updatedProduct.rating_count;
             await Product.findByIdAndUpdate(
@@ -264,7 +261,6 @@ async function getProductRatings(productId) {
         }
     ]);
 
-    // Fill missing rating values with 0
     const ratingCounts = {};
     for (let i = 1; i <= 5; i++) {
         const match = result.find(r => r._id === i);

@@ -24,7 +24,7 @@ cartSchema.pre('save', function (next) {
 });
 
 cartSchema.post('findOneAndUpdate', async function (doc) {
-    if (doc) { // Make sure doc exists
+    if (doc) {
         doc.total_price = doc.items.reduce((total, item) => {
             return total + (item.price * item.quantity);
         }, 0);

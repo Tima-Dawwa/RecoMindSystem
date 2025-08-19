@@ -1,4 +1,3 @@
-// CRUD
 const Admin = require('./admins.mongo')
 
 async function findAdmin(username) {
