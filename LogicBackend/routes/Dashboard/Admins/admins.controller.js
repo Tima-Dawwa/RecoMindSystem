@@ -55,7 +55,6 @@ async function httpDeleteAdmin(req, res) {
     return res.status(200).json({ message: 'Admin Deleted' })
 }
 
-// Think
 async function logout(req, res) {
     const user = req.user;
     const token = req.headers.authorization.split(' ')[1];

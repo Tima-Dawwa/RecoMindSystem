@@ -41,7 +41,6 @@ async function getTotalProfit() {
 async function getAllOrdersWithUserDetails(skip = 0, limit = 10, searchUsername = null, searchDate = null) {
     let query = {};
 
-    // Add date filter if provided
     if (searchDate) {
         const startOfDay = new Date(searchDate);
         startOfDay.setHours(0, 0, 0, 0);
@@ -52,11 +51,10 @@ async function getAllOrdersWithUserDetails(skip = 0, limit = 10, searchUsername 
 
     const orders = await Order.find(query)
         .populate('user_id', 'username')
-        .sort({ createdAt: -1 }) // Newest first
+        .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit);
 
-    // Filter by username if provided
     let filteredOrders = orders;
     if (searchUsername) {
         filteredOrders = orders.filter(order =>
