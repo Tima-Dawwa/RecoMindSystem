@@ -1,11 +1,8 @@
 import torch
 import torch.nn.functional as F
 from PIL import Image
-import json
-import pandas as pd
-from typing import List, Dict, Union, Optional
+from typing import List, Dict, Optional
 from tqdm import tqdm
-import os
 import numpy as np
 import faiss
 import pickle
@@ -52,42 +49,25 @@ class FashionRetriever:
         print(f"Index type: {type(self.index).__name__}")
     # ------------------------------------------------- #
 
-    def encode_products_from_folder(self, image_folder: str, data_file: str = None,
-                                    batch_size: int = 32, index_type: str = 'flat'):
-        image_files = []
-        for ext in ['jpg', 'jpeg', 'png', 'bmp', 'webp']:
-            image_files.extend([f for f in os.listdir(
-                image_folder) if f.lower().endswith(ext)])
+    def add_batch_to_index(self, images: List[Image.Image], metadata: List[dict]):
+        with torch.no_grad():
+            with torch.amp.autocast('cuda'):
+                img_emb = self.model.encode_image(images)
 
-        metadata = []
-        if data_file:
-            if data_file.endswith('.csv'):
-                df = pd.read_csv(data_file)
-            else:
-                with open(data_file, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                df = pd.DataFrame(data)
-            metadata = df.to_dict('records')
+            img_emb = img_emb.cpu().numpy().astype('float32')
 
-        images = []
-        final_metadata = []
+        if img_emb.shape[0] != len(metadata):
+            raise ValueError(
+                f"Embedding count {img_emb.shape[0]} != metadata count {len(metadata)}"
+            )
 
-        print(f"Loading {len(image_files)} product images...")
-        for i, img_file in enumerate(tqdm(image_files, desc="Loading images")):
-            try:
-                image_path = os.path.join(image_folder, img_file)
-                image = Image.open(image_path).convert('RGB')
-                images.append(image)
+        if self.index is None:
+            self._build_faiss_index(img_emb, index_type='flat')
+            self.products = metadata.copy()
+        else:
+            self.index.add(img_emb)
+            self.products.extend(metadata)
 
-                meta = {'image_path': img_file, 'full_path': image_path}
-                if metadata and i < len(metadata):
-                    meta.update(metadata[i])
-                final_metadata.append(meta)
-
-            except Exception as e:
-                print(f"Error loading {img_file}: {e}")
-
-        self.encode_products(images, final_metadata, batch_size, index_type)
     # ------------------------------------------------- #
 
     def _build_faiss_index(self, embeddings: np.ndarray, index_type: str = 'flat'):

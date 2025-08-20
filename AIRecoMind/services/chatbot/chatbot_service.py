@@ -1,75 +1,111 @@
 import asyncio
 import os
-from typing import List
+from concurrent.futures import ThreadPoolExecutor
+from typing import List, Tuple
+from PIL import Image
 import torch
+from tqdm import tqdm
+
 from services.chatbot.model import MultilingualFashionRetrieval
 from services.chatbot.fashion_retriever import FashionRetriever, load_model_checkpoint
 from models.product import Product
 from utils.database import product_collection
-from PIL import Image
 
+# ---------------- CONFIG ---------------- #
 MODEL_PATH = 'saved_models/MultilingualFashionRetrieval/multilingual_fashion_model_final.pth'
+IMAGE_FOLDER = '../LogicBackend/public/'
+INDEX_FILE = 'data/chatbot/products.faiss'
+METADATA_FILE = 'data/chatbot/products_metadata.pkl'
+
+BATCH_SIZE = 24
+MAX_WORKERS = 8
+
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-model = load_model_checkpoint(
-    MultilingualFashionRetrieval, MODEL_PATH, device)
-
+model = load_model_checkpoint(MultilingualFashionRetrieval, MODEL_PATH, device)
 retriever = FashionRetriever(model, device)
+
+executor = ThreadPoolExecutor(max_workers=MAX_WORKERS)
+
+
+# ----------------- HELPERS ----------------- #
+TRAINED_CATEGORIES = {
+    'Trousers', 'Dress', 'Sweater', 'T-shirt', 'Top', 'Blouse',
+    'Jacket', 'Shorts', 'Shirt', 'Vest top', 'Skirt', 'Hoodie',
+    'Leggings/Tights', 'Cardigan', 'Jumpsuit/Playsuit', 'Blazer',
+    'Coat', 'Polo shirt', 'Dungarees', 'Night gown', 'Robe',
+    'Outdoor Waistcoat', 'Outdoor trousers', 'Tailored Waistcoat',
+    'Outdoor overall', 'Pyjama set', 'Pyjama jumpsuit/playsuit',
+    'Pyjama bottom'
+}
 
 
 async def get_all_products() -> List[Product]:
-    cursor = product_collection.find({})
+    cursor = product_collection.find({
+            "product_type_name": {"$in": list(TRAINED_CATEGORIES)}
+        })
     products = []
     async for doc in cursor:
         images_array = doc.get('images', [])
         if images_array:
-            products.append(Product(
-                id=str(doc["_id"]),
-                images=images_array[0]
-            ))
+            products.append(
+                Product(id=str(doc["_id"]), images=images_array[0]))
     return products
 
 
-async def load_and_encode_data():
-    image_folder = '../LogicBackend/public/'
-    index_file = 'data/chatbot/products.faiss'
-    metadata_pkl = 'data/chatbot/products_metadata.pkl'
+def load_image(image_path: str):
+    try:
+        return Image.open(image_path).convert('RGB')
+    except Exception as e:
+        print(f"Error loading {image_path}: {e}")
+        return None
 
-    if os.path.exists(index_file) and os.path.exists(metadata_pkl):
-        print("Loading existing index...")
-        retriever.load_index(index_file, metadata_pkl)
+
+async def load_images_async(paths: List[str]) -> Tuple[List[Image.Image], List[int]]:
+    loop = asyncio.get_running_loop()
+    results = await asyncio.gather(*(loop.run_in_executor(executor, load_image, p) for p in paths))
+
+    valid_images = []
+    valid_indices = []
+    for i, img in enumerate(results):
+        if img is not None:
+            valid_images.append(img)
+            valid_indices.append(i)
+
+    return valid_images, valid_indices
+
+
+# ----------------- MAIN BATCH PROCESS ----------------- #
+async def encode_and_save_batches():
+    products = await get_all_products()
+
+    if os.path.exists(INDEX_FILE) and os.path.exists(METADATA_FILE):
+        retriever.load_index(INDEX_FILE, METADATA_FILE)
+        start_idx = len(retriever.products)
+        print(f"Resuming from product {start_idx}")
     else:
-        print("Index not found. Encoding products from database...")
-        products_from_db = await get_all_products()
+        retriever.index = None
+        retriever.products = []
+        start_idx = 0
 
-        images = []
-        metadata = []
-        for product in products_from_db:
-            relative_image_path = product.images.lstrip('/')
-            image_path = os.path.join(image_folder, relative_image_path)
+    for start in tqdm(range(start_idx, len(products), BATCH_SIZE), desc="Processing batches"):
+        batch = products[start:start + BATCH_SIZE]
+        image_paths = [os.path.join(
+            IMAGE_FOLDER, p.images.lstrip('/')) for p in batch]
 
-            if os.path.exists(image_path):
-                try:
-                    img = Image.open(image_path).convert('RGB')
-                    images.append(img)
-                    metadata.append({'product_id': product.id})
-                except Exception as e:
-                    print(f"Error loading image {image_path}: {e}")
+        images, valid_indices = await load_images_async(image_paths)
+        batch_metadata = [{'product_id': batch[i].id} for i in valid_indices]
 
-        print(len(images))
-        print(len(metadata))
+        if images:
+            retriever.add_batch_to_index(images, batch_metadata)
+            retriever.save_index(INDEX_FILE, METADATA_FILE)
+            print(
+                f"Batch {start}-{start+len(batch)} saved. Valid images: {len(images)}/{len(batch)}")
 
-        # if len(images) < 10000:
-        #     index_type = 'flat'
-        # else:
-        #     index_type = 'ivf'
+        if start % (BATCH_SIZE * 10) == 0:
+            torch.cuda.empty_cache()
 
-        # retriever.encode_products(images, metadata, index_type=index_type)
-        # retriever.save_index(index_file, metadata_pkl)
 
-    # print(retriever.get_index_stats())
-
-# this used for production
+# ----------------- SEARCH FUNCTION ----------------- #
 def get_chatbot_recommendations(query_image=None, query_text=None, top_k=5):
     if query_image and query_text:
         results = retriever.search_by_image_and_text(
@@ -81,11 +117,9 @@ def get_chatbot_recommendations(query_image=None, query_text=None, top_k=5):
     else:
         return []
 
-    # 💡 Corrected: Retrieve 'product_id' from the simplified metadata
-    product_ids = [res['product'].get('product_id') for res in results]
-    return product_ids
+    return [res['product'].get('product_id') for res in results]
 
 
-# this run for initial
-# if __name__ == "__main__":
-    # asyncio.run(load_and_encode_data())
+# ----------------- ENTRY POINT ----------------- #
+if __name__ == "__main__":
+    asyncio.run(encode_and_save_batches())
