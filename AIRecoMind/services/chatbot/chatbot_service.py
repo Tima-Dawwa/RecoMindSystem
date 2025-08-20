@@ -41,8 +41,8 @@ TRAINED_CATEGORIES = {
 
 async def get_all_products() -> List[Product]:
     cursor = product_collection.find({
-            "product_type_name": {"$in": list(TRAINED_CATEGORIES)}
-        })
+        "type": {"$in": list(TRAINED_CATEGORIES)}
+    })
     products = []
     async for doc in cursor:
         images_array = doc.get('images', [])
