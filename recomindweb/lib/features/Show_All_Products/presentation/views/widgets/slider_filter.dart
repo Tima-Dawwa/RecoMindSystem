@@ -1,66 +1,6 @@
-// import 'package:flutter/material.dart';
-// import 'package:recomindweb/core/theme.dart';
-
-// // ignore: must_be_immutable
-// class SliderFilter extends StatefulWidget {
-//   SliderFilter({super.key, required this.price});
-
-//   late double price;
-
-//   @override
-//   State<SliderFilter> createState() => _SliderFilterState();
-// }
-
-// class _SliderFilterState extends State<SliderFilter> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         SliderTheme(
-//           data: SliderTheme.of(context).copyWith(
-//             valueIndicatorTextStyle: const TextStyle(
-//               color: Colors.white,
-//               fontSize: 14,
-//             ),
-//             valueIndicatorColor: Themes.primary,
-//             showValueIndicator: ShowValueIndicator.always,
-//           ),
-//           child: Slider(
-//             value: widget.price,
-//             min: 0,
-//             max: 1000,
-//             divisions: 100,
-//             label: "\$${widget.price.round()}",
-//             onChanged: (value) {
-//               setState(() {
-//                 widget.price = value;
-//               });
-//             },
-//           ),
-//         ),
-//         Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//           children: [
-//             Text("\$0", style: TextStyle(color: Colors.grey[600])),
-//             Text(
-//               "\$${widget.price.round()}",
-//               style: TextStyle(
-//                 color: Themes.primary,
-//                 fontWeight: FontWeight.bold,
-//               ),
-//             ),
-//             Text("\$1000", style: TextStyle(color: Colors.grey[600])),
-//           ],
-//         ),
-//       ],
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:recomindweb/core/theme.dart';
 
-// ignore: must_be_immutable
 class SliderFilter extends StatefulWidget {
   SliderFilter({super.key, required this.rangeValues});
 

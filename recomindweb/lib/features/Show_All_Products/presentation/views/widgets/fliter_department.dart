@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Show_All_Products/presentation/views/widgets/slider_filter.dart';
 
-// ignore: must_be_immutable
 class FilterDepartment extends StatefulWidget {
   FilterDepartment({super.key, required this.price, required this.categories});
 
@@ -85,7 +84,7 @@ class _FilterDepartmentState extends State<FilterDepartment> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                          "فلترة بسعر ${widget.price} وأنواع: ${selectedCategories.join(', ')}",
+                          "filter price ${widget.price} type: ${selectedCategories.join(', ')}",
                         ),
                       ),
                     );
