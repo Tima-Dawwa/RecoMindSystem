@@ -11,12 +11,19 @@ import 'package:recomindweb/features/Authentication/view%20model/forget%20passwo
 import 'package:recomindweb/features/Authentication/view%20model/forget_password_services.dart';
 import 'package:recomindweb/features/Cart/view%20model/cart_service.dart';
 import 'package:recomindweb/features/Cart/view%20model/cubit/cart_cubit.dart';
+<<<<<<< HEAD
 import 'package:recomindweb/features/ChatBot/view%20model/chatBot_services.dart';
 import 'package:recomindweb/features/ChatBot/view%20model/chatbot_cubit.dart';
+=======
+import 'package:recomindweb/features/Favourites/view%20model/cubit/favourites_cubit.dart';
+import 'package:recomindweb/features/Favourites/view%20model/favourites_service.dart';
+>>>>>>> hamzati
 import 'package:recomindweb/features/Home/view%20model/cubit/home_cubit.dart';
 import 'package:recomindweb/features/Home/view%20model/home_service.dart';
 import 'package:recomindweb/features/Orders/view%20model/cubit/orders_cubit.dart';
 import 'package:recomindweb/features/Orders/view%20model/orders_services.dart';
+import 'package:recomindweb/features/Show_All_Products/view%20model/all_products_service.dart';
+import 'package:recomindweb/features/Show_All_Products/view%20model/cubit/all_products_cubit.dart';
 import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_cubit.dart';
 import 'package:recomindweb/features/product_details/view%20model/product_details_service.dart';
 
@@ -51,6 +58,13 @@ class MyApp extends StatelessWidget {
                   ProductDetailsCubit(getIt.get<ProductDetailsService>()),
         ),
         BlocProvider(create: (context) => CartCubit(getIt.get<CartService>())),
+        BlocProvider(
+          create:
+              (context) => AllProductsCubit(getIt.get<AllProductsService>()),
+        ),
+        BlocProvider(
+          create: (context) => FavouritesCubit(getIt.get<FavouritesService>()),
+        ),
       ],
       child: GetMaterialApp(
         getPages: routes,
