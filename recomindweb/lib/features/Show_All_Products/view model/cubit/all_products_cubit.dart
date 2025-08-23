@@ -6,9 +6,9 @@ class AllProductsCubit extends Cubit<AllProductsState>{
   final AllProductsService allProductsService;
   AllProductsCubit(this.allProductsService) : super(AllProductsInitialState());
 
-   Future<void> getCart() async {
+   Future<void> getAllProducts() async {
     emit(AllProductsLoadingState());
-    var response = await allProductsService.getAllProducts(limit, page);
+    var response = await allProductsService.getAllProducts(10, 1);
     response.fold(
       (failure) {
         emit(AllProductsFailureState(failure: failure));

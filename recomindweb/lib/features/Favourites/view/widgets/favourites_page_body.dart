@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:recomindweb/features/Cart/view/widgets/left_panel.dart';
-import 'package:recomindweb/features/Cart/view/widgets/right_panel.dart';
+import 'package:recomindweb/features/Favourites/model/favourites_model.dart';
+import 'package:recomindweb/features/Favourites/view/widgets/favourites_content.dart';
 
 class FavouritesPageBody extends StatefulWidget {
   const FavouritesPageBody({
@@ -9,7 +9,7 @@ class FavouritesPageBody extends StatefulWidget {
     required this.favouritesItems,
     required this.desktop,
   });
-  final List<CartModel> favouritesItems;
+  final List<FavouritesModel> favouritesItems;
   final bool desktop;
 
   @override
@@ -25,8 +25,7 @@ class _FavouritesPageBodyState extends State<FavouritesPageBody> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            LeftPanel(cartItems: widget.cartItems),
-            Rightpanel(cartItems: widget.cartItems , desktop: true,),
+            FavouritesContent(favouritesItems: widget.favouritesItems),
           ],
         ),
       );
@@ -35,8 +34,7 @@ class _FavouritesPageBodyState extends State<FavouritesPageBody> {
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
-            LeftPanel(cartItems: widget.cartItems),
-            Rightpanel(cartItems: widget.cartItems , desktop: false,),
+            FavouritesContent(favouritesItems: widget.favouritesItems),
           ],
         ),
       );

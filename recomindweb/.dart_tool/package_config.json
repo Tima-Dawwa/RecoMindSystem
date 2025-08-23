@@ -434,18 +434,6 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "socket_io_client",
-      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/socket_io_client-3.1.2",
-      "packageUri": "lib/",
-      "languageVersion": "3.0"
-    },
-    {
-      "name": "socket_io_common",
-      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/socket_io_common-3.1.1",
-      "packageUri": "lib/",
-      "languageVersion": "3.0"
-    },
-    {
       "name": "source_span",
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/source_span-1.10.1",
       "packageUri": "lib/",
@@ -572,7 +560,7 @@
       "languageVersion": "3.7"
     }
   ],
-  "generated": "2025-08-23T09:27:57.246695Z",
+  "generated": "2025-08-23T12:16:34.199566Z",
   "generator": "pub",
   "generatorVersion": "3.7.2",
   "flutterRoot": "file:///C:/dev/flutter",

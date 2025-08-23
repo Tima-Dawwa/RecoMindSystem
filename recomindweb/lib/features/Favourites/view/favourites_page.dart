@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/Widgets/custom_loading.dart';
 import 'package:recomindweb/core/responsive_layout.dart';
-import 'package:recomindweb/features/Cart/view%20model/cubit/cart_cubit.dart';
-import 'package:recomindweb/features/Cart/view%20model/cubit/cart_state.dart';
+import 'package:recomindweb/features/Favourites/model/favourites_model.dart';
 import 'package:recomindweb/features/Favourites/view%20model/cubit/favourites_cubit.dart';
 import 'package:recomindweb/features/Favourites/view%20model/cubit/favourites_state.dart';
 import 'package:recomindweb/features/Favourites/view/widgets/favourites_page_body.dart';
@@ -30,8 +29,8 @@ class _FavouritesPageState extends State<FavouritesPage> {
           if (state is FavouritesLoadingState) {
             return Center(child: CustomLoading());
           } else if (state is FavouritesSuccessState) {
-            List<CartModel> favouritesItems =
-                BlocProvider.of<FavouritesCubit>(context).FavouritesItems;
+            List<FavouritesModel> favouritesItems =
+                BlocProvider.of<FavouritesCubit>(context).favouritesItems;
             return
             ResponsiveLayout(
               mobileBody: FavouritesPageBody(favouritesItems: favouritesItems , desktop: false,),

@@ -2,7 +2,7 @@ var path = require('path');
 const crypto = require('crypto');
 const { userData } = require('./users.serializer');
 const { validationErrors } = require('../../../middlewares/validationErrors')
-const { putName, putGender, putDate, putProfilePic, getProfile, putLocation, putPassword, deleteAccount, putPhoneNumber } = require('../../../models/users.model');
+const { putName, putGender, putDate, putProfilePic, getUserById, putLocation, putPassword, deleteAccount, putPhoneNumber } = require('../../../models/users.model');
 const { validateChangeName, validateChangeGender, validateChangeDate, validateChangeLocation, validateChangePassword, validateDeleteAccount, validateChangePhoneNumber, validateCheckTokenToDelete } = require('./users.validation');
 const { postRequest, deleteRequests } = require('../../../models/code_confirmation.model');
 const { confirmTokenHelper } = require('../Auth/auth.helper');
@@ -11,7 +11,7 @@ const sendMail = require('../../../services/sendMail');
 async function httpGetProfile(req, res) {
     const user = req.user;
     if (!user) return res.status(400).json({ message: 'User Not Found' })
-    const profile = await getProfile(user._id);
+    const profile = await getUserById(user._id);
     return res.status(200).json({
         message: 'Profile Retreived',
         profile: userData(profile)
@@ -68,7 +68,7 @@ async function httpPutLocation(req, res) {
     }
     const user = req.user;
     if (!user) return res.status(400).json({ message: 'User Not Found' })
-    const { location } = await putLocation(user, { city: req.body.city, country: req.body.countDocumentsry });
+    const { location } = await putLocation(user, { city: req.body.city, country: req.body.country });
     return res.status(200).json({
         message: 'Location Changed',
         location
@@ -147,7 +147,6 @@ async function httpDeleteAccount(req, res) {
 
     return res.status(200).json({ message: 'Account Has Been Deleted' })
 }
-
 
 module.exports = {
     httpPutName,

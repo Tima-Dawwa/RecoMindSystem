@@ -3,7 +3,7 @@ const Favorite = require('./favorites.mongo');
 
 async function getFavorites(user_id, skip, limit) {
     return await Favorite.findOne({ user_id })
-        .populate('products_id', 'name type price discounted_price department')
+        .populate('products_id', 'name type price discounted_price department images')
         .skip(skip).limit(limit);
 }
 

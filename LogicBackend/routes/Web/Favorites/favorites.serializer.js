@@ -7,7 +7,8 @@ function productData(product) {
         is_discounted: (product.price - product.discounted_price) > 0,
         department: product.department,
         isNew: product.isNew,
-        isTrend: product.isTrend
+        isTrend: product.isTrend,
+        image: product.images[0]
     }
 }
 
