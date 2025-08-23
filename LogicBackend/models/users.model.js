@@ -9,7 +9,7 @@ async function getUserByEmail(email) {
 }
 
 async function getUserById(_id) {
-    return await User.find({ _id })
+    return await User.findOne({ _id })
 }
 
 async function deleteAccount(user_id) {
@@ -47,6 +47,11 @@ async function putLocation(user, location) {
     return await user.save();
 }
 
+async function putProfilePic(user, profile_pic) {
+    user.profile_pic = "/images/users/" + profile_pic;
+    return await user.save();
+}
+
 
 module.exports = {
     postUser,
@@ -58,5 +63,6 @@ module.exports = {
     putLocation,
     deleteAccount,
     getUserById,
+    putProfilePic,
     getUserByEmail
 }
