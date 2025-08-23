@@ -42,13 +42,16 @@ TRAINED_CATEGORIES = {
 async def get_all_products() -> List[Product]:
     cursor = product_collection.find({
         "type": {"$in": list(TRAINED_CATEGORIES)}
-    })
+    }, {"images": 1, "details": 1})
+
     products = []
     async for doc in cursor:
         images_array = doc.get('images', [])
         if images_array:
             products.append(
-                Product(id=str(doc["_id"]), images=images_array[0]))
+                Product(id=str(doc["_id"]), images=images_array[0],
+                        details=doc.get('details', ''))
+            )
     return products
 
 
@@ -80,7 +83,7 @@ async def encode_and_save_batches():
 
     if os.path.exists(INDEX_FILE) and os.path.exists(METADATA_FILE):
         retriever.load_index(INDEX_FILE, METADATA_FILE)
-        start_idx = len(retriever.products)
+        start_idx = len(retriever.products) // 2
         print(f"Resuming from product {start_idx}")
     else:
         retriever.index = None
@@ -93,10 +96,12 @@ async def encode_and_save_batches():
             IMAGE_FOLDER, p.images.lstrip('/')) for p in batch]
 
         images, valid_indices = await load_images_async(image_paths)
+        descriptions = [batch[i].details for i in valid_indices]
         batch_metadata = [{'product_id': batch[i].id} for i in valid_indices]
 
         if images:
-            retriever.add_batch_to_index(images, batch_metadata)
+            retriever.add_batch_to_index(
+                images, descriptions, batch_metadata)
             retriever.save_index(INDEX_FILE, METADATA_FILE)
             print(
                 f"Batch {start}-{start+len(batch)} saved. Valid images: {len(images)}/{len(batch)}")

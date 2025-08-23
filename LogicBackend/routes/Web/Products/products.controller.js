@@ -9,6 +9,7 @@ const { getProducts, getProductById, getProductsCount, getProductsByIds, increme
 const { getProductInteractions, postInteraction, checkRating, updateRatingInteraction } = require('../../../models/interactions.model');
 const { INTERACTION_TYPES } = require('../../../public/constants/interaction')
 const { checkFavorite } = require("../../../models/favorites.model");
+
 // Done
 async function httpGetAllProducts(req, res) {
   const { skip, limit } = getPagination(req.query)
