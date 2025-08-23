@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recomindweb/features/Favourites/model/favourites_model.dart';
 import 'package:recomindweb/features/Favourites/view%20model/cubit/favourites_state.dart';
 import 'package:recomindweb/features/Favourites/view%20model/favourites_service.dart';
 
@@ -6,7 +7,7 @@ class FavouritesCubit extends Cubit<FavouritesState> {
   final FavouritesService favouritesService;
   FavouritesCubit(this.favouritesService) : super(FavouritesInitialState());
 
-  List FavouritesItems = [];
+  List<FavouritesModel> favouritesItems = [];
 
   Future<void> getFavourites() async {
     emit(FavouritesState());
@@ -16,16 +17,16 @@ class FavouritesCubit extends Cubit<FavouritesState> {
         emit(FavouritesFailureState(failure: failure));
       },
       (res) {
-        // cartItems = [];
-        // for (var i = 0; i < res['data'].length; i++) {
-        //   cartItems.add(CartModel.fromJson(res["data"][i]));
-        // }
+         favouritesItems = [];
+         for (var i = 0; i < res['data'].length; i++) {
+           favouritesItems.add(FavouritesModel.fromjson(res['data'][i]));
+         }
         emit(FavouritesSuccessState());
       },
     );
   }
 
-  Future<void> removeFromFavourites(String id) async {
+  Future<void> removeFromFavourites({ required String id}) async {
     emit(FavouritesState());
     var response = await favouritesService.removeFromFavourites(id);
     response.fold(
@@ -33,10 +34,6 @@ class FavouritesCubit extends Cubit<FavouritesState> {
         emit(FavouritesFailureState(failure: failure));
       },
       (res) {
-        // cartItems = [];
-        // for (var i = 0; i < res['data'].length; i++) {
-        //   cartItems.add(CartModel.fromJson(res["data"][i]));
-        // }
         emit(FavouritesSuccessState());
       },
     );

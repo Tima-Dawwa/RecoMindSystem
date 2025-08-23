@@ -15,8 +15,13 @@ String token= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg3Njg2ZmVhYzc2YjY4
       '$baseUrl$endPoint',
       options: Options(
         headers: {
+<<<<<<< HEAD
           'Authorization': 'Bearer $token',
           "ngrok-skip-browser-warning": "true",
+=======
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YTk5NDIyMDdhZjQ5YzViZTE5YjY2NCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJEb2UifSwiaWF0IjoxNzU1OTQzOTcwLCJleHAiOjE3NTYyMDMxNzB9.GszHj5iFuC3SHznlqGs7uhndZI2SH82K1xQIHhSy3Zg',
+          // "ngrok-skip-browser-warning": "true",
+>>>>>>> 8f1f183 (connect fav with back)
         },
       ),
     );
