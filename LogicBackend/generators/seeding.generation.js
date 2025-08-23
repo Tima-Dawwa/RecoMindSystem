@@ -1,6 +1,7 @@
 const { faker } = require('@faker-js/faker')
 const User = require('../models/users.mongo')
 const Product = require('../models/products.mongo')
+const Favorite = require('../models/favorites.mongo')
 const bcrypt = require('bcryptjs');
 const locations = require('../public/json/countries-all.json')
 const numbers = require('../public/json/phone_number.json')
@@ -31,6 +32,7 @@ async function createUsers(count = 1000) {
             city: tempCity
         }
         const date_of_birth = faker.date.birthdate({ min: 18, max: 65, mode: 'age' })
+        const profile_pic = '/images/default_profile.jpg';
         const data = {
             _id,
             name,
@@ -39,7 +41,8 @@ async function createUsers(count = 1000) {
             password,
             location,
             gender,
-            date_of_birth
+            date_of_birth,
+            profile_pic
         }
         data1.push(data)
     }
@@ -259,6 +262,52 @@ async function createAdmins() {
     await Admins.create(admins)
 }
 
+async function createFavorites() {
+    try {
+        const users = await User.find({}, '_id').lean();
+        const products = await Product.find({}, '_id').lean();
+
+        if (!users.length || !products.length) {
+            console.log('Need both users and products in database');
+            return;
+        }
+
+        // Check if favorites already exist to avoid duplicates
+        const existingFavorites = await Favorite.find({}, 'user_id').lean();
+        const existingUserIds = existingFavorites.map(fav => fav.user_id.toString());
+
+        const favoritesData = [];
+
+        for (const user of users) {
+            if (existingUserIds.includes(user._id.toString())) {
+                continue;
+            }
+
+            const numberOfFavorites = Math.floor(Math.random() * 5) + 2;
+
+            const shuffledProducts = [...products].sort(() => 0.5 - Math.random());
+            const selectedProducts = shuffledProducts.slice(0, Math.min(numberOfFavorites, products.length));
+
+            const favorite = {
+                user_id: user._id,
+                products_id: selectedProducts.map(product => product._id)
+            };
+
+            favoritesData.push(favorite);
+        }
+
+        if (favoritesData.length > 0) {
+            await Favorite.insertMany(favoritesData);
+            console.log(`Created favorites for ${favoritesData.length} users`);
+        } else {
+            console.log('All users already have favorites');
+        }
+
+    } catch (error) {
+        console.error('Error creating favorites:', error);
+    }
+}
+
 
 // async function createNotifications() {
 //     let data = []
@@ -331,6 +380,7 @@ module.exports = {
     createProducts,
     createInteractions,
     updateAllProductAggregates,
-    createAdmins
+    createAdmins,
+    createFavorites
     // createNotifications
 }

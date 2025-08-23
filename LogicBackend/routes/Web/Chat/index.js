@@ -104,7 +104,7 @@ async function socketFunctionality(io, socket) {
             let userMessage = {
                 senderType: 'user',
                 content: message || '',
-                image: processedImage ? `${process.env.URL}/${processedImage}` : null,
+                image: processedImage ? `${process.env.URL}/images/chats/${processedImage}` : null,
                 timestamp: new Date()
             };
 
@@ -115,7 +115,7 @@ async function socketFunctionality(io, socket) {
                 timestamp: userMessage.timestamp,
                 senderType: 'user',
                 from_me: true,
-                image: processedImage ? `${process.env.URL}/${processedImage}` : null
+                image: processedImage ? `${process.env.URL}/images/chats/${processedImage}` : null
             });
 
             try {
