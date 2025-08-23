@@ -49,24 +49,32 @@ class FashionRetriever:
         print(f"Index type: {type(self.index).__name__}")
     # ------------------------------------------------- #
 
-    def add_batch_to_index(self, images: List[Image.Image], metadata: List[dict]):
+    def add_batch_to_index(self, images: List[Image.Image], descriptions: List[str], metadata: List[dict]):
         with torch.no_grad():
             with torch.amp.autocast('cuda'):
                 img_emb = self.model.encode_image(images)
+                text_emb = self.model.encode_text(
+                    descriptions)
 
             img_emb = img_emb.cpu().numpy().astype('float32')
+            text_emb = text_emb.cpu().numpy().astype('float32')
 
-        if img_emb.shape[0] != len(metadata):
-            raise ValueError(
-                f"Embedding count {img_emb.shape[0]} != metadata count {len(metadata)}"
-            )
+        all_embeddings = []
+        all_metadata = []
+        for i in range(len(images)):
+            all_embeddings.append(img_emb[i])
+            all_embeddings.append(text_emb[i])
+            all_metadata.append(metadata[i])
+            all_metadata.append(metadata[i])
+
+        all_embeddings = np.array(all_embeddings).astype('float32')
 
         if self.index is None:
-            self._build_faiss_index(img_emb, index_type='flat')
-            self.products = metadata.copy()
+            self._build_faiss_index(all_embeddings, index_type='flat')
+            self.products = all_metadata.copy()
         else:
-            self.index.add(img_emb)
-            self.products.extend(metadata)
+            self.index.add(all_embeddings)
+            self.products.extend(all_metadata)
 
     # ------------------------------------------------- #
 
