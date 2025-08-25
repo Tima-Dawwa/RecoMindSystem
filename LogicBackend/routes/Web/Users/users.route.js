@@ -19,5 +19,4 @@ userRouter.put('/password', requireJwtAuth, asyncHandler(httpPutPassword))
 userRouter.post('/request-delete-account', requireJwtAuth, asyncHandler(httpRequestDeleteAccount))
 userRouter.delete('/delete-account', requireJwtAuth, asyncHandler(httpDeleteAccount))
 
-
 module.exports = userRouter

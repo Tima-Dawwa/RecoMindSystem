@@ -4,7 +4,6 @@ const fs = require('fs');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        // Set static category based on the field name or route
         let category = 'default';
         
         if (file.fieldname === 'profile_pic') {

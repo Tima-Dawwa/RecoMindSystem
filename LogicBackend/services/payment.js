@@ -4,16 +4,14 @@ const URL = process.env.URL;
 function createPaymentData(cart, amount, type) {
     const currency = 'USD';
 
-    // Transform cart items into PayPal-compatible items
     const items = cart.items.map(item => ({
-        name: item.product.name || `Product ${item.product._id}`, // Fallback if no name
-        sku: item.product._id.toString(), // Use product ID as SKU
-        price: item.price.toFixed(2), // PayPal requires string with 2 decimals
+        name: item.product.name || `Product ${item.product._id}`,
+        sku: item.product._id.toString(),
+        price: item.price.toFixed(2), 
         currency: currency,
         quantity: item.quantity
     }));
 
-    // Calculate total amount (redundant if your cart schema already has total_price)
     const total = cart.total_price.toFixed(2);
     const payment_data = {
         "intent": "sale",

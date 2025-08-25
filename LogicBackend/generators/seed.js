@@ -4,7 +4,6 @@ const { createUsers, createProducts, createInteractions, updateAllProductAggrega
 async function seedDB() {
     await mongoConnect();
 
-    // Delete All Tables
     console.log('Dropping Database')
     await dropDatabase()
 

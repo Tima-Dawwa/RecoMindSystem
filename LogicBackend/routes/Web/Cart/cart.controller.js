@@ -28,7 +28,7 @@ async function httpAddToCart(req, res) {
     await postInteraction(req.user.id, req.params.id, INTERACTION_TYPES.CART_ADD)
     await incrementInteractionCount(req.params.id, INTERACTION_TYPES.CART_ADD)
 
-    return res.status(200).json({ error: 'Product Added To Cart' })
+    return res.status(200).json({ message: 'Product Added To Cart' })
 }
 
 // Done

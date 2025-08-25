@@ -28,7 +28,6 @@ passport.use(new JwtStrategy(opts, async (req, jwt_payload, done) => {
                 return done(null, admin);
             }
             return done(null, false);
-            // or you could create a new account
         }
     } catch (err) {
         return done(err, false);
