@@ -27,7 +27,7 @@ retriever = FashionRetriever(model, device)
 executor = ThreadPoolExecutor(max_workers=MAX_WORKERS)
 
 
-# ----------------- HELPERS ----------------- #
+# ----------------------------------
 TRAINED_CATEGORIES = {
     'Trousers', 'Dress', 'Sweater', 'T-shirt', 'Top', 'Blouse',
     'Jacket', 'Shorts', 'Shirt', 'Vest top', 'Skirt', 'Hoodie',
@@ -77,7 +77,7 @@ async def load_images_async(paths: List[str]) -> Tuple[List[Image.Image], List[i
     return valid_images, valid_indices
 
 
-# ----------------- MAIN BATCH PROCESS ----------------- #
+# ---------------------------------- (initial)
 async def encode_and_save_batches():
     products = await get_all_products()
 
@@ -110,7 +110,7 @@ async def encode_and_save_batches():
             torch.cuda.empty_cache()
 
 
-# ----------------- SEARCH FUNCTION ----------------- #
+# ---------------------------------- (main function used in back)
 def get_chatbot_recommendations(query_image=None, query_text=None, top_k=5):
     if query_image and query_text:
         results = retriever.search_by_image_and_text(
@@ -125,6 +125,6 @@ def get_chatbot_recommendations(query_image=None, query_text=None, top_k=5):
     return [res['product'].get('product_id') for res in results]
 
 
-# ----------------- ENTRY POINT ----------------- #
+# ---------------------------------- (here run only once)
 if __name__ == "__main__":
     asyncio.run(encode_and_save_batches())
