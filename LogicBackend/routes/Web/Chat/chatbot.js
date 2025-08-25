@@ -7,8 +7,7 @@ async function getChatbotResponse({ message, image, userId }) {
         "http://127.0.0.1:8000/chatbot",
         {
             message: message,
-            image: image,
-            userId: userId
+            image: image
         }
     );
     return {
