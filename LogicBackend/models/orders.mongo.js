@@ -15,7 +15,7 @@ const orderSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['prepare', 'delevery'],
+        enum: ['prepare', 'delivery'],
         default: 'prepare',
         required: true
     }

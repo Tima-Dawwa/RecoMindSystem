@@ -52,9 +52,9 @@ async function httpUpdateOrderStatus(req, res) {
         const { orderId } = req.params;
         const { status } = req.body;
 
-        if (!status || !['breaber', 'delevery'].includes(status)) {
+        if (!status || !['prepare', 'delivery'].includes(status)) {
             return res.status(400).json({
-                message: "Invalid status. Must be either 'breaber' or 'delevery'"
+                message: "Invalid status. Must be either 'prepare' or 'delivery'"
             });
         }
 

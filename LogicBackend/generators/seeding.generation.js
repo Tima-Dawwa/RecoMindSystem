@@ -72,7 +72,6 @@ async function createProducts() {
                 const imageNumber = "0" + row.article_id;
                 const imagePath = path.join(__dirname, '../public/images/products', folderNumber, `${imageNumber}.jpg`);
 
-                // Only include product if the image exists
                 if (!fs.existsSync(imagePath)) return;
 
                 const price = parseFloat(faker.commerce.price({ min: 10, max: 300 }));
@@ -272,7 +271,6 @@ async function createFavorites() {
             return;
         }
 
-        // Check if favorites already exist to avoid duplicates
         const existingFavorites = await Favorite.find({}, 'user_id').lean();
         const existingUserIds = existingFavorites.map(fav => fav.user_id.toString());
 

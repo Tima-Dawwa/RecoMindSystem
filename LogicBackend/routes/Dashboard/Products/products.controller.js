@@ -9,9 +9,6 @@ const { getProductRatings } = require('../../../models/interactions.model');
 // done
 async function httpGetAllProducts(req, res) {
     const { skip, limit } = getPagination(req.query)
-    // req.query.name
-    // req.query.gender
-    console.log(req.query)
     const { name, gender } = req.query
     const filters = {
         name: name,
