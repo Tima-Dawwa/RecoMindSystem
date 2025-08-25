@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:recomindweb/features/Authentication/view/login_page.dart';
 import 'package:recomindweb/features/Authentication/view/register_page.dart';
 import 'package:recomindweb/features/Cart/view/cart_page.dart';
-import 'package:recomindweb/features/ChatBot/chatbot.dart';
 import 'package:recomindweb/features/Authentication/view/forget_password.dart';
 import 'package:recomindweb/features/Favourites/view/favourites_page.dart';
 import 'package:recomindweb/features/Orders/views/order_details.dart';
@@ -11,11 +10,7 @@ import 'package:recomindweb/features/Show_All_Products/presentation/views/all_pr
 // import 'package:recomindweb/features/product_details/view/product_details_page.dart';
 
 List<GetPage> routes = [
-<<<<<<< HEAD
-  GetPage(name: '/', page: () => ChatPage()),
-=======
-  GetPage(name: '/', page: () => FavouritesPage()),
->>>>>>> 8f1f183 (connect fav with back)
+  GetPage(name: '/', page: () => CartPage()),
 
   GetPage(name: '/login', page: () => LoginPage()),
   GetPage(name: '/register', page: () => RegisterPage()),
@@ -30,10 +25,5 @@ List<GetPage> routes = [
   GetPage(name: '/order_details', page: () => OrderDetailsPage()),
 
   GetPage(name: '/cart', page: () => CartPage()),
-<<<<<<< HEAD
-=======
   GetPage(name: '/favourites', page: () => FavouritesPage()),
-
-
->>>>>>> 8f1f183 (connect fav with back)
 ];

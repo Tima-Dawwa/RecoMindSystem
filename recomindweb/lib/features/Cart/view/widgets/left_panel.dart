@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Cart/model/cart_model.dart';
+import 'package:recomindweb/features/Cart/view%20model/cubit/cart_cubit.dart';
 import 'package:recomindweb/features/Cart/view/widgets/cart_item_card.dart';
 
 class LeftPanel extends StatefulWidget {
@@ -113,9 +115,7 @@ class _LeftPanelState extends State<LeftPanel> {
             ),
             TextButton(
               onPressed: () {
-                setState(() {
-                  widget.cartItems.removeAt(index);
-                });
+                BlocProvider.of<CartCubit>(context).removeFromCart(index);
                 Navigator.pop(context); // Close dialog
               },
               child: const Text('Yes', style: TextStyle(color: Colors.red)),

@@ -12,3 +12,13 @@ class CartFailureState extends CartStates {
   final Failure failure;
   CartFailureState({required this.failure});
 }
+
+class RemoveFromCartSuccessState extends CartStates {
+  final String message;
+  RemoveFromCartSuccessState({required this.message});
+}
+
+class RemoveFromCartFailureState extends CartStates {
+  final Failure failure;
+  RemoveFromCartFailureState({required this.failure});
+}

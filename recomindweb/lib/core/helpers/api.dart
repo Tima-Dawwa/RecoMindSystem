@@ -6,22 +6,18 @@ import 'package:recomindweb/features/Authentication/view%20model/auth_service.da
 class Api {
   Api(this._dio);
   final Dio _dio;
-  final String baseUrl = 'https://f4b82fe1a1ff.ngrok-free.app';
+  final String baseUrl = 'https://0cba4fd215ba.ngrok-free.app';
 
-String token= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg3Njg2ZmVhYzc2YjY4YjIwYjdlYWU0ZiIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkphbmUiLCJsYXN0X25hbWUiOiJZdW5kdCJ9LCJpYXQiOjE3NTQ1ODQwOTUsImV4cCI6MTc1NDg0MzI5NX0.dbkkO6lPSUcZM-cgRZi4WKsj_dzNfnD_PUDLCFwJ0ew";
+  String token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNiYWVmYTA3MWNkZGM4ODE2ZmI4NmJjNiIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkRhbmllbGxhIiwibGFzdF9uYW1lIjoiTWFjZWprb3ZpYyJ9LCJpYXQiOjE3NTYxMzA0OTIsImV4cCI6MTc1NjM4OTY5Mn0.DOVVH51HHODD5c6UUUJEgl7f-hg5Aof69s6P_yl2mmE";
 
   Future<Map<String, dynamic>> get({required String endPoint}) async {
     var response = await _dio.get(
       '$baseUrl$endPoint',
       options: Options(
         headers: {
-<<<<<<< HEAD
           'Authorization': 'Bearer $token',
           "ngrok-skip-browser-warning": "true",
-=======
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YTk5NDIyMDdhZjQ5YzViZTE5YjY2NCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJEb2UifSwiaWF0IjoxNzU1OTQzOTcwLCJleHAiOjE3NTYyMDMxNzB9.GszHj5iFuC3SHznlqGs7uhndZI2SH82K1xQIHhSy3Zg',
-          // "ngrok-skip-browser-warning": "true",
->>>>>>> 8f1f183 (connect fav with back)
         },
       ),
     );

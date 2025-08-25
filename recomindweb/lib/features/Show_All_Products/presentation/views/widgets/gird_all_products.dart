@@ -1,11 +1,11 @@
-// import 'package:flutter/material.dart';
-// import 'package:recomindweb/core/Widgets/ProductCard/product_card.dart';
-// import 'package:recomindweb/features/ChatBot/Model/product.dart';
+import 'package:flutter/material.dart';
+import 'package:recomindweb/core/Widgets/ProductCard/product_card.dart';
+import 'package:recomindweb/features/ChatBot/Model/product.dart';
 
-// class GridAllProducts extends StatelessWidget {
-//   const GridAllProducts({super.key, required this.price});
+class GridAllProducts extends StatelessWidget {
+  const GridAllProducts({super.key, required this.price});
 
-//   final double price;
+  final double price;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@
         rating: 4.0 + (index % 2 == 0 ? 0.5 : 0.0),
         imageUrl: 'assets/main_image.jpg',
         gender: 'male',
-        category: 'ss',
+        category: 'ss', isFavorite: true, isTrending: true, tagType: '',
       ),
     );
 

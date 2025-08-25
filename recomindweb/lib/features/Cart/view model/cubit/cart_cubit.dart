@@ -26,16 +26,16 @@ class CartCubit extends Cubit<CartStates> {
     );
   }
 
-  Future<void> removeFromCart(String id) async {
+  Future<void> removeFromCart(int id) async {
     emit(CartLoadingState());
     var response = await cartService.removeFromCart(id);
     response.fold(
       (failure) {
-        emit(CartFailureState(failure: failure));
+        emit(RemoveFromCartFailureState(failure: failure));
       },
       (res) {
         messageDeleted = res['message'];
-        emit(CartSuccessState());
+        emit(RemoveFromCartSuccessState(message: messageDeleted!));
       },
     );
   }
