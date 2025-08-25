@@ -24,17 +24,27 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<CartCubit, CartStates>(
+      body: BlocConsumer<CartCubit, CartStates>(
+        listener: (context, state) {
+          if (state is RemoveFromCartSuccessState) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
+          } else if (state is RemoveFromCartFailureState) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.failure.errMessage)));
+          }
+        },
         builder: (context, state) {
           if (state is CartLoadingState) {
             return Center(child: CustomLoading());
-          } else if (state is CartSuccessState) {
+          } else if (state is CartSuccessState || state is RemoveFromCartSuccessState) {
             List<CartModel> cartItems =
                 BlocProvider.of<CartCubit>(context).cartItems;
-            return
-            ResponsiveLayout(
-              mobileBody: CartPageBody(cartItems: cartItems , desktop: false,),
-              desktopBody: CartPageBody(cartItems: cartItems , desktop: true,),
+            return ResponsiveLayout(
+              mobileBody: CartPageBody(cartItems: cartItems, desktop: false),
+              desktopBody: CartPageBody(cartItems: cartItems, desktop: true),
             );
           } else {
             return Text("Failure");
@@ -48,3 +58,5 @@ class _CartPageState extends State<CartPage> {
     await BlocProvider.of<CartCubit>(context).getCart();
   }
 }
+
+

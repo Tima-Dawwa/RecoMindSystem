@@ -5,19 +5,19 @@ class CartItemCard extends StatelessWidget {
   final String name;
   final String imageUrl;
   final double price;
-  final int quantity;
+  late int quantity;
   final String color;
   final String department;
   final VoidCallback onIncrease;
   final VoidCallback onDecrease;
   final VoidCallback onDelete;
 
-  const CartItemCard({
+   CartItemCard({
     super.key,
     required this.name,
     required this.imageUrl,
     required this.price,
-    required this.quantity,
+     required this.quantity,
     required this.onIncrease,
     required this.onDecrease,
     required this.onDelete,
@@ -44,7 +44,11 @@ class CartItemCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.network(
-                imageUrl,
+                
+                "https://0cba4fd215ba.ngrok-free.app${imageUrl}" ,
+                headers: {
+                  "ngrok-skip-browser-warning": "true",
+                },
                 width: 100,
                 height: 100,
                 fit: BoxFit.cover,
