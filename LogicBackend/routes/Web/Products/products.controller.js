@@ -3,10 +3,10 @@ const { getPagination } = require('../../../services/query');
 const { validateProductRating } = require('./products.validation');
 const { normalizeBool, getCategory } = require('./products.helper');
 const { serializedData } = require('../../../services/serializeArray');
-const { productData, productDetailsData, interactionData, productDataRecommendations } = require('./products.serializer');
+const { productData, productDetailsData, productDataRecommendations } = require('./products.serializer');
 const { validationErrors } = require('../../../middlewares/validationErrors')
 const { getProducts, getProductById, getProductsCount, getProductsByIds, incrementInteractionCount, incrementRatingCount, applyChangedRatingToProduct } = require('../../../models/products.model');
-const { getProductInteractions, postInteraction, checkRating, updateRatingInteraction } = require('../../../models/interactions.model');
+const { getProductInteractions, postInteraction } = require('../../../models/interactions.model');
 const { INTERACTION_TYPES } = require('../../../public/constants/interaction')
 const { checkFavorite } = require("../../../models/favorites.model");
 

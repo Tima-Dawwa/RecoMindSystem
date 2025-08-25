@@ -94,8 +94,8 @@ async function getTrendingProductIds(threshold = 10, withinDays = 3) {
 }
 
 async function updateOrderStatus(orderId, newStatus) {
-    if (!['breaber', 'delevery'].includes(newStatus)) {
-        throw new Error('Invalid status. Must be either "breaber" or "delevery"');
+    if (!['prepare', 'delivery'].includes(newStatus)) {
+        throw new Error('Invalid status. Must be either "prepare" or "delivery"');
     }
 
     return await Order.findByIdAndUpdate(

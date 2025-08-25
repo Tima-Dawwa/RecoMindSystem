@@ -1,7 +1,6 @@
 const admin = require('firebase-admin');
 require('dotenv').config();
 
-// Add User Notification Save To DB 
 async function sendPushNotification(title, body, token, type = 'MESSAGE', data = {}) {
     let temp = [];
     if (token.length == 0) return
