@@ -19,25 +19,17 @@ class FavouritesPageBody extends StatefulWidget {
 class _FavouritesPageBodyState extends State<FavouritesPageBody> {
   @override
   Widget build(BuildContext context) {
-    if (widget.desktop) {
-      return SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            FavouritesContent(favouritesItems: widget.favouritesItems),
-          ],
-        ),
-      );
-    } else {
-      return SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          children: [
-            FavouritesContent(favouritesItems: widget.favouritesItems),
-          ],
-        ),
-      );
-    }
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          FavouritesContent(
+            favouritesItems: widget.favouritesItems,
+            desktop: widget.desktop,
+          ),
+        ],
+      ),
+    );
   }
 }

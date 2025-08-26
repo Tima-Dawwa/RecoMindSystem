@@ -24,17 +24,31 @@ class _FavouritesPageState extends State<FavouritesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<FavouritesCubit, FavouritesState>(
+      body: BlocConsumer<FavouritesCubit, FavouritesState>(
+        listener: (context, state) {
+          if (state is RemoveFavouritesSuccessState) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
+          }
+        },
         builder: (context, state) {
           if (state is FavouritesLoadingState) {
             return Center(child: CustomLoading());
-          } else if (state is FavouritesSuccessState) {
+          } else if (state is FavouritesSuccessState ||
+              state is RemoveFavouritesSuccessState ||
+              state is RemoveFavouritesLoadingState) {
             List<FavouritesModel> favouritesItems =
                 BlocProvider.of<FavouritesCubit>(context).favouritesItems;
-            return
-            ResponsiveLayout(
-              mobileBody: FavouritesPageBody(favouritesItems: favouritesItems , desktop: false,),
-              desktopBody: FavouritesPageBody(favouritesItems: favouritesItems , desktop: true,),
+            return ResponsiveLayout(
+              mobileBody: FavouritesPageBody(
+                favouritesItems: favouritesItems,
+                desktop: false,
+              ),
+              desktopBody: FavouritesPageBody(
+                favouritesItems: favouritesItems,
+                desktop: true,
+              ),
             );
           } else {
             return Text("Failure");

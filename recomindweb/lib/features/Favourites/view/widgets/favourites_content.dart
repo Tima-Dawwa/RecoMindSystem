@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Favourites/model/favourites_model.dart';
+import 'package:recomindweb/features/Favourites/view%20model/cubit/favourites_cubit.dart';
+import 'package:recomindweb/features/Favourites/view%20model/cubit/favourites_state.dart';
 import 'package:recomindweb/features/Favourites/view/widgets/fav_card.dart';
+import 'package:recomindweb/features/Favourites/view/widgets/fav_card_mobile.dart';
 
 class FavouritesContent extends StatefulWidget {
-  const FavouritesContent({super.key, required this.favouritesItems});
+  const FavouritesContent({
+    super.key,
+    required this.favouritesItems,
+    required this.desktop,
+  });
   final List<FavouritesModel> favouritesItems;
+  final bool desktop;
 
   @override
   State<FavouritesContent> createState() => _FavouritesContentState();
@@ -57,25 +66,54 @@ class _FavouritesContentState extends State<FavouritesContent> {
                 ),
               )
             else
-              Expanded(
-                child: ListView.builder(
-                  itemCount: widget.favouritesItems.length,
-                  itemBuilder: (context, index) {
-                    final item = widget.favouritesItems[index];
-                    return FavCard(
-                      name: item.name,
-                      imageUrl: "s",
-                      price: item.price,
-                      department: item.department,
-                      isDiscounted: item.isDiscounted,
-                      priceDiscounted: item.discountedPrice,
+              BlocBuilder<FavouritesCubit, FavouritesState>(
+                builder: (context, state) {
+                  if (state is RemoveFavouritesLoadingState) {
+                    return Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 250),
+                        child: CircularProgressIndicator(),
+                      ),
                     );
-                  },
-                ),
+                  } else {
+                    return Expanded(
+                      child: ListView.builder(
+                        itemCount: widget.favouritesItems.length,
+                        itemBuilder: (context, index) {
+                          final item = widget.favouritesItems[index];
+                          if (widget.desktop) {
+                            return FavCard(
+                              name: item.name,
+                              imageUrl:item.image,
+                              price: item.price,
+                              department: item.department,
+                              isDiscounted: item.isDiscounted,
+                              priceDiscounted: item.discountedPrice,
+                              removeFav: () => _removeFav(item.id),
+                            );
+                          }
+                          return FavCardMobile(
+                            name: item.name,
+                            imageUrl: item.image,
+                            price: item.price,
+                            department: item.department,
+                            isDiscounted: item.isDiscounted,
+                            priceDiscounted: item.discountedPrice,
+                            removeFav: () => _removeFav(item.id),
+                          );
+                        },
+                      ),
+                    );
+                  }
+                },
               ),
           ],
         ),
       ),
     );
+  }
+
+  void _removeFav(String id) {
+    BlocProvider.of<FavouritesCubit>(context).removeFromFavourites(id: id);
   }
 }

@@ -26,7 +26,7 @@ class CartService {
 
 
 
-    Future<Either<Failure, Map<String, dynamic>>> removeFromCart( int id ) async {
+    Future<Either<Failure, Map<String, dynamic>>> removeFromCart( String id ) async {
     try {
       Map<String, dynamic> response = await api.delete(endPoint: '/cart/$id', body: {});
       return right(response);
