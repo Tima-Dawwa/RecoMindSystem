@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Cart/model/cart_model.dart';
 import 'package:recomindweb/features/Cart/view%20model/cubit/cart_cubit.dart';
+import 'package:recomindweb/features/Cart/view%20model/cubit/cart_state.dart';
 import 'package:recomindweb/features/Cart/view/widgets/cart_item_card.dart';
 
 class LeftPanel extends StatefulWidget {
@@ -66,6 +67,7 @@ class _LeftPanelState extends State<LeftPanel> {
                   itemBuilder: (context, index) {
                     final item = widget.cartItems[index];
                     return CartItemCard(
+                      index: index,
                       name: item.name,
                       imageUrl: item.image,
                       price: item.price,
@@ -74,7 +76,7 @@ class _LeftPanelState extends State<LeftPanel> {
                       department: item.department,
                       onIncrease: () => _increaseQuantity(index),
                       onDecrease: () => _decreaseQuantity(index),
-                      onDelete: () => _confirmDeleteItem(index),
+                      onDelete: () => _confirmDeleteItem(item.id),
                     );
                   },
                 ),
@@ -86,41 +88,43 @@ class _LeftPanelState extends State<LeftPanel> {
   }
 
   void _increaseQuantity(int index) {
-    setState(() {
-      widget.cartItems[index].quantity++;
-    });
+    BlocProvider.of<CartCubit>(context).increaseQuantity(index);
   }
 
   void _decreaseQuantity(int index) {
-    setState(() {
-      if (widget.cartItems[index].quantity > 1) {
-        widget.cartItems[index].quantity--;
-      }
-    });
+    BlocProvider.of<CartCubit>(context).decreaseQuantity(index);
   }
 
-  void _confirmDeleteItem(int index) {
+  void _confirmDeleteItem(String id) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Delete Item'),
-          content: const Text(
-            'Are you sure you want to delete this item from the cart?',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context), // Cancel
-              child: const Text('No'),
-            ),
-            TextButton(
-              onPressed: () {
-                BlocProvider.of<CartCubit>(context).removeFromCart(index);
-                Navigator.pop(context); // Close dialog
-              },
-              child: const Text('Yes', style: TextStyle(color: Colors.red)),
-            ),
-          ],
+        return BlocBuilder<CartCubit, CartStates>(
+          builder: (context, state) {
+            return AlertDialog(
+              title: const Text('Delete Item'),
+              content:
+                  state is RemoveFromCartLoadingState
+                      ? SizedBox(
+                        height: 80,
+                        child: Center(child: CircularProgressIndicator()))
+                      : const Text(
+                        'Are you sure you want to delete this item from the cart?',
+                      ),
+              actions:  [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('No'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    BlocProvider.of<CartCubit>(context).removeFromCart(id , context);
+                  },
+                  child: const Text('Yes', style: TextStyle(color: Colors.red)),
+                ), 
+              ],
+            );
+          },
         );
       },
     );

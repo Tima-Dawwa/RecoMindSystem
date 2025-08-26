@@ -6,10 +6,10 @@ import 'package:recomindweb/features/Authentication/view%20model/auth_service.da
 class Api {
   Api(this._dio);
   final Dio _dio;
-  final String baseUrl = 'https://0cba4fd215ba.ngrok-free.app';
+  final String baseUrl = 'http://127.0.0.2:5000';
 
   String token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNiYWVmYTA3MWNkZGM4ODE2ZmI4NmJjNiIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkRhbmllbGxhIiwibGFzdF9uYW1lIjoiTWFjZWprb3ZpYyJ9LCJpYXQiOjE3NTYxMzA0OTIsImV4cCI6MTc1NjM4OTY5Mn0.DOVVH51HHODD5c6UUUJEgl7f-hg5Aof69s6P_yl2mmE";
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YTk5NDIyMDdhZjQ5YzViZTE5YjY2NCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJEb2UifSwiaWF0IjoxNzU2MTkwMDAwLCJleHAiOjE3NTY0NDkyMDB9.ZEDJm6R0PQsAViEV5f1lJyCv0BIX8IEPKDxh7qQpz9M";
 
   Future<Map<String, dynamic>> get({required String endPoint}) async {
     var response = await _dio.get(
@@ -17,7 +17,7 @@ class Api {
       options: Options(
         headers: {
           'Authorization': 'Bearer $token',
-          "ngrok-skip-browser-warning": "true",
+          "ngrok-skip-browser-warning": "false",
         },
       ),
     );

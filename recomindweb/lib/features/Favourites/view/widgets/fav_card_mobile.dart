@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class FavCard extends StatelessWidget {
+class FavCardMobile extends StatelessWidget {
   final String name;
   final String imageUrl;
   final double price;
@@ -9,15 +9,14 @@ class FavCard extends StatelessWidget {
   final double priceDiscounted;
   final VoidCallback removeFav;
 
-  const FavCard({
+  const FavCardMobile({
     super.key,
     required this.name,
     required this.imageUrl,
     required this.price,
     required this.department,
     required this.isDiscounted,
-    required this.priceDiscounted,
-    required this.removeFav,
+    required this.priceDiscounted, required this.removeFav,
   });
 
   @override
@@ -38,8 +37,9 @@ class FavCard extends StatelessWidget {
             // ClipRRect(
             //   borderRadius: BorderRadius.circular(12),
             //   child: Image.network(
-            // "https://0cba4fd215ba.ngrok-free.app${imageUrl}",
-            //               headers: {"ngrok-skip-browser-warning": "true"},            //     width: 100,
+            //       "https://0cba4fd215ba.ngrok-free.app${imageUrl}",
+                // headers: {"ngrok-skip-browser-warning": "true"},
+            //     width: 100,
             //     height: 100,
             //     fit: BoxFit.cover,
             //   ),
@@ -58,7 +58,7 @@ class FavCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 1),
                   Text(
                     department,
                     style: const TextStyle(
@@ -66,15 +66,8 @@ class FavCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ],
-              ),
-            ),
+                  const SizedBox(height: 6),
 
-            const SizedBox(width: 16),
-
-            //Price
-            Expanded(
-              child:
                   isDiscounted
                       ? Column(
                         children: [
@@ -105,10 +98,8 @@ class FavCard extends StatelessWidget {
                           ),
                         ],
                       ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child:
+                  const SizedBox(height: 6),
+
                   isDiscounted
                       ? Column(
                         children: [
@@ -127,13 +118,15 @@ class FavCard extends StatelessWidget {
                         ],
                       )
                       : Column(children: [Text("Discount coming soon")]),
+                ],
+              ),
             ),
-            SizedBox(width: 50),
+
+            const SizedBox(width: 16),
             IconButton(
               icon: const Icon(Icons.favorite, color: Colors.red, size: 32),
               onPressed: removeFav,
             ),
-            SizedBox(width: 20),
           ],
         ),
       ),

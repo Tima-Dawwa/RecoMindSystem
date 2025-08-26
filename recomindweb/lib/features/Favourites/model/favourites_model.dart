@@ -6,7 +6,7 @@ class FavouritesModel {
   final bool isDiscounted;
   final String department;
   final bool isNew;
-  // final String image;
+   final String image;
 
   FavouritesModel( {
     required this.id,
@@ -16,7 +16,7 @@ class FavouritesModel {
     required this.isDiscounted,
     required this.department,
     required this.isNew,
-    // required this.image
+     required this.image
   });
 
   factory FavouritesModel.fromjson(jsonData) {
@@ -28,7 +28,7 @@ class FavouritesModel {
       isDiscounted: jsonData['is_discounted'],
       department: jsonData['department'],
       isNew: jsonData['isNew'],
-      // image: jsonData['image']
+       image: jsonData['image']
     );
   }
 }

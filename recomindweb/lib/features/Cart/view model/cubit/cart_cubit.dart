@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/features/Cart/model/cart_model.dart';
 import 'package:recomindweb/features/Cart/view%20model/cart_service.dart';
@@ -26,17 +27,34 @@ class CartCubit extends Cubit<CartStates> {
     );
   }
 
-  Future<void> removeFromCart(int id) async {
-    emit(CartLoadingState());
+  Future<void> removeFromCart(String id, BuildContext context) async {
+    emit(RemoveFromCartLoadingState());
     var response = await cartService.removeFromCart(id);
+    await Future.delayed(const Duration(milliseconds: 10));
     response.fold(
       (failure) {
         emit(RemoveFromCartFailureState(failure: failure));
       },
       (res) {
         messageDeleted = res['message'];
+        cartItems.removeWhere((item) => item.id == id);
         emit(RemoveFromCartSuccessState(message: messageDeleted!));
+        Navigator.pop(context);
       },
     );
+  }
+
+  void increaseQuantity(int index) {
+    final item = cartItems[index];
+    cartItems[index] = item.copyWith(quantity: item.quantity + 1);
+    emit(CartSuccessState());
+  }
+
+  void decreaseQuantity(int index) {
+    final item = cartItems[index];
+    if (item.quantity > 1) {
+      cartItems[index] = item.copyWith(quantity: item.quantity - 1);
+      emit(CartSuccessState());
+    }
   }
 }

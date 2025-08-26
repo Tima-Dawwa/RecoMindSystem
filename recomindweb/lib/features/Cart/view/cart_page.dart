@@ -39,7 +39,7 @@ class _CartPageState extends State<CartPage> {
         builder: (context, state) {
           if (state is CartLoadingState) {
             return Center(child: CustomLoading());
-          } else if (state is CartSuccessState || state is RemoveFromCartSuccessState) {
+          } else if (state is CartSuccessState || state is RemoveFromCartSuccessState || state is RemoveFromCartLoadingState) {
             List<CartModel> cartItems =
                 BlocProvider.of<CartCubit>(context).cartItems;
             return ResponsiveLayout(

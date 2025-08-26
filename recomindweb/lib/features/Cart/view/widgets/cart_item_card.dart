@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:recomindweb/core/theme.dart';
 
+// ignore: must_be_immutable
 class CartItemCard extends StatelessWidget {
+  final int index;
   final String name;
   final String imageUrl;
   final double price;
@@ -12,12 +14,13 @@ class CartItemCard extends StatelessWidget {
   final VoidCallback onDecrease;
   final VoidCallback onDelete;
 
-   CartItemCard({
+  CartItemCard({
     super.key,
+    required this.index,
     required this.name,
     required this.imageUrl,
     required this.price,
-     required this.quantity,
+    required this.quantity,
     required this.onIncrease,
     required this.onDecrease,
     required this.onDelete,
@@ -44,11 +47,8 @@ class CartItemCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.network(
-                
-                "https://0cba4fd215ba.ngrok-free.app${imageUrl}" ,
-                headers: {
-                  "ngrok-skip-browser-warning": "true",
-                },
+                "https://0cba4fd215ba.ngrok-free.app${imageUrl}",
+                headers: {"ngrok-skip-browser-warning": "true"},
                 width: 100,
                 height: 100,
                 fit: BoxFit.cover,
@@ -104,7 +104,8 @@ class CartItemCard extends StatelessWidget {
                     children: [
                       IconButton(
                         icon: const Icon(Icons.remove_circle_outline),
-                        onPressed: onDecrease,
+                        onPressed:onDecrease
+                            
                       ),
                       Text(
                         quantity.toString(),

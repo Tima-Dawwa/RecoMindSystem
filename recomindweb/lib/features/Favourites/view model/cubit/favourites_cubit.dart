@@ -8,33 +8,37 @@ class FavouritesCubit extends Cubit<FavouritesState> {
   FavouritesCubit(this.favouritesService) : super(FavouritesInitialState());
 
   List<FavouritesModel> favouritesItems = [];
+  String? messageDeleted;
 
   Future<void> getFavourites() async {
-    emit(FavouritesState());
+    emit(FavouritesLoadingState());
     var response = await favouritesService.getFavourites();
     response.fold(
       (failure) {
         emit(FavouritesFailureState(failure: failure));
       },
       (res) {
-         favouritesItems = [];
-         for (var i = 0; i < res['data'].length; i++) {
-           favouritesItems.add(FavouritesModel.fromjson(res['data'][i]));
-         }
+        favouritesItems = [];
+        for (var i = 0; i < res['data'].length; i++) {
+          favouritesItems.add(FavouritesModel.fromjson(res['data'][i]));
+        }
         emit(FavouritesSuccessState());
       },
     );
   }
 
-  Future<void> removeFromFavourites({ required String id}) async {
-    emit(FavouritesState());
+  Future<void> removeFromFavourites({required String id}) async {
+    emit(RemoveFavouritesLoadingState());
+    await Future.delayed(const Duration(milliseconds: 5));
     var response = await favouritesService.removeFromFavourites(id);
     response.fold(
       (failure) {
-        emit(FavouritesFailureState(failure: failure));
+        emit(RemoveFavouritesFailureState(failure: failure));
       },
       (res) {
-        emit(FavouritesSuccessState());
+        messageDeleted = res['message'];
+        favouritesItems.removeWhere((item) => item.id == id);
+        emit(RemoveFavouritesSuccessState(message: messageDeleted!));
       },
     );
   }
