@@ -123,8 +123,7 @@ async function socketFunctionality(io, socket) {
 
                 const botResponse = await getChatbotResponse({
                     message: message,
-                    image: processedImage,
-                    userId: userID
+                    image: processedImage
                 });
 
                 socket.emit('bot-typing', false);
