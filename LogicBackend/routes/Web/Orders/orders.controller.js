@@ -12,7 +12,9 @@ const productsMongo = require('../../../models/products.mongo');
 
 async function httpGetOrders(req, res) {
     const { skip, limit } = getPagination(req.query);
-    const data = await getOrdersForUser(req.user.id, skip, limit);
+    const { sortBy = 'createdAt', sortOrder = 'desc' } = req.query;
+    
+    const data = await getOrdersForUser(req.user.id, skip, limit, sortBy, sortOrder);
     const orders = data.map((order, idx) => {
 
         const products_count = order.orderItems.reduce((sum, item) => sum + (item.quantity || 0), 0);
@@ -25,7 +27,7 @@ async function httpGetOrders(req, res) {
             status: order.status
         };
     });
-    const count = orders.length;
+    const count = await getOrdersCountForUser(req.user.id);
     return res.status(200).json({ data: orders, count });
 }
 
