@@ -1,7 +1,25 @@
 const Order = require('./orders.mongo');
 
-async function getOrdersForUser(user_id, skip, limit) {
-    return await Order.find({ user_id }).skip(skip).limit(limit);
+async function getOrdersForUser(user_id, skip, limit, sortBy = 'createdAt', sortOrder = 'desc') {
+    let sortQuery = {};
+    
+    // Validate sortBy parameter
+    const validSortFields = ['createdAt', 'total_price', 'status'];
+    if (!validSortFields.includes(sortBy)) {
+        sortBy = 'createdAt';
+    }
+    
+    // Validate sortOrder parameter
+    if (sortOrder !== 'asc' && sortOrder !== 'desc') {
+        sortOrder = 'desc';
+    }
+    
+    sortQuery[sortBy] = sortOrder === 'desc' ? -1 : 1;
+    
+    return await Order.find({ user_id })
+        .sort(sortQuery)
+        .skip(skip)
+        .limit(limit);
 }
 
 async function getOrdersCountForUser(user_id) {
@@ -30,17 +48,18 @@ async function getTotalProfit() {
     let totalProfit = 0;
 
     for (const order of orders) {
-        const productsCount = order.orderItems.length;
-        const orderProfit = productsCount * 2; // $2 profit per product
+        
+        const orderProfit = order.total_price * 0.2;
         totalProfit += orderProfit;
     }
 
-    return totalProfit;
+    return Math.round(totalProfit * 100) / 100; 
 }
 
-async function getAllOrdersWithUserDetails(skip = 0, limit = 10, searchUsername = null, searchDate = null) {
+async function getAllOrdersWithUserDetails(skip = 0, limit = 10, searchUsername = null, searchDate = null, sortBy = 'createdAt', sortOrder = 'desc') {
     let query = {};
 
+    
     if (searchDate) {
         const startOfDay = new Date(searchDate);
         startOfDay.setHours(0, 0, 0, 0);
@@ -49,29 +68,66 @@ async function getAllOrdersWithUserDetails(skip = 0, limit = 10, searchUsername 
         query.createdAt = { $gte: startOfDay, $lte: endOfDay };
     }
 
+    
+    if (searchUsername) {
+        
+        const User = require('./users.mongo');
+        const matchingUsers = await User.find({
+            username: { $regex: searchUsername, $options: 'i' }
+        }).select('_id');
+        const userIds = matchingUsers.map(user => user._id);
+        query.user_id = { $in: userIds };
+    }
+
+    
+    const validSortFields = ['createdAt', 'total_price', 'status', 'username'];
+    if (!validSortFields.includes(sortBy)) {
+        sortBy = 'createdAt';
+    }
+    
+    
+    if (sortOrder !== 'asc' && sortOrder !== 'desc') {
+        sortOrder = 'desc';
+    }
+    
+    let sortQuery = {};
+    if (sortBy === 'username') {
+        
+        sortQuery = { createdAt: -1 }; 
+    } else {
+        sortQuery[sortBy] = sortOrder === 'desc' ? -1 : 1;
+    }
+
     const orders = await Order.find(query)
-        .populate('user_id', 'username')
-        .sort({ createdAt: -1 })
+        .populate('user_id', 'username email')
+        .sort(sortQuery)
         .skip(skip)
         .limit(limit);
 
-    let filteredOrders = orders;
-    if (searchUsername) {
-        filteredOrders = orders.filter(order =>
-            order.user_id &&
-            order.user_id.username &&
-            order.user_id.username.toLowerCase().includes(searchUsername.toLowerCase())
-        );
-    }
-
-    return filteredOrders.map(order => ({
+    let result = orders.map(order => ({
         id: order._id,
         username: order.user_id ? order.user_id.username : 'Unknown',
+        user_email: order.user_id ? order.user_id.email : 'Unknown',
         order_date: order.createdAt,
         status: order.status,
         products_count: order.orderItems.length,
         total_price: order.total_price
     }));
+
+    
+    if (sortBy === 'username') {
+        result.sort((a, b) => {
+            const aUsername = a.username.toLowerCase();
+            const bUsername = b.username.toLowerCase();
+            if (sortOrder === 'asc') {
+                return aUsername.localeCompare(bUsername);
+            } else {
+                return bUsername.localeCompare(aUsername);
+            }
+        });
+    }
+
+    return result;
 }
 
 async function getTrendingProductIds(threshold = 10, withinDays = 3) {

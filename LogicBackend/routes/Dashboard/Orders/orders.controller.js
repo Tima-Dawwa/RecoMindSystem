@@ -13,9 +13,9 @@ const { orderData } = require('./orders.serializer');
 
 async function httpGetOrders(req, res) {
     const { skip, limit } = getPagination(req.query);
-    const { username, date } = req.query;
+    const { username, date, sortBy = 'createdAt', sortOrder = 'desc' } = req.query;
 
-    const data = await getAllOrdersWithUserDetails(skip, limit, username, date);
+    const data = await getAllOrdersWithUserDetails(skip, limit, username, date, sortBy, sortOrder);
     const count = await getOrdersCount();
 
     return res.status(200).json({ data, count });
