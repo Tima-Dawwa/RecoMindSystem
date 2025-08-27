@@ -1,54 +1,60 @@
-import torch
 from typing import List, Dict, Any
-from pymongo.collection import Collection
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from motor.motor_asyncio import AsyncIOMotorCollection
+from huggingface_hub import InferenceClient
+from models.product import Product
+
+# -----------------------
 
 GEN_MODEL_PATH = "jais/jais-13b-chat"
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+HF_TOKEN = 'api_token_here'
+client = InferenceClient(model=GEN_MODEL_PATH, token=HF_TOKEN)
 
-tokenizer = AutoTokenizer.from_pretrained(GEN_MODEL_PATH)
-generator = AutoModelForCausalLM.from_pretrained(
-    GEN_MODEL_PATH,
-    torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
-    device_map="auto"
-).to(device)
+# -----------------------
 
 
-def build_context(recommendations: List[Dict[str, Any]], product_collection: Collection) -> str:
+async def build_context(
+    recommendations: List[Dict[str, Any]], product_collection: AsyncIOMotorCollection
+) -> str:
+    # Extract product IDs
+    product_ids = [rec if isinstance(rec, str) else rec.get(
+        "product_id") for rec in recommendations if rec]
+
+    if not product_ids:
+        return ""
+
+    # Fetch all products in one query
+    cursor = product_collection.find({"_id": {"$in": product_ids}})
+    products = [Product(id=str(doc["_id"]), **doc) async for doc in cursor]
+
     contexts = []
-    for rec in recommendations:
-        product_id = rec if isinstance(rec, str) else rec.get("product_id")
-        if not product_id:
-            continue
-
-        product = product_collection.find_one({"_id": product_id})
-        if not product:
-            continue
-
+    for product in products:
         details = (
-            f"Name: {product.get('name')}, "
-            f"Type: {product.get('type')}, "
-            f"Appearance: {product.get('appearance')}, "
-            f"Color: {product.get('color')}, "
-            f"Gender: {product.get('gender')}, "
-            f"Price: {product.get('price')} "
-            f"{'(Discounted: ' + str(product.get('discounted_price')) + ')' if product.get('discounted_price') else ''}, "
-            f"Rating: {product.get('rating')} ({product.get('rating_count')} reviews), "
-            f"Details: {product.get('details')}"
+            f"Name: {product.name}, "
+            f"Type: {product.type}, "
+            f"Appearance: {product.appearance}, "
+            f"Color: {product.color}, "
+            f"Gender: {product.gender}, "
+            f"Price: {product.price} "
+            f"{'(Discounted: ' + str(product.discounted_price) + ')' if product.discounted_price else ''}, "
+            f"Rating: {product.rating} ({product.rating_count} reviews), "
+            f"Details: {product.details}"
         )
         contexts.append(details)
 
     return "\n".join(contexts)
 
 
-def generate_response(
+# -----------------------
+
+
+async def generate_response(
     user_query: str,
     recommendations: List[Dict[str, Any]],
-    product_collection: Collection,
+    product_collection: AsyncIOMotorCollection,
     max_new_tokens: int = 300,
     temperature: float = 0.7,
 ) -> str:
-    context = build_context(recommendations, product_collection)
+    context = await build_context(recommendations, product_collection)
 
     if not context:
         return "I couldn't find matching products right now, sorry!"
@@ -73,14 +79,9 @@ Instructions:
 - Answer in the same language as the user (Arabic or English).
 """
 
-    inputs = tokenizer(prompt, return_tensors="pt").to(device)
-
-    outputs = generator.generate(
-        **inputs,
-        max_new_tokens=max_new_tokens,
-        temperature=temperature,
-        do_sample=True,
-        pad_token_id=tokenizer.eos_token_id,
-    )
-
-    return tokenizer.decode(outputs[0], skip_special_tokens=True)
+    try:
+        response = client.text_generation(
+            prompt, max_new_tokens=max_new_tokens, temperature=temperature)
+        return response[0]["generated_text"]
+    except Exception as e:
+        return f"Sorry, I couldn't generate a response right now: {e}"
