@@ -22,7 +22,6 @@ class ChatRequest(BaseModel):
 async def chat_endpoint(request: ChatRequest):
     # query_image = None
 
-    # # Step 1: Load image from disk if provided
     # if request.image:
     #     image_path = os.path.join(BASE_IMAGE_FOLDER, request.image)
     #     if os.path.exists(image_path):
