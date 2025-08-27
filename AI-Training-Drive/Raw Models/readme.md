@@ -1,8 +1,9 @@
 # Available Models
 
-The models can be found in: AIRecoMind\saved_models\MultilingualFashionRetrieval
+The models can be found in:  
+`AIRecoMind\saved_models\MultilingualFashionRetrieval`
 
-Specifically:
+## Models:
 
 - `blip2-opt-2.7b`
 - `arabertv2`
