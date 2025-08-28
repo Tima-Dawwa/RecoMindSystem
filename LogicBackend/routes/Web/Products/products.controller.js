@@ -45,16 +45,13 @@ async function httpGetCollaborativeProducts(req, res) {
         const recommendations = await axios.get(fastApiUrl);
         recommendedProducts = await getProductsByIds(recommendations.data);
 
-        if (req.user) {
-            const similarities = recommendations.data.map(r => r.similarity || 1);
-            const response_time = (Date.now() - startTime) / 1000;
-            await postRecommendationInteraction({
-                user_id: req.user.id,
-                rec_type: 'collaborative',
-                similarities,
-                response_time
-            });
-        }
+        const similarities = recommendations.data.map(r => r.similarity || 1);
+        const response_time = (Date.now() - startTime) / 1000;
+        await postRecommendationInteraction({
+            rec_type: 'collaborative',
+            similarities,
+            response_time
+        });
     } catch (error) {
         console.error('Collaborative recommendation error:', error);
     }
@@ -89,16 +86,14 @@ async function httpGetOneProduct(req, res) {
         recommendedProducts = await getProductsByIds(recommendationsData);
     } catch (error) {}
 
-    if (req.user && recommendationsData.length) {
-        const similarities = recommendationsData.map(r => r.similarity || 1);
-        const response_time = (Date.now() - startTime) / 1000;
-        await postRecommendationInteraction({
-            user_id: req.user.id,
-            rec_type: 'content',
-            similarities,
-            response_time
-        });
-    }
+    const similarities = recommendationsData.map(r => r.similarity || 1);
+    const response_time = (Date.now() - startTime) / 1000;
+    await postRecommendationInteraction({
+        user_id: req.user.id,
+        rec_type: 'content',
+        similarities,
+        response_time
+    });
 
     const interactions = await getProductInteractions(req.params.id);
     if (req.user) {

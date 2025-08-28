@@ -30,16 +30,13 @@ async function httpGetCart(req, res) {
 
         recommendations = response.data;
 
-        if (req.user) {
-            const similarities = recommendations.map(r => r.similarity || 1);
-            const response_time = (Date.now() - startTime) / 1000;
-            await postRecommendationInteraction({
-                user_id: req.user.id,
-                rec_type: 'hybrid',
-                similarities,
-                response_time
-            });
-        }
+        const similarities = recommendations.map(r => r.similarity || 1);
+        const response_time = (Date.now() - startTime) / 1000;
+        await postRecommendationInteraction({
+            rec_type: 'hybrid',
+            similarities,
+            response_time
+        });
     } catch (error) {
         console.error('Hybrid recommendation error:', error);
     }

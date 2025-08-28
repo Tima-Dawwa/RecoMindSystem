@@ -2,11 +2,6 @@ const mongoose = require('mongoose');
 
 const RecommendationInteractionSchema = new mongoose.Schema(
     {
-        user_id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-            required: true
-        },
         rec_type: {
             type: String,
             enum: ['content', 'collaborative', 'hybrid'],
