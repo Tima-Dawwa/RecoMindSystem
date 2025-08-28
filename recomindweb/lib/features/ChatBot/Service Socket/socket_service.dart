@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:recomindweb/core/helpers/constant.dart';
 import 'package:recomindweb/features/ChatBot/Model/chat_message.dart';
@@ -28,7 +29,7 @@ class SocketService {
 
     final queryParams = <String, dynamic>{
       'token':
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg3Njg2ZmVhYzc2YjY4YjIwYjdlYWU0ZiIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkphbmUiLCJsYXN0X25hbWUiOiJZdW5kdCJ9LCJpYXQiOjE3NTQ1ODQwOTUsImV4cCI6MTc1NDg0MzI5NX0.dbkkO6lPSUcZM-cgRZi4WKsj_dzNfnD_PUDLCFwJ0ew",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiYzJjMzE3NTZhZmIzOWJiZGZiM2NhOCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IlJhbmRhbGwiLCJsYXN0X25hbWUiOiJCdWNrcmlkZ2UifSwiaWF0IjoxNzU2Mzk5NjU3LCJleHAiOjE3NTY2NTg4NTd9.Ga2Rbw7aXj_XeYk8JhcKVgw3y-52J2hw-ieoSROWycw",
       ...?additionalQuery,
     };
 
@@ -160,10 +161,12 @@ class SocketService {
 
     if (imageBytes != null) {
       try {
-        data['imageData'] = imageBytes;
+    
+        final base64Image = base64Encode(imageBytes);
+        data['imageData'] = base64Image;
         data['hasImage'] = true;
       } catch (e) {
-        onError?.call('Failed to prepare image');
+        onError?.call('Failed to encode image to base64: $e');
         return;
       }
     }
@@ -231,6 +234,10 @@ class SocketService {
             imageData.contains('.jpeg')) {
           imagePath = imageData;
         } else {
+          if (imageData.startsWith('data:image/') ||
+              (imageData.length > 100 && !imageData.contains(' '))) {
+            imagePath = imageData;
+          }
         }
       }
     } else if (msgData['imageUrl'] != null) {
@@ -287,7 +294,6 @@ class SocketService {
 
                 return Product.fromJson(mappedData);
               } else if (productData is String) {
-             
                 return null;
               } else {
                 return Product.fromJson(Map<String, dynamic>.from(productData));

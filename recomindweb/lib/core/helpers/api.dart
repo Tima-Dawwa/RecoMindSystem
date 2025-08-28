@@ -6,10 +6,10 @@ import 'package:recomindweb/features/Authentication/view%20model/auth_service.da
 class Api {
   Api(this._dio);
   final Dio _dio;
-  final String baseUrl = 'http://127.0.0.2:5000';
+  final String baseUrl = 'https://4fd3a8da9006.ngrok-free.app';
 
   String token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YTk5NDIyMDdhZjQ5YzViZTE5YjY2NCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJEb2UifSwiaWF0IjoxNzU2MTkwMDAwLCJleHAiOjE3NTY0NDkyMDB9.ZEDJm6R0PQsAViEV5f1lJyCv0BIX8IEPKDxh7qQpz9M";
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiYzJjMzE3NTZhZmIzOWJiZGZiM2NhOCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IlJhbmRhbGwiLCJsYXN0X25hbWUiOiJCdWNrcmlkZ2UifSwiaWF0IjoxNzU2Mzk5NjU3LCJleHAiOjE3NTY2NTg4NTd9.Ga2Rbw7aXj_XeYk8JhcKVgw3y-52J2hw-ieoSROWycw";
 
   Future<Map<String, dynamic>> get({required String endPoint}) async {
     var response = await _dio.get(

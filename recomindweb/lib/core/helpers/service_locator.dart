@@ -49,4 +49,10 @@ Future<void> setup() async {
       getIt.get<DefaultStatusCodeHandler>(),
     ),
   );
+   getIt.registerSingleton<ChatBotService>(
+    ChatBotService(
+      getIt.get<Api>(),
+      getIt.get<DefaultStatusCodeHandler>(),
+    ),
+  );
 }
