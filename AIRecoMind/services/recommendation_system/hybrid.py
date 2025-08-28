@@ -20,7 +20,7 @@ def rerank_with_content_scores(
 
 
 async def get_seen_product_ids(user_id: str) -> List[str]:
-  
+
     cursor = product_collection.find(
         {"user_id": ObjectId(user_id), "interaction_type": "view"},
         {"_id": 1}

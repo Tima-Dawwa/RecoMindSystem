@@ -5,6 +5,7 @@ const { serializedData } = require('../../../services/serializeArray');
 const { INTERACTION_TYPES } = require('../../../public/constants/interaction');
 const { getProductById, incrementInteractionCount } = require('../../../models/products.model');
 const { postInteraction, removeProductInteraction } = require('../../../models/interactions.model');
+const { postRecommendationInteraction } = require('../../../models/recommendation_interaction.model');
 const { getCart, addToCart, deleteFromCart, getCartCount, getCartItem } = require('../../../models/cart.model');
 
 // Done
