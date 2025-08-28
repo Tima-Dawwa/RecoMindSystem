@@ -4,15 +4,17 @@ async function postChatbotInteraction(data) {
     return await ChatbotInteraction.create(data);
 }
 
-async function getChatbotInteractions() {
+async function getChatbotSimilarityStats() {
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0); 
 
-    const startDate = new Date(today);
-    startDate.setDate(today.getDate() - 7);
-
-    const endDate = new Date(today);
+    const endDate = new Date(today); 
     endDate.setDate(today.getDate() - 1);
+    endDate.setHours(23, 59, 59, 999); 
+
+    const startDate = new Date(endDate); 
+    startDate.setDate(endDate.getDate() - 6); 
+    startDate.setHours(0, 0, 0, 0); 
 
     return await ChatbotInteraction.aggregate([
         {
@@ -47,7 +49,7 @@ async function getChatbotResponseTimeStats() {
 }
 
 module.exports = {
-    getChatbotInteractions,
+    getChatbotSimilarityStats,
     postChatbotInteraction,
     getChatbotResponseTimeStats
 };
