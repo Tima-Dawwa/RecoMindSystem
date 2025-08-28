@@ -69,7 +69,9 @@ async function socketFunctionality(io, socket) {
 
     socket.on('send-message', async data => {
         try {
-            let { message, image } = data;
+            let { message, imageData } = data;
+            let image = imageData;
+
             // const { error } = validateSendMessage({ message });
             // if (error) {
             //     socket.emit('message-error', { message: error.details[0].message });
@@ -88,7 +90,10 @@ async function socketFunctionality(io, socket) {
             }
 
             if (!chat.name || chat.name.trim() === '') {
-                const newName = message.trim().substring(0, 10);
+                let newName;
+                if (message) {
+                    newName = message.trim().substring(0, 10);
+                } else newName = 'Image Sent';
                 chat.name = newName;
                 await chat.save();
             }

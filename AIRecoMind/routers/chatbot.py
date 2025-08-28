@@ -21,7 +21,6 @@ class ChatRequest(BaseModel):
 @router.post("/chatbot")
 async def chat_endpoint(request: ChatRequest):
     query_image = None
-
     if request.image:
         image_path = os.path.join(BASE_IMAGE_FOLDER, request.image)
         if os.path.exists(image_path):
