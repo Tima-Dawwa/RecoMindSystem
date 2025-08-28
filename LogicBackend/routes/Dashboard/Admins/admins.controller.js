@@ -8,7 +8,6 @@ const { adminsData } = require('./admins.serializer');
 
 // Done
 async function login(req, res) {
-    console.log(req.body);
     const { error } = validateLoginAdmin(req.body);
     if (error) return res.status(400).json({ message: 'Not Authorized' });
 

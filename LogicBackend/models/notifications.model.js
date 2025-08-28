@@ -12,8 +12,13 @@ async function getNotificationsCount() {
     return await Notification.find().countDocuments();
 }
 
+async function deleteNotification(id) {
+    return await Notification.findByIdAndDelete(id);
+}
+
 module.exports = {
     postNotification,
     getNotifications,
-    getNotificationsCount
+    getNotificationsCount,
+    deleteNotification
 };

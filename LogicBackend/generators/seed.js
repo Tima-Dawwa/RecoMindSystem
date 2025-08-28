@@ -1,5 +1,5 @@
 const { mongoConnect, mongoDisconnect, dropDatabase } = require('../services/mongo');
-const { createUsers, createProducts, createInteractions, updateAllProductAggregates, createAdmins, createFavorites, seedStatistics } = require('./seeding.generation');
+const { createUsers, createProducts, createInteractions, updateAllProductAggregates, createNotifications, createAdmins, createFavorites, seedStatistics } = require('./seeding.generation');
 
 async function seedDB() {
     await mongoConnect();
@@ -25,8 +25,11 @@ async function seedDB() {
     console.log('Creating Favorites');
     await createFavorites();
 
-    console.log('Seeding Statistics');
+    console.log('Creating Statistics');
     await seedStatistics();
+
+    console.log('Creating Notifications');
+    await createNotifications();
 
     console.log('Database seeded!');
 
