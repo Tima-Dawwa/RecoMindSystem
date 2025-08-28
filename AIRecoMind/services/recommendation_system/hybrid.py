@@ -7,15 +7,19 @@ from services.recommendation_system.collaborative import get_collaborative_recom
 
 
 def rerank_with_content_scores(
-    product_ids: List[str],
+    product_dicts: List[dict],
     content_scores: Dict[str, float],
     seen_items: List[str],
     top_n: int
 ) -> List[str]:
-    filtered_products = [pid for pid in product_ids if pid not in seen_items]
+    filtered_ids = [p["id"]
+                    for p in product_dicts if p["id"] not in seen_items]
+
     scored_products = [(pid, content_scores.get(pid, 0.0))
-                       for pid in filtered_products]
+                       for pid in filtered_ids]
+
     ranked = sorted(scored_products, key=lambda x: x[1], reverse=True)
+
     return [pid for pid, _ in ranked[:top_n]]
 
 
@@ -37,18 +41,28 @@ async def get_cascade_hybrid_recommendations(
     product_id: str,
     top_n: int = 10,
     initial_pool_size: int = 50
-) -> List[str]:
+) -> List[Dict[str, float]]:
     collab_pool = await get_collaborative_recommendations(user_id, top_n=initial_pool_size)
 
     seen_items = await get_seen_product_ids(user_id)
 
     content_based_similar = await get_content_based_recommendations(product_id, top_n=initial_pool_size)
-    content_scores = {pid: 1.0 - (i / len(content_based_similar))
-                      for i, pid in enumerate(content_based_similar)}
 
-    reranked = rerank_with_content_scores(
-        collab_pool, content_scores, seen_items, top_n)
-    return reranked
+    content_scores = {pid: float(sim) for pid, sim in content_based_similar}
+
+    filtered_products = [p for p in collab_pool if p["id"] not in seen_items]
+
+    merged = []
+    for p in filtered_products:
+        pid = p["id"]
+        collab_sim = float(p.get("similarity", 0.0))
+        content_sim = content_scores.get(pid, 0.0)
+        combined_sim = (collab_sim + content_sim) / 2
+        merged.append({"id": pid, "similarity": combined_sim})
+
+    merged_sorted = sorted(merged, key=lambda x: x["similarity"], reverse=True)
+
+    return merged_sorted[:top_n]
 
 
 def compute_binary_arrays(predictions: List[str], ground_truth: List[str]) -> Tuple[List[int], List[int]]:

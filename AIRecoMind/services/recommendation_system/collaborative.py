@@ -74,8 +74,8 @@ def train_als_model(
     regularization: float = 0.1,
     iterations: int = 20
 ) -> Tuple[AlternatingLeastSquares, coo_matrix]:
-    user_item_matrix = interaction_matrix.tocsr() 
-    item_user_matrix = user_item_matrix.T.tocsr() 
+    user_item_matrix = interaction_matrix.tocsr()
+    item_user_matrix = user_item_matrix.T.tocsr()
 
     model = AlternatingLeastSquares(
         factors=factors,
@@ -112,26 +112,41 @@ async def get_fallback_recommendations(top_n=20) -> List[str]:
     return [p.id for p in products[:top_n]]
 
 
-async def get_collaborative_recommendations(user_id: str, top_n: int = 20) -> List[str]:
+async def get_collaborative_recommendations(user_id: str, top_n: int = 20):
     model, user_encoder, item_encoder, user_item_matrix = load_model_and_encoders()
 
     if user_id not in user_encoder.classes_:
-        return await get_fallback_recommendations(top_n)
+        fallback_ids = await get_fallback_recommendations(top_n)
+        return [{"id": pid, "similarity": 1.0} for pid in fallback_ids]
 
     user_index = np.where(user_encoder.classes_ == user_id)[0][0]
 
     user_item_matrix = user_item_matrix.T.tocsr()
 
     if user_index >= user_item_matrix.shape[0]:
-        return await get_fallback_recommendations(top_n)
+        fallback_ids = await get_fallback_recommendations(top_n)
+        return [{"id": pid, "similarity": 1.0} for pid in fallback_ids]
 
     if user_item_matrix.getrow(user_index).nnz == 0:
-        return await get_fallback_recommendations(top_n)
+        fallback_ids = await get_fallback_recommendations(top_n)
+        return [{"id": pid, "similarity": 1.0} for pid in fallback_ids]
 
     user_vector = user_item_matrix[user_index]
-    item_indices, _ = model.recommend(user_index, user_vector, N=top_n)
+    item_indices, scores = model.recommend(user_index, user_vector, N=top_n)
+
+    scores = np.array(scores)
+    if scores.max() > scores.min():
+        normalized_scores = (scores - scores.min()) / \
+            (scores.max() - scores.min())
+    else:
+        normalized_scores = np.ones_like(scores)
+
     product_ids = item_encoder.inverse_transform(item_indices)
-    return product_ids.tolist()
+
+    return [
+        {"id": str(pid), "similarity": float(sim)}
+        for pid, sim in zip(product_ids, normalized_scores)
+    ]
 
 
 async def retrain_als_model():

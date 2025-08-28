@@ -3,7 +3,6 @@ from routers import recommendation, chatbot
 
 app = FastAPI()
 
-# Include the recommendation router
 app.include_router(recommendation.router)
 app.include_router(chatbot.router)
 
