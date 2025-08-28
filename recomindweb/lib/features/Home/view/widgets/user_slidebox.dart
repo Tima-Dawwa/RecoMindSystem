@@ -1,12 +1,18 @@
-import 'dart:typed_data';
-import 'package:file_picker/file_picker.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:recomindweb/core/Widgets/custom_button.dart';
 import 'package:recomindweb/core/Widgets/custom_loading.dart';
+import 'package:recomindweb/core/Widgets/custom_text_button.dart';
+import 'package:recomindweb/core/helpers/api.dart';
+import 'package:recomindweb/core/helpers/service_locator.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Authentication/view%20model/cubit/auth_cubit.dart';
 import 'package:recomindweb/features/Authentication/view%20model/cubit/auth_states.dart';
+import 'package:recomindweb/features/Home/model/profile_model.dart';
+import 'package:recomindweb/features/Home/view%20model/cubit/home_cubit.dart';
 
 class UserSlidebox extends StatefulWidget {
   const UserSlidebox({super.key, required this.logoutTap});
@@ -17,20 +23,36 @@ class UserSlidebox extends StatefulWidget {
 }
 
 class _UserSlideboxState extends State<UserSlidebox> {
-  Uint8List? pickedImage;
+  File? image;
+  ProfileModel? profile;
+  ImagePicker picker = ImagePicker();
+  XFile? pickedImage;
+  bool show = false;
 
-  void chooseImage() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-      allowMultiple: false,
-      withData: true,
-    );
+  @override
+  void initState() {
+    super.initState();
+    profile = BlocProvider.of<HomeCubit>(context).profile;
+  }
 
-    if (result != null && result.files.single.bytes != null) {
-      setState(() {
-        pickedImage = result.files.single.bytes;
-      });
+  Future getImage() async {
+    pickedImage = await picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedImage != null) {
+        image = File(pickedImage!.path);
+        show = true;
+      }
+    });
+  }
+
+  ImageProvider? get profileImage {
+    if (image != null) {
+      return NetworkImage(image!.path);
+    } else if (profile?.picture != null) {
+      return NetworkImage("${getIt.get<Api>().baseUrl}${profile!.picture}");
     }
+    return null;
   }
 
   @override
@@ -46,67 +68,102 @@ class _UserSlideboxState extends State<UserSlidebox> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Stack(
+              Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5),
-                    child:
-                        pickedImage != null
-                            ? CircleAvatar(
-                              radius: 28,
-                              backgroundImage: MemoryImage(pickedImage!),
-                            )
-                            : CircleAvatar(
-                              radius: 28,
-                              backgroundColor: Themes.primary.withAlpha(80),
-                              child: Icon(
-                                Icons.person,
-                                color: Themes.primary.withAlpha(180),
-                                size: 30,
-                              ),
-                            ),
+                  Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: CircleAvatar(
+                          radius: 35,
+                          backgroundColor: Themes.primary.withAlpha(50),
+                          backgroundImage: profileImage,
+                          child:
+                              profileImage == null
+                                  ? Icon(
+                                    Icons.person,
+                                    color: Themes.primary.withAlpha(180),
+                                    size: 30,
+                                  )
+                                  : null,
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 3,
+                        right: 4,
+                        child: Container(
+                          padding: EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                            color: Themes.primary,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: GestureDetector(
+                            onTap: getImage,
+                            child: Icon(Icons.add, color: Themes.bg, size: 15),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  Positioned(
-                    bottom: 2,
-                    right: 2,
-                    child: Container(
-                      padding: EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                        color: Themes.primary,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: GestureDetector(
-                        onTap: chooseImage,
-                        child: Icon(Icons.add, color: Themes.bg, size: 15),
-                      ),
+                  if (show) SizedBox(height: 6),
+                  if (show)
+                    CustomButton(
+                      text: 'Submit',
+                      width: 50,
+                      height: 25,
+                      size: 14,
+                      press: submitImage,
                     ),
-                  ),
                 ],
               ),
               const SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Sara Najati",
-                    style: TextStyle(
-                      color: Themes.text,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  SizedBox(height: 8),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${profile!.name.first} ${profile!.name.last}",
+                        style: TextStyle(
+                          color: Themes.text,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          overflow: TextOverflow.fade,
+                        ),
+                      ),
+                      SizedBox(width: 4),
+                      Icon(
+                        profile!.gender == 'Female' ? Icons.female : Icons.male,
+                        color: Themes.text,
+                        size: 22,
+                      ),
+                    ],
                   ),
+                  SizedBox(height: 4),
                   Row(
                     children: [
                       Text(
-                        "Damascus, Syria",
+                        "${profile!.location.city}, ${profile!.location.country}",
                         style: TextStyle(color: Themes.text, fontSize: 14),
                       ),
-                      const SizedBox(width: 6),
-                      Icon(
-                        Icons.edit,
-                        size: 16,
-                        color: Themes.text.withAlpha(150),
+                      // const SizedBox(width: 6),
+                      // Icon(
+                      //   Icons.edit,
+                      //   size: 16,
+                      //   color: Themes.text.withAlpha(150),
+                      // ),
+                    ],
+                  ),
+                  SizedBox(height: 5),
+                  Row(
+                    children: [
+                      Text(
+                        "+${profile!.number.code} ${profile!.number.number}",
+                        style: TextStyle(color: Themes.text, fontSize: 14),
                       ),
                     ],
                   ),
@@ -127,17 +184,21 @@ class _UserSlideboxState extends State<UserSlidebox> {
               if (state is LoadingAuthState) {
                 return Center(child: CustomLoading());
               } else {
-                return ListTile(
-                  leading: Icon(
-                    Icons.logout,
-                    size: 20,
-                    color: Themes.secondary,
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    children: [
+                      Icon(Icons.logout, size: 20, color: Themes.secondary),
+                      SizedBox(width: 6),
+                      CustomTextButton(
+                        text: "Log out",
+                        press: widget.logoutTap!,
+                        size: 18,
+                        color: Themes.text,
+                        weight: FontWeight.normal,
+                      ),
+                    ],
                   ),
-                  title: Text(
-                    "Log out",
-                    style: TextStyle(fontSize: 18, color: Themes.text),
-                  ),
-                  onTap: widget.logoutTap,
                 );
               }
             },
@@ -145,5 +206,17 @@ class _UserSlideboxState extends State<UserSlidebox> {
         ],
       ),
     );
+  }
+
+  Future<void> submitImage() async {
+    if (image != null) {
+      await BlocProvider.of<HomeCubit>(
+        context,
+      ).changeImage(image: pickedImage!);
+      setState(() {
+        show = false;
+        profile = BlocProvider.of<HomeCubit>(context).profile;
+      });
+    }
   }
 }

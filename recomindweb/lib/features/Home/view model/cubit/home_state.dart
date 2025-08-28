@@ -8,7 +8,13 @@ class LoadingHomeState extends HomeState {}
 
 class SuccessHomeState extends HomeState {}
 
+class LoadingProfileState extends HomeState {}
+
+class SuccessProfileState extends HomeState {}
+
 class FailureHomeState extends HomeState {
   final Failure failure;
   FailureHomeState({required this.failure});
 }
+
+

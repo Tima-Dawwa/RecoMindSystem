@@ -1,5 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:recomindweb/features/Home/model/collab_product_model.dart';
+import 'package:recomindweb/features/Home/model/profile_model.dart';
 import 'package:recomindweb/features/Home/view%20model/cubit/home_state.dart';
 import 'package:recomindweb/features/Home/view%20model/home_service.dart';
 
@@ -7,6 +10,7 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit(this.homeService) : super(InitialHomeState());
   final HomeService homeService;
   List<CollabProductModel> products = [];
+  ProfileModel? profile;
 
   Future<void> getCollab() async {
     emit(LoadingHomeState());
@@ -21,6 +25,41 @@ class HomeCubit extends Cubit<HomeState> {
           products.add(CollabProductModel.fromJson(res["data"][i]));
         }
         emit(SuccessHomeState());
+      },
+    );
+  }
+
+  Future<void> getProfile() async {
+    emit(LoadingProfileState());
+    var response = await homeService.getProfile();
+    response.fold(
+      (failure) {
+        emit(FailureHomeState(failure: failure));
+      },
+      (res) {
+        profile = ProfileModel.fromJson(res["profile"]);
+        emit(SuccessProfileState());
+      },
+    );
+  }
+
+  Future<void> changeImage({required XFile image}) async {
+    emit(LoadingProfileState());
+    final bytes = await image.readAsBytes();
+    final filename = image.name;
+
+    var response = await homeService.changeImage(
+      body: FormData.fromMap({
+        'profile_pic': MultipartFile.fromBytes(bytes, filename: filename),
+      }),
+    );
+    response.fold(
+      (failure) {
+        emit(FailureHomeState(failure: failure));
+      },
+      (res) {
+        getProfile();
+        emit(SuccessProfileState());
       },
     );
   }
