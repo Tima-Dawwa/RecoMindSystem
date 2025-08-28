@@ -3,25 +3,25 @@ const crypto = require('crypto');
 const sendMail = require('../../../services/sendMail');
 const { confirmTokenHelper } = require('./auth.helper');
 const { postBlacklist } = require('../../../models/blacklist.model');
-const { generateToken } = require('../../../services/token')
-const { validationErrors } = require('../../../middlewares/validationErrors')
+const { generateToken } = require('../../../services/token');
+const { validationErrors } = require('../../../middlewares/validationErrors');
 const { postRequest, deleteRequests } = require('../../../models/code_confirmation.model');
 const { postUser, getUserByEmail, putPassword } = require('../../../models/users.model');
-const { validateRegisterUser, validateLoginUser, validateForgotPassword, validateResetPassword, validateVerifyResetToken } = require('./auth.validation')
+const { validateRegisterUser, validateLoginUser, validateForgotPassword, validateResetPassword, validateVerifyResetToken } = require('./auth.validation');
 
 require('dotenv').config();
 
 // Done
 async function register(req, res) {
-    const { error } = validateRegisterUser(req.body)
+    const { error } = validateRegisterUser(req.body);
     if (error) {
         return res.status(400).json({
             errors: validationErrors(error.details)
-        })
+        });
     }
-    req.body.name = { 'first_name': req.body.first_name, 'last_name': req.body.last_name }
-    const check = await getUserByEmail(req.body.email)
-    if (check) return res.status(400).json({ errors: { email: "Email Already In Use" } })
+    req.body.name = { first_name: req.body.first_name, last_name: req.body.last_name };
+    const check = await getUserByEmail(req.body.email);
+    if (check) return res.status(400).json({ errors: { email: 'Email Already In Use' } });
     const user = await postUser(req.body);
 
     return res.status(200).json({
@@ -46,50 +46,52 @@ async function login(req, res) {
         if (check) {
             return res.status(200).json({
                 message: 'User Logged In',
-                token: generateToken({ id, name }),
+                token: generateToken({ id, name })
             });
         }
     }
     return res.status(400).json({
-        message: 'Invalid Credentials',
+        message: 'Invalid Credentials'
     });
 }
 
 // Done
 async function forgotPassword(req, res) {
-    const { error } = validateForgotPassword(req.body)
+    const { error } = validateForgotPassword(req.body);
     if (error) {
         return res.status(404).json({
             errors: validationErrors(error.details)
-        })
+        });
     }
     const user = await getUserByEmail(req.body.email);
     if (!user) {
-        return res.status(400).json({ message: 'User Not Found' })
+        return res.status(400).json({ message: 'User Not Found' });
     }
 
-    const token = crypto.randomInt(100000, 999999)
+    const token = crypto.randomInt(100000, 999999);
 
-    await deleteRequests(user.id)
-    await postRequest({ user_id: user.id, token })
+    await deleteRequests(user.id);
+    await postRequest({ user_id: user.id, token });
 
-    const name = user.name.first_name + ' ' + user.name.last_name
-    const attachments = [{
-        filename: 'logo.jpg',
-        path: path.join(__dirname, '../../../', 'public', 'images', 'mails', 'logo.png'),
-        cid: 'logo'
-    }];
+    const name = user.name.first_name + ' ' + user.name.last_name;
+    const attachments = [
+        {
+            filename: 'logo.jpg',
+            path: path.join(__dirname, '../../../', 'public', 'images', 'mails', 'logo.png'),
+            cid: 'logo'
+        }
+    ];
     await sendMail('Forgot Password', req.body.email, { name, token, template_name: 'views/forgot_password.html' }, attachments);
 
-    res.status(200).json({ message: 'Check Your Email' })
+    res.status(200).json({ message: 'Check Your Email' });
 }
 
 async function verifyResetToken(req, res) {
-    const { error } = validateVerifyResetToken(req.body)
+    const { error } = validateVerifyResetToken(req.body);
     if (error) {
         return res.status(404).json({
             errors: validationErrors(error.details)
-        })
+        });
     }
 
     const user = await getUserByEmail(req.body.email);
@@ -106,25 +108,25 @@ async function verifyResetToken(req, res) {
 
 // Done
 async function resetPassword(req, res) {
-    const { error } = validateResetPassword(req.body)
+    const { error } = validateResetPassword(req.body);
     if (error) {
         return res.status(404).json({
             errors: validationErrors(error.details)
-        })
+        });
     }
     const user = await getUserByEmail(req.body.email);
     if (!user) {
-        return res.status(400).json({ message: 'User Not Found' })
+        return res.status(400).json({ message: 'User Not Found' });
     }
 
-    if (!await confirmTokenHelper(user, req.body.token)) return res.status(400).json({ message: 'Code is Incorrect' })
+    if (!(await confirmTokenHelper(user, req.body.token))) return res.status(400).json({ message: 'Code is Incorrect' });
 
     await putPassword(user, req.body.password);
 
     return res.status(200).json({
         message: 'Password Reset Successful',
         token: generateToken({ id: user.id, name: user.name })
-    })
+    });
 }
 
 // Done
@@ -135,11 +137,10 @@ async function logout(req, res) {
         user_id: user.id,
         token_blacklisted: token,
         user_type: 'User'
-    }
-    await postBlacklist(data)
-    return res.status(200).json({ message: 'Logged Out Successfully' })
+    };
+    await postBlacklist(data);
+    return res.status(200).json({ message: 'Logged Out Successfully' });
 }
-
 
 module.exports = {
     register,
@@ -148,4 +149,4 @@ module.exports = {
     resetPassword,
     logout,
     verifyResetToken
-}
+};

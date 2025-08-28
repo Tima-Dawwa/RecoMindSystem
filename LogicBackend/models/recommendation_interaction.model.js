@@ -1,4 +1,4 @@
-const RecommendationInteraction = require("./recommendation_interaction.mongo");
+const RecommendationInteraction = require('./recommendation_interaction.mongo');
 
 async function postRecommendationInteraction(data) {
     return await RecommendationInteraction.create(data);
@@ -25,15 +25,15 @@ async function getRecommendationSimilarityStats() {
         {
             $group: {
                 _id: {
-                    day: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
-                    type: "$rec_type"
+                    day: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+                    type: '$rec_type'
                 },
-                avgSimilarity: { $avg: "$similarity_metric.avg" },
-                avgTop1: { $avg: "$similarity_metric.top1" },
-                avgTop3: { $avg: "$similarity_metric.top3_avg" }
+                avgSimilarity: { $avg: '$similarity_metric.avg' },
+                avgTop1: { $avg: '$similarity_metric.top1' },
+                avgTop3: { $avg: '$similarity_metric.top3_avg' }
             }
         },
-        { $sort: { "_id.day": 1 } }
+        { $sort: { '_id.day': 1 } }
     ]);
 }
 
@@ -41,8 +41,8 @@ async function getRecommendationResponseTimeStats() {
     return await RecommendationInteraction.aggregate([
         {
             $group: {
-                _id: "$rec_type",
-                avgResponseTime: { $avg: "$response_time" }
+                _id: '$rec_type',
+                avgResponseTime: { $avg: '$response_time' }
             }
         }
     ]);

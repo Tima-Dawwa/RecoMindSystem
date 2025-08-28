@@ -1,4 +1,4 @@
-const Joi = require('joi')
+const Joi = require('joi');
 
 async function validateChangeName(data) {
     const schema = Joi.object({
@@ -10,7 +10,7 @@ async function validateChangeName(data) {
             'any.required': 'Last Name Required To Change',
             'string.min': '2 Characters Needed Atleast'
         })
-    })
+    });
     return schema.validate(data);
 }
 
@@ -19,7 +19,7 @@ async function validateChangeGender(data) {
         gender: Joi.string().valid('Male', 'Female').required().messages({
             'any.required': 'Gender Required To Change'
         })
-    })
+    });
     return schema.validate(data);
 }
 
@@ -28,7 +28,7 @@ async function validateChangeDate(data) {
         date: Joi.date().required().messages({
             'any.required': 'Date Required To Change'
         })
-    })
+    });
     return schema.validate(data);
 }
 
@@ -40,7 +40,7 @@ async function validateChangeLocation(data) {
         country: Joi.string().required().messages({
             'any.required': 'Country Required To Change'
         })
-    })
+    });
     return schema.validate(data);
 }
 
@@ -52,47 +52,44 @@ async function validateChangePhoneNumber(data) {
         number: Joi.string().required().messages({
             'any.required': 'Number Required To Change'
         })
-    })
+    });
     return schema.validate(data);
 }
 
 async function validateChangePassword(data) {
     const schema = Joi.object({
         old_password: Joi.string().min(8).max(25).required().label('Password').messages({
-            'any.required': "Password Required",
-            'string.min': "Old Password Must Be 8 Characters"
+            'any.required': 'Password Required',
+            'string.min': 'Old Password Must Be 8 Characters'
         }),
         new_password: Joi.string().min(8).max(25).required().label('Password').messages({
-            'any.required': "Password Required",
-            'string.min': "New Password Must Be 8 Characters"
+            'any.required': 'Password Required',
+            'string.min': 'New Password Must Be 8 Characters'
         }),
-        new_password_confirmation: Joi.any().equal(Joi.ref('new_password'))
-            .required()
-            .messages({
-                'any.only': 'Confirm Password does not match',
-                'any.required': "New Password Confirmation Required",
-            })
-    })
+        new_password_confirmation: Joi.any().equal(Joi.ref('new_password')).required().messages({
+            'any.only': 'Confirm Password does not match',
+            'any.required': 'New Password Confirmation Required'
+        })
+    });
     return schema.validate(data, { abortEarly: false });
 }
 
 async function validateDeleteAccount(data) {
     const schema = Joi.object({
         password: Joi.string().min(8).max(25).required().messages({
-            'any.required': "Password Required",
-            'string.min': "Password Must Be 8 Characters"
-        }),
-    })
+            'any.required': 'Password Required',
+            'string.min': 'Password Must Be 8 Characters'
+        })
+    });
     return schema.validate(data);
 }
 
 async function validateCheckTokenToDelete(data) {
     const schema = Joi.object({
-        token: Joi.number().required(),
-    })
+        token: Joi.number().required()
+    });
     return schema.validate(data);
 }
-
 
 module.exports = {
     validateChangeName,
@@ -103,4 +100,4 @@ module.exports = {
     validateDeleteAccount,
     validateChangePhoneNumber,
     validateCheckTokenToDelete
-}
+};

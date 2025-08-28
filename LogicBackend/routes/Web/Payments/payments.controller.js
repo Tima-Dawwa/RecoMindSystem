@@ -1,10 +1,10 @@
-const paypal = require("paypal-rest-sdk");
-require('dotenv').config()
+const paypal = require('paypal-rest-sdk');
+require('dotenv').config();
 
 paypal.configure({
-    'mode': 'sandbox',
-    'client_id': process.env.PAYPAL_CLIENT_ID,
-    'client_secret': process.env.PAYPAL_SECRET
+    mode: 'sandbox',
+    client_id: process.env.PAYPAL_CLIENT_ID,
+    client_secret: process.env.PAYPAL_SECRET
 });
 
 function paymentSheet(req, res) {
@@ -25,15 +25,17 @@ function paymentSheet(req, res) {
 
 function executePayment(req, res) {
     const amount = req.query.amount;
-    const currency = req.query.currency
+    const currency = req.query.currency;
     const paymentExecutionData = {
-        "payer_id": req.query.PayerID,
-        "transactions": [{
-            "amount": {
-                "currency": currency,
-                "total": amount
+        payer_id: req.query.PayerID,
+        transactions: [
+            {
+                amount: {
+                    currency: currency,
+                    total: amount
+                }
             }
-        }]
+        ]
     };
     const paymentId = req.query.paymentId;
     paypal.payment.execute(paymentId, paymentExecutionData, async function (error, payment) {
@@ -42,7 +44,7 @@ function executePayment(req, res) {
             throw error;
         } else {
             // Add Notifications
-            res.redirect("http://return_url/?status=success&id=" + payment.id + "&state=" + payment.state);
+            res.redirect('http://return_url/?status=success&id=' + payment.id + '&state=' + payment.state);
         }
     });
 }
@@ -50,4 +52,4 @@ function executePayment(req, res) {
 module.exports = {
     paymentSheet,
     executePayment
-}
+};

@@ -43,7 +43,6 @@ async function buildProductQuery(filters) {
 
     if (filters.gender) query.gender = filters.gender;
 
-
     return { query, tenDaysAgo, trendingIds };
 }
 
@@ -116,7 +115,7 @@ async function incrementInteractionCount(product_id, type, rating_value = null) 
     product.interactions[type]++;
     product.interactions.total_interactions++;
     product.total_interaction_score += WEIGHT_MAP[type];
-    return await product.save()
+    return await product.save();
 }
 
 async function incrementRatingCount(product_id, rating_value) {
@@ -124,7 +123,7 @@ async function incrementRatingCount(product_id, rating_value) {
     product.rating_count++;
     product.rating = (product.rating * product.rating_count + rating_value) / product.rating_count;
     product.total_interaction_score += rating_value;
-    return await product.save()
+    return await product.save();
 }
 
 async function applyChangedRatingToProduct(product_id, oldRatingValue, rating_value) {
@@ -134,7 +133,7 @@ async function applyChangedRatingToProduct(product_id, oldRatingValue, rating_va
     product.rating = (currentTotalRatingSum - oldRatingValue + rating_value) / product.rating_count;
     product.rating = parseFloat(product.rating.toFixed(2));
     product.total_interaction_score = product.total_interaction_score - oldRatingValue + rating_value;
-    return await product.save()
+    return await product.save();
 }
 
 async function getManyProducts(ids) {
@@ -142,25 +141,16 @@ async function getManyProducts(ids) {
 }
 
 async function updateProduct(productId, updates) {
-    return await Product.findByIdAndUpdate(
-        productId,
-        { $set: updates },
-        { new: true, runValidators: true }
-    );
+    return await Product.findByIdAndUpdate(productId, { $set: updates }, { new: true, runValidators: true });
 }
 
 async function decrementQuantity(productId, quantity) {
-    return await Product.findByIdAndUpdate(
-        productId,
-        { $inc: { quantity: -quantity } },
-        { new: true, runValidators: true }
-    );
+    return await Product.findByIdAndUpdate(productId, { $inc: { quantity: -quantity } }, { new: true, runValidators: true });
 }
 
 async function getLowQuantityProducts(threshold = 50) {
-    return await Product.find({ quantity: { $lt: threshold } })
+    return await Product.find({ quantity: { $lt: threshold } });
 }
-
 
 module.exports = {
     postProduct,
@@ -176,4 +166,4 @@ module.exports = {
     updateProduct,
     decrementQuantity,
     getLowQuantityProducts
-}
+};

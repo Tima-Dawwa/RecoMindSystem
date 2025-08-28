@@ -4,33 +4,33 @@ const { createUsers, createProducts, createInteractions, updateAllProductAggrega
 async function seedDB() {
     await mongoConnect();
 
-    console.log('Dropping Database')
-    await dropDatabase()
+    console.log('Dropping Database');
+    await dropDatabase();
 
     console.log('Seeding Database');
 
     console.log('Creating Users');
-    await createUsers()
+    await createUsers();
 
     console.log('Creating Products');
-    await createProducts()
+    await createProducts();
 
-    await createInteractions()
+    await createInteractions();
 
-    await updateAllProductAggregates()
+    await updateAllProductAggregates();
 
     console.log('Creating Admins');
-    await createAdmins()
+    await createAdmins();
 
     console.log('Creating Favorites');
-    await createFavorites()
+    await createFavorites();
 
-    console.log('Seeding Statistics')
+    console.log('Seeding Statistics');
     await seedStatistics();
 
     console.log('Database seeded!');
 
-    await mongoDisconnect()
+    await mongoDisconnect();
 }
 
 seedDB().catch(err => console.log(err));

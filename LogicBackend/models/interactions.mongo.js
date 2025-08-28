@@ -1,38 +1,40 @@
 const mongoose = require('mongoose');
-const { WEIGHT_MAP } = require('../public/constants/interaction')
+const { WEIGHT_MAP } = require('../public/constants/interaction');
 
-const interactionSchema = new mongoose.Schema({
-    user_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+const interactionSchema = new mongoose.Schema(
+    {
+        user_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+        },
+        product_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Product',
+            required: true
+        },
+        interaction_type: {
+            type: String,
+            required: true,
+            enum: ['view', 'add_to_cart', 'favorite', 'order', 'rating']
+        },
+        interaction_weight: {
+            type: Number,
+            required: false
+        },
+        rating_value: {
+            type: Number,
+            required: false,
+            min: 0,
+            max: 5
+        },
+        review_text: {
+            type: String,
+            requried: false
+        }
     },
-    product_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
-        required: true
-    },
-    interaction_type: {
-        type: String,
-        required: true,
-        enum: ['view', 'add_to_cart', 'favorite', 'order', 'rating']
-    },
-    interaction_weight: {
-        type: Number,
-        required: false,
-    },
-    rating_value: {
-        type: Number,
-        required: false,
-        min: 0,
-        max: 5
-    },
-    review_text: {
-        type: String,
-        requried: false,
-    }
-
-}, { timestamps: true })
+    { timestamps: true }
+);
 
 interactionSchema.pre('save', function (next) {
     if (this.interaction_type === 'rating' && this.rating_value != null) {

@@ -1,4 +1,4 @@
-const ChatbotInteraction = require("./chatbot_interaction.mongo");
+const ChatbotInteraction = require('./chatbot_interaction.mongo');
 
 async function postChatbotInteraction(data) {
     return await ChatbotInteraction.create(data);
@@ -6,15 +6,15 @@ async function postChatbotInteraction(data) {
 
 async function getChatbotSimilarityStats() {
     const today = new Date();
-    today.setHours(0, 0, 0, 0); 
+    today.setHours(0, 0, 0, 0);
 
-    const endDate = new Date(today); 
+    const endDate = new Date(today);
     endDate.setDate(today.getDate() - 1);
-    endDate.setHours(23, 59, 59, 999); 
+    endDate.setHours(23, 59, 59, 999);
 
-    const startDate = new Date(endDate); 
-    startDate.setDate(endDate.getDate() - 6); 
-    startDate.setHours(0, 0, 0, 0); 
+    const startDate = new Date(endDate);
+    startDate.setDate(endDate.getDate() - 6);
+    startDate.setHours(0, 0, 0, 0);
 
     return await ChatbotInteraction.aggregate([
         {
@@ -25,15 +25,15 @@ async function getChatbotSimilarityStats() {
         {
             $group: {
                 _id: {
-                    day: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
-                    type: "$input_type"
+                    day: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+                    type: '$input_type'
                 },
-                avgSimilarity: { $avg: "$similarity_metric.avg" },
-                avgTop1: { $avg: "$similarity_metric.top1" },
-                avgTop3: { $avg: "$similarity_metric.top3_avg" }
+                avgSimilarity: { $avg: '$similarity_metric.avg' },
+                avgTop1: { $avg: '$similarity_metric.top1' },
+                avgTop3: { $avg: '$similarity_metric.top3_avg' }
             }
         },
-        { $sort: { "_id.day": 1 } }
+        { $sort: { '_id.day': 1 } }
     ]);
 }
 
@@ -41,8 +41,8 @@ async function getChatbotResponseTimeStats() {
     return await ChatbotInteraction.aggregate([
         {
             $group: {
-                _id: "$input_type",
-                avgResponseTime: { $avg: "$response_time" }
+                _id: '$input_type',
+                avgResponseTime: { $avg: '$response_time' }
             }
         }
     ]);

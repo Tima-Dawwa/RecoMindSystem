@@ -1,15 +1,15 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const contactSchema = new mongoose.Schema({
     country_code: {
         type: String,
-        required: [true, 'Enter Code Number'],
+        required: [true, 'Enter Code Number']
     },
     number: {
         type: String,
         required: [true, 'Enter Phone Number'],
-        trim: true,
+        trim: true
     }
-})
+});
 
-module.exports = contactSchema
+module.exports = contactSchema;

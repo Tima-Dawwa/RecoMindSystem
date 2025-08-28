@@ -7,9 +7,9 @@ function userData(user) {
         phone_number: user.phone,
         date_of_birth: user.date_of_birth,
         profile_pic: user.profile_pic
-    }
+    };
 }
 
 module.exports = {
     userData
-}
+};

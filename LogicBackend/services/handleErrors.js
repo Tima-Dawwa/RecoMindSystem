@@ -9,14 +9,12 @@ function handleErrors(err) {
     }
 
     if (err.name === 'ValidationError' && err.errors) {
-        Object.values(err.errors).forEach((mongooseErrorItem) => {
+        Object.values(err.errors).forEach(mongooseErrorItem => {
             if (mongooseErrorItem.properties && mongooseErrorItem.properties.path && mongooseErrorItem.properties.message) {
                 errors[mongooseErrorItem.properties.path] = mongooseErrorItem.properties.message;
-            }
-            else if (mongooseErrorItem.path && mongooseErrorItem.message) {
+            } else if (mongooseErrorItem.path && mongooseErrorItem.message) {
                 errors[mongooseErrorItem.path] = mongooseErrorItem.message;
-            }
-            else if (mongooseErrorItem.message) {
+            } else if (mongooseErrorItem.message) {
                 errors[mongooseErrorItem.name || 'validationError'] = mongooseErrorItem.message;
             }
         });

@@ -6,4 +6,4 @@ function serializedData(data, serializer) {
 
 module.exports = {
     serializedData
-}
+};

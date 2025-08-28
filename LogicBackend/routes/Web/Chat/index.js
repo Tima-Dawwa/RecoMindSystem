@@ -3,7 +3,7 @@ const { getChat, postChatMessage } = require('../../../models/chats.model');
 const { verifyToken } = require('../../../services/token');
 const { encodeImage } = require('../../../services/images');
 const { default: mongoose } = require('mongoose');
-require('dotenv').config()
+require('dotenv').config();
 
 const { getChatbotResponse } = require('./chatbot');
 const { productData } = require('./chat.serializer');
@@ -14,8 +14,8 @@ const userSocketMap = {};
 
 async function socketFunctionality(io, socket) {
     const token = socket.handshake.query.token;
-    if (!token) return
-    const checkUser = verifyToken(token, process.env.SECRET_KEY)
+    if (!token) return;
+    const checkUser = verifyToken(token, process.env.SECRET_KEY);
     if (!checkUser) {
         return socket.disconnect();
     }
@@ -24,16 +24,16 @@ async function socketFunctionality(io, socket) {
     let mainChatID = null;
     userSocketMap[userID] = socket.id;
 
-    socket.on('join-chat', async (chatId) => {
-        console.log("joined-chat")
+    socket.on('join-chat', async chatId => {
+        console.log('joined-chat');
         if (!mongoose.isValidObjectId(chatId)) {
-            socket.emit('chat-error', { message: "Chat not found or access denied." });
+            socket.emit('chat-error', { message: 'Chat not found or access denied.' });
             return;
         }
 
         const chat = await getChat(chatId);
         if (!chat || chat.user_id.toString() !== userID) {
-            socket.emit('chat-error', { message: "Chat not found or access denied." });
+            socket.emit('chat-error', { message: 'Chat not found or access denied.' });
             return;
         }
 
@@ -44,7 +44,7 @@ async function socketFunctionality(io, socket) {
         let messages = [];
         for (let i = 0; i < chat.messages.length; i++) {
             const message = chat.messages[i];
-            const recommendedProducts = await getProductsData(message.recommendedProducts)
+            const recommendedProducts = await getProductsData(message.recommendedProducts);
             let messageData = {
                 content: message.content || '',
                 timestamp: message.timestamp,
@@ -67,8 +67,8 @@ async function socketFunctionality(io, socket) {
         }
     });
 
-    socket.on('send-message', async (data) => {
-        console.log("send-message")
+    socket.on('send-message', async data => {
+        console.log('send-message');
 
         try {
             let { message, image } = data;
@@ -79,17 +79,17 @@ async function socketFunctionality(io, socket) {
             }
 
             if (!mainChatID) {
-                socket.emit('chat-error', { message: "No active chat found" });
+                socket.emit('chat-error', { message: 'No active chat found' });
                 return;
             }
 
             const chat = await getChat(mainChatID);
             if (!chat || chat.user_id.toString() !== userID) {
-                socket.emit('chat-error', { message: "Chat not found or access denied" });
+                socket.emit('chat-error', { message: 'Chat not found or access denied' });
                 return;
             }
 
-            if (!chat.name || chat.name.trim() === "") {
+            if (!chat.name || chat.name.trim() === '') {
                 const newName = message.trim().substring(0, 10);
                 chat.name = newName;
                 await chat.save();
@@ -137,7 +137,7 @@ async function socketFunctionality(io, socket) {
 
                 await postChatMessage(chat, botMessage);
 
-                const recommendedProducts = await getProductsData(botMessage.recommendedProducts)
+                const recommendedProducts = await getProductsData(botMessage.recommendedProducts);
                 socket.emit('receive-message', {
                     content: botMessage.content,
                     timestamp: botMessage.timestamp,
@@ -145,7 +145,6 @@ async function socketFunctionality(io, socket) {
                     from_me: false,
                     recommendedProducts: recommendedProducts
                 });
-
             } catch (botError) {
                 console.error('Chatbot error:', botError);
                 socket.emit('bot-typing', false);
@@ -165,7 +164,6 @@ async function socketFunctionality(io, socket) {
                     from_me: false
                 });
             }
-
         } catch (error) {
             console.error('Message handling error:', error);
             socket.emit('message-error', { message: 'Failed to process message' });

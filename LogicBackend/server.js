@@ -13,20 +13,20 @@ const server = http.createServer(app);
 const io = socketio(server, {
     cors: {
         origin: '*',
-        methods: ['GET', 'POST'],
+        methods: ['GET', 'POST']
     }
 });
 
 async function startServer() {
     try {
         await mongoConnect();
-        server.listen(PORT, () => console.log(`Listening on Port: ${PORT}`))
-        io.on('connection', (socket) => {
-            console.log('a user connected with id', socket.id)
+        server.listen(PORT, () => console.log(`Listening on Port: ${PORT}`));
+        io.on('connection', socket => {
+            console.log('a user connected with id', socket.id);
             socketFunctionality(io, socket);
-        })
+        });
     } catch (err) {
-        console.log('Something went Wrong:', err.message)
+        console.log('Something went Wrong:', err.message);
     }
 }
 

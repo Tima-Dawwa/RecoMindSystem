@@ -1,10 +1,10 @@
-const { faker } = require('@faker-js/faker')
-const User = require('../models/users.mongo')
-const Product = require('../models/products.mongo')
-const Favorite = require('../models/favorites.mongo')
+const { faker } = require('@faker-js/faker');
+const User = require('../models/users.mongo');
+const Product = require('../models/products.mongo');
+const Favorite = require('../models/favorites.mongo');
 const bcrypt = require('bcryptjs');
-const locations = require('../public/json/countries-all.json')
-const numbers = require('../public/json/phone_number.json')
+const locations = require('../public/json/countries-all.json');
+const numbers = require('../public/json/phone_number.json');
 const fs = require('fs');
 const path = require('path');
 const csv = require('csv-parser');
@@ -17,24 +17,24 @@ const fsp = require('fs').promises;
 
 // Done
 async function createUsers(count = 1000) {
-    let data1 = []
+    let data1 = [];
     const password = await bcrypt.hash('12345678', 1);
     for (let i = 0; i < count; i++) {
-        const _id = faker.database.mongodbObjectId()
+        const _id = faker.database.mongodbObjectId();
         const name = {
             first_name: faker.person.firstName(),
-            last_name: faker.person.lastName(),
-        }
-        const email = faker.internet.email()
-        const phone = createPhoneNumber()
-        const gender = faker.datatype.boolean() ? 'Male' : 'Female'
-        const tempCountry = locations[Math.floor(Math.random() * locations.length)]
-        const tempCity = tempCountry.cities[Math.floor(Math.random() * tempCountry.cities.length)]
+            last_name: faker.person.lastName()
+        };
+        const email = faker.internet.email();
+        const phone = createPhoneNumber();
+        const gender = faker.datatype.boolean() ? 'Male' : 'Female';
+        const tempCountry = locations[Math.floor(Math.random() * locations.length)];
+        const tempCity = tempCountry.cities[Math.floor(Math.random() * tempCountry.cities.length)];
         const location = {
             country: tempCountry.name,
             city: tempCity
-        }
-        const date_of_birth = faker.date.birthdate({ min: 18, max: 65, mode: 'age' })
+        };
+        const date_of_birth = faker.date.birthdate({ min: 18, max: 65, mode: 'age' });
         const profile_pic = '/images/default_profile.jpg';
         const data = {
             _id,
@@ -46,21 +46,21 @@ async function createUsers(count = 1000) {
             gender,
             date_of_birth,
             profile_pic
-        }
-        data1.push(data)
+        };
+        data1.push(data);
     }
-    return await User.insertMany(data1)
+    return await User.insertMany(data1);
 }
 
 function createPhoneNumber() {
-    const countryNumber = numbers[Math.floor(Math.random() * numbers.length)]
-    let length = countryNumber.phone_length
-    if (length == undefined) length = countryNumber.min
-    else if (length.length != undefined) length = length[0]
-    return number = {
+    const countryNumber = numbers[Math.floor(Math.random() * numbers.length)];
+    let length = countryNumber.phone_length;
+    if (length == undefined) length = countryNumber.min;
+    else if (length.length != undefined) length = length[0];
+    return (number = {
         country_code: countryNumber.phone,
         number: faker.string.numeric(length)
-    }
+    });
 }
 
 async function createProducts() {
@@ -70,9 +70,9 @@ async function createProducts() {
     return new Promise((resolve, reject) => {
         fs.createReadStream(filePath)
             .pipe(csv())
-            .on('data', (row) => {
-                const folderNumber = "0" + String(row.article_id).slice(0, 2);
-                const imageNumber = "0" + row.article_id;
+            .on('data', row => {
+                const folderNumber = '0' + String(row.article_id).slice(0, 2);
+                const imageNumber = '0' + row.article_id;
                 const imagePath = path.join(__dirname, '../public/images/products', folderNumber, `${imageNumber}.jpg`);
 
                 if (!fs.existsSync(imagePath)) return;
@@ -109,7 +109,7 @@ async function createProducts() {
                     reject(err);
                 }
             })
-            .on('error', (err) => {
+            .on('error', err => {
                 console.error('Error reading CSV file:', err);
                 reject(err);
             });
@@ -121,7 +121,7 @@ async function createInteractions(count = 1000000) {
     const products = await Product.find({}, '_id').lean();
     const interactionTypes = Object.values(INTERACTION_TYPES);
     const interactionData = [];
-    const weightMap = WEIGHT_MAP
+    const weightMap = WEIGHT_MAP;
     for (let i = 0; i < count; i++) {
         const randomUser = users[Math.floor(Math.random() * users.length)];
         const randomProduct = products[Math.floor(Math.random() * products.length)];
@@ -129,13 +129,13 @@ async function createInteractions(count = 1000000) {
         let interaction = {
             user_id: randomUser._id,
             product_id: randomProduct._id,
-            interaction_type: interactionType,
+            interaction_type: interactionType
         };
         if (interactionType == 'rating') {
-            interaction.rating_value = faker.number.int({ min: 1, max: 5 })
-            interaction.interaction_weight = interaction.rating_value
+            interaction.rating_value = faker.number.int({ min: 1, max: 5 });
+            interaction.interaction_weight = interaction.rating_value;
         } else {
-            interaction.interaction_weight = weightMap[interactionType]
+            interaction.interaction_weight = weightMap[interactionType];
         }
 
         interactionData.push(interaction);
@@ -148,17 +148,14 @@ async function updateAllProductAggregates() {
     const aggregationPipeline = [
         {
             $group: {
-                _id: "$product_id",
+                _id: '$product_id',
                 ratingSum: {
                     $sum: {
                         $cond: [
                             {
-                                $and: [
-                                    { $eq: ["$interaction_type", "rating"] },
-                                    { $isNumber: "$rating_value" }
-                                ]
+                                $and: [{ $eq: ['$interaction_type', 'rating'] }, { $isNumber: '$rating_value' }]
                             },
-                            "$rating_value",
+                            '$rating_value',
                             0
                         ]
                     }
@@ -167,10 +164,7 @@ async function updateAllProductAggregates() {
                     $sum: {
                         $cond: [
                             {
-                                $and: [
-                                    { $eq: ["$interaction_type", "rating"] },
-                                    { $isNumber: "$rating_value" }
-                                ]
+                                $and: [{ $eq: ['$interaction_type', 'rating'] }, { $isNumber: '$rating_value' }]
                             },
                             1,
                             0
@@ -178,19 +172,19 @@ async function updateAllProductAggregates() {
                     }
                 },
                 viewsCount: {
-                    $sum: { $cond: [{ $eq: ["$interaction_type", "view"] }, 1, 0] }
+                    $sum: { $cond: [{ $eq: ['$interaction_type', 'view'] }, 1, 0] }
                 },
                 favoritesCount: {
-                    $sum: { $cond: [{ $eq: ["$interaction_type", "favorite"] }, 1, 0] }
+                    $sum: { $cond: [{ $eq: ['$interaction_type', 'favorite'] }, 1, 0] }
                 },
                 cartAddsCount: {
-                    $sum: { $cond: [{ $eq: ["$interaction_type", "add_to_cart"] }, 1, 0] }
+                    $sum: { $cond: [{ $eq: ['$interaction_type', 'add_to_cart'] }, 1, 0] }
                 },
                 ordersCount: {
-                    $sum: { $cond: [{ $eq: ["$interaction_type", "order"] }, 1, 0] }
+                    $sum: { $cond: [{ $eq: ['$interaction_type', 'order'] }, 1, 0] }
                 },
                 totalProductInteractions: { $sum: 1 },
-                totalInteractionScore: { $sum: { $ifNull: ["$interaction_weight", 0] } }
+                totalInteractionScore: { $sum: { $ifNull: ['$interaction_weight', 0] } }
             }
         },
         {
@@ -198,8 +192,8 @@ async function updateAllProductAggregates() {
                 _id: 1,
                 calculatedAverageRating: {
                     $cond: {
-                        if: { $gt: ["$ratingCount", 0] },
-                        then: { $round: [{ $divide: ["$ratingSum", "$ratingCount"] }, 2] },
+                        if: { $gt: ['$ratingCount', 0] },
+                        then: { $round: [{ $divide: ['$ratingSum', '$ratingCount'] }, 2] },
                         else: 0
                     }
                 },
@@ -214,34 +208,34 @@ async function updateAllProductAggregates() {
         },
         {
             $merge: {
-                into: "products",
-                on: "_id",
+                into: 'products',
+                on: '_id',
                 let: {
-                    agg_rating: "$calculatedAverageRating",
-                    agg_rating_count: "$ratingCount",
-                    agg_views: "$viewsCount",
-                    agg_favorites: "$favoritesCount",
-                    agg_add_to_cart: "$cartAddsCount",
-                    agg_orders: "$ordersCount",
-                    agg_total_interactions: "$totalProductInteractions",
-                    agg_total_score: "$totalInteractionScore"
+                    agg_rating: '$calculatedAverageRating',
+                    agg_rating_count: '$ratingCount',
+                    agg_views: '$viewsCount',
+                    agg_favorites: '$favoritesCount',
+                    agg_add_to_cart: '$cartAddsCount',
+                    agg_orders: '$ordersCount',
+                    agg_total_interactions: '$totalProductInteractions',
+                    agg_total_score: '$totalInteractionScore'
                 },
                 whenMatched: [
                     {
                         $set: {
-                            rating: "$$agg_rating",
-                            rating_count: "$$agg_rating_count",
-                            "interactions.view": "$$agg_views",
-                            "interactions.favorite": "$$agg_favorites",
-                            "interactions.add_to_cart": "$$agg_add_to_cart",
-                            "interactions.order": "$$agg_orders",
-                            "interactions.total_interactions": "$$agg_total_interactions",
-                            total_interaction_score: "$$agg_total_score",
+                            rating: '$$agg_rating',
+                            rating_count: '$$agg_rating_count',
+                            'interactions.view': '$$agg_views',
+                            'interactions.favorite': '$$agg_favorites',
+                            'interactions.add_to_cart': '$$agg_add_to_cart',
+                            'interactions.order': '$$agg_orders',
+                            'interactions.total_interactions': '$$agg_total_interactions',
+                            total_interaction_score: '$$agg_total_score',
                             updatedAt: new Date()
                         }
                     }
                 ],
-                whenNotMatched: "discard"
+                whenNotMatched: 'discard'
             }
         }
     ];
@@ -257,11 +251,9 @@ async function updateAllProductAggregates() {
 const Admins = require('../models/admins.mongo');
 
 async function createAdmins() {
-    const admins = [
-        { username: 'ZYZZ', password: '12345678', role: 'Super-Admin' },
-    ]
+    const admins = [{ username: 'ZYZZ', password: '12345678', role: 'Super-Admin' }];
 
-    await Admins.create(admins)
+    await Admins.create(admins);
 }
 
 async function createFavorites() {
@@ -303,7 +295,6 @@ async function createFavorites() {
         } else {
             console.log('All users already have favorites');
         }
-
     } catch (error) {
         console.error('Error creating favorites:', error);
     }
@@ -391,8 +382,6 @@ function randomDatePast7Days() {
     return new Date(past.getTime() + Math.random() * (today.getTime() - past.getTime()));
 }
 
-
-
 // async function createNotifications() {
 //     let data = []
 //     for (let i = 0; i < 3000; i++) {
@@ -407,7 +396,6 @@ function randomDatePast7Days() {
 //     await Notification.insertMany(data)
 // }
 
-
 async function checkImagesFromCSV() {
     const filePath = path.join(__dirname, '../public/json/filtered_data.csv');
 
@@ -419,11 +407,11 @@ async function checkImagesFromCSV() {
     return new Promise((resolve, reject) => {
         fs.createReadStream(filePath)
             .pipe(csv())
-            .on('data', async (row) => {
+            .on('data', async row => {
                 totalProducts++;
 
-                const folderNumber = "0" + String(row.article_id).slice(0, 2);
-                const imageNumber = "0" + row.article_id;
+                const folderNumber = '0' + String(row.article_id).slice(0, 2);
+                const imageNumber = '0' + row.article_id;
                 const imagePath = path.join(__dirname, '../public/images/products', folderNumber, `${imageNumber}.jpg`);
 
                 try {
@@ -435,19 +423,19 @@ async function checkImagesFromCSV() {
                 }
             })
             .on('end', () => {
-                console.log("===== IMAGE CHECK REPORT =====");
+                console.log('===== IMAGE CHECK REPORT =====');
                 console.log(`Total products: ${totalProducts}`);
                 console.log(`Images found: ${imagesFound}`);
                 console.log(`Missing images: ${imagesMissing}`);
 
                 if (missingPaths.length > 0) {
-                    console.log("\n--- Missing image paths ---");
+                    console.log('\n--- Missing image paths ---');
                     missingPaths.forEach(p => console.log(p));
                 }
 
                 resolve({ totalProducts, imagesFound, imagesMissing, missingPaths });
             })
-            .on('error', (err) => {
+            .on('error', err => {
                 console.error('Error reading CSV file:', err);
                 reject(err);
             });
@@ -458,7 +446,6 @@ async function checkImagesFromCSV() {
 //     checkImagesFromCSV().then(() => process.exit(0));
 // }
 
-
 module.exports = {
     createUsers,
     createProducts,
@@ -468,4 +455,4 @@ module.exports = {
     createFavorites,
     seedStatistics
     // createNotifications
-}
+};

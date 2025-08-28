@@ -3,33 +3,32 @@ require('dotenv').config();
 
 async function sendPushNotification(title, body, token, type = 'MESSAGE', data = {}) {
     let temp = [];
-    if (token.length == 0) return
+    if (token.length == 0) return;
     token.forEach(tok => {
         tok.device_token.forEach(device => {
-            if (device.token)
-                temp.push(device.token);
+            if (device.token) temp.push(device.token);
         });
     });
 
     const messages = temp.map(token => ({
         notification: {
             title,
-            body,
+            body
         },
         android: {
             notification: {
                 channel_id: 'MESSAGE_CHANNEL',
                 icon: 'message_icon',
                 tag: 'message',
-                image: `${process.env.URL}/images/mails/logo.png`,
-            },
+                image: `${process.env.URL}/images/mails/logo.png`
+            }
         },
         data: {
             click_action: 'FLUTTER_NOTIFICATION_CLICK',
             type: type,
             extra: JSON.stringify(data)
         },
-        token,
+        token
     }));
 
     for (const message of messages) {

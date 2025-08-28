@@ -1,8 +1,8 @@
-const { handleErrors } = require('../services/handleErrors')
+const { handleErrors } = require('../services/handleErrors');
 
 errorHandler = (err, req, res, next) => {
-    const errors = handleErrors(err)
-    return res.status(err.statusCode || 500).json({ errors })
-}
+    const errors = handleErrors(err);
+    return res.status(err.statusCode || 500).json({ errors });
+};
 
-module.exports = errorHandler
+module.exports = errorHandler;

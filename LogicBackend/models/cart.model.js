@@ -8,7 +8,7 @@ async function getCart(user_id, skip = 0, limit = 10) {
 }
 
 async function getCartItem(user_id, product_id) {
-    const cart = await Cart.findOne({ user_id: user_id, "items.product": product_id });
+    const cart = await Cart.findOne({ user_id: user_id, 'items.product': product_id });
     return cart;
 }
 
@@ -32,27 +32,15 @@ async function addToCart(user_id, product_id, price, quantity = 1) {
 }
 
 async function updateCartItem(user_id, product_id, newQuantity) {
-    return await Cart.findOneAndUpdate(
-        { user_id, "items.product": product_id },
-        { $set: { "items.$.quantity": newQuantity } },
-        { new: true }
-    );
+    return await Cart.findOneAndUpdate({ user_id, 'items.product': product_id }, { $set: { 'items.$.quantity': newQuantity } }, { new: true });
 }
 
 async function deleteFromCart(user_id, product_id) {
-    return await Cart.findOneAndUpdate(
-        { user_id },
-        { $pull: { items: { product: product_id } } },
-        { new: true }
-    );
+    return await Cart.findOneAndUpdate({ user_id }, { $pull: { items: { product: product_id } } }, { new: true });
 }
 
 async function resetCart(user_id) {
-    return await Cart.findOneAndUpdate(
-        { user_id },
-        { $set: { items: [], total_price: 0 } },
-        { new: true }
-    );
+    return await Cart.findOneAndUpdate({ user_id }, { $set: { items: [], total_price: 0 } }, { new: true });
 }
 
 async function getCartCount(user_id) {

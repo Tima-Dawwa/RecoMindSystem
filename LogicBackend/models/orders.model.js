@@ -2,24 +2,21 @@ const Order = require('./orders.mongo');
 
 async function getOrdersForUser(user_id, skip, limit, sortBy = 'createdAt', sortOrder = 'desc') {
     let sortQuery = {};
-    
+
     // Validate sortBy parameter
     const validSortFields = ['createdAt', 'total_price', 'status'];
     if (!validSortFields.includes(sortBy)) {
         sortBy = 'createdAt';
     }
-    
+
     // Validate sortOrder parameter
     if (sortOrder !== 'asc' && sortOrder !== 'desc') {
         sortOrder = 'desc';
     }
-    
+
     sortQuery[sortBy] = sortOrder === 'desc' ? -1 : 1;
-    
-    return await Order.find({ user_id })
-        .sort(sortQuery)
-        .skip(skip)
-        .limit(limit);
+
+    return await Order.find({ user_id }).sort(sortQuery).skip(skip).limit(limit);
 }
 
 async function getOrdersCountForUser(user_id) {
@@ -38,7 +35,6 @@ async function getOrder(order_id) {
     return await Order.findById(order_id);
 }
 
-
 async function getUniqueUsersCount() {
     return await Order.distinct('user_id').countDocuments();
 }
@@ -48,18 +44,16 @@ async function getTotalProfit() {
     let totalProfit = 0;
 
     for (const order of orders) {
-        
         const orderProfit = order.total_price * 0.2;
         totalProfit += orderProfit;
     }
 
-    return Math.round(totalProfit * 100) / 100; 
+    return Math.round(totalProfit * 100) / 100;
 }
 
 async function getAllOrdersWithUserDetails(skip = 0, limit = 10, searchUsername = null, searchDate = null, sortBy = 'createdAt', sortOrder = 'desc') {
     let query = {};
 
-    
     if (searchDate) {
         const startOfDay = new Date(searchDate);
         startOfDay.setHours(0, 0, 0, 0);
@@ -68,9 +62,7 @@ async function getAllOrdersWithUserDetails(skip = 0, limit = 10, searchUsername 
         query.createdAt = { $gte: startOfDay, $lte: endOfDay };
     }
 
-    
     if (searchUsername) {
-        
         const User = require('./users.mongo');
         const matchingUsers = await User.find({
             username: { $regex: searchUsername, $options: 'i' }
@@ -79,30 +71,23 @@ async function getAllOrdersWithUserDetails(skip = 0, limit = 10, searchUsername 
         query.user_id = { $in: userIds };
     }
 
-    
     const validSortFields = ['createdAt', 'total_price', 'status', 'username'];
     if (!validSortFields.includes(sortBy)) {
         sortBy = 'createdAt';
     }
-    
-    
+
     if (sortOrder !== 'asc' && sortOrder !== 'desc') {
         sortOrder = 'desc';
     }
-    
+
     let sortQuery = {};
     if (sortBy === 'username') {
-        
-        sortQuery = { createdAt: -1 }; 
+        sortQuery = { createdAt: -1 };
     } else {
         sortQuery[sortBy] = sortOrder === 'desc' ? -1 : 1;
     }
 
-    const orders = await Order.find(query)
-        .populate('user_id', 'username email')
-        .sort(sortQuery)
-        .skip(skip)
-        .limit(limit);
+    const orders = await Order.find(query).populate('user_id', 'username email').sort(sortQuery).skip(skip).limit(limit);
 
     let result = orders.map(order => ({
         id: order._id,
@@ -114,7 +99,6 @@ async function getAllOrdersWithUserDetails(skip = 0, limit = 10, searchUsername 
         total_price: order.total_price
     }));
 
-    
     if (sortBy === 'username') {
         result.sort((a, b) => {
             const aUsername = a.username.toLowerCase();
@@ -154,11 +138,7 @@ async function updateOrderStatus(orderId, newStatus) {
         throw new Error('Invalid status. Must be either "prepare" or "delivery"');
     }
 
-    return await Order.findByIdAndUpdate(
-        orderId,
-        { status: newStatus },
-        { new: true, runValidators: true }
-    );
+    return await Order.findByIdAndUpdate(orderId, { status: newStatus }, { new: true, runValidators: true });
 }
 
 async function createOrder(orderData) {
@@ -178,4 +158,4 @@ module.exports = {
     getAllOrdersWithUserDetails,
     updateOrderStatus,
     createOrder
-}
+};

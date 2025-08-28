@@ -1,8 +1,8 @@
 function chatData(chat) {
     return {
         id: chat._id,
-        chat_name: chat.name,
-    }
+        chat_name: chat.name
+    };
 }
 
 function productData(product) {
@@ -18,11 +18,11 @@ function productData(product) {
         isNew: product.isNew,
         isTrend: product.isTrend,
         isFavorite: product.isFavorite,
-        image: product.images[0],
+        image: product.images[0]
     };
 }
 
 module.exports = {
     chatData,
     productData
-}
+};

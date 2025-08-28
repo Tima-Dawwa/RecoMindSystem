@@ -12,4 +12,4 @@ function validationErrors(errors) {
 
 module.exports = {
     validationErrors
-}
+};

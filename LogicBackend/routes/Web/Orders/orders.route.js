@@ -6,7 +6,6 @@ const checkObjectID = require('../../../middlewares/checkObjectID');
 
 const { httpGetOrders, httpGetOrder, httpPostOrder } = require('./orders.controller');
 
-
 const ordersRouter = express.Router();
 
 ordersRouter.get('/', requireJwtAuth, asyncHandler(httpGetOrders));
