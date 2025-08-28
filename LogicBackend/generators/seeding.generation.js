@@ -10,6 +10,9 @@ const path = require('path');
 const csv = require('csv-parser');
 const Interaction = require('../models/interactions.mongo');
 const { WEIGHT_MAP, INTERACTION_TYPES } = require('../public/constants/interaction');
+const ChatbotInteraction = require('../models/chatbot_interaction.mongo');
+const RecommendationInteraction = require('../models/recommendation_interaction.mongo');
+
 const fsp = require('fs').promises;
 
 // Done
@@ -305,6 +308,89 @@ async function createFavorites() {
         console.error('Error creating favorites:', error);
     }
 }
+async function seedStatistics() {
+    try {
+        const users = await User.find({}, '_id').lean();
+        if (!users.length) {
+            console.log('No users found');
+            return;
+        }
+
+        const chatbotTypes = ['text', 'image', 'text+image'];
+        const recTypes = ['content', 'collaborative', 'hybrid'];
+
+        const chatbotData = [];
+        const recommendationData = [];
+
+        for (const user of users) {
+            const numberOfChatbotInteractions = Math.floor(Math.random() * 5) + 3;
+            for (let i = 0; i < numberOfChatbotInteractions; i++) {
+                const inputType = chatbotTypes[Math.floor(Math.random() * chatbotTypes.length)];
+
+                const similarities = Array.from({ length: 5 }, () => +(Math.random() * 0.2 + 0.8).toFixed(3));
+                const top1 = similarities[0];
+                const avg = similarities.reduce((a, b) => a + b, 0) / similarities.length;
+                const top3 = similarities.slice(0, 3);
+                const top3_avg = top3.reduce((a, b) => a + b, 0) / top3.length;
+                const response_time = +(Math.random() * 2 + 0.5).toFixed(3);
+
+                chatbotData.push({
+                    user_id: user._id,
+                    input_type: inputType,
+                    similarities,
+                    similarity_metric: { top1, avg, top3_avg },
+                    response_time,
+                    createdAt: randomDatePast7Days(),
+                    updatedAt: new Date()
+                });
+            }
+
+            const numberOfRecInteractions = Math.floor(Math.random() * 5) + 3;
+            for (let i = 0; i < numberOfRecInteractions; i++) {
+                const recType = recTypes[Math.floor(Math.random() * recTypes.length)];
+
+                const similarities = Array.from({ length: 5 }, () => +(Math.random() * 0.2 + 0.8).toFixed(3));
+                const top1 = similarities[0];
+                const avg = similarities.reduce((a, b) => a + b, 0) / similarities.length;
+                const top3 = similarities.slice(0, 3);
+                const top3_avg = top3.reduce((a, b) => a + b, 0) / top3.length;
+                const response_time = +(Math.random() * 2 + 0.5).toFixed(3);
+
+                recommendationData.push({
+                    user_id: user._id,
+                    rec_type: recType,
+                    similarities,
+                    similarity_metric: { top1, avg, top3_avg },
+                    response_time,
+                    createdAt: randomDatePast7Days(),
+                    updatedAt: new Date()
+                });
+            }
+        }
+
+        if (chatbotData.length) {
+            await ChatbotInteraction.insertMany(chatbotData);
+            console.log(`Inserted ${chatbotData.length} chatbot interactions`);
+        }
+
+        if (recommendationData.length) {
+            await RecommendationInteraction.insertMany(recommendationData);
+            console.log(`Inserted ${recommendationData.length} recommendation interactions`);
+        }
+
+        console.log('Seeding completed successfully');
+    } catch (err) {
+        console.error('Error seeding statistics:', err);
+    }
+}
+
+function randomDatePast7Days() {
+    const today = new Date();
+    const past = new Date();
+    past.setDate(today.getDate() - 7);
+    return new Date(past.getTime() + Math.random() * (today.getTime() - past.getTime()));
+}
+
 
 
 // async function createNotifications() {
@@ -379,6 +465,7 @@ module.exports = {
     createInteractions,
     updateAllProductAggregates,
     createAdmins,
-    createFavorites
+    createFavorites,
+    seedStatistics
     // createNotifications
 }
