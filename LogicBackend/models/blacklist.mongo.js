@@ -16,7 +16,6 @@ const blacklistSchema = new mongoose.Schema({
         required: true,
         enum: ['User', 'Admin']
     }
-})
+});
 
-
-module.exports = mongoose.model('Blacklist', blacklistSchema)
+module.exports = mongoose.model('Blacklist', blacklistSchema);

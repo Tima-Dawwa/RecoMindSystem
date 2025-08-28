@@ -1,32 +1,35 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const RecommendationInteractionSchema = new mongoose.Schema({
-    user_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
+const RecommendationInteractionSchema = new mongoose.Schema(
+    {
+        user_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+        },
+        rec_type: {
+            type: String,
+            enum: ['content', 'collaborative', 'hybrid'],
+            required: true
+        },
+        similarities: {
+            type: [Number],
+            default: []
+        },
+        similarity_metric: {
+            top1: { type: Number, default: null },
+            avg: { type: Number, default: null },
+            top3_avg: { type: Number, default: null }
+        },
+        response_time: {
+            type: Number,
+            required: true
+        }
     },
-    rec_type: {
-        type: String,
-        enum: ["content", "collaborative", "hybrid"],
-        required: true,
-    },
-    similarities: {
-        type: [Number],
-        default: [],
-    },
-    similarity_metric: {
-        top1: { type: Number, default: null },
-        avg: { type: Number, default: null },
-        top3_avg: { type: Number, default: null },
-    },
-    response_time: {
-        type: Number,
-        required: true,
-    }
-}, { timestamps: true });
+    { timestamps: true }
+);
 
-RecommendationInteractionSchema.pre("save", function (next) {
+RecommendationInteractionSchema.pre('save', function (next) {
     if (this.similarities.length > 0) {
         // Top 1
         this.similarity_metric.top1 = this.similarities[0];
@@ -43,4 +46,4 @@ RecommendationInteractionSchema.pre("save", function (next) {
     next();
 });
 
-module.exports = mongoose.model("RecommendationInteraction", RecommendationInteractionSchema);
+module.exports = mongoose.model('RecommendationInteraction', RecommendationInteractionSchema);

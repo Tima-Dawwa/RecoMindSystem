@@ -8,47 +8,47 @@ const { getProductRatings } = require('../../../models/interactions.model');
 
 // done
 async function httpGetAllProducts(req, res) {
-    const { skip, limit } = getPagination(req.query)
-    const { name, gender } = req.query
+    const { skip, limit } = getPagination(req.query);
+    const { name, gender } = req.query;
     const filters = {
         name: name,
         gender: gender
     };
-    const data = await getProducts(filters, skip, limit)
-    const length = await getProductsCount(filters)
-    return res.status(200).json({ data: serializedData(data, productData), count: length })
+    const data = await getProducts(filters, skip, limit);
+    const length = await getProductsCount(filters);
+    return res.status(200).json({ data: serializedData(data, productData), count: length });
 }
 
-// done 
+// done
 async function httpGetOneProduct(req, res) {
     const product = await getProductById(req.params.id);
     if (!product) {
-        return res.status(404).json({ error: "Product not found" });
+        return res.status(404).json({ error: 'Product not found' });
     }
     const ratings = await getProductRatings(req.params.id);
-    console.log(ratings)
+    console.log(ratings);
     return res.status(200).json({
-        data: productDetailsData(product, ratings),
+        data: productDetailsData(product, ratings)
     });
 }
 
 // done
 async function httpPostProduct(req, res) {
     const { error } = validateCreateProduct(req.body);
-    if (error) return res.status(404).json({ errors: validationErrors(error.details) })
+    if (error) return res.status(404).json({ errors: validationErrors(error.details) });
     const imageFilenames = req.files?.map(file => '/images/products/' + file.filename) || [];
 
     if (imageFilenames.length === 0) {
-        return res.status(400).json({ errors: [{ message: "At least one image is required." }] });
+        return res.status(400).json({ errors: [{ message: 'At least one image is required.' }] });
     }
 
     const productData = {
         ...req.body,
-        images: imageFilenames,
+        images: imageFilenames
     };
 
     await postProduct(productData);
-    return res.status(200).json({ message: "Product Successfully Added" })
+    return res.status(200).json({ message: 'Product Successfully Added' });
 }
 
 // done
@@ -56,17 +56,17 @@ async function httpDeleteProduct(req, res) {
     const { ids } = req.body;
 
     if (!Array.isArray(ids) || ids.length === 0) {
-        return res.status(400).json({ message: "Array of product IDs is required." });
+        return res.status(400).json({ message: 'Array of product IDs is required.' });
     }
 
     const foundProducts = await getManyProducts(ids);
 
     if (foundProducts.length !== ids.length) {
-        return res.status(404).json({ message: "One or more products not found." });
+        return res.status(404).json({ message: 'One or more products not found.' });
     }
 
-    await deleteProducts(ids)
-    return res.status(200).json({ message: "Product Succefully Deleted" })
+    await deleteProducts(ids);
+    return res.status(200).json({ message: 'Product Succefully Deleted' });
 }
 
 async function httpPutProduct(req, res) {
@@ -75,10 +75,10 @@ async function httpPutProduct(req, res) {
 
     const product = await getProductById(req.params.id);
     if (!product) {
-        return res.status(404).json({ error: "Product not found" });
+        return res.status(404).json({ error: 'Product not found' });
     }
 
-    const newImages = req.files?.map(file => "/images/products/" + file.filename) || [];
+    const newImages = req.files?.map(file => '/images/products/' + file.filename) || [];
 
     let imagesToKeep = req.body.imagesToKeep;
 
@@ -86,11 +86,11 @@ async function httpPutProduct(req, res) {
 
     const updatedData = {
         ...req.body,
-        images: finalImages,
+        images: finalImages
     };
 
     await updateProduct(req.params.id, updatedData);
-    return res.status(200).json({ message: "Product Successfully Edited" });
+    return res.status(200).json({ message: 'Product Successfully Edited' });
 }
 
 module.exports = {
@@ -99,4 +99,4 @@ module.exports = {
     httpPostProduct,
     httpDeleteProduct,
     httpPutProduct
-}
+};

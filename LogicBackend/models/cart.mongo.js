@@ -1,24 +1,27 @@
 const mongoose = require('mongoose');
-const cartItemSchema = require('./cartItem.mongo')
+const cartItemSchema = require('./cartItem.mongo');
 
-const cartSchema = new mongoose.Schema({
-    user_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
-        unique: true
+const cartSchema = new mongoose.Schema(
+    {
+        user_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true,
+            unique: true
+        },
+        items: [cartItemSchema],
+        total_price: {
+            type: Number,
+            default: 0,
+            min: 0
+        }
     },
-    items: [cartItemSchema],
-    total_price: {
-        type: Number,
-        default: 0,
-        min: 0
-    }
-}, { timestamps: true });
+    { timestamps: true }
+);
 
 cartSchema.pre('save', function (next) {
     this.total_price = this.items.reduce((total, item) => {
-        return total + (item.price * item.quantity);
+        return total + item.price * item.quantity;
     }, 0);
     next();
 });
@@ -26,7 +29,7 @@ cartSchema.pre('save', function (next) {
 cartSchema.post('findOneAndUpdate', async function (doc) {
     if (doc) {
         doc.total_price = doc.items.reduce((total, item) => {
-            return total + (item.price * item.quantity);
+            return total + item.price * item.quantity;
         }, 0);
         await doc.save();
     }

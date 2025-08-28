@@ -1,12 +1,4 @@
-const {
-    getOrders,
-    getOrder,
-    getOrdersCount,
-    getUniqueUsersCount,
-    getTotalProfit,
-    getAllOrdersWithUserDetails,
-    updateOrderStatus
-} = require('../../../models/orders.model');
+const { getOrders, getOrder, getOrdersCount, getUniqueUsersCount, getTotalProfit, getAllOrdersWithUserDetails, updateOrderStatus } = require('../../../models/orders.model');
 const { getPagination } = require('../../../services/query');
 const { serializedData } = require('../../../services/serializeArray');
 const { orderData } = require('./orders.serializer');
@@ -23,17 +15,13 @@ async function httpGetOrders(req, res) {
 
 async function httpGetOrder(req, res) {
     const data = await getOrder(req.params.id);
-    if (!data) return res.status(404).json({ message: "Order Not Found" });
+    if (!data) return res.status(404).json({ message: 'Order Not Found' });
     return res.status(200).json({ data: orderData(data) });
 }
 
 async function httpGetOrdersStatistics(req, res) {
     try {
-        const [totalOrders, uniqueUsers, totalProfit] = await Promise.all([
-            getOrdersCount(),
-            getUniqueUsersCount(),
-            getTotalProfit()
-        ]);
+        const [totalOrders, uniqueUsers, totalProfit] = await Promise.all([getOrdersCount(), getUniqueUsersCount(), getTotalProfit()]);
 
         return res.status(200).json({
             data: {
@@ -43,7 +31,7 @@ async function httpGetOrdersStatistics(req, res) {
             }
         });
     } catch (error) {
-        return res.status(500).json({ message: "Error fetching statistics", error: error.message });
+        return res.status(500).json({ message: 'Error fetching statistics', error: error.message });
     }
 }
 
@@ -61,11 +49,11 @@ async function httpUpdateOrderStatus(req, res) {
         const updatedOrder = await updateOrderStatus(orderId, status);
 
         if (!updatedOrder) {
-            return res.status(404).json({ message: "Order not found" });
+            return res.status(404).json({ message: 'Order not found' });
         }
 
         return res.status(200).json({
-            message: "Order status updated successfully",
+            message: 'Order status updated successfully',
             data: {
                 id: updatedOrder._id,
                 status: updatedOrder.status
@@ -73,7 +61,7 @@ async function httpUpdateOrderStatus(req, res) {
         });
     } catch (error) {
         return res.status(500).json({
-            message: "Error updating order status",
+            message: 'Error updating order status',
             error: error.message
         });
     }
@@ -84,4 +72,4 @@ module.exports = {
     httpGetOrder,
     httpGetOrdersStatistics,
     httpUpdateOrderStatus
-}
+};

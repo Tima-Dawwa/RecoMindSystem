@@ -13,7 +13,7 @@ function productData(product) {
         isFavorite: product.isFavorite,
         isFinished: product.quantity == 0,
         image: product.images[0],
-        quantity: product.quantity,
+        quantity: product.quantity
     };
 }
 
@@ -31,7 +31,7 @@ function productDataRecommendations(product) {
         isNew: product.isNew,
         isTrend: product.isTrend,
         isFavorite: product.isFavorite,
-        image: product.images[0],
+        image: product.images[0]
     };
 }
 
@@ -52,10 +52,9 @@ function productDetailsData(product, ratings) {
 
         num_favorites: product.interactions.favorite || 0,
         num_views: product.interactions.view || 0,
-        num_sales: product.interactions.order || 0,
+        num_sales: product.interactions.order || 0
     };
 }
-
 
 module.exports = {
     productData,

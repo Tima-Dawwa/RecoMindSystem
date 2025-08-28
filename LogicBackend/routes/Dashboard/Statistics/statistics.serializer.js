@@ -25,8 +25,7 @@ function responseTimeData(data) {
     }));
 }
 
-
 module.exports = {
     similarityData,
     responseTimeData
-}
+};

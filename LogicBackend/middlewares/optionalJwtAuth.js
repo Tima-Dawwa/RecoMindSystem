@@ -8,7 +8,7 @@ module.exports = async (req, res, next) => {
         const token = authHeader.split(' ')[1];
         if (token) {
             try {
-                const decoded = verifyToken(token, JWT_SECRET)
+                const decoded = verifyToken(token, JWT_SECRET);
                 req.user = decoded;
             } catch (error) {
                 console.warn('Optional auth: Invalid token received - ', error.message);

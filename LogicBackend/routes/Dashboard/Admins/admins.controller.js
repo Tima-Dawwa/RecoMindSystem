@@ -1,24 +1,24 @@
-const { findAdmin, getAdmins, postAdmin, deleteAdmin, searchAdmins, getAdmin } = require('../../../models/admins.model')
-const { validateLoginAdmin, validatePostAdmin, validateDeleteAdmin } = require('./admins.validation')
-const { generateToken } = require('../../../services/token')
-const { validationErrors } = require('../../../middlewares/validationErrors')
-const { postBlacklist } = require('../../../models/blacklist.model')
-const { serializedData } = require('../../../services/serializeArray')
-const { adminsData } = require('./admins.serializer')
+const { findAdmin, getAdmins, postAdmin, deleteAdmin, searchAdmins, getAdmin } = require('../../../models/admins.model');
+const { validateLoginAdmin, validatePostAdmin, validateDeleteAdmin } = require('./admins.validation');
+const { generateToken } = require('../../../services/token');
+const { validationErrors } = require('../../../middlewares/validationErrors');
+const { postBlacklist } = require('../../../models/blacklist.model');
+const { serializedData } = require('../../../services/serializeArray');
+const { adminsData } = require('./admins.serializer');
 
 // Done
 async function login(req, res) {
-    console.log(req.body)
-    const { error } = validateLoginAdmin(req.body)
+    console.log(req.body);
+    const { error } = validateLoginAdmin(req.body);
     if (error) return res.status(400).json({ message: 'Not Authorized' });
 
-    const admin = await findAdmin(req.body.username)
+    const admin = await findAdmin(req.body.username);
     if (admin) {
-        const check = await admin.checkCredentials(admin.password, req.body.password)
+        const check = await admin.checkCredentials(admin.password, req.body.password);
         if (check) {
             return res.status(200).json({
                 message: 'Logged In As ' + admin.role,
-                token: generateToken({ id: admin._id, username: admin.username }),
+                token: generateToken({ id: admin._id, username: admin.username })
             });
         }
     }
@@ -26,33 +26,33 @@ async function login(req, res) {
 }
 
 async function httpGetAllAdmins(req, res) {
-    const admins = await getAdmins()
-    return res.status(200).json({ data: serializedData(admins, adminsData) })
+    const admins = await getAdmins();
+    return res.status(200).json({ data: serializedData(admins, adminsData) });
 }
 
 async function httpSearchAdmins(req, res) {
-    const admins = await searchAdmins(req.query.username)
-    return res.status(200).json({ data: serializedData(admins, adminsData) })
+    const admins = await searchAdmins(req.query.username);
+    return res.status(200).json({ data: serializedData(admins, adminsData) });
 }
 
 async function httpPostAdmin(req, res) {
-    const { error } = validatePostAdmin(req.body)
+    const { error } = validatePostAdmin(req.body);
     if (error) return res.status(400).json({ message: validationErrors(error.details) });
-    const data = { username: req.body.username, password: req.body.password, role: req.body.role }
+    const data = { username: req.body.username, password: req.body.password, role: req.body.role };
     await postAdmin(data);
     return res.status(200).json({ message: 'Admin Created', data: data });
 }
 
 async function httpDeleteAdmin(req, res) {
-    const { error } = validateDeleteAdmin(req.body)
+    const { error } = validateDeleteAdmin(req.body);
     if (error) return res.status(400).json({ message: validationErrors(error.details) });
-    const admin = await getAdmin(req.params.id)
-    if (!admin) return res.status(400).json({ message: 'Admin Not Found' })
+    const admin = await getAdmin(req.params.id);
+    if (!admin) return res.status(400).json({ message: 'Admin Not Found' });
     const superAdmin = req.user;
     const check = await superAdmin.checkCredentials(superAdmin.password, req.body.password);
-    if (!check) return res.status(400).json({ message: 'Not Authorized' })
-    await deleteAdmin(req.params.id)
-    return res.status(200).json({ message: 'Admin Deleted' })
+    if (!check) return res.status(400).json({ message: 'Not Authorized' });
+    await deleteAdmin(req.params.id);
+    return res.status(200).json({ message: 'Admin Deleted' });
 }
 
 async function logout(req, res) {
@@ -62,11 +62,10 @@ async function logout(req, res) {
         user_id: user.id,
         token_blacklisted: token,
         user_type: 'Admin'
-    }
-    await postBlacklist(data)
-    return res.status(200).json({ message: 'Logged Out Successfully' })
+    };
+    await postBlacklist(data);
+    return res.status(200).json({ message: 'Logged Out Successfully' });
 }
-
 
 module.exports = {
     login,
@@ -75,4 +74,4 @@ module.exports = {
     httpPostAdmin,
     httpDeleteAdmin,
     logout
-}
+};

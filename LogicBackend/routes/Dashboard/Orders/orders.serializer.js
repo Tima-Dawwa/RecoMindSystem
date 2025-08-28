@@ -7,9 +7,9 @@ function orderData(order) {
         status: order.status,
         created_at: order.createdAt,
         updated_at: order.updatedAt
-    }
+    };
 }
 
 module.exports = {
     orderData
-}
+};

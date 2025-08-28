@@ -5,13 +5,13 @@ const fs = require('fs');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         let category = 'default';
-        
+
         if (file.fieldname === 'profile_pic') {
             category = 'users';
         } else if (file.fieldname === 'images') {
             category = 'products';
         }
-        
+
         const uploadPath = `public/images/${category}`;
 
         if (!fs.existsSync(uploadPath)) {
@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
         cb(null, uploadPath);
     },
     filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
         cb(null, uniqueSuffix + '-' + file.originalname);
     }
 });

@@ -5,20 +5,20 @@ async function getChats(user_id) {
 }
 
 async function getChatsCount(user_id) {
-    return await Chat.find({ user_id: user_id }).countDocuments()
+    return await Chat.find({ user_id: user_id }).countDocuments();
 }
 
 async function getChat(id) {
-    return await Chat.findById(id)
+    return await Chat.findById(id);
 }
 
 async function postChat(data) {
-    return await Chat.create(data)
+    return await Chat.create(data);
 }
 
 async function postChatMessage(chat, message) {
-    chat.messages.push(message)
-    await chat.save()
+    chat.messages.push(message);
+    await chat.save();
 }
 
 module.exports = {
@@ -26,5 +26,5 @@ module.exports = {
     getChatsCount,
     getChat,
     postChat,
-    postChatMessage,
-}
+    postChatMessage
+};

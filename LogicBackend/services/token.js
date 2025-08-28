@@ -13,11 +13,11 @@ async function checkCredentials(hashed, password) {
 }
 
 function verifyToken(token, secret) {
-    return jwt.verify(token, secret)
+    return jwt.verify(token, secret);
 }
 
 module.exports = {
     generateToken,
     checkCredentials,
     verifyToken
-}
+};

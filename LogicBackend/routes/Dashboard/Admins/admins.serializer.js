@@ -4,9 +4,9 @@ function adminsData(admin) {
         username: admin.username,
         role: admin.role,
         created_at: admin.createdAt
-    }
+    };
 }
 
 module.exports = {
     adminsData
-}
+};

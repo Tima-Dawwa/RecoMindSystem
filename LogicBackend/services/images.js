@@ -5,7 +5,7 @@ function encodeImage(image) {
     const matches = image.match(/^data:image\/\w+;base64,(.+)$/);
 
     if (!matches || matches.length !== 2) {
-        console.error("Invalid base64 string");
+        console.error('Invalid base64 string');
         return null;
     }
 
