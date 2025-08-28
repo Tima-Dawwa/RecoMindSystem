@@ -20,31 +20,31 @@ class ChatRequest(BaseModel):
 
 @router.post("/chatbot")
 async def chat_endpoint(request: ChatRequest):
-    # query_image = None
+    query_image = None
 
-    # if request.image:
-    #     image_path = os.path.join(BASE_IMAGE_FOLDER, request.image)
-    #     if os.path.exists(image_path):
-    #         try:
-    #             query_image = Image.open(image_path).convert("RGB")
-    #         except Exception as e:
-    #             return {"error": f"Failed to open image: {e}"}
-    #     else:
-    #         return {"error": "Image file not found"}
+    if request.image:
+        image_path = os.path.join(BASE_IMAGE_FOLDER, request.image)
+        if os.path.exists(image_path):
+            try:
+                query_image = Image.open(image_path).convert("RGB")
+            except Exception as e:
+                return {"error": f"Failed to open image: {e}"}
+        else:
+            return {"error": "Image file not found"}
 
-    # recs = get_chatbot_recommendations(
-    #     query_text=request.message,
-    #     query_image=query_image
-    # )
+    recs = get_chatbot_recommendations(
+        query_text=request.message,
+        query_image=query_image
+    )
 
-    # answer = generate_response(
+    # answer = await generate_response(
     #     user_query=request.message or "",
     #     recommendations=recs,
     #     product_collection=product_collection
     # )
 
-    # return {"answer": answer, "recommendations": recs}
-    return "Hello! This is a test response from the chatbot."
+    # when rag finish put answer down
+    return {"answer": "Hello! This is a test response from the chatbot.", "recommendations": recs}
 
 
 @router.post("/smart-search")

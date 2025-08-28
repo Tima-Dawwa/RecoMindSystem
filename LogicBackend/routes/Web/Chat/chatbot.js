@@ -7,9 +7,11 @@ async function getChatbotResponse({ message, image }) {
         message: message,
         image: image
     });
+    let answer = response.data.answer;
+    let recommendedProducts = response.data.recommendations;
     return {
-        message: response.data,
-        recommendedProducts: ['686bf63efaa50d1ee8f52a1d']
+        message: answer,
+        recommendedProducts: recommendedProducts
     };
 }
 

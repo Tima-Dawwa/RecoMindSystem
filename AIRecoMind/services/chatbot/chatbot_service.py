@@ -23,6 +23,8 @@ MAX_WORKERS = 8
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = load_model_checkpoint(MultilingualFashionRetrieval, MODEL_PATH, device)
 retriever = FashionRetriever(model, device)
+retriever.load_index("data/chatbot/products.faiss",
+                     "data/chatbot/products_metadata.pkl")
 
 executor = ThreadPoolExecutor(max_workers=MAX_WORKERS)
 
@@ -110,7 +112,7 @@ async def encode_and_save_batches():
             torch.cuda.empty_cache()
 
 
-# ---------------------------------- (main function used in back)
+# ---------------------------------- (main functions used in back)
 def get_chatbot_recommendations(query_image=None, query_text=None, top_k=5):
     if query_image and query_text:
         results = retriever.search_by_image_and_text(
@@ -122,6 +124,7 @@ def get_chatbot_recommendations(query_image=None, query_text=None, top_k=5):
     else:
         return []
 
+    # print(results)
     return [res['product'].get('product_id') for res in results]
 
 

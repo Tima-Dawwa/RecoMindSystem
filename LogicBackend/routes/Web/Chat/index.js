@@ -9,6 +9,7 @@ const { getChatbotResponse } = require('./chatbot');
 const { productData } = require('./chat.serializer');
 const { getProductById } = require('../../../models/products.model');
 const { getProductsData } = require('./chat.helper');
+const { postChatbotInteraction } = require('../../../models/chatbot_interaction.model');
 
 const userSocketMap = {};
 
@@ -25,7 +26,6 @@ async function socketFunctionality(io, socket) {
     userSocketMap[userID] = socket.id;
 
     socket.on('join-chat', async chatId => {
-        console.log('joined-chat');
         if (!mongoose.isValidObjectId(chatId)) {
             socket.emit('chat-error', { message: 'Chat not found or access denied.' });
             return;
@@ -68,15 +68,13 @@ async function socketFunctionality(io, socket) {
     });
 
     socket.on('send-message', async data => {
-        console.log('send-message');
-
         try {
             let { message, image } = data;
-            const { error } = validateSendMessage({ message });
-            if (error) {
-                socket.emit('message-error', { message: error.details[0].message });
-                return;
-            }
+            // const { error } = validateSendMessage({ message });
+            // if (error) {
+            //     socket.emit('message-error', { message: error.details[0].message });
+            //     return;
+            // }
 
             if (!mainChatID) {
                 socket.emit('chat-error', { message: 'No active chat found' });
@@ -120,13 +118,21 @@ async function socketFunctionality(io, socket) {
 
             try {
                 socket.emit('bot-typing', true);
+                const startTime = Date.now();
 
                 const botResponse = await getChatbotResponse({
                     message: message,
                     image: processedImage
                 });
 
+                const responseTime = Date.now() - startTime;
                 socket.emit('bot-typing', false);
+
+                // await postChatbotInteraction({
+                //     input_type: image ? (message ? 'text+image' : 'image') : 'text',
+                //     similarities: botResponse.similarities || [],
+                //     response_time: responseTime
+                // });
 
                 let botMessage = {
                     senderType: 'system',
