@@ -22,7 +22,18 @@ function getCategory(categoryTitle) {
     return clothingCategories[categoryTitle];
 }
 
+async function getSmartSearch(search) {
+    const response = await axios.post(
+        "http://127.0.0.1:8000/smart-search",
+        {
+            message: search
+        }
+    );
+    return response.data.recommendations
+}
+
 module.exports = {
     normalizeBool,
-    getCategory
+    getCategory,
+    getSmartSearch
 }
