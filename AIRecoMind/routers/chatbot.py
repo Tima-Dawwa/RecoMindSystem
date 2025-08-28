@@ -4,7 +4,7 @@ from typing import Optional
 from PIL import Image
 import os
 
-from services.chatbot.chatbot_service import get_chatbot_recommendations
+from services.chatbot.chatbot_service import get_chatbot_recommendations, get_smart_search_recommendations
 from services.chatbot.rag_generation import generate_response
 from utils.database import product_collection
 
@@ -45,3 +45,12 @@ async def chat_endpoint(request: ChatRequest):
 
     # return {"answer": answer, "recommendations": recs}
     return "Hello! This is a test response from the chatbot."
+
+
+@router.post("/smart-search")
+async def chat_endpoint(request: ChatRequest):
+    recs = get_smart_search_recommendations(
+        query_text=request.message
+    )
+
+    return {"recommendations": recs}

@@ -125,6 +125,11 @@ def get_chatbot_recommendations(query_image=None, query_text=None, top_k=5):
     return [res['product'].get('product_id') for res in results]
 
 
+def get_smart_search_recommendations(query_text=None, top_k=10):
+    results = retriever.search_by_text(query_text, top_k)
+    return [res['product'].get('product_id') for res in results]
+
+
 # ---------------------------------- (here run only once)
 if __name__ == "__main__":
     asyncio.run(encode_and_save_batches())

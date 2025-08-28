@@ -1,7 +1,7 @@
 const axios = require('axios');
 const { getPagination } = require('../../../services/query');
 const { validateProductRating } = require('./products.validation');
-const { normalizeBool, getCategory } = require('./products.helper');
+const { normalizeBool, getCategory, getSmartSearch } = require('./products.helper');
 const { serializedData } = require('../../../services/serializeArray');
 const { productData, productDetailsData, productDataRecommendations } = require('./products.serializer');
 const { validationErrors } = require('../../../middlewares/validationErrors')
@@ -23,6 +23,12 @@ async function httpGetAllProducts(req, res) {
   };
   const data = await getProducts(filters, skip, limit)
   const length = await getProductsCount(filters)
+  return res.status(200).json({ data: serializedData(data, productData), count: length })
+}
+
+async function httpSmartSearch(req, res) {
+  const data = await getSmartSearch(req.query.search)
+  const length = data.length
   return res.status(200).json({ data: serializedData(data, productData), count: length })
 }
 
@@ -108,5 +114,6 @@ module.exports = {
   httpGetAllProducts,
   httpGetOneProduct,
   httpRateProduct,
-  httpGetCollaborativeProducts
+  httpGetCollaborativeProducts,
+  httpSmartSearch
 };
