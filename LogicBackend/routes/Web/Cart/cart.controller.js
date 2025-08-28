@@ -1,3 +1,4 @@
+const axios = require('axios');
 const { cartData } = require('./cart.serializer');
 const { getPagination } = require('../../../services/query');
 const { serializedData } = require('../../../services/serializeArray');
@@ -12,7 +13,41 @@ async function httpGetCart(req, res) {
     const data = (await getCart(req.user.id, skip, limit)) ?? [];
     const length = await getCartCount(req.user.id);
     if (data.length == 0) return res.status(200).json({ data: [], count: 0 });
-    return res.status(200).json({ data: serializedData(data.items, cartData), count: length });
+
+    const productId = data.items[0]?.product._id || '';
+    const startTime = Date.now();
+
+    let recommendations = [];
+    try {
+        const response = await axios.get('http://127.0.0.1:8000/hybrid-recommendations', {
+            params: {
+                user_id: req.user?.id || '',
+                product_id: productId,
+                top_n: 5
+            }
+        });
+
+        recommendations = response.data;
+
+        if (req.user) {
+            const similarities = recommendations.map(r => r.similarity || 1);
+            const response_time = (Date.now() - startTime) / 1000;
+            await postRecommendationInteraction({
+                user_id: req.user.id,
+                rec_type: 'hybrid',
+                similarities,
+                response_time
+            });
+        }
+    } catch (error) {
+        console.error('Hybrid recommendation error:', error);
+    }
+
+    return res.status(200).json({
+        data: serializedData(data.items, cartData),
+        recommendations,
+        count: length
+    });
 }
 
 // Done
