@@ -2,6 +2,7 @@ const { faker } = require('@faker-js/faker');
 const User = require('../models/users.mongo');
 const Product = require('../models/products.mongo');
 const Favorite = require('../models/favorites.mongo');
+const Notification = require('../models/notifications.mongo');
 const bcrypt = require('bcryptjs');
 const locations = require('../public/json/countries-all.json');
 const numbers = require('../public/json/phone_number.json');
@@ -382,19 +383,21 @@ function randomDatePast7Days() {
     return new Date(past.getTime() + Math.random() * (today.getTime() - past.getTime()));
 }
 
-// async function createNotifications() {
-//     let data = []
-//     for (let i = 0; i < 3000; i++) {
-//         const temp = {
-//             notification_title: faker.word.words({ count: { min: 2, max: 4 } }),
-//             notification_body: faker.lorem.lines({ min: 1, max: 3 }),
-//             is_global: true,
-//             createdAt: faker.date.between({ from: '2020-01-01T00:00:00.000Z', to: '2024-08-14T00:00:00.000Z' })
-//         }
-//         data.push(temp)
-//     }
-//     await Notification.insertMany(data)
-// }
+async function createNotifications(numNotifications = 1000) {
+    try {
+        const randomProducts = await Product.aggregate([{ $sample: { size: numNotifications } }]);
+
+        const notifications = randomProducts.map(product => ({
+            notification_title: 'Product Quantity is Low',
+            notification_body: `${product.name}'s stock is about to finish. Only ${product.quantity} item(s) left.`
+        }));
+
+        await Notification.insertMany(notifications);
+        console.log(`Created ${notifications.length} random notifications.`);
+    } catch (err) {
+        console.error('Error creating notifications:', err);
+    }
+}
 
 async function checkImagesFromCSV() {
     const filePath = path.join(__dirname, '../public/json/filtered_data.csv');
@@ -453,6 +456,6 @@ module.exports = {
     updateAllProductAggregates,
     createAdmins,
     createFavorites,
-    seedStatistics
-    // createNotifications
+    seedStatistics,
+    createNotifications
 };
