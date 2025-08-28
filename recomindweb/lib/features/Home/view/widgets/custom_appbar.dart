@@ -74,7 +74,7 @@ class _CustomAppbarState extends State<CustomAppbar>
                 Positioned(
                   top: offset.dy + 70,
                   right: 20,
-                  width: widget.desktop ? 250 : 180,
+                  width: widget.desktop ? 300 : 220,
                   child: Material(
                     color: Colors.transparent,
                     child: SlideTransition(
@@ -167,7 +167,7 @@ class _CustomAppbarState extends State<CustomAppbar>
                       ),
                       color: Themes.bg,
                       onPressed: () {
-                        // Get.toNamed('/favorites', preventDuplicates: false);
+                        Get.toNamed('/favourites', preventDuplicates: false);
                       },
                     ),
                     const SizedBox(width: 5),
