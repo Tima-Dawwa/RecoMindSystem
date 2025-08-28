@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 
-const ChatbotInteractionSchema = new mongoose.Schema({
+const RecommendationInteractionSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true,
     },
-    input_type: {
+    rec_type: {
         type: String,
-        enum: ["text", "image", "text+image"],
+        enum: ["content", "collaborative", "hybrid"],
         required: true,
     },
     similarities: {
@@ -26,12 +26,12 @@ const ChatbotInteractionSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-ChatbotInteractionSchema.pre("save", function (next) {
+RecommendationInteractionSchema.pre("save", function (next) {
     if (this.similarities.length > 0) {
         // Top 1
         this.similarity_metric.top1 = this.similarities[0];
 
-        // All Avg 
+        // All Avg
         const sum = this.similarities.reduce((a, b) => a + b, 0);
         this.similarity_metric.avg = sum / this.similarities.length;
 
@@ -43,4 +43,4 @@ ChatbotInteractionSchema.pre("save", function (next) {
     next();
 });
 
-module.exports = mongoose.model("ChatbotInteraction", ChatbotInteractionSchema);
+module.exports = mongoose.model("RecommendationInteraction", RecommendationInteractionSchema);

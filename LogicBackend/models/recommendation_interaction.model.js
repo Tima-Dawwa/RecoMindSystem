@@ -1,10 +1,10 @@
-const ChatbotInteraction = require("./chatbot_interaction.mongo");
+const RecommendationInteraction = require("./recommendation_interaction.mongo");
 
-async function postChatbotInteraction(data) {
-    return await ChatbotInteraction.create(data);
+async function postRecommendationInteraction(data) {
+    return await RecommendationInteraction.create(data);
 }
 
-async function getChatbotInteractions() {
+async function getRecommendationSimilarityStats() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -14,7 +14,7 @@ async function getChatbotInteractions() {
     const endDate = new Date(today);
     endDate.setDate(today.getDate() - 1);
 
-    return await ChatbotInteraction.aggregate([
+    return await RecommendationInteraction.aggregate([
         {
             $match: {
                 createdAt: { $gte: startDate, $lte: endDate }
@@ -24,7 +24,7 @@ async function getChatbotInteractions() {
             $group: {
                 _id: {
                     day: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
-                    type: "$input_type"
+                    type: "$rec_type"
                 },
                 avgSimilarity: { $avg: "$similarity_metric.avg" },
                 avgTop1: { $avg: "$similarity_metric.top1" },
@@ -35,11 +35,11 @@ async function getChatbotInteractions() {
     ]);
 }
 
-async function getChatbotResponseTimeStats() {
-    return await ChatbotInteraction.aggregate([
+async function getRecommendationResponseTimeStats() {
+    return await RecommendationInteraction.aggregate([
         {
             $group: {
-                _id: "$input_type",
+                _id: "$rec_type",
                 avgResponseTime: { $avg: "$response_time" }
             }
         }
@@ -47,7 +47,7 @@ async function getChatbotResponseTimeStats() {
 }
 
 module.exports = {
-    getChatbotInteractions,
-    postChatbotInteraction,
-    getChatbotResponseTimeStats
+    postRecommendationInteraction,
+    getRecommendationSimilarityStats,
+    getRecommendationResponseTimeStats
 };
