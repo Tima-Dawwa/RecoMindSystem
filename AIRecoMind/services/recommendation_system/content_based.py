@@ -1,7 +1,7 @@
 from models.product import Product
 from utils.database import product_collection
 from utils.faiss_helper import add_product_to_index, search_product_by_text
-from typing import List
+from typing import List, Tuple
 from bson import ObjectId
 
 
@@ -31,7 +31,7 @@ async def get_product_by_id(product_id: str) -> Product:
     )
 
 
-async def get_content_based_recommendations(product_id: str, top_n: int = 3) -> List[str]:
+async def get_content_based_recommendations(product_id: str, top_n: int = 3) -> List[Tuple[str, float]]:
     product = await get_product_by_id(product_id)
     combined_text = combine_features(product)
     recommended_products = search_product_by_text(

@@ -43,9 +43,12 @@ async function httpGetCollaborativeProducts(req, res) {
         const fastApiUrl = `http://127.0.0.1:8000/collaborative-recommendations?${params.toString()}`;
 
         const recommendations = await axios.get(fastApiUrl);
-        recommendedProducts = await getProductsByIds(recommendations.data);
 
-        const similarities = recommendations.data.map(r => r.similarity || 1);
+        recommendationsData = recommendations.data;
+        const recommendedIds = recommendationsData.map(r => r.id);
+        recommendedProducts = await getProductsByIds(recommendedIds);
+
+        const similarities = recommendationsData.map(r => r.similarity || 1);
         const response_time = (Date.now() - startTime) / 1000;
         await postRecommendationInteraction({
             rec_type: 'collaborative',
@@ -83,13 +86,13 @@ async function httpGetOneProduct(req, res) {
             params: { product_id: req.params.id, top_n: 5 }
         });
         recommendationsData = recommendations.data;
-        recommendedProducts = await getProductsByIds(recommendationsData);
+        const recommendedIds = recommendationsData.map(r => r.id);
+        recommendedProducts = await getProductsByIds(recommendedIds);
     } catch (error) {}
 
     const similarities = recommendationsData.map(r => r.similarity || 1);
     const response_time = (Date.now() - startTime) / 1000;
     await postRecommendationInteraction({
-        user_id: req.user.id,
         rec_type: 'content',
         similarities,
         response_time

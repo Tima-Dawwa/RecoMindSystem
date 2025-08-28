@@ -1,3 +1,4 @@
+from typing import List, Tuple
 import numpy as np
 import faiss
 import pickle
@@ -78,19 +79,20 @@ def save_to_index_file():
         pickle.dump(reverse_id_mapping, f)
 
 
-def search_product_by_text(query_text: str, top_k: int = 5, exclude_ids: List[str] = []):
-    query_embedding = embed_text(query_text)
+def search_product_by_text(query_text: str, top_k: int = 5, exclude_ids: List[str] = []) -> List[Tuple[str, float]]:
+    query_embedding = embed_text(query_text)[np.newaxis, :]
     distances, indices = index.search(
-        np.array([query_embedding]), top_k + len(exclude_ids))
-
+        query_embedding, top_k + len(exclude_ids))
     results = []
     for dist, idx in zip(distances[0], indices[0]):
         if idx in id_mapping:
             product_id = id_mapping[idx]
             if product_id not in exclude_ids:
-                results.append(product_id)
+                similarity = 1 / (1 + dist)
+                results.append((product_id, similarity))
             if len(results) >= top_k:
                 break
+
     return results
 
 

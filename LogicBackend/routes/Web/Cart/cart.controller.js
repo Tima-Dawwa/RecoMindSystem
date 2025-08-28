@@ -19,8 +19,9 @@ async function httpGetCart(req, res) {
     const startTime = Date.now();
 
     let recommendations = [];
+    let recommendedIds = [];
     try {
-        const response = await axios.get('http://127.0.0.1:8000/hybrid-recommendations', {
+        const recommendations = await axios.get('http://127.0.0.1:8000/hybrid-recommendations', {
             params: {
                 user_id: req.user?.id || '',
                 product_id: productId,
@@ -28,9 +29,10 @@ async function httpGetCart(req, res) {
             }
         });
 
-        recommendations = response.data;
+        recommendationsData = recommendations.data;
+        recommendedIds = recommendationsData.map(r => r.id);
 
-        const similarities = recommendations.map(r => r.similarity || 1);
+        const similarities = recommendationsData.map(r => r.similarity || 1);
         const response_time = (Date.now() - startTime) / 1000;
         await postRecommendationInteraction({
             rec_type: 'hybrid',
@@ -43,7 +45,7 @@ async function httpGetCart(req, res) {
 
     return res.status(200).json({
         data: serializedData(data.items, cartData),
-        recommendations,
+        recommendations: recommendedIds,
         count: length
     });
 }
