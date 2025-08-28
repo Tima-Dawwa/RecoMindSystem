@@ -35,6 +35,7 @@ app.use('/dashboard/admins', require('./routes/Dashboard/Admins/admins.route'))
 app.use('/dashboard/products', require('./routes/Dashboard/Products/products.route'))
 app.use('/dashboard/orders', require('./routes/Dashboard/Orders/orders.route'))
 app.use('/dashboard/notifications', require('./routes/Dashboard/Notifications/notifications.route'))
+app.use('/dashboard/statistics', require('./routes/Dashboard/Statistics/statistics.route'))
 
 // Error Handling
 app.use(errorHandler);
