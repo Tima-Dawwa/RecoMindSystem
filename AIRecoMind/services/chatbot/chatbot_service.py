@@ -125,7 +125,10 @@ def get_chatbot_recommendations(query_image=None, query_text=None, top_k=5):
         return []
 
     # print(results)
-    return [res['product'].get('product_id') for res in results]
+    product_ids = [res['product'].get('product_id') for res in results]
+    similarities = [res.get('similarity') for res in results]
+
+    return product_ids, similarities
 
 
 def get_smart_search_recommendations(query_text=None, top_k=10):

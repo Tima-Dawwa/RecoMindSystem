@@ -31,7 +31,7 @@ async def chat_endpoint(request: ChatRequest):
         else:
             return {"error": "Image file not found"}
 
-    recs = get_chatbot_recommendations(
+    recs, similarities = get_chatbot_recommendations(
         query_text=request.message,
         query_image=query_image
     )
@@ -43,7 +43,7 @@ async def chat_endpoint(request: ChatRequest):
     # )
 
     # when rag finish put answer down
-    return {"answer": "Hello! This is a test response from the chatbot.", "recommendations": recs}
+    return {"answer": "Hello! This is a test response from the chatbot.", "recommendations": recs, "similarities": similarities}
 
 
 @router.post("/smart-search")
