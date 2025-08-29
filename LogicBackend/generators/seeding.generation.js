@@ -72,11 +72,11 @@ async function createProducts() {
         fs.createReadStream(filePath)
             .pipe(csv())
             .on('data', row => {
-                const folderNumber = '0' + String(row.article_id).slice(0, 2);
-                const imageNumber = '0' + row.article_id;
-                const imagePath = path.join(__dirname, '../public/images/products', folderNumber, `${imageNumber}.jpg`);
+                // const folderNumber = '0' + String(row.article_id).slice(0, 2);
+                // const imageNumber = '0' + row.article_id;
+                // const imagePath = path.join(__dirname, '../public/images/products', folderNumber, `${imageNumber}.jpg`);
 
-                if (!fs.existsSync(imagePath)) return;
+                // if (!fs.existsSync(imagePath)) return;
 
                 const price = parseFloat(faker.commerce.price({ min: 10, max: 300 }));
                 const hasDiscount = Math.random() < 0.5;
@@ -95,7 +95,8 @@ async function createProducts() {
                     price,
                     discounted_price,
                     quantity: faker.number.int({ min: 100, max: 3000 }),
-                    images: [`/images/products/${folderNumber}/${imageNumber}.jpg`]
+                    // images: [`/images/products/${folderNumber}/${imageNumber}.jpg`]
+                    images: [`/images/products/recomind1.jpg`]
                 };
 
                 products.push(product);
