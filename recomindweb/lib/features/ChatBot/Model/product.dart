@@ -1,4 +1,5 @@
-class Product {
+class ProductModel {
+  final String id;
   final String name;
   final String imageUrl;
   final double price;
@@ -10,7 +11,8 @@ class Product {
   final double rating;
   final String tagType;
 
-  Product({
+  ProductModel({
+    required this.id,
     required this.name,
     required this.imageUrl,
     required this.price,
@@ -30,6 +32,7 @@ class Product {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'name': name,
       'imageUrl': imageUrl,
       'price': price,
@@ -43,8 +46,9 @@ class Product {
     };
   }
 
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(
+  factory ProductModel.fromJson(Map<String, dynamic> json) {
+    return ProductModel(
+      id: json['id'] ?? '',
       name: json['name'] ?? '',
       imageUrl: json['imageUrl'] ?? '',
       price: (json['price'] ?? 0).toDouble(),
@@ -58,7 +62,8 @@ class Product {
     );
   }
 
-  Product copyWith({
+  ProductModel copyWith({
+    String? id,
     String? name,
     String? imageUrl,
     double? price,
@@ -70,7 +75,8 @@ class Product {
     double? rating,
     String? tagType,
   }) {
-    return Product(
+    return ProductModel(
+      id: id ?? this.id,
       name: name ?? this.name,
       imageUrl: imageUrl ?? this.imageUrl,
       price: price ?? this.price,

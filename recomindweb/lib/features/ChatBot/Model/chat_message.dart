@@ -9,7 +9,7 @@ class ChatMessage {
   final DateTime timestamp;
   final Uint8List? imageBytes;
   final String? imagePath;
-  final List<Product>? responseProducts;
+  final List<ProductModel>? responseProducts;
 
   ChatMessage({
     required this.type,
@@ -47,7 +47,7 @@ class ChatMessage {
   factory ChatMessage.bot({
     String? text,
     String? imagePath,
-    List<Product>? responseProducts,
+    List<ProductModel>? responseProducts,
     DateTime? timestamp,
   }) {
     return ChatMessage(
@@ -62,6 +62,4 @@ class ChatMessage {
   factory ChatMessage.waiting() {
     return ChatMessage(type: MessageType.waiting);
   }
-
- 
 }

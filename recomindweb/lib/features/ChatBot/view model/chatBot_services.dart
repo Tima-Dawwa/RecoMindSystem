@@ -36,4 +36,40 @@ class ChatBotService {
       );
     }
   }
+
+  Future<Either<Failure, Map<String, dynamic>>> removeFromFavourites( {
+    required String favoriteId,
+  }) async {
+    try {
+      Map<String, dynamic> response = await api.delete(
+        endPoint: '/favorites/$favoriteId',
+        body: {},
+      );
+      return right(response);
+    } on DioException catch (dioError) {
+      return left(Failure.fromDioException(dioError, statusCodeHandler));
+    } catch (e) {
+      return left(
+        Failure(errTitle: 'Unexpected Error', errMessage: e.toString()),
+      );
+    }
+  }
+
+  Future<Either<Failure, Map<String, dynamic>>> addToFavorites({
+    required String productId,
+  }) async {
+    try {
+      final response = await api.post(
+        endPoint: '/favorites/$productId',
+        body: null,
+      );
+      return right(response);
+    } on DioException catch (dioError) {
+      return left(Failure.fromDioException(dioError, statusCodeHandler));
+    } catch (e) {
+      return left(
+        Failure(errTitle: 'Unexpected Error', errMessage: e.toString()),
+      );
+    }
+  }
 }

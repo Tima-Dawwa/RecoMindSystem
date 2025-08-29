@@ -4,8 +4,8 @@ import 'package:recomindweb/core/Widgets/ProductCard/product_card.dart';
 import '../Model/product.dart';
 
 class ResponseCards extends StatelessWidget {
-  final List<Product> products;
-  final void Function(Product) onCardTap;
+  final List<ProductModel> products;
+  final void Function(ProductModel) onCardTap;
 
   const ResponseCards({
     required this.products,

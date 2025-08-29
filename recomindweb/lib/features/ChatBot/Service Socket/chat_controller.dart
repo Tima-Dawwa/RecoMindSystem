@@ -226,7 +226,7 @@ class ChatController extends ChangeNotifier {
     _clearError();
   }
 
-  void onProductTap(Product product) {
+  void onProductTap(ProductModel product) {
     print('Product tapped: ${product.name}');
   }
 

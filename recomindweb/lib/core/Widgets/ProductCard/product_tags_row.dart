@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recomindweb/features/ChatBot/Model/product.dart';
 
 class ProductTagsRow extends StatelessWidget {
-  final Product product;
+  final ProductModel product;
 
   const ProductTagsRow({super.key, required this.product});
 

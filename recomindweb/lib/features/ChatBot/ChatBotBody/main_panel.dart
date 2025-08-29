@@ -13,14 +13,9 @@ import 'chat_input_field.dart';
 
 class CenterPanelWidget extends StatefulWidget {
   final String? chatId;
-  final Function(String)?
-  onChatIdChanged;
+  final Function(String)? onChatIdChanged;
 
-  const CenterPanelWidget({
-    super.key,
-    this.chatId,
-    this.onChatIdChanged,
-  });
+  const CenterPanelWidget({super.key, this.chatId, this.onChatIdChanged});
 
   @override
   _CenterPanelWidgetState createState() => _CenterPanelWidgetState();
@@ -31,7 +26,7 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
   late ChatController _chatController;
   String? _currentChatId;
   bool _isCreatingChat = false;
-  bool _hasAutoCreatedChat = false; 
+  bool _hasAutoCreatedChat = false;
 
   @override
   void initState() {
@@ -47,8 +42,7 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
 
     if (widget.chatId != oldWidget.chatId) {
       _currentChatId = widget.chatId;
-      _hasAutoCreatedChat =
-          _currentChatId != null; 
+      _hasAutoCreatedChat = _currentChatId != null;
       _reinitializeChat();
     }
   }
@@ -151,7 +145,7 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
   }
 
   void _createNewChatAndSend(String? text, Uint8List? imageBytes) async {
-    if (_isCreatingChat) return; 
+    if (_isCreatingChat) return;
 
     setState(() {
       _isCreatingChat = true;
@@ -204,7 +198,7 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
     }
   }
 
-  void _handleProductTap(Product product) {
+  void _handleProductTap(ProductModel product) {
     _chatController.onProductTap(product);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -212,6 +206,107 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
         duration: const Duration(seconds: 2),
       ),
     );
+  }
+
+  // NEW METHOD: Build message with both cards and text
+  Widget _buildMessageWithProducts(ChatMessage message, int index) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Show product cards first
+        if (message.responseProducts != null &&
+            message.responseProducts!.isNotEmpty)
+          ResponseCards(
+            products: message.responseProducts!,
+            onCardTap: _handleProductTap,
+          ),
+
+        // Show bot's explanation text below the cards
+        if (message.text != null && message.text!.trim().isNotEmpty)
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 4),
+            alignment: Alignment.centerLeft,
+            child: Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Themes.bg.withAlpha(100),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (message.imageBytes != null || message.imagePath != null)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: _buildMessageImage(message),
+                    ),
+
+                  Text(message.text!, style: TextStyle(color: Themes.text)),
+                ],
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  // Helper method to build message image (extracted from MessageBubble logic)
+  Widget _buildMessageImage(ChatMessage message) {
+    if (message.imageBytes != null) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Image.memory(message.imageBytes!, width: 150, fit: BoxFit.cover),
+      );
+    }
+
+    if (message.imagePath != null) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Image.network(
+          message.imagePath!,
+          width: 150,
+          fit: BoxFit.cover,
+          headers: {"ngrok-skip-browser-warning": "true"},
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return Container(
+              width: 150,
+              height: 100,
+              color: Colors.grey[200],
+              child: Center(
+                child: CircularProgressIndicator(
+                  value:
+                      loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                          : null,
+                ),
+              ),
+            );
+          },
+          errorBuilder: (context, error, stackTrace) {
+            return Container(
+              width: 150,
+              height: 100,
+              color: Colors.red[100],
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.broken_image, color: Colors.red),
+                  Text(
+                    'Image failed to load',
+                    style: TextStyle(color: Colors.red, fontSize: 10),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      );
+    }
+
+    return SizedBox.shrink();
   }
 
   @override
@@ -335,15 +430,17 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
                             itemBuilder: (context, index) {
                               final message = controller.messages[index];
 
+                              // UPDATED LOGIC: Check if bot message has both products AND text
                               if (message.type == MessageType.bot &&
                                   message.responseProducts != null &&
                                   message.responseProducts!.isNotEmpty) {
-                                return ResponseCards(
-                                  products: message.responseProducts!,
-                                  onCardTap: _handleProductTap,
+                                return _buildMessageWithProducts(
+                                  message,
+                                  index,
                                 );
                               }
 
+                              // For all other messages (user messages, bot messages without products, etc.)
                               return MessageBubble(message: message);
                             },
                           )

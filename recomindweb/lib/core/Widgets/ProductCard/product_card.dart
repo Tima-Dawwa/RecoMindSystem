@@ -6,7 +6,7 @@ import 'product_rating.dart';
 import 'product_price.dart';
 
 class ProductCard extends StatelessWidget {
-  final Product product;
+  final ProductModel product;
   final VoidCallback onTap;
 
   const ProductCard({super.key, required this.product, required this.onTap});
@@ -40,7 +40,7 @@ class ProductCard extends StatelessWidget {
                 children: [
                   ProductTagsRow(product: product),
                   const SizedBox(height: 6),
-                  ProductRating(rating: product.rating ?? 4.0),
+                  ProductRating(rating: product.rating ),
                   const SizedBox(height: 6),
                   ProductPrice(price: product.price),
                 ],
