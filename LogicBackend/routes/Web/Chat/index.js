@@ -133,11 +133,11 @@ async function socketFunctionality(io, socket) {
                 const responseTime = Date.now() - startTime;
                 socket.emit('bot-typing', false);
 
-                // await postChatbotInteraction({
-                //     input_type: image ? (message ? 'text+image' : 'image') : 'text',
-                //     similarities: botResponse.similarities || [],
-                //     response_time: responseTime
-                // });
+                await postChatbotInteraction({
+                    input_type: image ? (message ? 'text+image' : 'image') : 'text',
+                    similarities: botResponse.similarities || [],
+                    response_time: responseTime
+                });
 
                 let botMessage = {
                     senderType: 'system',

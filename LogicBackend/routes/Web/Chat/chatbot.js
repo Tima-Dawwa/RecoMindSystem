@@ -9,9 +9,11 @@ async function getChatbotResponse({ message, image }) {
     });
     let answer = response.data.answer;
     let recommendedProducts = response.data.recommendations;
+    let similarities = response.data.similarities;
     return {
-        message: answer,
-        recommendedProducts: recommendedProducts
+        message: answer, // string
+        recommendedProducts: recommendedProducts, // array of ids
+        similarities: similarities // array of numbers
     };
 }
 
