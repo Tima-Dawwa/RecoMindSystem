@@ -68,7 +68,6 @@ class ChatBotCubit extends Cubit<ChatBotStatus> {
           }
 
           if (newChatId != null && newChatId.isNotEmpty) {
-           
             final newChat = AllchatModel(id: newChatId, title: "New Chat");
 
             if (!allChats.any((chat) => chat.id == newChatId)) {
@@ -109,5 +108,31 @@ class ChatBotCubit extends Cubit<ChatBotStatus> {
     currentChatId = null;
   }
 
- 
+  Future<void> removeFromFavorites(String productId) async {
+    emit(RemoveFavouritesLoadingState());
+
+    final result = await chatBotService.removeFromFavourites(
+      favoriteId: productId,
+    );
+
+    result.fold(
+      (failure) => emit(FailureChatBot(failure: failure)),
+      (_) => emit(
+        FavoritesUpdatedSuccessfully(productId: productId, isFavorite: false),
+      ),
+    );
+  }
+
+  Future<void> addToFavorites(String productId) async {
+    emit(AddFavouritesLoadingState());
+
+    final result = await chatBotService.addToFavorites(productId: productId);
+
+    result.fold(
+      (failure) => emit(FailureChatBot(failure: failure)),
+      (_) => emit(
+        FavoritesUpdatedSuccessfully(productId: productId, isFavorite: true),
+      ),
+    );
+  }
 }

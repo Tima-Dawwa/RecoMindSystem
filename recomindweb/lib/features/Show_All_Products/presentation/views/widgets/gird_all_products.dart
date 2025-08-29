@@ -9,15 +9,19 @@ class GridAllProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Product> dummyProducts = List.generate(
+    final List<ProductModel> dummyProducts = List.generate(
       12,
-      (index) => Product(
+      (index) => ProductModel(
+        id: "",
         name: 'Product ${index + 1}',
         price: (index + 1) * 100.0,
         rating: 4.0 + (index % 2 == 0 ? 0.5 : 0.0),
         imageUrl: 'assets/main_image.jpg',
         gender: 'male',
-        category: 'ss', isFavorite: true, isTrending: true, tagType: '',
+        category: 'ss',
+        isFavorite: true,
+        isTrending: true,
+        tagType: '',
       ),
     );
 

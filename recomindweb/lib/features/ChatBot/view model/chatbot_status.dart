@@ -8,6 +8,20 @@ class LoadingChatBot extends ChatBotStatus {}
 
 class SuccessChatBot extends ChatBotStatus {}
 
+class RemoveFavouritesLoadingState extends ChatBotStatus {}
+
+class AddFavouritesLoadingState extends ChatBotStatus {}
+
+class FavoritesUpdatedSuccessfully extends ChatBotStatus {
+  final String productId;
+  final bool isFavorite;
+
+  FavoritesUpdatedSuccessfully({
+    required this.productId,
+    required this.isFavorite,
+  });
+}
+
 class ChatCreatedSuccessfully extends ChatBotStatus {
   final String chatId;
 

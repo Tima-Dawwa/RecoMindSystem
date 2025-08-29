@@ -29,7 +29,7 @@ class SocketService {
 
     final queryParams = <String, dynamic>{
       'token':
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiYzJjMzE3NTZhZmIzOWJiZGZiM2NhOCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IlJhbmRhbGwiLCJsYXN0X25hbWUiOiJCdWNrcmlkZ2UifSwiaWF0IjoxNzU2Mzk5NjU3LCJleHAiOjE3NTY2NTg4NTd9.Ga2Rbw7aXj_XeYk8JhcKVgw3y-52J2hw-ieoSROWycw",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiYzJjMzE3NTZhZmIzOWJiZGZiM2NhOCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IlJhbmRhbGwiLCJsYXN0X25hbWUiOiJCdWNrcmlkZ2UifSwiaWF0IjoxNzU2NDc4NzQzLCJleHAiOjE3NTY3Mzc5NDN9.XyYHUIjVGoZT31KLHm3CYOqdP0HjuQrj56m6s_K6vgs",
       ...?additionalQuery,
     };
 
@@ -88,6 +88,7 @@ class SocketService {
     });
 
     _socket!.on('receive-message', (data) {
+      print(data);
       try {
         final message = _parseMessage(data);
         onMessageReceived?.call(message);
@@ -161,7 +162,6 @@ class SocketService {
 
     if (imageBytes != null) {
       try {
-    
         final base64Image = base64Encode(imageBytes);
         data['imageData'] = base64Image;
         data['hasImage'] = true;
@@ -253,7 +253,7 @@ class SocketService {
     );
   }
 
-  List<Product>? _parseProducts(dynamic productsData) {
+  List<ProductModel>? _parseProducts(dynamic productsData) {
     if (productsData == null) return null;
 
     try {
@@ -292,18 +292,20 @@ class SocketService {
                           : (productData['isTrend'] == true ? 'trending' : ''),
                 };
 
-                return Product.fromJson(mappedData);
+                return ProductModel.fromJson(mappedData);
               } else if (productData is String) {
                 return null;
               } else {
-                return Product.fromJson(Map<String, dynamic>.from(productData));
+                return ProductModel.fromJson(
+                  Map<String, dynamic>.from(productData),
+                );
               }
             } catch (e) {
               return null;
             }
           })
           .where((product) => product != null)
-          .cast<Product>()
+          .cast<ProductModel>()
           .toList();
     } catch (e) {
       return null;
