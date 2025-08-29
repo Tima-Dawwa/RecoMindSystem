@@ -80,11 +80,9 @@ class FashionRetriever:
 
     def _build_faiss_index(self, embeddings: np.ndarray, index_type: str = 'flat'):
         if index_type == 'flat':
-            # Exact search - best for <100k items
             self.index = faiss.IndexFlatIP(self.embed_dim)
 
         elif index_type == 'ivf':
-            # Approximate search - faster for >10k items
             nlist = min(100, len(embeddings) // 100)
             quantizer = faiss.IndexFlatIP(self.embed_dim)
             self.index = faiss.IndexIVFFlat(quantizer, self.embed_dim, nlist)
