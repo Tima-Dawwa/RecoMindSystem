@@ -14,3 +14,7 @@ class Product(BaseModel):
     total_interactions: Optional[int] = None
     total_interaction_score: Optional[int] = None
     images: Optional[str] = None
+    price: Optional[float] = None
+    discounted_price: Optional[float] = None
+    rating: Optional[float] = None
+    rating_count: Optional[int] = None
