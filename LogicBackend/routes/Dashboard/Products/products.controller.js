@@ -26,7 +26,6 @@ async function httpGetOneProduct(req, res) {
         return res.status(404).json({ error: 'Product not found' });
     }
     const ratings = await getProductRatings(req.params.id);
-    console.log(ratings);
     return res.status(200).json({
         data: productDetailsData(product, ratings)
     });

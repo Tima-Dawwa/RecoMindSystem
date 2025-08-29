@@ -113,7 +113,7 @@ async def encode_and_save_batches():
 
 
 # ---------------------------------- (main functions used in back)
-def get_chatbot_recommendations(query_image=None, query_text=None, top_k=5):
+def get_chatbot_recommendations(query_image=None, query_text=None, top_k=8):
     if query_image and query_text:
         results = retriever.search_by_image_and_text(
             query_image, query_text, top_k)
