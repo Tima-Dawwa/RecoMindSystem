@@ -1,4 +1,3 @@
-const { validateSendMessage } = require('./chat.validation');
 const { getChat, postChatMessage } = require('../../../models/chats.model');
 const { verifyToken } = require('../../../services/token');
 const { encodeImage } = require('../../../services/images');
@@ -44,7 +43,7 @@ async function socketFunctionality(io, socket) {
         let messages = [];
         for (let i = 0; i < chat.messages.length; i++) {
             const message = chat.messages[i];
-            const recommendedProducts = await getProductsData(message.recommendedProducts);
+            const recommendedProducts = await getProductsData(message.recommendedProducts, userID);
             let messageData = {
                 content: message.content || '',
                 timestamp: message.timestamp,
@@ -71,12 +70,6 @@ async function socketFunctionality(io, socket) {
         try {
             let { message, imageData } = data;
             let image = imageData;
-
-            // const { error } = validateSendMessage({ message });
-            // if (error) {
-            //     socket.emit('message-error', { message: error.details[0].message });
-            //     return;
-            // }
 
             if (!mainChatID) {
                 socket.emit('chat-error', { message: 'No active chat found' });
@@ -148,7 +141,7 @@ async function socketFunctionality(io, socket) {
 
                 await postChatMessage(chat, botMessage);
 
-                const recommendedProducts = await getProductsData(botMessage.recommendedProducts);
+                const recommendedProducts = await getProductsData(botMessage.recommendedProducts, userID);
                 socket.emit('receive-message', {
                     content: botMessage.content,
                     timestamp: botMessage.timestamp,
