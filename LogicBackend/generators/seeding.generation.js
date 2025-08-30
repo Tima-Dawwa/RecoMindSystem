@@ -13,7 +13,8 @@ const Interaction = require('../models/interactions.mongo');
 const { WEIGHT_MAP, INTERACTION_TYPES } = require('../public/constants/interaction');
 const ChatbotInteraction = require('../models/chatbot_interaction.mongo');
 const RecommendationInteraction = require('../models/recommendation_interaction.mongo');
-
+const Order = require('../models/orders.mongo');
+const OrderItem = require('../models/orderItem.mongo');
 const fsp = require('fs').promises;
 
 // Done
@@ -400,6 +401,66 @@ async function createNotifications(numNotifications = 1000) {
     }
 }
 
+async function createOrders(numOrders = 500, maxItemsPerOrder = 5) {
+    const users = await User.find({}, '_id').lean();
+    const products = await Product.find({}, '_id price discounted_price quantity').lean();
+
+    if (!users.length || !products.length) {
+        console.log('Need both users and products in database');
+        return;
+    }
+
+    const ordersData = [];
+
+    for (let i = 0; i < numOrders; i++) {
+        const randomUser = users[Math.floor(Math.random() * users.length)];
+
+        const numItems = Math.floor(Math.random() * maxItemsPerOrder) + 1;
+
+        const shuffledProducts = [...products].sort(() => 0.5 - Math.random());
+        const selectedProducts = shuffledProducts.slice(0, numItems);
+
+        let orderItems = [];
+        let totalPrice = 0;
+
+        for (const product of selectedProducts) {
+            const quantity = Math.floor(Math.random() * 3) + 1;
+            const price = product.discounted_price || product.price;
+
+            orderItems.push({
+                product: product._id,
+                quantity,
+                price
+            });
+
+            totalPrice += price * quantity;
+        }
+
+        const status = Math.random() < 0.7 ? 'prepare' : 'delivery';
+
+        const createdAt = randomDatePastMonths(6);
+
+        ordersData.push({
+            user_id: randomUser._id,
+            orderItems,
+            total_price: parseFloat(totalPrice.toFixed(2)),
+            status,
+            createdAt,
+            updatedAt: createdAt
+        });
+    }
+
+    await Order.insertMany(ordersData);
+    console.log(`Inserted ${ordersData.length} orders.`);
+}
+
+function randomDatePastMonths(months = 6) {
+    const now = new Date();
+    const past = new Date();
+    past.setMonth(now.getMonth() - months);
+    return new Date(past.getTime() + Math.random() * (now.getTime() - past.getTime()));
+}
+
 async function checkImagesFromCSV() {
     const filePath = path.join(__dirname, '../public/json/filtered_data.csv');
 
@@ -458,5 +519,6 @@ module.exports = {
     createAdmins,
     createFavorites,
     seedStatistics,
-    createNotifications
+    createNotifications,
+    createOrders
 };

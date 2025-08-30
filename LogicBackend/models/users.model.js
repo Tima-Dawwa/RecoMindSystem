@@ -52,6 +52,28 @@ async function putProfilePic(user, profile_pic) {
     return await user.save();
 }
 
+async function getMostUsersByCountry(limit = 10) {
+    const pipeline = [
+        {
+            $group: {
+                _id: '$location.country',
+                userCount: { $sum: 1 }
+            }
+        },
+        { $sort: { userCount: -1 } },
+        { $limit: limit },
+        {
+            $project: {
+                _id: 0,
+                country: '$_id',
+                userCount: 1
+            }
+        }
+    ];
+
+    return await User.aggregate(pipeline);
+}
+
 module.exports = {
     postUser,
     putName,
@@ -63,5 +85,6 @@ module.exports = {
     deleteAccount,
     getUserById,
     putProfilePic,
-    getUserByEmail
+    getUserByEmail,
+    getMostUsersByCountry
 };
