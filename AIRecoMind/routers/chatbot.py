@@ -36,16 +36,13 @@ async def chat_endpoint(request: ChatRequest):
         query_image=query_image
     )
 
-    # answer = await generate_response(
-    #     user_query=request.message or "",
-    #     recommendations=recs,
-    #     product_collection=product_collection
-    # )
+    answer = await generate_response(
+        user_query=request.message or "",
+        recommendations=recs,
+        product_collection=product_collection
+    )
 
-    # print(answer)
-
-    # when rag finish put answer down
-    return {"answer": "Hello! This is a test response from the chatbot.", "recommendations": recs, "similarities": similarities}
+    return {"answer": answer, "recommendations": recs, "similarities": similarities}
 
 
 @router.post("/smart-search")
