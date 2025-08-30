@@ -17,7 +17,7 @@ function productData(product) {
         rating: product.rating,
         isNew: product.isNew,
         isTrend: product.isTrend,
-        isFavorite: product.isFavorite,
+        isFavorite: product.isFavorite ?? false,
         image: product.images[0]
     };
 }

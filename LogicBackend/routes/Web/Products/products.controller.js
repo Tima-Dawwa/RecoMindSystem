@@ -22,14 +22,31 @@ async function httpGetAllProducts(req, res) {
         isNew: normalizeBool(isNew) ?? false,
         isTrend: normalizeBool(isTrend) ?? false
     };
-    const data = await getProducts(filters, skip, limit);
+    let data = await getProducts(filters, skip, limit);
     const length = await getProductsCount(filters);
+
+    if (req.user) {
+        data = await Promise.all(
+            data.map(async p => {
+                p.isFavorite = (await checkFavorite(req.user.id, p._id)) ? true : false;
+                return p;
+            })
+        );
+    }
     return res.status(200).json({ data: serializedData(data, productData), count: length });
 }
 
 async function httpSmartSearch(req, res) {
     const data = await getSmartSearch(req.query.search);
     const length = data.length;
+    if (req.user) {
+        data = await Promise.all(
+            data.map(async p => {
+                p.isFavorite = (await checkFavorite(req.user.id, p._id)) ? true : false;
+                return p;
+            })
+        );
+    }
     return res.status(200).json({ data: serializedData(data, productData), count: length });
 }
 
@@ -57,6 +74,15 @@ async function httpGetCollaborativeProducts(req, res) {
         });
     } catch (error) {
         console.error('Collaborative recommendation error:', error);
+    }
+
+    if (req.user) {
+        recommendedProducts = await Promise.all(
+            recommendedProducts.map(async p => {
+                p.isFavorite = (await checkFavorite(req.user.id, p._id)) ? true : false;
+                return p;
+            })
+        );
     }
 
     const count = recommendedProducts.length;

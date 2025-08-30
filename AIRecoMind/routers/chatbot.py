@@ -42,6 +42,8 @@ async def chat_endpoint(request: ChatRequest):
     #     product_collection=product_collection
     # )
 
+    # print(answer)
+
     # when rag finish put answer down
     return {"answer": "Hello! This is a test response from the chatbot.", "recommendations": recs, "similarities": similarities}
 
