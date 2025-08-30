@@ -146,6 +146,54 @@ async function createOrder(orderData) {
     return await order.save();
 }
 
+async function getLast12MonthsSales() {
+    const endDate = new Date();
+    const startDate = new Date();
+    startDate.setMonth(endDate.getMonth() - 11);
+    startDate.setDate(1);
+
+    const pipeline = [
+        {
+            $match: {
+                createdAt: { $gte: startDate, $lte: endDate }
+            }
+        },
+        {
+            $group: {
+                _id: { $dateToString: { format: '%Y-%m', date: '$createdAt' } },
+                totalSales: { $sum: '$total_price' },
+                orderCount: { $sum: 1 }
+            }
+        },
+        { $sort: { _id: 1 } }
+    ];
+
+    const results = await Order.aggregate(pipeline);
+
+    const months = [];
+    const date = new Date(startDate);
+    for (let i = 0; i < 12; i++) {
+        const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+        months.push(key);
+        date.setMonth(date.getMonth() + 1);
+    }
+
+    const salesMap = results.reduce((acc, item) => {
+        acc[item._id] = { totalSales: item.totalSales, orderCount: item.orderCount };
+        return acc;
+    }, {});
+
+    const finalResult = months.map(month => {
+        return {
+            month,
+            totalSales: salesMap[month]?.totalSales || 0,
+            orderCount: salesMap[month]?.orderCount || 0
+        };
+    });
+
+    return finalResult;
+}
+
 module.exports = {
     getOrdersForUser,
     getOrders,
@@ -157,5 +205,6 @@ module.exports = {
     getTotalProfit,
     getAllOrdersWithUserDetails,
     updateOrderStatus,
-    createOrder
+    createOrder,
+    getLast12MonthsSales
 };

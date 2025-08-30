@@ -25,10 +25,44 @@ async function checkFavorite(user_id, product_id) {
     });
 }
 
+async function getMostFavoritedProducts(limit = 10) {
+    const pipeline = [
+        { $unwind: '$products_id' },
+        {
+            $group: {
+                _id: '$products_id',
+                favoritesCount: { $sum: 1 }
+            }
+        },
+        { $sort: { favoritesCount: -1 } },
+        { $limit: limit },
+        {
+            $lookup: {
+                from: 'products',
+                localField: '_id',
+                foreignField: '_id',
+                as: 'product'
+            }
+        },
+        { $unwind: '$product' },
+        {
+            $project: {
+                _id: 0,
+                product_id: '$_id',
+                name: '$product.name',
+                favoritesCount: 1
+            }
+        }
+    ];
+
+    return Favorite.aggregate(pipeline);
+}
+
 module.exports = {
     getFavorites,
     addFavorite,
     deleteFavorite,
     getFavoritesCount,
-    checkFavorite
+    checkFavorite,
+    getMostFavoritedProducts
 };

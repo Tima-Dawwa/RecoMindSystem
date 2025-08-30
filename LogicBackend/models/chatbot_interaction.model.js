@@ -48,8 +48,34 @@ async function getChatbotResponseTimeStats() {
     ]);
 }
 
+async function getChatbotTypesUsage() {
+    const pipeline = [
+        {
+            $group: {
+                _id: '$input_type',
+                count: { $sum: 1 }
+            }
+        }
+    ];
+
+    const results = await ChatbotInteraction.aggregate(pipeline);
+
+    const usage = {};
+    results.forEach(item => {
+        usage[item._id] = item.count;
+    });
+
+    const allTypes = ['text', 'image', 'text+image'];
+    allTypes.forEach(type => {
+        if (!usage[type]) usage[type] = 0;
+    });
+
+    return usage;
+}
+
 module.exports = {
     getChatbotSimilarityStats,
     postChatbotInteraction,
-    getChatbotResponseTimeStats
+    getChatbotResponseTimeStats,
+    getChatbotTypesUsage
 };
