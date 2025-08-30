@@ -16,12 +16,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   CustomSharedPreferences prefs = CustomSharedPreferences();
-  bool logged = true;
+  bool logged = false;
 
   @override
   void initState() {
     super.initState();
-    // isLogged();
+    isLogged();
     // getCollab();
     if (logged) {
       getProfile();

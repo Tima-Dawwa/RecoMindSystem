@@ -1,11 +1,36 @@
 import 'package:dashboard/core/utils/theme.dart';
+import 'package:dashboard/features/AI/model/time_model.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class TimeChart extends StatelessWidget {
-  const TimeChart({super.key, required this.title, required this.xAxis});
+class TimeChart extends StatefulWidget {
+  const TimeChart({
+    super.key,
+    required this.title,
+    required this.xAxis,
+    required this.time,
+  });
   final String title;
   final List<String> xAxis;
+  final List<TimeModel> time;
+
+  @override
+  State<TimeChart> createState() => _TimeChartState();
+}
+
+class _TimeChartState extends State<TimeChart> {
+  List<double> values = [];
+
+  @override
+  void initState() {
+    super.initState();
+    for (var i = 0; i < widget.time.length; i++) {
+      double value = 0;
+      value = (widget.time[i].value * 10000).truncate() / 10000;
+      values.add(double.parse(value.toStringAsFixed(4)));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -41,12 +66,12 @@ class TimeChart extends StatelessWidget {
           scatterSpots: [
             ScatterSpot(
               1,
-              2,
+              values[0],
               dotPainter: FlDotCirclePainter(color: Themes.primary, radius: 7),
             ),
             ScatterSpot(
               2,
-              1,
+              values[1],
               dotPainter: FlDotCirclePainter(
                 color: Themes.secondary,
                 radius: 7,
@@ -54,7 +79,7 @@ class TimeChart extends StatelessWidget {
             ),
             ScatterSpot(
               3,
-              3,
+              values[2],
               dotPainter: FlDotCirclePainter(color: Themes.third, radius: 7),
             ),
           ],
@@ -70,11 +95,11 @@ class TimeChart extends StatelessWidget {
                       value == 0
                           ? ''
                           : value == 1
-                          ? xAxis[0]
+                          ? widget.time[0].type
                           : value == 2
-                          ? xAxis[1]
+                          ? widget.time[1].type
                           : value == 3
-                          ? xAxis[2]
+                          ? widget.time[2].type
                           : value == 4
                           ? ''
                           : '',
@@ -86,7 +111,7 @@ class TimeChart extends StatelessWidget {
             ),
             leftTitles: AxisTitles(
               axisNameWidget: Text(
-                "Seconds",
+                "Milliseconds",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               sideTitles: SideTitles(
@@ -121,7 +146,7 @@ class TimeChart extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 5),
                     child: Text(
-                      value == 2 ? title : "",
+                      value == 2 ? widget.title : "",
                       style: TextStyle(
                         color: Themes.text,
                         fontSize: 20,
