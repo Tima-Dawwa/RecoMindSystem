@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:recomindweb/core/theme.dart';
-import 'package:recomindweb/features/Show_All_Products/presentation/views/widgets/content_all_products.dart';
+import 'package:recomindweb/features/Show_All_Products/model/all_products_model.dart';
+import 'package:recomindweb/features/Show_All_Products/view/widgets/content_all_products.dart';
 
 class CustomTabBarView extends StatefulWidget {
-  const CustomTabBarView({super.key});
+  const CustomTabBarView({super.key, required this.allProducts});
+
+  final List<AllProductsModel> allProducts;
 
   @override
   _CustomTabBarViewState createState() => _CustomTabBarViewState();
@@ -128,8 +131,9 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
           child: TabBarView(
             controller: _tabController,
             children:
+                // ignore: avoid_types_as_parameter_names
                 labels.map((label) {
-                  return ContentAllProducts();
+                  return ContentAllProducts(type: label.name , allProducts: widget.allProducts,);
                 }).toList(),
           ),
         ),

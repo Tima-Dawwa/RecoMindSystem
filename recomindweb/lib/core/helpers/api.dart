@@ -11,9 +11,11 @@ class Api {
   String token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YTk5NDIyMDdhZjQ5YzViZTE5YjY2NCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJEb2UifSwiaWF0IjoxNzU2MTkwMDAwLCJleHAiOjE3NTY0NDkyMDB9.ZEDJm6R0PQsAViEV5f1lJyCv0BIX8IEPKDxh7qQpz9M";
 
-  Future<Map<String, dynamic>> get({required String endPoint}) async {
+  Future<Map<String, dynamic>> get({required String endPoint , Map<String, dynamic>? queryParameters,
+}) async {
     var response = await _dio.get(
       '$baseUrl$endPoint',
+      queryParameters: queryParameters,
       options: Options(
         headers: {
           'Authorization': 'Bearer $token',
