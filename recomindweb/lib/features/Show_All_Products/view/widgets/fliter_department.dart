@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recomindweb/core/theme.dart';
-import 'package:recomindweb/features/Show_All_Products/presentation/views/widgets/slider_filter.dart';
+import 'package:recomindweb/features/Show_All_Products/view/widgets/slider_filter.dart';
 
 class FilterDepartment extends StatefulWidget {
   FilterDepartment({super.key, required this.price, required this.categories});
