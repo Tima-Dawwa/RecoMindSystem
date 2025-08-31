@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:recomindweb/features/ChatBot/Model/product.dart';
 import 'package:recomindweb/features/Show_All_Products/model/all_products_model.dart';
+import 'package:recomindweb/features/Show_All_Products/view/widgets/all_product_card/all_product_image.dart';
 import 'package:recomindweb/features/Show_All_Products/view/widgets/all_product_card/all_product_price.dart';
 import 'package:recomindweb/features/Show_All_Products/view/widgets/all_product_card/all_product_rating.dart';
 import 'package:recomindweb/features/Show_All_Products/view/widgets/all_product_card/all_product_tags_row.dart';
-
 
 class AllProductCard extends StatelessWidget {
   final AllProductsModel product;
@@ -33,17 +32,31 @@ class AllProductCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ProductImage(product: product),
+            AllProductImage(product: product),
             Padding(
               padding: const EdgeInsets.all(12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text(
+                    product.name,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                      color: Colors.black87,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   AllProductTagsRow(product: product),
                   const SizedBox(height: 6),
-                  AllProductRating(rating: product.rating ?? 4.0),
+                  AllProductRating(rating: product.rating),
                   const SizedBox(height: 6),
-                  AllProductPrice(price: product.price , discPrice: product.discountedPrice, isDisc: product.isDiscounted,),
+                  AllProductPrice(
+                    price: product.price,
+                    discPrice: product.discountedPrice,
+                    isDisc: product.isDiscounted,
+                  ),
                 ],
               ),
             ),

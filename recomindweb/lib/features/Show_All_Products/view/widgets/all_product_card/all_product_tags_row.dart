@@ -10,22 +10,10 @@ class AllProductTagsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(
-          child: Text(
-            product.name,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 16,
-              color: Colors.black87,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
         const SizedBox(width: 8),
         _buildTag(product.gender, Colors.purple),
         const SizedBox(width: 6),
-        _buildTag(product.department, Colors.purple),
+        // _buildTag(product.department, Colors.purple),
       ],
     );
   }
@@ -39,6 +27,7 @@ class AllProductTagsRow extends StatelessWidget {
       ),
       child: Text(
         text,
+
         style: TextStyle(
           fontSize: 12,
           color: color,

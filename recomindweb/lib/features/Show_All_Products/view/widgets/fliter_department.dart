@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/theme.dart';
-import 'package:recomindweb/features/Show_All_Products/view/widgets/slider_filter.dart';
+import 'package:recomindweb/features/Show_All_Products/view%20model/cubit/all_products_cubit.dart';
 
+// ignore: must_be_immutable
 class FilterDepartment extends StatefulWidget {
-  FilterDepartment({super.key, required this.price, required this.categories});
+  FilterDepartment({
+    super.key,
+    required this.categories,
+    required this.currentPage,
+    required this.type,
+  });
 
-  late double price;
   List<String> categories;
+  final int currentPage;
+  final String type;
 
   @override
   State<FilterDepartment> createState() => _FilterDepartmentState();
@@ -14,6 +22,7 @@ class FilterDepartment extends StatefulWidget {
 
 class _FilterDepartmentState extends State<FilterDepartment> {
   final List<String> selectedCategories = [];
+  var rangeValues = RangeValues(0, 1000);
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +43,6 @@ class _FilterDepartmentState extends State<FilterDepartment> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
             ),
             SizedBox(height: 8),
-            const Text("Price :", style: TextStyle(fontSize: 18)),
-            SliderFilter(rangeValues: RangeValues(100, 100000)),
-            const SizedBox(height: 20),
             const Text(" Category :", style: TextStyle(fontSize: 18)),
             SizedBox(height: 8),
             Wrap(
@@ -60,7 +66,61 @@ class _FilterDepartmentState extends State<FilterDepartment> {
                     );
                   }).toList(),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 20),
+            const Text("Price :", style: TextStyle(fontSize: 18)),
+            // SliderFilter(rangeValues: RangeValues(0, 100000))
+            Column(
+              children: [
+                SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    valueIndicatorTextStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                    valueIndicatorColor: Themes.primary,
+                    showValueIndicator: ShowValueIndicator.always,
+                    rangeThumbShape: const RoundRangeSliderThumbShape(
+                      enabledThumbRadius: 8,
+                    ),
+                    overlayShape: const RoundSliderOverlayShape(
+                      overlayRadius: 14,
+                    ),
+                  ),
+                  child: RangeSlider(
+                    values: rangeValues,
+                    min: 0,
+                    max: 1000,
+                    divisions: 100,
+                    labels: RangeLabels(
+                      "\$${rangeValues.start.round()}",
+                      "\$${rangeValues.end.round()}",
+                    ),
+                    onChanged: (RangeValues values) {
+                      setState(() {
+                        rangeValues = values;
+                      });
+                    },
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("\$0", style: TextStyle(color: Colors.grey[600])),
+
+                    Text("\$1000", style: TextStyle(color: Colors.grey[600])),
+                  ],
+                ),
+                Padding(padding: const EdgeInsets.only(right: 16)),
+                Text(
+                  "\$${rangeValues.start.round()} - \$${rangeValues.end.round()}",
+                  style: TextStyle(
+                    color: Themes.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -70,8 +130,8 @@ class _FilterDepartmentState extends State<FilterDepartment> {
                   ),
                   onPressed: () {
                     setState(() {
-                      widget.price = 500;
                       selectedCategories.clear();
+                      rangeValues = RangeValues(0, 1000);
                     });
                   },
                   child: Text("Reset", style: TextStyle(color: Themes.primary)),
@@ -80,15 +140,7 @@ class _FilterDepartmentState extends State<FilterDepartment> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Themes.primary,
                   ),
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          "filter price ${widget.price} type: ${selectedCategories.join(', ')}",
-                        ),
-                      ),
-                    );
-                  },
+                  onPressed: getAll,
                   child: const Text(
                     "Apply",
                     style: TextStyle(color: Colors.white),
@@ -100,5 +152,18 @@ class _FilterDepartmentState extends State<FilterDepartment> {
         ),
       ),
     );
+  }
+
+  void getAll() {
+    BlocProvider.of<AllProductsCubit>(context).getAllProducts(
+      page: widget.currentPage + 1,
+      type: widget.type,
+      minPrice: rangeValues.start,
+      maxPrice: rangeValues.end,
+      categories: selectedCategories,
+      isNew: selectedCategories.contains("New"),
+      isTrend: selectedCategories.contains("Trend"),
+    );
+    BlocProvider.of<AllProductsCubit>(context).applyFilter();
   }
 }

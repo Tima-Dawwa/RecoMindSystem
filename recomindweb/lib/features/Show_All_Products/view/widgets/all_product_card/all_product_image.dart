@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recomindweb/core/utils.dart';
+import 'package:recomindweb/core/helpers/constant.dart';
 import 'package:recomindweb/features/Show_All_Products/model/all_products_model.dart';
 
 class AllProductImage extends StatefulWidget {
@@ -12,7 +12,6 @@ class AllProductImage extends StatefulWidget {
 }
 
 class _ProductImageState extends State<AllProductImage> {
-  bool isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +24,7 @@ class _ProductImageState extends State<AllProductImage> {
         child: Stack(
           children: [
             Image.network(
-              'https://29368a0364f1.ngrok-free.app/${product.imageUrl}',
+              '$ngrok${product.urlImage}',
               headers: {"ngrok-skip-browser-warning": "true"},
               fit: BoxFit.fill,
               width: double.infinity,
@@ -37,35 +36,9 @@ class _ProductImageState extends State<AllProductImage> {
             ),
             Positioned(
               top: 8,
-              left: 8,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 4,
-                ),
-                decoration: BoxDecoration(
-                  color: getTagColor(product.tagType),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  product.tagType.toUpperCase(),
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 8,
               right: 8,
               child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    isFavorite = !isFavorite;
-                  });
-                },
+                onTap: () {},
                 child: Container(
                   padding: const EdgeInsets.all(6),
                   decoration: const BoxDecoration(
@@ -73,8 +46,8 @@ class _ProductImageState extends State<AllProductImage> {
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
-                    isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: isFavorite ? Colors.red : Colors.grey,
+                    product.isFav ? Icons.favorite : Icons.favorite_border,
+                    color: product.isFav ? Colors.red : Colors.grey,
                     size: 20,
                   ),
                 ),
