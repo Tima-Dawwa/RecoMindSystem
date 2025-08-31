@@ -9,6 +9,7 @@ class AllProductsModel {
   final double rating;
   final bool isNew;
   final bool isTrend;
+  final bool isFav;
   final String urlImage;
 
   AllProductsModel({
@@ -22,6 +23,7 @@ class AllProductsModel {
     required this.rating,
     required this.isNew,
     required this.isTrend,
+    required this.isFav,
     required this.urlImage,
   });
 
@@ -37,6 +39,7 @@ class AllProductsModel {
       rating: jsonData['rating'],
       isNew: jsonData['isNew'],
       isTrend: jsonData['isTrend'],
+      isFav: jsonData['isFavorite'],
       urlImage: 'assets/main_image.jpg',
     );
   }
