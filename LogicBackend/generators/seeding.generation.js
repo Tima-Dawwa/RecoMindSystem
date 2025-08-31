@@ -84,6 +84,7 @@ async function createProducts() {
                 const discountAmount = faker.number.float({ min: 1, max: 20, multipleOf: 0.01 });
                 let discounted_price = hasDiscount ? Math.max(price - discountAmount, 0) : price;
                 discounted_price = parseFloat(discounted_price.toFixed(2));
+                const createdAt = randomDatePastMonths(2);
 
                 const product = {
                     name: row.prod_name?.trim(),
@@ -97,7 +98,9 @@ async function createProducts() {
                     discounted_price,
                     quantity: faker.number.int({ min: 100, max: 3000 }),
                     // images: [`/images/products/${folderNumber}/${imageNumber}.jpg`]
-                    images: [`/images/products/recomind1.jpg`]
+                    images: [`/images/products/recomind1.jpg`],
+                    createdAt,
+                    updatedAt: createdAt
                 };
 
                 products.push(product);
@@ -401,7 +404,7 @@ async function createNotifications(numNotifications = 1000) {
     }
 }
 
-async function createOrders(numOrders = 500, maxItemsPerOrder = 5) {
+async function createOrders(numOrders = 5000, maxItemsPerOrder = 5) {
     const users = await User.find({}, '_id').lean();
     const products = await Product.find({}, '_id price discounted_price quantity').lean();
 
