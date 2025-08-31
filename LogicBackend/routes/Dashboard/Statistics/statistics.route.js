@@ -12,7 +12,9 @@ const {
     getSalesOverTime,
     httpGetMostFavoritedProduct,
     httpGetChatbotUsageType,
-    httpGetMostUsersByCountry
+    httpGetMostUsersByCountry,
+    httpGetTopCustomersByOrders,
+    httpGetTopCustomersByInteractions
 } = require('./statistics.controller');
 
 const statisticsRouter = express.Router();
@@ -27,5 +29,7 @@ statisticsRouter.get('/sales', requireJwtAuth, checkSuperAdmin, asyncHandler(get
 statisticsRouter.get('/favorites', requireJwtAuth, checkSuperAdmin, asyncHandler(httpGetMostFavoritedProduct));
 statisticsRouter.get('/chatbot', requireJwtAuth, checkSuperAdmin, asyncHandler(httpGetChatbotUsageType));
 statisticsRouter.get('/top-countries', requireJwtAuth, checkSuperAdmin, asyncHandler(httpGetMostUsersByCountry));
+statisticsRouter.get('/top-customers/orders', requireJwtAuth, checkSuperAdmin, asyncHandler(httpGetTopCustomersByOrders));
+statisticsRouter.get('/top-customers/interactions', requireJwtAuth, checkSuperAdmin, asyncHandler(httpGetTopCustomersByInteractions));
 
 module.exports = statisticsRouter;

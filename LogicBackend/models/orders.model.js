@@ -194,6 +194,41 @@ async function getLast12MonthsSales() {
     return finalResult;
 }
 
+async function getTopCustomersByOrders(limit = 10) {
+    const pipeline = [
+        {
+            $group: {
+                _id: '$user_id',
+                order_count: { $sum: 1 },
+                total_spent: { $sum: '$total_price' }
+            }
+        },
+        { $sort: { order_count: -1 } },
+        { $limit: limit },
+        {
+            $lookup: {
+                from: 'users',
+                localField: '_id',
+                foreignField: '_id',
+                as: 'user'
+            }
+        },
+        { $unwind: '$user' },
+        {
+            $project: {
+                _id: 0,
+                full_name: {
+                    $concat: ['$user.name.first_name', ' ', '$user.name.last_name']
+                },
+                order_count: 1,
+                total_spent: 1
+            }
+        }
+    ];
+
+    return await Order.aggregate(pipeline);
+}
+
 module.exports = {
     getOrdersForUser,
     getOrders,
@@ -206,5 +241,6 @@ module.exports = {
     getAllOrdersWithUserDetails,
     updateOrderStatus,
     createOrder,
-    getLast12MonthsSales
+    getLast12MonthsSales,
+    getTopCustomersByOrders
 };
