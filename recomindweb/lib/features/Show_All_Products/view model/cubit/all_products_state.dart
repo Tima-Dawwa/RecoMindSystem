@@ -12,3 +12,5 @@ class AllProductsFailureState extends AllProductsState {
   final Failure failure;
   AllProductsFailureState({required this.failure});
 }
+
+class AllProductsFilterState extends AllProductsState{}
