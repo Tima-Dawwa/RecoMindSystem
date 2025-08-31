@@ -1,5 +1,5 @@
 const { resetCart } = require('../../../models/cart.model');
-const { getOrdersForUser, getOrder, createOrder } = require('../../../models/orders.model');
+const { getOrdersForUser, getOrder, createOrder, getOrdersCountForUser } = require('../../../models/orders.model');
 const { getPagination } = require('../../../services/query');
 const { getProductsByIds, decrementQuantity } = require('../../../models/products.model');
 const { createPaymentData } = require('../../../services/payment');
