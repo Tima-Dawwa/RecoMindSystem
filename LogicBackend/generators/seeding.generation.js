@@ -79,7 +79,7 @@ async function createProducts() {
 
                 // if (!fs.existsSync(imagePath)) return;
 
-                const price = parseFloat(faker.commerce.price({ min: 10, max: 300 }));
+                const price = parseFloat(faker.commerce.price({ min: 10, max: 1000 }));
                 const hasDiscount = Math.random() < 0.5;
                 const discountAmount = faker.number.float({ min: 1, max: 20, multipleOf: 0.01 });
                 let discounted_price = hasDiscount ? Math.max(price - discountAmount, 0) : price;
