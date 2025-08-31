@@ -16,6 +16,7 @@ const {
 const { postRequest, deleteRequests } = require('../../../models/code_confirmation.model');
 const { confirmTokenHelper } = require('../Auth/auth.helper');
 const sendMail = require('../../../services/sendMail');
+const countries = require('../../../public/json/countries-all.json');
 
 async function httpGetProfile(req, res) {
     const user = req.user;
@@ -158,6 +159,10 @@ async function httpDeleteAccount(req, res) {
     return res.status(200).json({ message: 'Account Has Been Deleted' });
 }
 
+async function httpGetLocations(req, res) {
+    return res.status(200).json({ data: countries });
+}
+
 module.exports = {
     httpPutName,
     httpPutGender,
@@ -168,5 +173,6 @@ module.exports = {
     httpPutLocation,
     httpPutPassword,
     httpDeleteAccount,
-    httpRequestDeleteAccount
+    httpRequestDeleteAccount,
+    httpGetLocations
 };
