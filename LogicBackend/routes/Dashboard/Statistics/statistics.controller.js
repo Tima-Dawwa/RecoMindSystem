@@ -1,6 +1,7 @@
 const { getChatbotSimilarityStats, getChatbotResponseTimeStats, getChatbotTypesUsage } = require('../../../models/chatbot_interaction.model');
 const { getMostFavoritedProducts } = require('../../../models/favorites.model');
-const { getLast12MonthsSales } = require('../../../models/orders.model');
+const { getTopCustomersByInteractions } = require('../../../models/interactions.model');
+const { getLast12MonthsSales, getTopCustomersByOrders } = require('../../../models/orders.model');
 const { getRecommendationSimilarityStats, getRecommendationResponseTimeStats } = require('../../../models/recommendation_interaction.model');
 const { getMostUsersByCountry } = require('../../../models/users.model');
 const { similarityData, responseTimeData } = require('./statistics.serializer');
@@ -45,6 +46,16 @@ async function httpGetMostUsersByCountry(req, res) {
     return res.status(200).json({ data: data });
 }
 
+async function httpGetTopCustomersByOrders(req, res) {
+    const data = await getTopCustomersByOrders();
+    return res.status(200).json({ data: data });
+}
+
+async function httpGetTopCustomersByInteractions(req, res) {
+    const data = await getTopCustomersByInteractions();
+    return res.status(200).json({ data: data });
+}
+
 module.exports = {
     getChatbotSimilarityStatistics,
     getChatbotResponseTimeStatistics,
@@ -53,5 +64,7 @@ module.exports = {
     getSalesOverTime,
     httpGetMostFavoritedProduct,
     httpGetChatbotUsageType,
-    httpGetMostUsersByCountry
+    httpGetMostUsersByCountry,
+    httpGetTopCustomersByOrders,
+    httpGetTopCustomersByInteractions
 };
