@@ -23,7 +23,6 @@ class OrdersCubit extends Cubit<OrdersState> {
         for (var i = 0; i < res['data'].length; i++) {
           orders.add(OrderModel.fromJson(res["data"][i]));
         }
-        emit(SuccessOrdersState());
       },
     );
   }
@@ -37,8 +36,15 @@ class OrdersCubit extends Cubit<OrdersState> {
       },
       (res) {
         orderDetails = OrdersStatistics.fromJson(res["data"]);
-        emit(SuccessOrdersState());
       },
     );
+  }
+
+  Future<void> getOrders() async {
+    emit(LoadingOrdersState());
+    await getStatistics();
+    emit(LoadingOrdersState());
+    await getAllOrders();
+    emit(SuccessOrdersState());
   }
 }

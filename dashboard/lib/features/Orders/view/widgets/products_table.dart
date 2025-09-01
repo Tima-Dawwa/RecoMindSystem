@@ -29,7 +29,7 @@ class ProductsTable extends StatelessWidget {
             ),
           ),
           child: PaginatedDataTable(
-            source: RowContent(desktop: desktop, orders: orders),
+            source: RowContent(desktop: desktop, orders: orders, context: context),
             showFirstLastButtons: true,
             rowsPerPage: 4,
             header: Text(
