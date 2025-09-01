@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:recomindweb/core/helpers/api.dart';
+import 'package:recomindweb/core/helpers/service_locator.dart';
 
 class FavCardMobile extends StatelessWidget {
   final String name;
@@ -33,17 +35,17 @@ class FavCardMobile extends StatelessWidget {
         child: Row(
           children: [
             // Product Image
-            Container(width: 100, height: 100, color: Colors.amber),
-            // ClipRRect(
-            //   borderRadius: BorderRadius.circular(12),
-            //   child: Image.network(
-            //       "https://0cba4fd215ba.ngrok-free.app${imageUrl}",
-                // headers: {"ngrok-skip-browser-warning": "true"},
-            //     width: 100,
-            //     height: 100,
-            //     fit: BoxFit.cover,
-            //   ),
-            // ),
+            // Container(width: 100, height: 100, color: Colors.amber),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.network(
+                  "${getIt.get<Api>().baseUrl}${imageUrl}",
+                headers: {"ngrok-skip-browser-warning": "true"},
+                width: 100,
+                height: 100,
+                fit: BoxFit.cover,
+              ),
+            ),
             const SizedBox(width: 20),
 
             // Product Info

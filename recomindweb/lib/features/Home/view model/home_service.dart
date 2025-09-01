@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:recomindweb/core/helpers/api.dart';
 import 'package:recomindweb/core/helpers/failure.dart';
+import 'package:recomindweb/core/helpers/service_locator.dart';
 import 'package:recomindweb/core/helpers/status_code_handler.dart';
 
 class HomeService {
@@ -61,5 +62,40 @@ class HomeService {
       }
     }
   }
+  Future<Either<Failure, Map<String, dynamic>>> changeLocation({
+    required dynamic body,
+  }) async {
+    try {
+      Map<String, dynamic> response = await api.put(
+        endPoint: "/users/location",
+        body: body,
+      );
+      return right(response);
+    } catch (e) {
+      if (e is DioException) {
+        return left(
+          Failure.fromDioException(e, DefaultStatusCodeHandler())
+        );
+      } else {
+        return left(Failure(errMessage: 'Something went wrong'));
+      }
+    }
+  }
 
+  Future<Either<Failure, Map<String, dynamic>>> getCities() async {
+    try {
+      Map<String, dynamic> response = await api.get(
+        endPoint: "/users/locations",
+      );
+      return right(response);
+    } catch (e) {
+      if (e is DioException) {
+        return left(
+          Failure.fromDioException(e, getIt.get<DefaultStatusCodeHandler>()),
+        );
+      } else {
+        return left(Failure(errMessage: 'Something went wrong'));
+      }
+    }
+  }
 }

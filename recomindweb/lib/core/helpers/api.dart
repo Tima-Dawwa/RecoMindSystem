@@ -24,7 +24,7 @@ class Api {
       ),
     );
     print(response.statusCode);
-    // print(response);
+    print(response);
     return response.data;
   }
 

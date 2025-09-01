@@ -40,7 +40,7 @@ class AllProductsModel {
       isNew: jsonData['isNew'],
       isTrend: jsonData['isTrend'],
       isFav: jsonData['isFavorite'],
-      urlImage: 'assets/main_image.jpg',
+      urlImage: jsonData['image'],
     );
   }
 }

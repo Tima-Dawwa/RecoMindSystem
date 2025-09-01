@@ -5,11 +5,11 @@ import 'package:recomindweb/features/Home/model/number_model.dart';
 class ProfileModel {
   final NameModel name;
   final NumberModel number;
-  final LocationModel location;
+  final LocationModel? location;
   final String gender;
   final String email;
   final String birthdate;
-  final String picture;
+  final String? picture;
 
   ProfileModel({
     required this.name,
