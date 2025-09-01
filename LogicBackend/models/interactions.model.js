@@ -244,6 +244,39 @@ async function getProductRatings(productId) {
     return ratingCounts;
 }
 
+async function getTopCustomersByInteractions(limit = 10) {
+    const pipeline = [
+        {
+            $group: {
+                _id: '$user_id',
+                interaction_count: { $sum: 1 },
+                total_weight: { $sum: { $ifNull: ['$interaction_weight', 0] } }
+            }
+        },
+        { $sort: { interaction_count: -1 } },
+        { $limit: limit },
+        {
+            $lookup: {
+                from: 'users',
+                localField: '_id',
+                foreignField: '_id',
+                as: 'user'
+            }
+        },
+        { $unwind: '$user' },
+        {
+            $project: {
+                _id: 0,
+                full_name: { $concat: ['$user.name.first_name', ' ', '$user.name.last_name'] },
+                interaction_count: 1,
+                total_weight: 1
+            }
+        }
+    ];
+
+    return Interaction.aggregate(pipeline);
+}
+
 module.exports = {
     getInteractions,
     getInteraction,
@@ -255,5 +288,6 @@ module.exports = {
     checkRating,
     updateRatingInteraction,
     removeProductInteraction,
-    getProductRatings
+    getProductRatings,
+    getTopCustomersByInteractions
 };

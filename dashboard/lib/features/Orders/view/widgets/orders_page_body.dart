@@ -83,40 +83,56 @@ class _OrdersPageBodyState extends State<OrdersPageBody> {
               ),
             ),
             SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(Icons.archive, size: 25, color: Themes.text),
-                  SizedBox(width: 6),
-                  Text(
-                    "Orders count ${orderDetails!.orders}",
-                    style: TextStyle(fontSize: 22, color: Themes.text),
-                  ),
-                  Spacer(flex: 1),
-                  Icon(Icons.person, size: 25, color: Themes.text),
-                  SizedBox(width: 6),
-                  Text(
-                    "Users ordered before ${orderDetails!.users}",
-                    style: TextStyle(fontSize: 22, color: Themes.text),
-                  ),
-                  Spacer(flex: 1),
-                  Icon(
-                    FontAwesomeIcons.sackDollar,
-                    size: 22,
-                    color: Themes.secondary,
-                  ),
-                  SizedBox(width: 6),
-                  Text(
-                    "Profits \$${orderDetails!.profits}",
-                    style: TextStyle(fontSize: 22, color: Themes.secondary),
-                  ),
-                ],
+            if (orderDetails != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Icons.archive, size: 25, color: Themes.text),
+                    SizedBox(width: 6),
+                    Text(
+                      "Orders count ${orderDetails!.orders}",
+                      style: TextStyle(fontSize: 22, color: Themes.text),
+                    ),
+                    Spacer(flex: 1),
+                    Icon(Icons.person, size: 25, color: Themes.text),
+                    SizedBox(width: 6),
+                    Text(
+                      "Users ordered before ${orderDetails!.users}",
+                      style: TextStyle(fontSize: 22, color: Themes.text),
+                    ),
+                    Spacer(flex: 1),
+                    Icon(
+                      FontAwesomeIcons.sackDollar,
+                      size: 22,
+                      color: Themes.secondary,
+                    ),
+                    SizedBox(width: 6),
+                    Text(
+                      "Profits \$${orderDetails!.profits}",
+                      style: TextStyle(fontSize: 22, color: Themes.secondary),
+                    ),
+                  ],
+                ),
               ),
-            ),
             SizedBox(height: 20),
-            ProductsTable(desktop: true, orders: orders),
+            if (orders.isNotEmpty) ProductsTable(desktop: true, orders: orders),
+            if (orders.isEmpty)
+              Padding(
+                padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.3,
+                ),
+                child: Center(
+                  child: Text(
+                    "No orders yet",
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Themes.text.withAlpha(100),
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

@@ -37,7 +37,7 @@ async function httpGetOrdersStatistics(req, res) {
 
 async function httpUpdateOrderStatus(req, res) {
     try {
-        const { orderId } = req.params;
+        const { id } = req.params;
         const { status } = req.body;
 
         if (!status || !['prepare', 'delivery'].includes(status)) {
@@ -46,7 +46,7 @@ async function httpUpdateOrderStatus(req, res) {
             });
         }
 
-        const updatedOrder = await updateOrderStatus(orderId, status);
+        const updatedOrder = await updateOrderStatus(id, status);
 
         if (!updatedOrder) {
             return res.status(404).json({ message: 'Order not found' });

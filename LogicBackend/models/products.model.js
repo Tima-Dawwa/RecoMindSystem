@@ -33,8 +33,10 @@ async function buildProductQuery(filters) {
         query._id = { $in: trendingIds };
     }
 
-    if (filters.isNew) {
+    if (filters.isNew == true) {
         query.createdAt = { $gte: tenDaysAgo };
+    } else {
+        query.createdAt = { $lt: tenDaysAgo };
     }
 
     if (filters.name) {

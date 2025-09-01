@@ -1,19 +1,21 @@
 // ignore_for_file: avoid_print
 import 'package:dio/dio.dart';
-import 'package:recomindweb/core/helpers/service_locator.dart';
-import 'package:recomindweb/features/Authentication/view%20model/auth_service.dart';
 
 class Api {
   Api(this._dio);
   final Dio _dio;
-  final String baseUrl = 'https://6e23b4e1c921.ngrok-free.app';
+  final String baseUrl = 'http://127.0.0.1:5000';
 
   String token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiYzJjMzE3NTZhZmIzOWJiZGZiM2NhOCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IlJhbmRhbGwiLCJsYXN0X25hbWUiOiJCdWNrcmlkZ2UifSwiaWF0IjoxNzU2NDc4NzQzLCJleHAiOjE3NTY3Mzc5NDN9.XyYHUIjVGoZT31KLHm3CYOqdP0HjuQrj56m6s_K6vgs";
 
-  Future<Map<String, dynamic>> get({required String endPoint}) async {
+  Future<Map<String, dynamic>> get({
+    required String endPoint,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     var response = await _dio.get(
       '$baseUrl$endPoint',
+      queryParameters: queryParameters,
       options: Options(
         headers: {
           'Authorization': 'Bearer $token',
@@ -22,7 +24,7 @@ class Api {
       ),
     );
     print(response.statusCode);
-    print(response);
+    // print(response);
     return response.data;
   }
 

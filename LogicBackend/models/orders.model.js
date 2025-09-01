@@ -87,12 +87,11 @@ async function getAllOrdersWithUserDetails(skip = 0, limit = 10, searchUsername 
         sortQuery[sortBy] = sortOrder === 'desc' ? -1 : 1;
     }
 
-    const orders = await Order.find(query).populate('user_id', 'username email').sort(sortQuery).skip(skip).limit(limit);
+    const orders = await Order.find(query).populate('user_id', 'name').sort(sortQuery).skip(skip).limit(limit);
 
     let result = orders.map(order => ({
         id: order._id,
-        username: order.user_id ? order.user_id.username : 'Unknown',
-        user_email: order.user_id ? order.user_id.email : 'Unknown',
+        username: order.user_id ? `${order.user_id.name.first_name} ${order.user_id.name.last_name}` : 'Unknown',
         order_date: order.createdAt,
         status: order.status,
         products_count: order.orderItems.length,
@@ -146,6 +145,89 @@ async function createOrder(orderData) {
     return await order.save();
 }
 
+async function getLast12MonthsSales() {
+    const endDate = new Date();
+    const startDate = new Date();
+    startDate.setMonth(endDate.getMonth() - 11);
+    startDate.setDate(1);
+
+    const pipeline = [
+        {
+            $match: {
+                createdAt: { $gte: startDate, $lte: endDate }
+            }
+        },
+        {
+            $group: {
+                _id: { $dateToString: { format: '%Y-%m', date: '$createdAt' } },
+                totalSales: { $sum: '$total_price' },
+                orderCount: { $sum: 1 }
+            }
+        },
+        { $sort: { _id: 1 } }
+    ];
+
+    const results = await Order.aggregate(pipeline);
+
+    const months = [];
+    const date = new Date(startDate);
+    for (let i = 0; i < 12; i++) {
+        const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+        months.push(key);
+        date.setMonth(date.getMonth() + 1);
+    }
+
+    const salesMap = results.reduce((acc, item) => {
+        acc[item._id] = { totalSales: item.totalSales, orderCount: item.orderCount };
+        return acc;
+    }, {});
+
+    const finalResult = months.map(month => {
+        return {
+            month,
+            totalSales: salesMap[month]?.totalSales || 0,
+            orderCount: salesMap[month]?.orderCount || 0
+        };
+    });
+
+    return finalResult;
+}
+
+async function getTopCustomersByOrders(limit = 10) {
+    const pipeline = [
+        {
+            $group: {
+                _id: '$user_id',
+                order_count: { $sum: 1 },
+                total_spent: { $sum: '$total_price' }
+            }
+        },
+        { $sort: { order_count: -1 } },
+        { $limit: limit },
+        {
+            $lookup: {
+                from: 'users',
+                localField: '_id',
+                foreignField: '_id',
+                as: 'user'
+            }
+        },
+        { $unwind: '$user' },
+        {
+            $project: {
+                _id: 0,
+                full_name: {
+                    $concat: ['$user.name.first_name', ' ', '$user.name.last_name']
+                },
+                order_count: 1,
+                total_spent: 1
+            }
+        }
+    ];
+
+    return await Order.aggregate(pipeline);
+}
+
 module.exports = {
     getOrdersForUser,
     getOrders,
@@ -157,5 +239,7 @@ module.exports = {
     getTotalProfit,
     getAllOrdersWithUserDetails,
     updateOrderStatus,
-    createOrder
+    createOrder,
+    getLast12MonthsSales,
+    getTopCustomersByOrders
 };
