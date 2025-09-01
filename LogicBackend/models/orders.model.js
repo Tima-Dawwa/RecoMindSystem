@@ -228,6 +228,10 @@ async function getTopCustomersByOrders(limit = 10) {
     return await Order.aggregate(pipeline);
 }
 
+async function getOrderWithPopulate(id) {
+    return await Order.findById(id).populate('orderItems.product');
+}
+
 module.exports = {
     getOrdersForUser,
     getOrders,
@@ -241,5 +245,6 @@ module.exports = {
     updateOrderStatus,
     createOrder,
     getLast12MonthsSales,
-    getTopCustomersByOrders
+    getTopCustomersByOrders,
+    getOrderWithPopulate
 };

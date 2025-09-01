@@ -1,10 +1,10 @@
 require('dotenv').config();
 const URL = process.env.URL;
 
-function createPaymentData(cart, amount, type) {
+function createPaymentData(order, amount, type) {
     const currency = 'USD';
 
-    const items = cart.items.map(item => ({
+    const items = order.orderItems.map(item => ({
         name: item.product.name || `Product ${item.product._id}`,
         sku: item.product._id.toString(),
         price: item.price.toFixed(2),
@@ -12,7 +12,7 @@ function createPaymentData(cart, amount, type) {
         quantity: item.quantity
     }));
 
-    const total = cart.total_price.toFixed(2);
+    const total = order.total_price.toFixed(2);
     const payment_data = {
         intent: 'sale',
         payer: {
@@ -40,4 +40,4 @@ function createPaymentData(cart, amount, type) {
     return payment_data;
 }
 
-module.exports = createPaymentData;
+module.exports = { createPaymentData };
