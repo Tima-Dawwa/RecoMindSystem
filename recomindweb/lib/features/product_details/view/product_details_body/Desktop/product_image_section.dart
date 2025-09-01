@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recomindweb/core/helpers/constant.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/product_details/models/product_model.dart';
 import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_cubit.dart';
@@ -60,7 +61,7 @@ class _ProductImageSectionState extends State<ProductImageSection> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(6),
                         child: Image.network(
-                          image,
+                         image,
                           headers: {"ngrok-skip-browser-warning": "true"},
                           width: 90,
                           height: 120,

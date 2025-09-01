@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recomindweb/core/helpers/constant.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/product_details/models/product_response.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/Desktop/recommendation_product_desktop.dart';
@@ -27,7 +28,7 @@ class ProductDetailsDesktopLayout extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ProductImageSection(
-              selectedImage: 'https://5768-109-236-81-168.ngrok-free.app${productData.data.images[0]}',
+              selectedImage:ngrok+ productData.data.images[0],
               imageList: productData.data.images,
               onThumbnailClick: onImageChange,
               product: productData.data,

@@ -4,10 +4,10 @@ import 'package:dio/dio.dart';
 class Api {
   Api(this._dio);
   final Dio _dio;
-  final String baseUrl = 'http://127.0.0.1:5000';
+  final String baseUrl = 'https://d5ff4ae3636c.ngrok-free.app';
 
   String token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiYzJjMzE3NTZhZmIzOWJiZGZiM2NhOCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IlJhbmRhbGwiLCJsYXN0X25hbWUiOiJCdWNrcmlkZ2UifSwiaWF0IjoxNzU2NDc4NzQzLCJleHAiOjE3NTY3Mzc5NDN9.XyYHUIjVGoZT31KLHm3CYOqdP0HjuQrj56m6s_K6vgs";
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiYzJjMzE3NTZhZmIzOWJiZGZiM2NhOCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IlJhbmRhbGwiLCJsYXN0X25hbWUiOiJCdWNrcmlkZ2UifSwiaWF0IjoxNzU2NzI2ODI1LCJleHAiOjE3NTY5ODYwMjV9.Z2w6H5dvOF0qQOaSolTleW-FC-eIJ13TO2MyewulDqE";
 
   Future<Map<String, dynamic>> get({
     required String endPoint,
