@@ -40,4 +40,20 @@ class CartService {
       }
     }
   }
+
+
+      Future<Either<Failure, Map<String, dynamic>>> makeOrder(dynamic body) async {
+    try {
+      Map<String, dynamic> response = await api.post(endPoint: '/orders' , body: body);
+      return right(response);
+    } catch (e) {
+      if (e is DioException) {
+        return left(Failure.fromDioException(e, DefaultStatusCodeHandler()));
+      } else {
+        return left(
+          Failure(errMessage: 'something went wrong (not DioException)'),
+        );
+      }
+    }
+  }
 }

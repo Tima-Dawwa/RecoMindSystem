@@ -28,3 +28,14 @@ class RemoveFromCartFailureState extends CartStates {
 class DecreaseQuantityState extends CartStates{}
 
 class IncreaseQuantityState extends CartStates{}
+
+class MakeOrderLoadingState extends CartStates{}
+
+class MakeOrderSuccessState extends CartStates {
+ 
+}
+
+class MakeOrderFailureState extends CartStates {
+  final Failure failure;
+  MakeOrderFailureState({required this.failure});
+}

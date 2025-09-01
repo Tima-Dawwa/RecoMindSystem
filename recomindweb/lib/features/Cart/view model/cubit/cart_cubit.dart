@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/features/Cart/model/cart_model.dart';
@@ -56,5 +58,39 @@ class CartCubit extends Cubit<CartStates> {
       cartItems[index] = item.copyWith(quantity: item.quantity - 1);
       emit(CartSuccessState());
     }
+  }
+
+  Future<void> makeOrder(String id) async {
+    emit(MakeOrderLoadingState());
+
+    final body = buildCartBody(cartItems);
+    final jsonBody = jsonEncode(body);
+
+    var response = await cartService.makeOrder(jsonBody);
+    await Future.delayed(const Duration(milliseconds: 10));
+    response.fold(
+      (failure) {
+        emit(MakeOrderFailureState(failure: failure));
+      },
+      (res) {
+        emit(MakeOrderSuccessState());
+      },
+    );
+  }
+
+  Map<String, dynamic> buildCartBody(List<CartModel> cartItems) {
+    double totalPrice = 0;
+
+    final items =
+        cartItems.map((item) {
+          totalPrice += item.price * item.quantity;
+          return {
+            "product": item.id,
+            "quantity": item.quantity,
+            "price": item.price,
+          };
+        }).toList();
+
+    return {"items": items, "total_price": totalPrice};
   }
 }
