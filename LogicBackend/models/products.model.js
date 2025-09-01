@@ -35,8 +35,6 @@ async function buildProductQuery(filters) {
 
     if (filters.isNew == true) {
         query.createdAt = { $gte: tenDaysAgo };
-    } else {
-        query.createdAt = { $lt: tenDaysAgo };
     }
 
     if (filters.name) {
