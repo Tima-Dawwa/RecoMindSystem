@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recomindweb/core/helpers/constant.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/product_details/models/recommedation_product.dart';
 import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_cubit.dart';
@@ -89,9 +90,9 @@ class _ResponsiveProductCard extends StatelessWidget {
                     top: Radius.circular(16),
                   ),
                   child: Image.network(
-                   'https://5768-109-236-81-168.ngrok-free.app${product.image}',
-                   headers: {"ngrok-skip-browser-warning":"true"},
-                    
+                    ngrok + product.image,
+                    headers: {"ngrok-skip-browser-warning": "true"},
+
                     width: double.infinity,
                     height: double.infinity,
                     fit: BoxFit.cover,

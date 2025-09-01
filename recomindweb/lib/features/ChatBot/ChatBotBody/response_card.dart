@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:recomindweb/core/Widgets/ProductCard/product_card.dart';
+import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_cubit.dart';
+import 'package:recomindweb/features/product_details/view/product_details_page.dart';
 import '../Model/product.dart';
 
 class ResponseCards extends StatelessWidget {
@@ -69,7 +72,20 @@ class ResponseCards extends StatelessWidget {
                   ),
                   child: ProductCard(
                     product: product,
-                    onTap: () => onCardTap(product),
+                    onTap: () {
+                      final productDetailsCubit =
+                          context.read<ProductDetailsCubit>();
+                      productDetailsCubit.fetchProduct(productId: product.id);
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) =>
+                                  ProductDetailsPage(productId: product.id),
+                        ),
+                      );
+                    },
                   ),
                 );
               },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recomindweb/core/helpers/constant.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/product_details/models/product_response.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/Mobile/product_header_mobile.dart';
@@ -24,7 +25,7 @@ class ProductDetailsMobileLayout extends StatelessWidget {
       children: [
         ProductImageSectionMobile(
           selectedImage:
-              'https://5768-109-236-81-168.ngrok-free.app${product.data.images[0]}',
+                ngrok+product.data.images[0],
           imageList: product.data.images,
           onThumbnailClick: onImageChange,
           product: product.data,

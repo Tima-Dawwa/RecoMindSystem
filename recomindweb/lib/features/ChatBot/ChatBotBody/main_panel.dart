@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:recomindweb/core/helpers/constant.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/ChatBot/ChatBotBody/response_card.dart';
 import 'package:recomindweb/features/ChatBot/Model/chat_message.dart';
@@ -170,7 +171,6 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
         await _chatController.joinChat(newChatId);
         _chatController.sendMessage(text: text, imageBytes: imageBytes);
       } else {
-        // Handle error case
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -208,12 +208,10 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
     );
   }
 
-  // NEW METHOD: Build message with both cards and text
   Widget _buildMessageWithProducts(ChatMessage message, int index) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Show product cards first
         if (message.responseProducts != null &&
             message.responseProducts!.isNotEmpty)
           ResponseCards(
@@ -221,7 +219,6 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
             onCardTap: _handleProductTap,
           ),
 
-        // Show bot's explanation text below the cards
         if (message.text != null && message.text!.trim().isNotEmpty)
           Container(
             margin: const EdgeInsets.symmetric(vertical: 4),
@@ -251,7 +248,6 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
     );
   }
 
-  // Helper method to build message image (extracted from MessageBubble logic)
   Widget _buildMessageImage(ChatMessage message) {
     if (message.imageBytes != null) {
       return ClipRRect(
@@ -264,7 +260,7 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
       return ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: Image.network(
-          message.imagePath!,
+          ngrok + message.imagePath!,
           width: 150,
           fit: BoxFit.cover,
           headers: {"ngrok-skip-browser-warning": "true"},
@@ -286,6 +282,7 @@ class _CenterPanelWidgetState extends State<CenterPanelWidget> {
             );
           },
           errorBuilder: (context, error, stackTrace) {
+            print(error.toString());
             return Container(
               width: 150,
               height: 100,
