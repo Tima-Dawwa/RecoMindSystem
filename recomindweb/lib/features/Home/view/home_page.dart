@@ -16,16 +16,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   CustomSharedPreferences prefs = CustomSharedPreferences();
-  bool logged = false;
+  bool logged = true;
 
   @override
   void initState() {
     super.initState();
-    isLogged();
-    // getCollab();
-    if (logged) {
-      getProfile();
-    }
+    // isLogged();
+    getHome();
   }
 
   @override
@@ -35,17 +32,14 @@ class _HomePageState extends State<HomePage> {
         builder: (context, state) {
           if (state is LoadingHomeState) {
             return Center(child: CustomLoading());
-          } else
-          // if (state is SuccessHomeState)
-          {
+          } else if (state is SuccessHomeState) {
             return ResponsiveLayout(
               mobileBody: HomePageBody(desktop: false, logged: logged),
               desktopBody: HomePageBody(desktop: true, logged: logged),
             );
+          } else {
+            return Text('fail');
           }
-          // else {
-          //   return Text('fail');
-          // }
         },
       ),
     );
@@ -63,11 +57,8 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> getCollab() async {
-    await BlocProvider.of<HomeCubit>(context).getCollab();
+  Future<void> getHome() async {
+    await BlocProvider.of<HomeCubit>(context).homeData();
   }
-
-  Future<void> getProfile() async {
-    await BlocProvider.of<HomeCubit>(context).getProfile();
-  }
+  
 }

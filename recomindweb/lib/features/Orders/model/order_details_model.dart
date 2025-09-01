@@ -5,7 +5,7 @@ class OrderDetailsModel {
   final String status;
   final String date;
   final int productsCount;
-  final int totalPrice;
+  final double totalPrice;
   final List<ProductModel> products;
 
   OrderDetailsModel({

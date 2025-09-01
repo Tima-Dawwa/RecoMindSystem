@@ -1,6 +1,6 @@
 class LocationModel {
-  final String country;
-  final String city;
+  final String? country;
+  final String? city;
 
   LocationModel({
     required this.country,
