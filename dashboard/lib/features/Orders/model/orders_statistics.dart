@@ -1,7 +1,7 @@
 class OrdersStatistics {
   final int orders;
   final int users;
-  final int profits;
+  final double profits;
 
   OrdersStatistics({
     required this.orders,

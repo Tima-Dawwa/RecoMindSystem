@@ -16,7 +16,6 @@ class _OrdersPageState extends State<OrdersPage> {
   void initState() {
     super.initState();
     getOrders();
-    getStatistics();
   }
 
   @override
@@ -35,10 +34,7 @@ class _OrdersPageState extends State<OrdersPage> {
   }
 
   Future<void> getOrders() async {
-    await BlocProvider.of<OrdersCubit>(context).getAllOrders();
+    await BlocProvider.of<OrdersCubit>(context).getOrders();
   }
 
-  Future<void> getStatistics() async {
-    await BlocProvider.of<OrdersCubit>(context).getStatistics();
-  }
 }
