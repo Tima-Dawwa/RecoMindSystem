@@ -1,6 +1,7 @@
 const cors = require('cors');
 const helmet = require('helmet');
 const express = require('express');
+// const rateLimit = require('express-rate-limit');
 
 const errorHandler = require('./middlewares/errorHandler');
 const logger = require('./services/logger');
@@ -10,6 +11,13 @@ const cron = require('./services/cron');
 
 app.use(helmet());
 app.use(cors());
+
+// const generalLimiter = rateLimit({
+//   windowMs: 15 * 60 * 1000,
+//   max: 100,
+//   message: 'Too many requests, please try again later.',
+// });
+// app.use(generalLimiter);
 
 var path = require('path');
 // Images

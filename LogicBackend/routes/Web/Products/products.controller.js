@@ -38,16 +38,17 @@ async function httpGetAllProducts(req, res) {
 
 async function httpSmartSearch(req, res) {
     const data = await getSmartSearch(req.query.search);
-    const length = data.length;
+    let products = await getProductsByIds(data);
+    const length = products.length;
     if (req.user) {
-        data = await Promise.all(
-            data.map(async p => {
+        products = await Promise.all(
+            products.map(async p => {
                 p.isFavorite = (await checkFavorite(req.user.id, p._id)) ? true : false;
                 return p;
             })
         );
     }
-    return res.status(200).json({ data: serializedData(data, productData), count: length });
+    return res.status(200).json({ data: serializedData(products, productData), count: length });
 }
 
 // Done
