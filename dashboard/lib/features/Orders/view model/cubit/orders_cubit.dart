@@ -47,4 +47,17 @@ class OrdersCubit extends Cubit<OrdersState> {
     await getAllOrders();
     emit(SuccessOrdersState());
   }
+
+  Future<void> changeStatus({required String id}) async {
+    emit(LoadingOrdersState());
+    var response = await ordersService.changeStatus(id: id);
+    response.fold(
+      (failure) {
+        emit(FailureOrdersState(failure: failure));
+      },
+      (res) async {
+        await getOrders();
+      },
+    );
+  }
 }

@@ -3,7 +3,7 @@ import 'package:dashboard/features/Orders/model/orders_model.dart';
 import 'package:dashboard/features/Orders/model/orders_statistics.dart';
 import 'package:dashboard/features/Orders/view%20model/cubit/orders_cubit.dart';
 import 'package:dashboard/features/Orders/view/widgets/products_table.dart';
-import 'package:dashboard/features/Orders/view/widgets/orders_search_bar.dart';
+// import 'package:dashboard/features/Orders/view/widgets/orders_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -29,7 +29,7 @@ class _OrdersPageBodyState extends State<OrdersPageBody> {
   @override
   Widget build(BuildContext context) {
     ScrollController controller = ScrollController();
-    TextEditingController editingController = TextEditingController();
+    // TextEditingController editingController = TextEditingController();
     return Padding(
       padding: EdgeInsets.all(18),
       child: SingleChildScrollView(
@@ -49,24 +49,24 @@ class _OrdersPageBodyState extends State<OrdersPageBody> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(width: 25),
-                  OrdersSearchBar(
-                    controller: editingController,
-                    searchQuery: "",
-                    onChanged: (str) {},
-                    onClear: () {},
-                  ),
-                  SizedBox(width: 10),
-                  IconButton(
-                    onPressed: () {
-                      Themes.customDatePicker(context: context);
-                    },
-                    icon: Icon(
-                      Icons.calendar_today,
-                      color: Themes.primary,
-                      size: 25,
-                    ),
-                  ),
+                  // SizedBox(width: 25),
+                  // OrdersSearchBar(
+                  //   controller: editingController,
+                  //   searchQuery: "",
+                  //   onChanged: (str) {},
+                  //   onClear: () {},
+                  // ),
+                  // SizedBox(width: 10),
+                  // IconButton(
+                  //   onPressed: () {
+                  //     Themes.customDatePicker(context: context);
+                  //   },
+                  //   icon: Icon(
+                  //     Icons.calendar_today,
+                  //     color: Themes.primary,
+                  //     size: 25,
+                  //   ),
+                  // ),
                 ],
               ),
             ),
