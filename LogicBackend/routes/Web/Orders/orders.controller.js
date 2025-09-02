@@ -9,6 +9,7 @@ const { INTERACTION_TYPES } = require('../../../public/constants/interaction');
 const { incrementInteractionCount } = require('../../../models/products.model');
 const { validatePostOrder } = require('./orders.validation');
 const productsMongo = require('../../../models/products.mongo');
+const { validationErrors } = require('../../../middlewares/validationErrors');
 
 async function httpGetOrders(req, res) {
     const { skip, limit } = getPagination(req.query);
