@@ -21,7 +21,7 @@ class HybridProducts extends StatelessWidget {
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
-              color: Themes.text,
+              color: Themes.primary,
             ),
           ),
         ),

@@ -9,7 +9,11 @@ import 'package:recomindweb/features/Cart/view/widgets/hybrid_products.dart';
 import 'package:recomindweb/features/Show_All_Products/model/all_products_model.dart';
 
 class LeftPanel extends StatefulWidget {
-  const LeftPanel({super.key, required this.cartItems, required this.hybridProduct});
+  const LeftPanel({
+    super.key,
+    required this.cartItems,
+    required this.hybridProduct,
+  });
 
   final List<CartModel> cartItems;
   final List<AllProductsModel> hybridProduct;
@@ -25,8 +29,8 @@ class _LeftPanelState extends State<LeftPanel> {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 60),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
+          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
@@ -56,7 +60,7 @@ class _LeftPanelState extends State<LeftPanel> {
             if (widget.cartItems.isEmpty)
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 250),
+                  padding: const EdgeInsets.only(top: 10),
                   child: Text(
                     "Not Items",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
@@ -64,27 +68,28 @@ class _LeftPanelState extends State<LeftPanel> {
                 ),
               )
             else
-              Expanded(
-                child: ListView.builder(
-                  itemCount: widget.cartItems.length,
-                  itemBuilder: (context, index) {
-                    final item = widget.cartItems[index];
-                    return CartItemCard(
-                      index: index,
-                      name: item.name,
-                      imageUrl: item.image,
-                      price: item.price,
-                      quantity: item.quantity,
-                      color: item.color,
-                      department: item.department,
-                      onIncrease: () => _increaseQuantity(index),
-                      onDecrease: () => _decreaseQuantity(index),
-                      onDelete: () => _confirmDeleteItem(item.id),
-                    );
-                  },
-                ),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: widget.cartItems.length,
+                itemBuilder: (context, index) {
+                  final item = widget.cartItems[index];
+                  return CartItemCard(
+                    index: index,
+                    name: item.name,
+                    imageUrl: item.image,
+                    price: item.price,
+                    quantity: item.quantity,
+                    color: item.color,
+                    department: item.department,
+                    onIncrease: () => _increaseQuantity(index),
+                    onDecrease: () => _decreaseQuantity(index),
+                    onDelete: () => _confirmDeleteItem(item.id),
+                  );
+                },
               ),
-           HybridProducts(products: widget.hybridProduct)
+            Divider(height: 20),
+            HybridProducts(products: widget.hybridProduct),
           ],
         ),
       ),
