@@ -5,11 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/features/Cart/model/cart_model.dart';
 import 'package:recomindweb/features/Cart/view%20model/cart_service.dart';
 import 'package:recomindweb/features/Cart/view%20model/cubit/cart_state.dart';
+import 'package:recomindweb/features/Show_All_Products/model/all_products_model.dart';
 
 class CartCubit extends Cubit<CartStates> {
   CartCubit(this.cartService) : super(CartInitialState());
   final CartService cartService;
   List<CartModel> cartItems = [];
+  List<AllProductsModel> hybridProducts = [];
   String? messageDeleted;
   String? orderId;
   String? messageSuccess;
@@ -22,9 +24,11 @@ class CartCubit extends Cubit<CartStates> {
         emit(CartFailureState(failure: failure));
       },
       (res) {
-        cartItems = [];
         for (var i = 0; i < res['data'].length; i++) {
           cartItems.add(CartModel.fromJson(res["data"][i]));
+        }
+        for (var i = 0; i < res['recommendations'].length; i++) {
+          hybridProducts.add(AllProductsModel.fromjson(res["recommendations"][i]));
         }
         emit(CartSuccessState());
       },
@@ -77,17 +81,19 @@ class CartCubit extends Cubit<CartStates> {
       (res) {
         orderId = res['order_id'];
         messageSuccess = res['message'];
-        emit(MakeOrderSuccessState(message:messageSuccess! , orderId: orderId!));
+        emit(
+          MakeOrderSuccessState(message: messageSuccess!, orderId: orderId!),
+        );
       },
     );
   }
 
   Map<String, dynamic> buildCartBody(List<CartModel> cartItems) {
-    double totalPrice = 0;
+    // double totalPrice = 0;
 
     final items =
         cartItems.map((item) {
-          totalPrice += item.price * item.quantity;
+          // totalPrice += item.price * item.quantity;
           return {
             "product": item.id,
             "quantity": item.quantity,
@@ -95,6 +101,9 @@ class CartCubit extends Cubit<CartStates> {
           };
         }).toList();
 
-    return {"items": items, "total_price": totalPrice};
+    return {
+      "items": items,
+      // "total_price": totalPrice
+    };
   }
 }

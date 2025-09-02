@@ -5,11 +5,14 @@ import 'package:recomindweb/features/Cart/model/cart_model.dart';
 import 'package:recomindweb/features/Cart/view%20model/cubit/cart_cubit.dart';
 import 'package:recomindweb/features/Cart/view%20model/cubit/cart_state.dart';
 import 'package:recomindweb/features/Cart/view/widgets/cart_item_card.dart';
+import 'package:recomindweb/features/Cart/view/widgets/hybrid_products.dart';
+import 'package:recomindweb/features/Show_All_Products/model/all_products_model.dart';
 
 class LeftPanel extends StatefulWidget {
-  const LeftPanel({super.key, required this.cartItems});
+  const LeftPanel({super.key, required this.cartItems, required this.hybridProduct});
 
   final List<CartModel> cartItems;
+  final List<AllProductsModel> hybridProduct;
 
   @override
   State<LeftPanel> createState() => _LeftPanelState();
@@ -81,6 +84,7 @@ class _LeftPanelState extends State<LeftPanel> {
                   },
                 ),
               ),
+           HybridProducts(products: widget.hybridProduct)
           ],
         ),
       ),
@@ -107,21 +111,24 @@ class _LeftPanelState extends State<LeftPanel> {
                   state is RemoveFromCartLoadingState
                       ? SizedBox(
                         height: 80,
-                        child: Center(child: CircularProgressIndicator()))
+                        child: Center(child: CircularProgressIndicator()),
+                      )
                       : const Text(
                         'Are you sure you want to delete this item from the cart?',
                       ),
-              actions:  [
+              actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
                   child: const Text('No'),
                 ),
                 TextButton(
                   onPressed: () {
-                    BlocProvider.of<CartCubit>(context).removeFromCart(id , context);
+                    BlocProvider.of<CartCubit>(
+                      context,
+                    ).removeFromCart(id, context);
                   },
                   child: const Text('Yes', style: TextStyle(color: Colors.red)),
-                ), 
+                ),
               ],
             );
           },

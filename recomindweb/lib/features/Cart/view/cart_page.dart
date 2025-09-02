@@ -4,11 +4,14 @@ import 'package:get/get.dart';
 import 'package:get/utils.dart';
 import 'package:recomindweb/core/Widgets/custom_loading.dart';
 import 'package:recomindweb/core/Widgets/paypal_widget.dart';
+import 'package:recomindweb/core/helpers/constant.dart';
 import 'package:recomindweb/core/responsive_layout.dart';
 import 'package:recomindweb/features/Cart/model/cart_model.dart';
 import 'package:recomindweb/features/Cart/view%20model/cubit/cart_cubit.dart';
 import 'package:recomindweb/features/Cart/view%20model/cubit/cart_state.dart';
 import 'package:recomindweb/features/Cart/view/widgets/cart_page_body.dart';
+import 'package:recomindweb/features/Orders/views/orders_page.dart';
+import 'package:recomindweb/features/Show_All_Products/model/all_products_model.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -41,6 +44,23 @@ class _CartPageState extends State<CartPage> {
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(SnackBar(content: Text(state.failure.errMessage)));
+          } else if (state is MakeOrderSuccessState) {
+            print(state);
+            Get.to(
+              () => PayPal(
+                url: "$ngrok/orders/${state.orderId}/pay",
+                onSuccess: () {
+                  print("wooooooo");
+                  // Get.off(() => OrdersPage());
+                },
+              ),
+            );
+            // List<CartModel> cartItems =
+            //     BlocProvider.of<CartCubit>(context).cartItems;
+            // return ResponsiveLayout(
+            //   mobileBody: CartPageBody(cartItems: cartItems, desktop: false),
+            //   desktopBody: CartPageBody(cartItems: cartItems, desktop: true),
+            // );
           }
         },
         builder: (context, state) {
@@ -51,25 +71,19 @@ class _CartPageState extends State<CartPage> {
               state is RemoveFromCartLoadingState) {
             List<CartModel> cartItems =
                 BlocProvider.of<CartCubit>(context).cartItems;
+            List<AllProductsModel> hybridProducts =
+                BlocProvider.of<CartCubit>(context).hybridProducts;
             return ResponsiveLayout(
-              mobileBody: CartPageBody(cartItems: cartItems, desktop: false),
-              desktopBody: CartPageBody(cartItems: cartItems, desktop: true),
-            );
-          } else if (state is MakeOrderSuccessState) {
-            print(state);
-            Get.to(
-              () => PayPal(
-                url: "",
-                onSuccess: () {
-                  Get.off(() => CartPage());
-                },
+              mobileBody: CartPageBody(
+                cartItems: cartItems,
+                hybridProducts: hybridProducts,
+                desktop: false,
               ),
-            );
-             List<CartModel> cartItems =
-                BlocProvider.of<CartCubit>(context).cartItems;
-            return ResponsiveLayout(
-              mobileBody: CartPageBody(cartItems: cartItems, desktop: false),
-              desktopBody: CartPageBody(cartItems: cartItems, desktop: true),
+              desktopBody: CartPageBody(
+                cartItems: cartItems,
+                hybridProducts: hybridProducts,
+                desktop: true,
+              ),
             );
           } else {
             return Text("Failure");

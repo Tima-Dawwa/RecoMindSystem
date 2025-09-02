@@ -3,14 +3,16 @@ import 'package:flutter/widgets.dart';
 import 'package:recomindweb/features/Cart/model/cart_model.dart';
 import 'package:recomindweb/features/Cart/view/widgets/left_panel.dart';
 import 'package:recomindweb/features/Cart/view/widgets/right_panel.dart';
+import 'package:recomindweb/features/Show_All_Products/model/all_products_model.dart';
 
 class CartPageBody extends StatefulWidget {
   const CartPageBody({
     super.key,
     required this.cartItems,
-    required this.desktop,
+    required this.desktop, required this.hybridProducts,
   });
   final List<CartModel> cartItems;
+  final List<AllProductsModel> hybridProducts;
   final bool desktop;
 
   @override
@@ -26,7 +28,7 @@ class _CartPageBodyState extends State<CartPageBody> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            LeftPanel(cartItems: widget.cartItems),
+            LeftPanel(cartItems: widget.cartItems , hybridProduct: widget.hybridProducts,),
             Rightpanel(cartItems: widget.cartItems , desktop: true,),
           ],
         ),
@@ -36,7 +38,7 @@ class _CartPageBodyState extends State<CartPageBody> {
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
-            LeftPanel(cartItems: widget.cartItems),
+            LeftPanel(cartItems: widget.cartItems , hybridProduct: widget.hybridProducts,),
             Rightpanel(cartItems: widget.cartItems , desktop: false,),
           ],
         ),
