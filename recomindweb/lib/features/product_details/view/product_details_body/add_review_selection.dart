@@ -30,7 +30,7 @@ class _AddReviewSectionState extends State<AddReviewSection> {
       );
       return;
     }
-
+   
     setState(() {
       _submitted = true;
     });
@@ -48,21 +48,13 @@ class _AddReviewSectionState extends State<AddReviewSection> {
     return BlocListener<ProductDetailsCubit, ProductDetailsState>(
       listener: (context, state) {
         if (state is SuccessProductDetails) {
-             ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(const SnackBar(content: Text("Snackbar test worked")));
           _selectedStars = 0;
           _controller.clear();
           setState(() {
             _submitted = false;
           });
 
-          CustomSnackbar.show(
-            context,
-            'Thank you for your review!',
-            icon: Icons.check_circle,
-            backgroundColor: Themes.primary.withAlpha(200),
-          );
+        
         } else if (state is FailureProductDetails) {
           setState(() {
             _submitted = false;
@@ -146,4 +138,4 @@ class _AddReviewSectionState extends State<AddReviewSection> {
       ),
     );
   }
-} 
+}

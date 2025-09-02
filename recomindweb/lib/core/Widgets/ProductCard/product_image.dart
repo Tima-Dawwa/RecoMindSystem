@@ -23,8 +23,6 @@ class _ProductImageState extends State<ProductImage> {
   void initState() {
     super.initState();
     isFavorite = widget.product.isFavorite;
-    print(isFavorite);
-    print(widget.product.id);
   }
 
   void _toggleFavorite() {
@@ -95,7 +93,7 @@ class _ProductImageState extends State<ProductImage> {
           child: Stack(
             children: [
               Image.network(
-              ngrok+ product.imageUrl,
+                ngrok + product.imageUrl,
                 headers: {"ngrok-skip-browser-warning": "true"},
                 fit: BoxFit.fill,
                 width: double.infinity,

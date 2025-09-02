@@ -1,5 +1,5 @@
 const { resetCart } = require('../../../models/cart.model');
-const { getOrdersForUser, getOrder, createOrder, getOrdersCountForUser } = require('../../../models/orders.model');
+const { getOrdersForUser, getOrder, createOrder, getOrdersCountForUser, getOrderWithPopulate } = require('../../../models/orders.model');
 const { getPagination } = require('../../../services/query');
 const { getProductsByIds, decrementQuantity } = require('../../../models/products.model');
 const { createPaymentData } = require('../../../services/payment');
@@ -9,6 +9,7 @@ const { INTERACTION_TYPES } = require('../../../public/constants/interaction');
 const { incrementInteractionCount } = require('../../../models/products.model');
 const { validatePostOrder } = require('./orders.validation');
 const productsMongo = require('../../../models/products.mongo');
+const { validationErrors } = require('../../../middlewares/validationErrors');
 
 async function httpGetOrders(req, res) {
     const { skip, limit } = getPagination(req.query);
@@ -67,7 +68,6 @@ async function httpPostOrder(req, res) {
             errors: validationErrors(error.details)
         });
     }
-
     let cart = req.body;
 
     const orderData = {
@@ -105,8 +105,17 @@ async function httpPostOrder(req, res) {
     return res.status(200).json({ message: 'Order Success', order_id: order._id });
 }
 
+async function httpPayForOrder(req, res) {
+    const order = await getOrderWithPopulate(req.params.id);
+    if (!order) return res.status(400).json({ message: 'Order Not Found' });
+    const payment_data = createPaymentData(order, order.total_price, 'order');
+    req.body.data = payment_data;
+    paymentSheet(req, res);
+}
+
 module.exports = {
     httpGetOrders,
     httpGetOrder,
-    httpPostOrder
+    httpPostOrder,
+    httpPayForOrder
 };

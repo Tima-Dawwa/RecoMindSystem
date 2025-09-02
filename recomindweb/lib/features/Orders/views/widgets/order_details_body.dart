@@ -37,7 +37,7 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
             OrderInfo(
               desktop: widget.desktop,
               state: orderDetails!.status,
-              orderNum: orderDetails!.id.substring(0, 4),
+              orderNum: orderDetails!.id.substring(19, 23),
               date: orderDetails!.date,
               price: orderDetails!.totalPrice.toString(),
             ),

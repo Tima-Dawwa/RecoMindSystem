@@ -4,8 +4,6 @@ import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Home/model/collab_product_model.dart';
 import 'package:recomindweb/features/Home/view%20model/cubit/home_cubit.dart';
 import 'package:recomindweb/features/Home/view/widgets/home_product_card.dart';
-// import 'package:get/get.dart';
-// import 'package:recomindweb/features/product_details/view/product_details_page.dart';
 
 class Recommendations extends StatefulWidget {
   const Recommendations({super.key, required this.logged});

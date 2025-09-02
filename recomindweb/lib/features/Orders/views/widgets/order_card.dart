@@ -38,11 +38,11 @@ class _OrderCardState extends State<OrderCard> {
           borderRadius: BorderRadius.circular(15),
           border: Border.symmetric(
             vertical: BorderSide(
-              color: widget.state == 'Delivered' ? Themes.text : Themes.primary,
+              color: widget.state == 'delivery' ? Themes.text : Themes.primary,
               width: 2.5,
             ),
             horizontal: BorderSide(
-              color: widget.state == 'Delivered' ? Themes.text : Themes.primary,
+              color: widget.state == 'delivery' ? Themes.text : Themes.primary,
               width: 1,
             ),
           ),
@@ -52,7 +52,7 @@ class _OrderCardState extends State<OrderCard> {
           elevation: 2,
           color: Themes.bg,
           surfaceTintColor:
-              widget.state == 'Delivered' ? Themes.text : Themes.primary,
+              widget.state == 'delivery' ? Themes.text : Themes.primary,
           shadowColor: Themes.text,
           child: Padding(
             padding: const EdgeInsets.all(20),
@@ -65,7 +65,7 @@ class _OrderCardState extends State<OrderCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Order #${widget.id.substring(0, 4)}',
+                      'Order #${widget.id.substring(19, 23)}',
                       style: TextStyle(fontSize: 30, color: Themes.text),
                     ),
                     Text(
@@ -74,7 +74,7 @@ class _OrderCardState extends State<OrderCard> {
                         fontSize: 26,
                         fontWeight: FontWeight.bold,
                         color:
-                            widget.state == 'Delivered'
+                            widget.state == 'delivery'
                                 ? Themes.text
                                 : Themes.primary,
                       ),

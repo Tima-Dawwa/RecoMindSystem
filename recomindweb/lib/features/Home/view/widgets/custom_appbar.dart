@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/core/Widgets/custom_button.dart';
 import 'package:recomindweb/features/Authentication/view%20model/cubit/auth_cubit.dart';
-import 'package:recomindweb/features/Home/view/widgets/user_slidebox.dart';
+import 'package:recomindweb/features/Home/view/widgets/profile%20widgets/user_box.dart';
 
 class CustomAppbar extends StatefulWidget {
   const CustomAppbar({super.key, required this.desktop, required this.logged});
@@ -82,7 +82,10 @@ class _CustomAppbarState extends State<CustomAppbar>
                       child: Material(
                         elevation: 10,
                         borderRadius: BorderRadius.circular(10),
-                        child: UserSlidebox(logoutTap: logoutTap),
+                        child: UserBox(
+                          logoutTap: logoutTap,
+                          close: closeOverlay,
+                        ),
                       ),
                     ),
                   ),

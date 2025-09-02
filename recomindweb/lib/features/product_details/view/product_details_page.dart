@@ -8,7 +8,9 @@ import 'package:recomindweb/features/product_details/view/product_details_body/D
 import 'package:recomindweb/features/product_details/view/product_details_body/Mobile/product_details_body_mobile.dart';
 
 class ProductDetailsPage extends StatefulWidget {
-  const ProductDetailsPage({super.key});
+  final String? productId;
+
+  const ProductDetailsPage({super.key, this.productId});
 
   @override
   State<ProductDetailsPage> createState() => _ProductDetailsPageState();
@@ -17,42 +19,41 @@ class ProductDetailsPage extends StatefulWidget {
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
   late String _selectedImage;
 
-
   @override
   void initState() {
     super.initState();
-      final productDetailsCubit = context.read<ProductDetailsCubit>();
-    productDetailsCubit.fetchProduct(productId:"68470cc234e8abbcb08b15f9");
+
+    final productDetailsCubit = context.read<ProductDetailsCubit>();
+    productDetailsCubit.fetchProduct(productId: widget.productId!);
   }
 
   @override
-Widget build(BuildContext context) {
-  return BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
-    builder: (context, state) {
-      if (state is LoadingProductDetails) {
-        return const Center(child: CircularProgressIndicator());
-      } else if (state is SuccessProductDetails) {
-        return ResponsiveLayout(
-          mobileBody: AppScaffold(
-            child: ProductDetailsMobileLayout(
-            
-              onImageChange: (img) => setState(() => _selectedImage = img), product: state.product,
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+      builder: (context, state) {
+        if (state is LoadingProductDetails) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is SuccessProductDetails) {
+          return ResponsiveLayout(
+            mobileBody: AppScaffold(
+              child: ProductDetailsMobileLayout(
+                onImageChange: (img) => setState(() => _selectedImage = img),
+                product: state.product,
+              ),
             ),
-          ),
-          desktopBody: AppScaffold(
-            child: ProductDetailsDesktopLayout(
-          
-              onImageChange: (img) => setState(() => _selectedImage = img),
-              productData: state.product,
-
+            desktopBody: AppScaffold(
+              child: ProductDetailsDesktopLayout(
+                onImageChange: (img) => setState(() => _selectedImage = img),
+                productData: state.product,
+              ),
             ),
-          ),
-        );
-      } else if (state is FailureProductDetails) {
-        return Center(child: Text('Error: ${state.failure.errMessage}'));
-      } else {
-        return Container();
-      }
-    },
-  );
-}}
+          );
+        } else if (state is FailureProductDetails) {
+          return Center(child: Text('Error: ${state.failure.errMessage}'));
+        } else {
+          return Container();
+        }
+      },
+    );
+  }
+}

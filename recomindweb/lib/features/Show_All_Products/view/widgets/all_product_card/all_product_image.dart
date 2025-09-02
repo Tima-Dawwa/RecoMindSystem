@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recomindweb/core/helpers/constant.dart';
+import 'package:recomindweb/core/helpers/api.dart';
+import 'package:recomindweb/core/helpers/service_locator.dart';
 import 'package:recomindweb/features/Show_All_Products/model/all_products_model.dart';
 
 class AllProductImage extends StatefulWidget {
@@ -12,7 +13,6 @@ class AllProductImage extends StatefulWidget {
 }
 
 class _ProductImageState extends State<AllProductImage> {
-
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
@@ -24,7 +24,7 @@ class _ProductImageState extends State<AllProductImage> {
         child: Stack(
           children: [
             Image.network(
-              '$ngrok${product.urlImage}',
+              '${getIt.get<Api>().baseUrl}${product.urlImage}',
               headers: {"ngrok-skip-browser-warning": "true"},
               fit: BoxFit.fill,
               width: double.infinity,

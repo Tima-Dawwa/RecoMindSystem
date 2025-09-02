@@ -43,12 +43,12 @@ class OrderInfo extends StatelessWidget {
                   state.toUpperCase(),
                   style: TextStyle(
                     fontSize: desktop ? 35 : 20,
-                    color: state == 'Delivered' ? Themes.text : Themes.primary,
+                    color: state == 'delivery' ? Themes.text : Themes.primary,
                     fontWeight: FontWeight.w500,
                     shadows: [
                       Shadow(
                         color:
-                            state == 'Delivered'
+                            state == 'delivery'
                                 ? Themes.text.withAlpha(180)
                                 : Themes.primary.withAlpha(180),
                         blurRadius: 2,

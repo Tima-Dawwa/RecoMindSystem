@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recomindweb/core/helpers/api.dart';
+import 'package:recomindweb/core/helpers/service_locator.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Home/model/collab_product_model.dart';
 
@@ -60,7 +61,7 @@ class _HomeProductCardState extends State<HomeProductCard> {
                 child: Stack(
                   children: [
                     Image.network(
-                      'https://255bc506b87c.ngrok-free.app${widget.product.image}',
+                      '${getIt.get<Api>().baseUrl}${widget.product.image}',
                       headers: {"ngrok-skip-browser-warning": "true"},
                       fit: BoxFit.cover,
                       width: double.infinity,
@@ -87,24 +88,15 @@ class _HomeProductCardState extends State<HomeProductCard> {
                             color: Themes.bg,
                             shape: BoxShape.circle,
                           ),
-                          child: Icon(
-                            widget.product.isNew
-                                ? Icons.new_label
-                                : Icons.favorite_border,
+                          child: 
+                          Icon(
+                            isFavorite ? Icons.favorite : Icons.favorite_border,
                             color:
                                 isFavorite
                                     ? Themes.secondary
                                     : Themes.text.withAlpha(100),
                             size: 20,
                           ),
-                          // Icon(
-                          //   isFavorite ? Icons.favorite : Icons.favorite_border,
-                          //   color:
-                          //       isFavorite
-                          //           ? Themes.secondary
-                          //           : Themes.text.withAlpha(100),
-                          //   size: 20,
-                          // ),
                         ),
                       ),
                     ),
@@ -131,7 +123,7 @@ class _HomeProductCardState extends State<HomeProductCard> {
                   Row(
                     children: [
                       Text(
-                        '\$${widget.product.discount.toStringAsFixed(2)}',
+                        '\$${widget.product.price.toStringAsFixed(2)}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: MediaQuery.of(context).size.width * 0.013,

@@ -87,12 +87,11 @@ async function getAllOrdersWithUserDetails(skip = 0, limit = 10, searchUsername 
         sortQuery[sortBy] = sortOrder === 'desc' ? -1 : 1;
     }
 
-    const orders = await Order.find(query).populate('user_id', 'username email').sort(sortQuery).skip(skip).limit(limit);
+    const orders = await Order.find(query).populate('user_id', 'name').sort(sortQuery).skip(skip).limit(limit);
 
     let result = orders.map(order => ({
         id: order._id,
-        username: order.user_id ? order.user_id.username : 'Unknown',
-        user_email: order.user_id ? order.user_id.email : 'Unknown',
+        username: order.user_id ? `${order.user_id.name.first_name} ${order.user_id.name.last_name}` : 'Unknown',
         order_date: order.createdAt,
         status: order.status,
         products_count: order.orderItems.length,
@@ -229,6 +228,10 @@ async function getTopCustomersByOrders(limit = 10) {
     return await Order.aggregate(pipeline);
 }
 
+async function getOrderWithPopulate(id) {
+    return await Order.findById(id).populate('orderItems.product');
+}
+
 module.exports = {
     getOrdersForUser,
     getOrders,
@@ -242,5 +245,6 @@ module.exports = {
     updateOrderStatus,
     createOrder,
     getLast12MonthsSales,
-    getTopCustomersByOrders
+    getTopCustomersByOrders,
+    getOrderWithPopulate
 };

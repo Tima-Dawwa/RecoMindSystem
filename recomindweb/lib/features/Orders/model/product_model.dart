@@ -1,10 +1,10 @@
 class ProductModel {
   final String id;
   final String name;
-  final String image;
+  final String? image;
   final String category;
   final int quantity;
-  final int price;
+  final double price;
 
   ProductModel({
     required this.category,

@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+// import 'package:recomindweb/core/helpers/custom_shared_preferences.dart';
+import 'package:recomindweb/features/Home/model/cities_model.dart';
 import 'package:recomindweb/features/Home/model/collab_product_model.dart';
 import 'package:recomindweb/features/Home/model/profile_model.dart';
 import 'package:recomindweb/features/Home/view%20model/cubit/home_state.dart';
@@ -10,10 +12,11 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit(this.homeService) : super(InitialHomeState());
   final HomeService homeService;
   List<CollabProductModel> products = [];
+  List<CitiesModel> countries = [];
   ProfileModel? profile;
 
   Future<void> getCollab() async {
-    emit(LoadingHomeState());
+    // emit(LoadingHomeState());
     var response = await homeService.getCollab();
     response.fold(
       (failure) {
@@ -24,7 +27,7 @@ class HomeCubit extends Cubit<HomeState> {
         for (var i = 0; i < res['data'].length; i++) {
           products.add(CollabProductModel.fromJson(res["data"][i]));
         }
-        emit(SuccessHomeState());
+        // emit(SuccessHomeState());
       },
     );
   }
@@ -59,8 +62,54 @@ class HomeCubit extends Cubit<HomeState> {
       },
       (res) {
         getProfile();
-        emit(SuccessProfileState());
+        // emit(SuccessProfileState());
       },
     );
+  }
+
+  Future<void> changeLocation({
+    required String city,
+    required String country,
+  }) async {
+    emit(LoadingProfileState());
+    var response = await homeService.changeLocation(
+      body: {'city': city, 'country': country},
+    );
+    response.fold(
+      (failure) {
+        emit(FailureHomeState(failure: failure));
+      },
+      (res) {
+        getProfile();
+        // emit(SuccessProfileState());
+      },
+    );
+  }
+
+  Future<void> getCities() async {
+    // emit(LoadingCitiesState());
+    var response = await homeService.getCities();
+    response.fold(
+      (failure) {
+        emit(FailureHomeState(failure: failure));
+      },
+      (res) {
+        for (var i = 0; i < res['data'].length; i++) {
+          countries.add(CitiesModel.fromJson(res['data'][i]));
+        }
+        // emit(SuccessCitiesState());
+      },
+    );
+  }
+
+  Future<void> homeData() async {
+    // CustomSharedPreferences prefs = CustomSharedPreferences();
+    emit(LoadingHomeState());
+    await getCollab();
+    await getCities();
+    // if (await prefs.logged()) {
+    await getProfile();
+    // }
+    emit(SuccessHomeState());
   }
 }

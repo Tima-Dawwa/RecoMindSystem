@@ -41,4 +41,24 @@ class OrdersService {
       }
     }
   }
+
+  Future<Either<Failure, Map<String, dynamic>>> changeStatus({
+    required String id,
+  }) async {
+    try {
+      Map<String, dynamic> response = await api.put(
+        endPoint: '/dashboard/orders/$id/status',
+        body: {'status': 'delivery'},
+      );
+      return right(response);
+    } catch (e) {
+      if (e is DioException) {
+        return left(Failure.fromDioException(e, DefaultStatusCodeHandler()));
+      } else {
+        return left(
+          Failure(errMessage: 'something went wrong (not DioException)'),
+        );
+      }
+    }
+  }
 }

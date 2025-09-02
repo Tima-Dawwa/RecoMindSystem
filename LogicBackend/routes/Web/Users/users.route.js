@@ -14,7 +14,8 @@ const {
     httpPutPassword,
     httpDeleteAccount,
     httpPutPhoneNumber,
-    httpRequestDeleteAccount
+    httpRequestDeleteAccount,
+    httpGetLocations
 } = require('./users.controller');
 
 const userRouter = express.Router();
@@ -29,5 +30,7 @@ userRouter.get('/profile', requireJwtAuth, asyncHandler(httpGetProfile));
 userRouter.put('/password', requireJwtAuth, asyncHandler(httpPutPassword));
 userRouter.post('/request-delete-account', requireJwtAuth, asyncHandler(httpRequestDeleteAccount));
 userRouter.delete('/delete-account', requireJwtAuth, asyncHandler(httpDeleteAccount));
+
+userRouter.get('/locations', requireJwtAuth, asyncHandler(httpGetLocations));
 
 module.exports = userRouter;

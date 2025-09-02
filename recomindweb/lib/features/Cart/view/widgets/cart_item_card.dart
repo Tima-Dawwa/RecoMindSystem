@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:recomindweb/core/helpers/api.dart';
+import 'package:recomindweb/core/helpers/service_locator.dart';
 import 'package:recomindweb/core/theme.dart';
 
 // ignore: must_be_immutable
@@ -47,7 +49,7 @@ class CartItemCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.network(
-                "https://0cba4fd215ba.ngrok-free.app${imageUrl}",
+                "${getIt.get<Api>().baseUrl}${imageUrl}",
                 headers: {"ngrok-skip-browser-warning": "true"},
                 width: 100,
                 height: 100,
