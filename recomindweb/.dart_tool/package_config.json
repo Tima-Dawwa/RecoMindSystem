@@ -746,11 +746,7 @@
       "languageVersion": "3.7"
     }
   ],
-<<<<<<< Updated upstream
-  "generated": "2025-09-02T20:12:01.880483Z",
-=======
-  "generated": "2025-09-02T20:29:33.362236Z",
->>>>>>> Stashed changes
+  "generated": "2025-09-02T22:16:27.439886Z",
   "generator": "pub",
   "generatorVersion": "3.7.2",
   "flutterRoot": "file:///C:/Users/saran/AppData/Local/flutter",

@@ -10,6 +10,7 @@ import 'package:dashboard/features/Main%20Page/view/widgets/chatbot_chart.dart';
 import 'package:dashboard/features/Main%20Page/view/widgets/countries_charts.dart';
 import 'package:dashboard/features/Main%20Page/view/widgets/favorites_chart.dart';
 import 'package:dashboard/features/Main%20Page/view/widgets/interactions_table.dart';
+import 'package:dashboard/features/Main%20Page/view/widgets/notifications_box.dart';
 import 'package:dashboard/features/Main%20Page/view/widgets/orders_table.dart';
 import 'package:dashboard/features/Main%20Page/view/widgets/sales_chart.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,13 @@ class MainPageBody extends StatefulWidget {
   State<MainPageBody> createState() => _MainPageBodyState();
 }
 
-class _MainPageBodyState extends State<MainPageBody> {
+class _MainPageBodyState extends State<MainPageBody>
+    with SingleTickerProviderStateMixin {
+  OverlayEntry? overlayEntry;
+  final LayerLink layerLink = LayerLink();
+  late AnimationController animationController;
+  late Animation<Offset> slideAnimation;
+
   ScrollController scrollController = ScrollController();
   List<SalesModel> sales = [];
   List<OrdersModel> orders = [];
@@ -40,6 +47,73 @@ class _MainPageBodyState extends State<MainPageBody> {
     favorites = BlocProvider.of<MainCubit>(context).favorites;
     countries = BlocProvider.of<MainCubit>(context).countries;
     chatbot = BlocProvider.of<MainCubit>(context).chatbot;
+
+    animationController = AnimationController(
+      duration: Duration(milliseconds: 300),
+      vsync: this,
+    );
+    slideAnimation = Tween<Offset>(
+      begin: Offset(0, -0.2),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(parent: animationController, curve: Curves.easeOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  void toggleOverlay(BuildContext context) {
+    if (overlayEntry == null) {
+      overlayEntry = createOverlayEntry(context);
+      Overlay.of(context).insert(overlayEntry!);
+      animationController.forward();
+    } else {
+      closeOverlay();
+    }
+  }
+
+  void closeOverlay() async {
+    await animationController.reverse();
+    overlayEntry?.remove();
+    overlayEntry = null;
+  }
+
+  OverlayEntry createOverlayEntry(BuildContext context) {
+    RenderBox renderBox = context.findRenderObject() as RenderBox;
+    final offset = renderBox.localToGlobal(Offset.zero);
+    return OverlayEntry(
+      builder:
+          (context) => GestureDetector(
+            onTap: closeOverlay,
+            behavior: HitTestBehavior.translucent,
+            child: Stack(
+              children: [
+                Positioned.fill(child: Container()),
+                Positioned(
+                  top: offset.dy + 70,
+                  right: 20,
+                  width: 500,
+                  height: 450,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: SlideTransition(
+                      position: slideAnimation,
+                      child: Material(
+                        elevation: 10,
+                        borderRadius: BorderRadius.circular(10),
+                        child: NotificationsBox(),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+    );
   }
 
   @override
@@ -50,17 +124,33 @@ class _MainPageBodyState extends State<MainPageBody> {
         padding: EdgeInsets.only(right: 30, left: 10, top: 15, bottom: 15),
         child: Column(
           children: [
-            Center(
-              child: Text(
-                'Dashboard Statistics',
-                style: TextStyle(
-                  color: Themes.text,
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Dashboard Statistics',
+                  style: TextStyle(
+                    color: Themes.text,
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
+                CompositedTransformTarget(
+                  link: layerLink,
+                  child: IconButton(
+                    onPressed: () => toggleOverlay(context),
+                    icon: Icon(
+                      Icons.notifications,
+                      size: 40,
+                      color: Themes.primary,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 10),
+            Divider(),
+            SizedBox(height: 20),
             SalesChart(sales: sales),
             SizedBox(height: 40),
             Row(
@@ -84,5 +174,9 @@ class _MainPageBodyState extends State<MainPageBody> {
         ),
       ),
     );
+  }
+
+  Future<void> getNotifications() async {
+    await BlocProvider.of<MainCubit>(context).getNotifications();
   }
 }

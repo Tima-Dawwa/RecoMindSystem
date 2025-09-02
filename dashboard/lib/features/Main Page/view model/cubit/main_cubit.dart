@@ -2,6 +2,7 @@ import 'package:dashboard/features/Main%20Page/model/chatbot_model.dart';
 import 'package:dashboard/features/Main%20Page/model/countries_model.dart';
 import 'package:dashboard/features/Main%20Page/model/favorites_model.dart';
 import 'package:dashboard/features/Main%20Page/model/interactions_model.dart';
+import 'package:dashboard/features/Main%20Page/model/notification_model.dart';
 import 'package:dashboard/features/Main%20Page/model/orders_model.dart';
 import 'package:dashboard/features/Main%20Page/model/sales_model.dart';
 import 'package:dashboard/features/Main%20Page/view%20model/cubit/main_state.dart';
@@ -18,6 +19,7 @@ class MainCubit extends Cubit<MainState> {
   List<InteractionsModel> interactions = [];
   List<FavoritesModel> favorites = [];
   List<CountriesModel> countries = [];
+  List<NotificationModel> notifications = [];
   ChatbotModel? chatbot;
 
   Future<void> getSales() async {
@@ -113,6 +115,22 @@ class MainCubit extends Cubit<MainState> {
     );
   }
 
+  Future<void> getNotifications() async {
+    emit(NotificationsLoadingState());
+    var response = await mainService.getNotifications();
+    response.fold(
+      (failure) {
+        emit(MainFailureState(failure: failure));
+      },
+      (res) {
+        notifications = [];
+        for (var i = 0; i < res['data'].length; i++) {
+          notifications.add(NotificationModel.fromJson(res["data"][i]));
+        }
+      },
+    );
+  }
+
   Future<void> getMainData() async {
     await getSales();
     await getChatbotUsageType();
@@ -120,6 +138,20 @@ class MainCubit extends Cubit<MainState> {
     await getMostUsersByCountry();
     await getTopCustomersByInteractions();
     await getTopCustomersByOrders();
+    await getNotifications();
     emit(MainSuccessState());
+  }
+
+  Future<void> deleteNotifications({required String id}) async {
+    emit(NotificationsLoadingState());
+    var response = await mainService.deleteNotifications(id: id);
+    response.fold(
+      (failure) {
+        emit(MainFailureState(failure: failure));
+      },
+      (res) async {
+        await getMainData();
+      },
+    );
   }
 }
