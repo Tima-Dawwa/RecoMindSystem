@@ -20,7 +20,7 @@ List<GetPage> routes = [
 
   GetPage(name: '/all-products', page: () => AllProductsPage()),
 
-   GetPage(name: '/product-details', page: () => ProductDetailsPage()),
+  GetPage(name: '/product-details', page: () => ProductDetailsPage()),
 
   // GetPage(name: '/chatbot', page: () => ChatPage(serverUrl: "", token: "")),
   GetPage(name: '/orders', page: () => OrdersPage()),

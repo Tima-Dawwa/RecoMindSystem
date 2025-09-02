@@ -13,4 +13,13 @@ class AllProductsFailureState extends AllProductsState {
   AllProductsFailureState({required this.failure});
 }
 
-class AllProductsFilterState extends AllProductsState{}
+class AllProductsFilterState extends AllProductsState {}
+
+class SmartSearchLoadingState extends AllProductsState {}
+
+class SmartSearchSuccessState extends AllProductsState {}
+
+class SmartSearchFailureState extends AllProductsState {
+  final Failure failure;
+  SmartSearchFailureState({required this.failure});
+}

@@ -9,6 +9,7 @@ class AllProductsCubit extends Cubit<AllProductsState> {
 
   List<AllProductsModel> allProducts = [];
   int countAllProducts = 0;
+  bool searchText = true;
 
   int? currentPage;
   String? currentType;
@@ -19,6 +20,8 @@ class AllProductsCubit extends Cubit<AllProductsState> {
   List<String> selectedCategories = [];
 
   Future<void> getAllProducts({
+    String textSearch = '',
+    x = 1,
     int? page,
     String? type,
     double? maxPrice,
@@ -27,40 +30,41 @@ class AllProductsCubit extends Cubit<AllProductsState> {
     bool? isTrend,
     List<String>? categories,
   }) async {
-    // print("i cubit :: $type");
-    // print("page num befor (cub) :$page");
+    if (x == 1) {
+      currentPage = page ?? currentPage ?? 1;
+      currentType = type ?? currentType;
+      currentMinPrice = minPrice ?? currentMinPrice;
+      currentMaxPrice = maxPrice ?? currentMaxPrice;
+      if (categories != null) selectedCategories = categories;
 
-    currentPage = page ?? currentPage ?? 1;
-    currentType = type ?? currentType;
-    currentMinPrice = minPrice ?? currentMinPrice;
-    currentMaxPrice = maxPrice ?? currentMaxPrice;
-    if (categories != null) selectedCategories = categories;
+      emit(AllProductsLoadingState());
+      var response = await allProductsService.getAllProducts(
+        limit: 50,
+        page: page,
+        type: type,
+        maxPrice: maxPrice,
+        minPrice: minPrice,
+        isNew: isNew,
+        isTrend: isTrend,
+      );
+      response.fold(
+        (failure) {
+          print("----------${failure.errMessage}");
+          emit(AllProductsFailureState(failure: failure));
+        },
+        (res) {
+          allProducts.clear();
 
-    emit(AllProductsLoadingState());
-    var response = await allProductsService.getAllProducts(
-      limit: 50,
-      page: page,
-      type: type,
-      maxPrice: maxPrice,
-      minPrice: minPrice,
-      isNew: isNew,
-      isTrend: isTrend,
-    );
-    response.fold(
-      (failure) {
-        print("----------${failure.errMessage}");
-        emit(AllProductsFailureState(failure: failure));
-      },
-      (res) {
-        allProducts.clear();
-
-        for (var i = 0; i < res['data'].length; i++) {
-          allProducts.add(AllProductsModel.fromjson(res["data"][i]));
-        }
-        countAllProducts = res['count'];
-        emit(AllProductsSuccessState());
-      },
-    );
+          for (var i = 0; i < res['data'].length; i++) {
+            allProducts.add(AllProductsModel.fromjson(res["data"][i]));
+          }
+          countAllProducts = res['count'];
+          emit(AllProductsSuccessState());
+        },
+      );
+    } else {
+      smartSearch(textSearch);
+    }
   }
 
   void applyFilter() {
@@ -77,5 +81,28 @@ class AllProductsCubit extends Cubit<AllProductsState> {
     selectedCategories.clear();
 
     emit(AllProductsInitialState());
+  }
+
+  Future<void> smartSearch(String text) async {
+    searchText = false;
+    print("ءءءءءءءءءءء$text");
+    emit(AllProductsLoadingState());
+    var response = await allProductsService.smartSearch(text);
+    response.fold(
+      (failure) {
+        print("----------${failure.errMessage}");
+        emit(SmartSearchFailureState(failure: failure));
+      },
+      (res) {
+        allProducts.clear();
+        for (var i = 0; i < res['data'].length; i++) {
+          allProducts.add(AllProductsModel.fromjson(res["data"][i]));
+        }
+        countAllProducts = res['count'];
+        print("ddddddddd$text");
+        emit(AllProductsSuccessState());
+        searchText = true;
+      },
+    );
   }
 }

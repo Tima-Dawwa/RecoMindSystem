@@ -60,7 +60,8 @@ dependencies:
   number_paginator: ^1.1.1
   webview_windows: ^0.4.0
   flutter_inappwebview: ^6.1.5
-
+  webview_flutter: ^4.4.2
+  webview_flutter_web: ^0.2.2+4
 
 
 
