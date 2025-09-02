@@ -6,7 +6,6 @@ import 'package:dio/dio.dart';
 
 class MainService {
   final Api api;
-
   MainService(this.api);
 
     Future<Either<Failure, Map<String, dynamic>>> getSales() async {
@@ -25,6 +24,7 @@ class MainService {
       }
     }
   }
+
     Future<Either<Failure, Map<String, dynamic>>> getMostFavorited() async {
     try {
       Map<String, dynamic> response = await api.get(
@@ -41,6 +41,7 @@ class MainService {
       }
     }
   }
+
     Future<Either<Failure, Map<String, dynamic>>> getChatbotUsageType() async {
     try {
       Map<String, dynamic> response = await api.get(
@@ -57,6 +58,7 @@ class MainService {
       }
     }
   }
+
     Future<Either<Failure, Map<String, dynamic>>> getMostUsersByCountry() async {
     try {
       Map<String, dynamic> response = await api.get(
@@ -73,6 +75,7 @@ class MainService {
       }
     }
   }
+
     Future<Either<Failure, Map<String, dynamic>>> getTopCustomersByOrders() async {
     try {
       Map<String, dynamic> response = await api.get(
@@ -89,10 +92,45 @@ class MainService {
       }
     }
   }
+
     Future<Either<Failure, Map<String, dynamic>>> getTopCustomersByInteractions() async {
     try {
       Map<String, dynamic> response = await api.get(
         endPoint: '/dashboard/statistics/top-customers/interactions',
+      );
+      return right(response);
+    } catch (e) {
+      if (e is DioException) {
+        return left(Failure.fromDioException(e, DefaultStatusCodeHandler()));
+      } else {
+        return left(
+          Failure(errMessage: 'something went wrong (not DioException)'),
+        );
+      }
+    }
+  }
+
+    Future<Either<Failure, Map<String, dynamic>>> getNotifications() async {
+    try {
+      Map<String, dynamic> response = await api.get(
+        endPoint: '/dashboard/notifications/',
+      );
+      return right(response);
+    } catch (e) {
+      if (e is DioException) {
+        return left(Failure.fromDioException(e, DefaultStatusCodeHandler()));
+      } else {
+        return left(
+          Failure(errMessage: 'something went wrong (not DioException)'),
+        );
+      }
+    }
+  }
+
+    Future<Either<Failure, Map<String, dynamic>>> deleteNotifications({required String id}) async {
+    try {
+      Map<String, dynamic> response = await api.delete(
+        endPoint: '/dashboard/notifications/$id',
       );
       return right(response);
     } catch (e) {

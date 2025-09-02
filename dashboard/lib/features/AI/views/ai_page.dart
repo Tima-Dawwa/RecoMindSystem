@@ -1,4 +1,3 @@
-import 'package:dashboard/core/widgets/custom_loading.dart';
 import 'package:dashboard/features/AI/view%20model/cubit/ai_statistics_cubit.dart';
 import 'package:dashboard/features/AI/view%20model/cubit/ai_statistics_state.dart';
 import 'package:dashboard/features/AI/views/widgets/ai_page_body.dart';
@@ -25,7 +24,7 @@ class _AiPageState extends State<AiPage> {
       body: BlocBuilder<AiStatisticsCubit, AiStatisticsState>(
         builder: (context, state) {
           if (state is AiStatisticsLoading) {
-            return Center(child: CustomLoading());
+            return Center(child: CircularProgressIndicator());
           } else if (state is AiStatisticsSuccess) {
             return AiPageBody();
           } else {
