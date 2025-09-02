@@ -69,7 +69,7 @@ class _UserBoxState extends State<UserBox> {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         if (state is LoadingProfileState) {
-          return CircularProgressIndicator();
+          return Center(child: CustomLoading());
         } else {
           return Container(
             width: 250,

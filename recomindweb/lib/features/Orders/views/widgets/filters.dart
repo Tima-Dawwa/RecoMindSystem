@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recomindweb/core/Widgets/custom_button.dart';
 import 'package:recomindweb/core/theme.dart';
+import 'package:recomindweb/features/Orders/model/orders_model.dart';
 
 class Filters extends StatefulWidget {
-  const Filters({super.key});
+  const Filters({super.key, required this.orders});
+  final List<OrderModel> orders;
 
   @override
   State<Filters> createState() => _FiltersState();
@@ -33,26 +35,26 @@ class _FiltersState extends State<Filters> {
         ),
       ],
     ),
-    Row(
-      children: [
-        Icon(FontAwesomeIcons.arrowDown91, color: Themes.primary),
-        SizedBox(width: 10),
-        Text(
-          'price highest to lowest',
-          style: TextStyle(color: Themes.text, fontSize: 20),
-        ),
-      ],
-    ),
-    Row(
-      children: [
-        Icon(FontAwesomeIcons.arrowDown19, color: Themes.primary),
-        SizedBox(width: 10),
-        Text(
-          'price lowest to highest',
-          style: TextStyle(color: Themes.text, fontSize: 20),
-        ),
-      ],
-    ),
+    // Row(
+    //   children: [
+    //     Icon(FontAwesomeIcons.arrowDown91, color: Themes.primary),
+    //     SizedBox(width: 10),
+    //     Text(
+    //       'price highest to lowest',
+    //       style: TextStyle(color: Themes.text, fontSize: 20),
+    //     ),
+    //   ],
+    // ),
+    // Row(
+    //   children: [
+    //     Icon(FontAwesomeIcons.arrowDown19, color: Themes.primary),
+    //     SizedBox(width: 10),
+    //     Text(
+    //       'price lowest to highest',
+    //       style: TextStyle(color: Themes.text, fontSize: 20),
+    //     ),
+    //   ],
+    // ),
   ];
 
   String? currentSortBy;
@@ -116,17 +118,17 @@ class _FiltersState extends State<Filters> {
           actions: [
             Row(
               children: [
-                Expanded(
-                  child: CustomButton(
-                    text: "Reset",
-                    color: WidgetStatePropertyAll(Themes.secondary),
-                    height: 30,
-                    size: 20,
-                    press: () {},
-                  ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
+                // Expanded(
+                //   child: CustomButton(
+                //     text: "Reset",
+                //     color: WidgetStatePropertyAll(Themes.secondary),
+                //     height: 30,
+                //     size: 20,
+                //     press: () {},
+                //   ),
+                // ),
+                // SizedBox(width: 10),
+                Center(
                   child: CustomButton(
                     text: "Apply",
                     height: 30,

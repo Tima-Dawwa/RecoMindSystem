@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Orders/model/orders_model.dart';
 import 'package:recomindweb/features/Orders/view%20model/cubit/orders_cubit.dart';
-import 'package:recomindweb/features/Orders/views/widgets/filters.dart';
+// import 'package:recomindweb/features/Orders/views/widgets/filters.dart';
 import 'package:recomindweb/features/Orders/views/widgets/order_card.dart';
 
 class OrdersPageBody extends StatefulWidget {
@@ -21,6 +21,22 @@ class _OrdersPageBodyState extends State<OrdersPageBody> {
   void initState() {
     super.initState();
     orders = BlocProvider.of<OrdersCubit>(context).orders;
+
+    //  orders.sort(
+    //   (a, b) => DateTime.parse(a.date).compareTo(DateTime.parse(b.date)),
+    // );
+    // print("Ascending:");
+    // for (var o in orders) {
+    //   print("${o.orderNum} - ${o.date}");
+    // }
+
+    // orders.sort(
+    //   (a, b) => DateTime.parse(b.date).compareTo(DateTime.parse(a.date)),
+    // );
+    // print("\nDescending:");
+    // for (var o in orders) {
+    //   print("${o.orderNum} - ${o.date}");
+    // }
   }
 
   @override
@@ -30,7 +46,7 @@ class _OrdersPageBodyState extends State<OrdersPageBody> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Filters(),
+          // Filters(orders: orders),
           Divider(thickness: 1, color: Themes.text.withAlpha(50)),
           if (widget.desktop)
             Expanded(
