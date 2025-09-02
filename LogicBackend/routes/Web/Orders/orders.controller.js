@@ -70,6 +70,13 @@ async function httpPostOrder(req, res) {
     }
     let cart = req.body;
 
+    let total_price = 0;
+    for (const item of cart.items) {
+        total_price += item.price * item.quantity;
+    }
+    total_price = parseFloat(total_price.toFixed(2));
+    cart.total_price = total_price;
+
     const orderData = {
         user_id: req.user._id,
         orderItems: cart.items,

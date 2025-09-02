@@ -45,7 +45,7 @@ async function resetCart(user_id) {
 
 async function getCartCount(user_id) {
     const cart = await Cart.findOne({ user_id });
-    return cart ? cart.items.reduce((total, item) => total + item.quantity, 0) : 0;
+    return cart ? cart.items.length : 0;
 }
 
 async function getCartTotal(user_id) {
