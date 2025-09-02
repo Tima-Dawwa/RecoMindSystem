@@ -50,7 +50,6 @@ class _CartPageState extends State<CartPage> {
               () => PayPal(
                 url: "$ngrok/orders/${state.orderId}/pay",
                 onSuccess: () {
-                  print("wooooooo");
                   // Get.off(() => OrdersPage());
                 },
               ),

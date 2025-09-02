@@ -130,7 +130,13 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
             children:
                 // ignore: avoid_types_as_parameter_names
                 labels.map((label) {
-                  return ContentAllProducts(type: label.name ,);
+                  return ContentAllProducts(
+                    type: label.name,
+                    onSearch: () {
+                      _tabController.animateTo(0); 
+                      setState(() {});
+                    },
+                  );
                 }).toList(),
           ),
         ),

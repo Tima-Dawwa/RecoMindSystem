@@ -43,4 +43,24 @@ class AllProductsService {
       }
     }
   }
+
+
+  Future<Either<Failure, Map<String, dynamic>>> smartSearch(
+    String text
+  ) async {
+    try {
+      Map<String, dynamic> response = await api.get(
+        endPoint: '/products/smart-search?search=$text',
+      );
+      return right(response);
+    } catch (e) {
+      if (e is DioException) {
+        return left(Failure.fromDioException(e, DefaultStatusCodeHandler()));
+      } else {
+        return left(
+          Failure(errMessage: 'something went wrong (not DioException)'),
+        );
+      }
+    }
+  }
 }
