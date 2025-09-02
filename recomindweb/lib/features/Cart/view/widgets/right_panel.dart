@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/features/Cart/model/cart_model.dart';
+import 'package:recomindweb/features/Cart/view%20model/cubit/cart_cubit.dart';
 import 'package:recomindweb/features/Cart/view/widgets/desktop_right_panel.dart';
 import 'package:recomindweb/features/Cart/view/widgets/mobile_right_panel.dart';
 
@@ -45,19 +47,20 @@ class _RightpanelState extends State<Rightpanel> {
   }
 
   void _orderNow() {
-    showDialog(
-      context: context,
-      builder:
-          (_) => AlertDialog(
-            title: const Text('Order Confirmed'),
-            content: Text('Total: \$${totalPrice.toStringAsFixed(2)}'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('OK'),
-              ),
-            ],
-          ),
-    );
+    BlocProvider.of<CartCubit>(context).makeOrder();
+    // showDialog(
+    //   context: context,
+    //   builder:
+    //       (_) => AlertDialog(
+    //         title: const Text('Order Confirmed'),
+    //         content: Text('Total: \$${totalPrice.toStringAsFixed(2)}'),
+    //         actions: [
+    //           TextButton(
+    //             onPressed: () => Navigator.pop(context),
+    //             child: const Text('OK'),
+    //           ),
+    //         ],
+    //       ),
+    // );
   }
 }

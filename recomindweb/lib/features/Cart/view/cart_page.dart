@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:get/utils.dart';
 import 'package:recomindweb/core/Widgets/custom_loading.dart';
+import 'package:recomindweb/core/Widgets/paypal_widget.dart';
 import 'package:recomindweb/core/responsive_layout.dart';
 import 'package:recomindweb/features/Cart/model/cart_model.dart';
 import 'package:recomindweb/features/Cart/view%20model/cubit/cart_cubit.dart';
@@ -34,13 +37,35 @@ class _CartPageState extends State<CartPage> {
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(SnackBar(content: Text(state.failure.errMessage)));
+          } else if (state is MakeOrderFailureState) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.failure.errMessage)));
           }
         },
         builder: (context, state) {
-          if (state is CartLoadingState) {
+          if (state is CartLoadingState || state is MakeOrderLoadingState) {
             return Center(child: CustomLoading());
-          } else if (state is CartSuccessState || state is RemoveFromCartSuccessState || state is RemoveFromCartLoadingState) {
+          } else if (state is CartSuccessState ||
+              state is RemoveFromCartSuccessState ||
+              state is RemoveFromCartLoadingState) {
             List<CartModel> cartItems =
+                BlocProvider.of<CartCubit>(context).cartItems;
+            return ResponsiveLayout(
+              mobileBody: CartPageBody(cartItems: cartItems, desktop: false),
+              desktopBody: CartPageBody(cartItems: cartItems, desktop: true),
+            );
+          } else if (state is MakeOrderSuccessState) {
+            print(state);
+            Get.to(
+              () => PayPal(
+                url: "",
+                onSuccess: () {
+                  Get.off(() => CartPage());
+                },
+              ),
+            );
+             List<CartModel> cartItems =
                 BlocProvider.of<CartCubit>(context).cartItems;
             return ResponsiveLayout(
               mobileBody: CartPageBody(cartItems: cartItems, desktop: false),
@@ -58,5 +83,3 @@ class _CartPageState extends State<CartPage> {
     await BlocProvider.of<CartCubit>(context).getCart();
   }
 }
-
-
