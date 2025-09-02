@@ -1,6 +1,8 @@
 import 'package:dashboard/core/utils/theme.dart';
 import 'package:dashboard/features/Orders/model/orders_model.dart';
+import 'package:dashboard/features/Orders/view%20model/cubit/orders_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RowContent extends DataTableSource {
   RowContent({
@@ -27,42 +29,69 @@ class RowContent extends DataTableSource {
           Center(
             child: GestureDetector(
               onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      // title: const Text('Warning !'),
-                      content: const Text(
-                        'Are you sure you want to mark this order as an "Delivered" ?',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      actions: [
-                        MaterialButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text(
-                            'back',
-                            style: TextStyle(
-                              color: Themes.primary,
-                              fontSize: 16,
-                            ),
+                if (orders[index].status == 'prepare') {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        backgroundColor: Themes.bg,
+                        elevation: 2,
+                        title: Text(
+                          'Warning !',
+                          style: TextStyle(
+                            fontSize: 25,
+                            color: Themes.secondary,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        MaterialButton(
-                          onPressed: () {},
-                          child: Text(
-                            'confirm',
-                            style: TextStyle(
-                              color: Themes.primary,
-                              fontSize: 16,
+                        content: Text(
+                          'Are you sure you want to mark\nthis order as a "Delivered" ?',
+                          style: TextStyle(fontSize: 20, color: Themes.text),
+                        ),
+                        actionsAlignment: MainAxisAlignment.center,
+                        // actionsPadding: EdgeInsets.all(50),
+                        actions: [
+                          MaterialButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            padding: EdgeInsets.all(10),
+                            color: Themes.text,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            elevation: 2,
+                            splashColor: Themes.bg.withAlpha(10),
+                            child: Text(
+                              'Back',
+                              style: TextStyle(color: Themes.bg, fontSize: 18),
                             ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
-                );
+                          SizedBox(width: 15),
+                          MaterialButton(
+                            onPressed: () async {
+                              Navigator.pop(context);
+                              await BlocProvider.of<OrdersCubit>(
+                                context,
+                              ).changeStatus(id: orders[index].id);
+                            },
+                            color: Themes.primary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            elevation: 2,
+                            padding: EdgeInsets.all(10),
+                            splashColor: Themes.bg.withAlpha(10),
+                            child: Text(
+                              'Confirm',
+                              style: TextStyle(color: Themes.bg, fontSize: 18),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
               },
               child: Text(
                 orders[index].status,

@@ -11,6 +11,8 @@ class CartCubit extends Cubit<CartStates> {
   final CartService cartService;
   List<CartModel> cartItems = [];
   String? messageDeleted;
+  String? orderId;
+  String? messageSuccess;
 
   Future<void> getCart() async {
     emit(CartLoadingState());
@@ -60,7 +62,7 @@ class CartCubit extends Cubit<CartStates> {
     }
   }
 
-  Future<void> makeOrder(String id) async {
+  Future<void> makeOrder() async {
     emit(MakeOrderLoadingState());
 
     final body = buildCartBody(cartItems);
@@ -73,7 +75,9 @@ class CartCubit extends Cubit<CartStates> {
         emit(MakeOrderFailureState(failure: failure));
       },
       (res) {
-        emit(MakeOrderSuccessState());
+        orderId = res['order_id'];
+        messageSuccess = res['message'];
+        emit(MakeOrderSuccessState(message:messageSuccess! , orderId: orderId!));
       },
     );
   }

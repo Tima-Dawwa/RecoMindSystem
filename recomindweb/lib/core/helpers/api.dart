@@ -7,7 +7,11 @@ class Api {
   final String baseUrl = 'https://d5ff4ae3636c.ngrok-free.app';
 
   String token =
+<<<<<<< HEAD
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YjYwYWU3OTZiYWYzNGJmM2IyZTUzYyIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJEb2UifSwiaWF0IjoxNzU2NzYwODA4LCJleHAiOjE3NTcwMjAwMDh9.v4CY7o5DCHxpqX4P3JU9TwQBwKiheMS7Sacmg0-VGh0";
+=======
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiYzJjMzE3NTZhZmIzOWJiZGZiM2NhOCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IlJhbmRhbGwiLCJsYXN0X25hbWUiOiJCdWNrcmlkZ2UifSwiaWF0IjoxNzU2NzI2ODI1LCJleHAiOjE3NTY5ODYwMjV9.Z2w6H5dvOF0qQOaSolTleW-FC-eIJ13TO2MyewulDqE";
+>>>>>>> origin/main
 
   Future<Map<String, dynamic>> get({
     required String endPoint,

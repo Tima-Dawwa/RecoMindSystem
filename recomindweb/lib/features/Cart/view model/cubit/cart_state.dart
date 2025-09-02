@@ -13,7 +13,7 @@ class CartFailureState extends CartStates {
   CartFailureState({required this.failure});
 }
 
-class RemoveFromCartLoadingState extends CartStates{}
+class RemoveFromCartLoadingState extends CartStates {}
 
 class RemoveFromCartSuccessState extends CartStates {
   final String message;
@@ -25,14 +25,16 @@ class RemoveFromCartFailureState extends CartStates {
   RemoveFromCartFailureState({required this.failure});
 }
 
-class DecreaseQuantityState extends CartStates{}
+class DecreaseQuantityState extends CartStates {}
 
-class IncreaseQuantityState extends CartStates{}
+class IncreaseQuantityState extends CartStates {}
 
-class MakeOrderLoadingState extends CartStates{}
+class MakeOrderLoadingState extends CartStates {}
 
 class MakeOrderSuccessState extends CartStates {
- 
+  final String message;
+  final String orderId;
+  MakeOrderSuccessState( {required this.message , required this.orderId});
 }
 
 class MakeOrderFailureState extends CartStates {
