@@ -12,11 +12,7 @@ import 'package:recomindweb/features/Show_All_Products/view/all_products_page.da
 import 'package:recomindweb/features/product_details/view/product_details_page.dart';
 
 List<GetPage> routes = [
-<<<<<<< HEAD
   GetPage(name: '/', page: () => CartPage()),
-=======
-  GetPage(name: '/', page: () => HomePage()),
->>>>>>> origin/main
 
   GetPage(name: '/login', page: () => LoginPage()),
   GetPage(name: '/register', page: () => RegisterPage()),

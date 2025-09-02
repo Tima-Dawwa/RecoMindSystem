@@ -1,36 +1,43 @@
-// ignore_for_file: prefer_collection_literals
-
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-class PayPal extends StatelessWidget {
+class PayPal extends StatefulWidget {
   const PayPal({super.key, required this.url, required this.onSuccess});
+
   final String url;
   final VoidCallback onSuccess;
+
+  @override
+  State<PayPal> createState() => _PayPalState();
+}
+
+class _PayPalState extends State<PayPal> {
+  InAppWebViewController? webviewController;
+
   @override
   Widget build(BuildContext context) {
-    return WebView(
-      initialUrl: url,
-      javascriptMode: JavascriptMode.unrestricted,
-      gestureRecognizers: Set()
-        ..add(Factory<DragGestureRecognizer>(
-            () => VerticalDragGestureRecognizer())),
-      onPageFinished: (value) {
-        debugPrint(value);
+    return InAppWebView(
+      initialUrlRequest: URLRequest(url: WebUri(widget.url)),
+      initialSettings: InAppWebViewSettings(javaScriptEnabled: true),
+      onWebViewCreated: (controller) {
+        webviewController = controller;
       },
-      navigationDelegate: (NavigationRequest request) async {
-        if (request.url.contains("http://return_url/?status=success")) {
-          onSuccess();
+      onLoadStart: (controller, url) {
+        if (url == null) return;
+        debugPrint("Page started: $url");
+        if (url.toString().contains("status=success")) {
+          String urls = url.toString();
+          debugPrint("✅ Success detected with URL: $urls");
+          // widget.onSuccess();
         }
-        if (request.url.contains("https://10.0.2.2:5000/payment/cancel")) {
-          // debugPrint("failure");
-          // Get.back();
+        if (url.toString().contains("https://10.0.2.2:5000/payment/cancel")) {
+          // Navigator.pop(context);
         }
-        return NavigationDecision.navigate;
+      },
+      onLoadStop: (controller, url) async {
+        if (url == null) return;
+        debugPrint("Page finished: $url");
       },
     );
   }
 }
-

@@ -4,14 +4,10 @@ import 'package:dio/dio.dart';
 class Api {
   Api(this._dio);
   final Dio _dio;
-  final String baseUrl = 'https://d5ff4ae3636c.ngrok-free.app';
+  final String baseUrl = 'https://f33be7c4903d.ngrok-free.app';
 
   String token =
-<<<<<<< HEAD
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YjYwYWU3OTZiYWYzNGJmM2IyZTUzYyIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJEb2UifSwiaWF0IjoxNzU2NzYwODA4LCJleHAiOjE3NTcwMjAwMDh9.v4CY7o5DCHxpqX4P3JU9TwQBwKiheMS7Sacmg0-VGh0";
-=======
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiYzJjMzE3NTZhZmIzOWJiZGZiM2NhOCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IlJhbmRhbGwiLCJsYXN0X25hbWUiOiJCdWNrcmlkZ2UifSwiaWF0IjoxNzU2NzI2ODI1LCJleHAiOjE3NTY5ODYwMjV9.Z2w6H5dvOF0qQOaSolTleW-FC-eIJ13TO2MyewulDqE";
->>>>>>> origin/main
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiYzJjMzE3NTZhZmIzOWJiZGZiM2NhOCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IlJhbmRhbGwiLCJsYXN0X25hbWUiOiJCdWNrcmlkZ2UifSwiaWF0IjoxNzU2Nzk5MzU2LCJleHAiOjE3NTcwNTg1NTZ9.Eiv6dy4geSsg1VK94b6u3kuGRxC189yo__GUupQar2A";
 
   Future<Map<String, dynamic>> get({
     required String endPoint,
