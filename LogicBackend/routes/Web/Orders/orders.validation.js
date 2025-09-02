@@ -11,9 +11,7 @@ function validatePostOrder(data) {
                 })
             )
             .min(1)
-            .required(),
-
-        total_price: Joi.number().precision(2).min(0).required()
+            .required()
     });
     return schema.validate(data);
 }

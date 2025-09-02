@@ -152,6 +152,11 @@ async function getLowQuantityProducts(threshold = 50) {
     return await Product.find({ quantity: { $lt: threshold } });
 }
 
+async function getRandomProduct() {
+    const products = await Product.aggregate([{ $sample: { size: 1 } }]);
+    return products[0]._id;
+}
+
 module.exports = {
     postProduct,
     getProducts,
@@ -165,5 +170,6 @@ module.exports = {
     getManyProducts,
     updateProduct,
     decrementQuantity,
-    getLowQuantityProducts
+    getLowQuantityProducts,
+    getRandomProduct
 };

@@ -1,12 +1,13 @@
 const axios = require('axios');
-const { cartData } = require('./cart.serializer');
+const { cartData, productData } = require('./cart.serializer');
 const { getPagination } = require('../../../services/query');
 const { serializedData } = require('../../../services/serializeArray');
 const { INTERACTION_TYPES } = require('../../../public/constants/interaction');
-const { getProductById, incrementInteractionCount } = require('../../../models/products.model');
+const { getProductById, incrementInteractionCount, getProductsByIds, getRandomProduct } = require('../../../models/products.model');
 const { postInteraction, removeProductInteraction } = require('../../../models/interactions.model');
 const { postRecommendationInteraction } = require('../../../models/recommendation_interaction.model');
 const { getCart, addToCart, deleteFromCart, getCartCount, getCartItem } = require('../../../models/cart.model');
+const { checkFavorite } = require('../../../models/favorites.model');
 
 // Done
 async function httpGetCart(req, res) {
@@ -15,11 +16,15 @@ async function httpGetCart(req, res) {
     const length = await getCartCount(req.user.id);
     if (data.length == 0) return res.status(200).json({ data: [], count: 0 });
 
-    const productId = data.items[0]?.product._id || '';
+    let productId = data.items[0]?.product._id || '';
+
+    if (!productId) {
+        productId = await getRandomProduct();
+    }
     const startTime = Date.now();
 
-    let recommendations = [];
-    let recommendedIds = [];
+    let recommendationsData = [];
+    let recommendedProducts = [];
     try {
         const recommendations = await axios.get('http://127.0.0.1:8000/hybrid-recommendations', {
             params: {
@@ -30,7 +35,15 @@ async function httpGetCart(req, res) {
         });
 
         recommendationsData = recommendations.data;
-        recommendedIds = recommendationsData.map(r => r.id);
+        let recommendedIds = recommendationsData.map(r => r.id);
+        recommendedProducts = await getProductsByIds(recommendedIds);
+
+        recommendedProducts = await Promise.all(
+            recommendedProducts.map(async p => {
+                p.isFavorite = (await checkFavorite(req.user.id, p._id)) ? true : false;
+                return p;
+            })
+        );
 
         const similarities = recommendationsData.map(r => r.similarity || 1);
         const response_time = (Date.now() - startTime) / 1000;
@@ -40,12 +53,12 @@ async function httpGetCart(req, res) {
             response_time
         });
     } catch (error) {
-        console.error('Hybrid recommendation error:', error);
+        console.error('Hybrid recommendation error:');
     }
 
     return res.status(200).json({
         data: serializedData(data.items, cartData),
-        recommendations: recommendedIds,
+        recommendations: serializedData(recommendedProducts, productData),
         count: length
     });
 }

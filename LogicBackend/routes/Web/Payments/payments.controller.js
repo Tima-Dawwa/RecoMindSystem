@@ -9,6 +9,7 @@ paypal.configure({
 
 function paymentSheet(req, res) {
     const payment_data = req.body.data;
+    console.log('inside paymentsheet');
     paypal.payment.create(payment_data, function (error, payment) {
         if (error) {
             console.log(error);
@@ -26,6 +27,7 @@ function paymentSheet(req, res) {
 function executePayment(req, res) {
     const amount = req.query.amount;
     const currency = req.query.currency;
+    console.log('inside executePayment');
     const paymentExecutionData = {
         payer_id: req.query.PayerID,
         transactions: [
@@ -43,7 +45,8 @@ function executePayment(req, res) {
             console.log(error);
             throw error;
         } else {
-            // Add Notifications
+            console.log('not error');
+            // res.redirect('myapp://success?status=success&id=' + payment.id + '&state=' + payment.state);
             res.redirect('http://return_url/?status=success&id=' + payment.id + '&state=' + payment.state);
         }
     });

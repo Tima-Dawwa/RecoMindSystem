@@ -11,6 +11,6 @@ const ordersRouter = express.Router();
 ordersRouter.get('/', requireJwtAuth, asyncHandler(httpGetOrders));
 ordersRouter.get('/:id', requireJwtAuth, checkObjectID, asyncHandler(httpGetOrder));
 ordersRouter.post('/', requireJwtAuth, asyncHandler(httpPostOrder));
-ordersRouter.post('/:id/pay', requireJwtAuth, checkObjectID, asyncHandler(httpPayForOrder));
+ordersRouter.get('/:id/pay', checkObjectID, asyncHandler(httpPayForOrder));
 
 module.exports = ordersRouter;
