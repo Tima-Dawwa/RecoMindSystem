@@ -16,7 +16,6 @@ class HomeCubit extends Cubit<HomeState> {
   ProfileModel? profile;
 
   Future<void> getCollab() async {
-    // emit(LoadingHomeState());
     var response = await homeService.getCollab();
     response.fold(
       (failure) {
@@ -27,7 +26,6 @@ class HomeCubit extends Cubit<HomeState> {
         for (var i = 0; i < res['data'].length; i++) {
           products.add(CollabProductModel.fromJson(res["data"][i]));
         }
-        // emit(SuccessHomeState());
       },
     );
   }
@@ -46,6 +44,32 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
+  Future<void> getCities() async {
+    var response = await homeService.getCities();
+    response.fold(
+      (failure) {
+        emit(FailureHomeState(failure: failure));
+      },
+      (res) {
+        for (var i = 0; i < res['data'].length; i++) {
+          countries.add(CitiesModel.fromJson(res['data'][i]));
+        }
+      },
+    );
+  }
+
+  Future<void> homeData() async {
+    // CustomSharedPreferences prefs = CustomSharedPreferences();
+    emit(LoadingHomeState());
+    await getCollab();
+    emit(LoadingHomeState());
+    await getCities();
+    // if (await prefs.logged()) {
+    await getProfile();
+    // }
+    emit(SuccessHomeState());
+  }
+
   Future<void> changeImage({required XFile image}) async {
     emit(LoadingProfileState());
     final bytes = await image.readAsBytes();
@@ -60,9 +84,8 @@ class HomeCubit extends Cubit<HomeState> {
       (failure) {
         emit(FailureHomeState(failure: failure));
       },
-      (res) {
-        getProfile();
-        // emit(SuccessProfileState());
+      (res) async {
+        await getProfile();
       },
     );
   }
@@ -79,37 +102,9 @@ class HomeCubit extends Cubit<HomeState> {
       (failure) {
         emit(FailureHomeState(failure: failure));
       },
-      (res) {
-        getProfile();
-        // emit(SuccessProfileState());
+      (res) async {
+        await getProfile();
       },
     );
-  }
-
-  Future<void> getCities() async {
-    // emit(LoadingCitiesState());
-    var response = await homeService.getCities();
-    response.fold(
-      (failure) {
-        emit(FailureHomeState(failure: failure));
-      },
-      (res) {
-        for (var i = 0; i < res['data'].length; i++) {
-          countries.add(CitiesModel.fromJson(res['data'][i]));
-        }
-        // emit(SuccessCitiesState());
-      },
-    );
-  }
-
-  Future<void> homeData() async {
-    // CustomSharedPreferences prefs = CustomSharedPreferences();
-    emit(LoadingHomeState());
-    await getCollab();
-    await getCities();
-    // if (await prefs.logged()) {
-    await getProfile();
-    // }
-    emit(SuccessHomeState());
   }
 }
