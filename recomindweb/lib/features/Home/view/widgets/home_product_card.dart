@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/helpers/api.dart';
 import 'package:recomindweb/core/helpers/service_locator.dart';
 import 'package:recomindweb/core/theme.dart';
-import 'package:recomindweb/features/Cart/view%20model/cubit/cart_cubit.dart';
+// import 'package:recomindweb/features/Cart/view%20model/cubit/cart_cubit.dart';
 import 'package:recomindweb/features/Home/model/collab_product_model.dart';
 import 'package:recomindweb/features/Home/view%20model/cubit/home_cubit.dart';
 
@@ -25,7 +25,7 @@ class HomeProductCard extends StatefulWidget {
 }
 
 class _HomeProductCardState extends State<HomeProductCard> {
-  // bool isFavorite = false;
+  late bool isFavorite;
   int totalStars = 5;
   int fullStars = 0;
   bool halfStar = false;
@@ -33,6 +33,7 @@ class _HomeProductCardState extends State<HomeProductCard> {
   @override
   void initState() {
     super.initState();
+    isFavorite = widget.product.isFav;
   }
 
   @override
@@ -82,18 +83,25 @@ class _HomeProductCardState extends State<HomeProductCard> {
                       top: 8,
                       right: 8,
                       child: GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           if (widget.product.isFav) {
-                            BlocProvider.of<HomeCubit>(context).deleteFavorite(
+                            await BlocProvider.of<HomeCubit>(
+                              context,
+                            ).deleteFavorite(
                               productId: widget.product.id,
                               index: widget.index!,
                             );
                           } else {
-                            BlocProvider.of<HomeCubit>(context).addToFavorites(
+                            await BlocProvider.of<HomeCubit>(
+                              context,
+                            ).addToFavorites(
                               productId: widget.product.id,
                               index: widget.index!,
                             );
                           }
+                          setState(() {
+                            isFavorite = !isFavorite;
+                          });
                         },
                         child: Container(
                           padding: const EdgeInsets.all(5),
@@ -102,11 +110,9 @@ class _HomeProductCardState extends State<HomeProductCard> {
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
-                            widget.product.isFav
-                                ? Icons.favorite
-                                : Icons.favorite_border,
+                            isFavorite ? Icons.favorite : Icons.favorite_border,
                             color:
-                                widget.product.isFav
+                                isFavorite
                                     ? Themes.secondary
                                     : Themes.text.withAlpha(100),
                             size: 20,

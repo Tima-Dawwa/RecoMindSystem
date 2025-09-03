@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:recomindweb/core/Widgets/custom_button.dart';
 import 'package:recomindweb/features/Home/view/widgets/category_card.dart';
+import 'package:recomindweb/features/Show_All_Products/view/all_products_page.dart';
 
 class Categories extends StatelessWidget {
   const Categories({super.key, required this.desktop});
@@ -38,7 +39,7 @@ class Categories extends StatelessWidget {
                     size: desktop ? 20 : 12,
                     width: width,
                     press: () {
-                      Get.toNamed('/all-products', preventDuplicates: false);
+                      Get.to(AllProductsPage(gender: 'Ladieswear'));
                     },
                   ),
                   CustomButton(
@@ -47,7 +48,7 @@ class Categories extends StatelessWidget {
                     size: desktop ? 20 : 12,
                     width: width,
                     press: () {
-                      Get.toNamed('/all-products', preventDuplicates: false);
+                      Get.to(AllProductsPage(gender: 'Menswear'));
                     },
                   ),
                   CustomButton(
@@ -56,7 +57,7 @@ class Categories extends StatelessWidget {
                     size: desktop ? 20 : 12,
                     width: width,
                     press: () {
-                      Get.toNamed('/all-products', preventDuplicates: false);
+                      Get.to(AllProductsPage(gender: 'Baby/Children'));
                     },
                   ),
                 ],

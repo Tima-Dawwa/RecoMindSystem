@@ -7,8 +7,9 @@ import 'package:recomindweb/features/Show_All_Products/view/all_products_page_de
 import 'package:recomindweb/features/Show_All_Products/view/all_products_page_mobile.dart';
 
 class AllProductsPage extends StatefulWidget {
-  const AllProductsPage({super.key});
-
+  const AllProductsPage({super.key, required this.gender});
+  final String gender;
+  
   @override
   State<AllProductsPage> createState() => _AllProductsPageState();
 }

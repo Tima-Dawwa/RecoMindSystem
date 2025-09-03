@@ -28,9 +28,7 @@ class HomeService {
 
   Future<Either<Failure, Map<String, dynamic>>> getProfile() async {
     try {
-      Map<String, dynamic> response = await api.get(
-        endPoint: '/users/profile',
-      );
+      Map<String, dynamic> response = await api.get(endPoint: '/users/profile');
       return right(response);
     } catch (e) {
       if (e is DioException) {
@@ -54,14 +52,13 @@ class HomeService {
       return right(response);
     } catch (e) {
       if (e is DioException) {
-        return left(
-          Failure.fromDioException(e, DefaultStatusCodeHandler())
-        );
+        return left(Failure.fromDioException(e, DefaultStatusCodeHandler()));
       } else {
         return left(Failure(errMessage: 'Something went wrong'));
       }
     }
   }
+
   Future<Either<Failure, Map<String, dynamic>>> changeLocation({
     required dynamic body,
   }) async {
@@ -73,9 +70,7 @@ class HomeService {
       return right(response);
     } catch (e) {
       if (e is DioException) {
-        return left(
-          Failure.fromDioException(e, DefaultStatusCodeHandler())
-        );
+        return left(Failure.fromDioException(e, DefaultStatusCodeHandler()));
       } else {
         return left(Failure(errMessage: 'Something went wrong'));
       }
@@ -99,7 +94,7 @@ class HomeService {
     }
   }
 
-   Future<Either<Failure, Map<String, dynamic>>> addToFavorites({
+  Future<Either<Failure, Map<String, dynamic>>> addToFavorites({
     required String productId,
   }) async {
     try {
@@ -123,10 +118,7 @@ class HomeService {
     required String favoriteId,
   }) async {
     try {
-      final response = await api.delete(
-        endPoint: '/favorites/$favoriteId',
-        body: null,
-      );
+      final response = await api.delete(endPoint: '/favorites/$favoriteId');
       return right(response);
     } catch (e) {
       return left(

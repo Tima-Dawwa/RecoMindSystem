@@ -51,7 +51,7 @@ class Api {
 
   Future<Map<String, dynamic>> delete({
     required String endPoint,
-    required dynamic body,
+     dynamic body,
   }) async {
     var response = await _dio.delete(
       '$baseUrl$endPoint',
@@ -64,7 +64,6 @@ class Api {
       ),
     );
     print(response.statusCode);
-    print('objectooooooo');
     print(response);
     return response.data;
   }
