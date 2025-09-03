@@ -25,6 +25,7 @@ async function seedDB() {
     console.log('Creating Products');
     await createProducts();
 
+    console.log('Creating Interactions');
     await createInteractions();
 
     await updateAllProductAggregates();
@@ -45,7 +46,6 @@ async function seedDB() {
     await createOrders();
 
     console.log('Database seeded!');
-
     await mongoDisconnect();
 }
 
