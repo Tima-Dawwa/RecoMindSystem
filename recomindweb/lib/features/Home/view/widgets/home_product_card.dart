@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/helpers/api.dart';
 import 'package:recomindweb/core/helpers/service_locator.dart';
 import 'package:recomindweb/core/theme.dart';
+import 'package:recomindweb/features/Cart/view%20model/cubit/cart_cubit.dart';
 import 'package:recomindweb/features/Home/model/collab_product_model.dart';
+import 'package:recomindweb/features/Home/view%20model/cubit/home_cubit.dart';
 
 class HomeProductCard extends StatefulWidget {
   const HomeProductCard({
@@ -10,17 +13,19 @@ class HomeProductCard extends StatefulWidget {
     required this.product,
     required this.onTap,
     required this.width,
+    this.index,
   });
   final CollabProductModel product;
   final VoidCallback onTap;
   final double width;
+  final int? index;
 
   @override
   State<HomeProductCard> createState() => _HomeProductCardState();
 }
 
 class _HomeProductCardState extends State<HomeProductCard> {
-  bool isFavorite = false;
+  // bool isFavorite = false;
   int totalStars = 5;
   int fullStars = 0;
   bool halfStar = false;
@@ -61,7 +66,7 @@ class _HomeProductCardState extends State<HomeProductCard> {
                 child: Stack(
                   children: [
                     Image.network(
-                      '${getIt.get<Api>().baseUrl}${widget.product.image}',
+                      '${getIt.get<Api>().baseUrl}${widget.product.urlImage}',
                       headers: {"ngrok-skip-browser-warning": "true"},
                       fit: BoxFit.cover,
                       width: double.infinity,
@@ -78,9 +83,17 @@ class _HomeProductCardState extends State<HomeProductCard> {
                       right: 8,
                       child: GestureDetector(
                         onTap: () {
-                          setState(() {
-                            isFavorite = !isFavorite;
-                          });
+                          if (widget.product.isFav) {
+                            BlocProvider.of<HomeCubit>(context).deleteFavorite(
+                              productId: widget.product.id,
+                              index: widget.index!,
+                            );
+                          } else {
+                            BlocProvider.of<HomeCubit>(context).addToFavorites(
+                              productId: widget.product.id,
+                              index: widget.index!,
+                            );
+                          }
                         },
                         child: Container(
                           padding: const EdgeInsets.all(5),
@@ -88,11 +101,12 @@ class _HomeProductCardState extends State<HomeProductCard> {
                             color: Themes.bg,
                             shape: BoxShape.circle,
                           ),
-                          child: 
-                          Icon(
-                            isFavorite ? Icons.favorite : Icons.favorite_border,
+                          child: Icon(
+                            widget.product.isFav
+                                ? Icons.favorite
+                                : Icons.favorite_border,
                             color:
-                                isFavorite
+                                widget.product.isFav
                                     ? Themes.secondary
                                     : Themes.text.withAlpha(100),
                             size: 20,
@@ -132,7 +146,9 @@ class _HomeProductCardState extends State<HomeProductCard> {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        '\$${(widget.product.price * 1.2).toStringAsFixed(2)}',
+                        widget.product.isDiscounted
+                            ? '\$${widget.product.discountedPrice.toStringAsFixed(2)}'
+                            : '\$${(widget.product.price * 1.2).toStringAsFixed(2)}',
                         style: TextStyle(
                           decoration: TextDecoration.lineThrough,
                           fontSize: MediaQuery.of(context).size.width * 0.012,
@@ -145,7 +161,11 @@ class _HomeProductCardState extends State<HomeProductCard> {
                   Row(
                     children: List.generate(totalStars, (index) {
                       if (index < fullStars) {
-                        return Icon(Icons.star, size: MediaQuery.of(context).size.width * 0.015, color: Themes.third);
+                        return Icon(
+                          Icons.star,
+                          size: MediaQuery.of(context).size.width * 0.015,
+                          color: Themes.third,
+                        );
                       } else if (index == fullStars && halfStar) {
                         return Icon(
                           Icons.star_half,
@@ -153,7 +173,7 @@ class _HomeProductCardState extends State<HomeProductCard> {
                           color: Themes.third,
                         );
                       } else {
-                        return  Icon(
+                        return Icon(
                           Icons.star_border,
                           size: MediaQuery.of(context).size.width * 0.015,
                           color: Colors.grey,

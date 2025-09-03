@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get_connect.dart';
 import 'package:recomindweb/features/Cart/model/cart_model.dart';
 import 'package:recomindweb/features/Cart/view%20model/cart_service.dart';
 import 'package:recomindweb/features/Cart/view%20model/cubit/cart_state.dart';
@@ -28,7 +29,9 @@ class CartCubit extends Cubit<CartStates> {
           cartItems.add(CartModel.fromJson(res["data"][i]));
         }
         for (var i = 0; i < res['recommendations'].length; i++) {
-          hybridProducts.add(AllProductsModel.fromjson(res["recommendations"][i]));
+          hybridProducts.add(
+            AllProductsModel.fromjson(res["recommendations"][i]),
+          );
         }
         emit(CartSuccessState());
       },
@@ -81,6 +84,7 @@ class CartCubit extends Cubit<CartStates> {
       (res) {
         orderId = res['order_id'];
         messageSuccess = res['message'];
+        cartItems.clear();
         emit(
           MakeOrderSuccessState(message: messageSuccess!, orderId: orderId!),
         );
@@ -105,5 +109,38 @@ class CartCubit extends Cubit<CartStates> {
       "items": items,
       // "total_price": totalPrice
     };
+  }
+
+  Future<void> addToFavorites({
+    required String productId,
+    required int index,
+  }) async {
+    emit(CartLoadingState());
+    final response = await cartService.addToFavorites(productId: productId);
+    response.fold(
+      (failure) {
+        emit(CartFailureState(failure: failure));
+      },
+      (res) {
+        final item = hybridProducts[index];
+        hybridProducts[index] = item.copyWith(isFav: true);
+        emit(CartSuccessState());
+      },
+    );
+  }
+
+  Future<void> deleteFavorite({required String productId , required int index}) async {
+    emit(CartLoadingState());
+    final response = await cartService.deleteFavorite(favoriteId: productId);
+    response.fold(
+      (failure) {
+        emit(CartFailureState(failure: failure));
+      },
+      (res) {
+          final item = hybridProducts[index];
+        hybridProducts[index] = item.copyWith(isFav:false);
+        emit(CartSuccessState());
+      },
+    );
   }
 }

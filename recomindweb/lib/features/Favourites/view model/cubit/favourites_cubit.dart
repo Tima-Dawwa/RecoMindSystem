@@ -29,7 +29,7 @@ class FavouritesCubit extends Cubit<FavouritesState> {
 
   Future<void> removeFromFavourites({required String id}) async {
     emit(RemoveFavouritesLoadingState());
-    await Future.delayed(const Duration(milliseconds: 5));
+     await Future.delayed(const Duration(milliseconds: 5));
     var response = await favouritesService.removeFromFavourites(id);
     response.fold(
       (failure) {

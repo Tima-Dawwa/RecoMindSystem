@@ -98,4 +98,40 @@ class HomeService {
       }
     }
   }
+
+   Future<Either<Failure, Map<String, dynamic>>> addToFavorites({
+    required String productId,
+  }) async {
+    try {
+      final response = await api.post(
+        endPoint: '/favorites/$productId',
+        body: null,
+      );
+      return right(response);
+    } catch (e) {
+      if (e is DioException) {
+        return left(Failure.fromDioException(e, DefaultStatusCodeHandler()));
+      } else {
+        return left(
+          Failure(errMessage: 'something went wrong (not DioException)'),
+        );
+      }
+    }
+  }
+
+  Future<Either<Failure, Map<String, dynamic>>> deleteFavorite({
+    required String favoriteId,
+  }) async {
+    try {
+      final response = await api.delete(
+        endPoint: '/favorites/$favoriteId',
+        body: null,
+      );
+      return right(response);
+    } catch (e) {
+      return left(
+        Failure(errTitle: 'Error', errMessage: 'Failed to delete favorite: $e'),
+      );
+    }
+  }
 }

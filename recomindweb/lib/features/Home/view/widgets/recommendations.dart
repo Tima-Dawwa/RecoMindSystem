@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Home/model/collab_product_model.dart';
 import 'package:recomindweb/features/Home/view%20model/cubit/home_cubit.dart';
 import 'package:recomindweb/features/Home/view/widgets/home_product_card.dart';
+import 'package:recomindweb/features/product_details/view/product_details_page.dart';
 
 class Recommendations extends StatefulWidget {
   const Recommendations({super.key, required this.logged});
@@ -60,9 +63,12 @@ class _RecommendationsState extends State<Recommendations> {
                   itemBuilder: (context, index) {
                     return HomeProductCard(
                       width: cardWidth,
+                      index: index,
                       product: products[index],
                       onTap: () {
-                        // Get.to(ProductDetailsPage(id: products[index].id));
+                        Get.to(
+                          ProductDetailsPage(productId: products[index].id),
+                        );
                       },
                     );
                   },

@@ -28,6 +28,7 @@ class _GridAllProductsState extends State<GridAllProducts> {
           itemBuilder: (context, index) {
             return AllProductCard(
               product: widget.allProducts[index],
+              index: index,
               onTap: () {
               },
             );

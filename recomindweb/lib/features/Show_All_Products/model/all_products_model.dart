@@ -43,4 +43,34 @@ class AllProductsModel {
       urlImage: jsonData['image'],
     );
   }
+
+  AllProductsModel copyWith({
+    String? id,
+    String? name,
+    double? price,
+    double? discountedPrice,
+    bool? isDiscounted,
+    String? department,
+    String? gender,
+    double? rating,
+    bool? isNew,
+    bool? isTrend,
+    bool? isFav,
+    String? urlImage,
+  }) {
+    return AllProductsModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      price: price ?? this.price,
+      discountedPrice: discountedPrice ?? this.discountedPrice,
+      isDiscounted: isDiscounted ?? this.isDiscounted,
+      department: department ?? this.department,
+      gender: gender ?? this.gender,
+      rating: rating ?? this.rating,
+      isNew: isNew ?? this.isNew,
+      isTrend: isTrend ?? this.isTrend,
+      isFav: isFav ?? this.isFav,
+      urlImage: urlImage ?? this.urlImage,
+    );
+  }
 }
