@@ -193,11 +193,14 @@ class _UserBoxState extends State<UserBox> {
 
   Future<void> submitImage() async {
     if (image != null) {
+      setState(() {
+        show = false;
+        
+      });
       await BlocProvider.of<HomeCubit>(
         context,
       ).changeImage(image: pickedImage!);
       setState(() {
-        show = false;
         profile = BlocProvider.of<HomeCubit>(context).profile;
       });
     }
