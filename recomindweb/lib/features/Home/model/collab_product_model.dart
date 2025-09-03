@@ -1,37 +1,76 @@
 class CollabProductModel {
   final String id;
   final String name;
-  final String image;
-  final String category;
-  final num price;
-  final num discount;
-  final num rating;
-  final num ratingCount;
+  final double price;
+  final double discountedPrice;
+  final bool isDiscounted;
+  final String department;
+  final String gender;
+  final double rating;
   final bool isNew;
+  final bool isTrend;
+  final bool isFav;
+  final String urlImage;
 
   CollabProductModel({
     required this.id,
     required this.name,
-    required this.image,
-    required this.category,
     required this.price,
-    required this.discount,
-    required this.isNew,
+    required this.discountedPrice,
+    required this.isDiscounted,
+    required this.department,
+    required this.gender,
     required this.rating,
-    required this.ratingCount,
+    required this.isNew,
+    required this.isTrend,
+    required this.isFav,
+    required this.urlImage,
   });
 
-  factory CollabProductModel.fromJson(jsonData) {
+  factory CollabProductModel.fromjson(jsonData) {
     return CollabProductModel(
-      id: jsonData['_id'],
+      id: jsonData['id'],
       name: jsonData['name'],
-      image: jsonData['images'][0],
       price: jsonData['price'],
-      discount: jsonData['discounted_price'],
-      category: jsonData['type'],
+      discountedPrice: jsonData['discounted_price'],
+      isDiscounted: jsonData['is_discounted'],
+      department: jsonData['department'],
+      gender: jsonData['gender'],
+      rating: jsonData['rating'],
       isNew: jsonData['isNew'],
-      rating: jsonData["rating"],
-      ratingCount: jsonData["rating_count"],
+      isTrend: jsonData['isTrend'],
+      isFav: jsonData['isFavorite'],
+      urlImage: jsonData['image'],
+    );
+  }
+
+  CollabProductModel copyWith({
+    String? id,
+    String? name,
+    double? price,
+    double? discountedPrice,
+    bool? isDiscounted,
+    String? department,
+    String? gender,
+    double? rating,
+    bool? isNew,
+    bool? isTrend,
+    bool? isFav,
+    String? urlImage,
+  }) {
+    return CollabProductModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      price: price ?? this.price,
+      discountedPrice: discountedPrice ?? this.discountedPrice,
+      isDiscounted: isDiscounted ?? this.isDiscounted,
+      department: department ?? this.department,
+      gender: gender ?? this.gender,
+      rating: rating ?? this.rating,
+      isNew: isNew ?? this.isNew,
+      isTrend: isTrend ?? this.isTrend,
+      isFav: isFav ?? this.isFav,
+      urlImage: urlImage ?? this.urlImage,
     );
   }
 }

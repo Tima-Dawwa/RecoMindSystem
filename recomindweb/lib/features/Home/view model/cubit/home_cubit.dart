@@ -24,7 +24,7 @@ class HomeCubit extends Cubit<HomeState> {
       (res) {
         products = [];
         for (var i = 0; i < res['data'].length; i++) {
-          products.add(CollabProductModel.fromJson(res["data"][i]));
+          products.add(CollabProductModel.fromjson(res["data"][i]));
         }
       },
     );
@@ -107,4 +107,70 @@ class HomeCubit extends Cubit<HomeState> {
       },
     );
   }
+<<<<<<< HEAD
+=======
+
+  Future<void> getCities() async {
+    // emit(LoadingCitiesState());
+    var response = await homeService.getCities();
+    response.fold(
+      (failure) {
+        emit(FailureHomeState(failure: failure));
+      },
+      (res) {
+        for (var i = 0; i < res['data'].length; i++) {
+          countries.add(CitiesModel.fromJson(res['data'][i]));
+        }
+        // emit(SuccessCitiesState());
+      },
+    );
+  }
+
+  Future<void> homeData() async {
+    // CustomSharedPreferences prefs = CustomSharedPreferences();
+    emit(LoadingHomeState());
+    await getCollab();
+    await getCities();
+    // if (await prefs.logged()) {
+    await getProfile();
+    // }
+    emit(SuccessHomeState());
+  }
+
+  Future<void> addToFavorites({
+    required String productId,
+    required int index,
+  }) async {
+    emit(LoadingHomeState());
+    final response = await homeService.addToFavorites(productId: productId);
+    response.fold(
+      (failure) {
+        emit(FailureHomeState(failure: failure));
+      },
+      (res) {
+        final item = products[index];
+        products[index] = item.copyWith(isFav: true);
+        emit(SuccessHomeState());
+      },
+    );
+  }
+
+  Future<void> deleteFavorite({
+    required String productId,
+    required int index,
+  }) async {
+    emit(LoadingHomeState());
+    final response = await homeService.deleteFavorite(favoriteId: productId);
+    response.fold(
+      (failure) {
+        emit(FailureHomeState(failure: failure));
+      },
+      (res) {
+        final item = products[index];
+        products[index] = item.copyWith(isFav: false);
+        emit(SuccessHomeState());
+      },
+    );
+  }
+>>>>>>> hhtt
 }

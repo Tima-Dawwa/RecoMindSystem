@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Show_All_Products/model/all_products_model.dart';
 import 'package:recomindweb/features/Show_All_Products/view/widgets/all_product_card/all_product_card.dart';
+import 'package:recomindweb/features/product_details/view/product_details_page.dart';
 
 class HybridProducts extends StatelessWidget {
   final List<AllProductsModel> products;
@@ -34,7 +37,13 @@ class HybridProducts extends StatelessWidget {
           itemCount: products.length,
           itemBuilder: (context, index) {
             final product = products[index];
-            return AllProductCard(product: product, onTap: () {});
+            return AllProductCard(
+              product: product,
+              index: index,
+              onTap: () {
+                Get.to(ProductDetailsPage(productId: product.id));
+              },
+            );
           },
         ),
       ],

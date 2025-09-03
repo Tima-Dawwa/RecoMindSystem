@@ -40,10 +40,17 @@ class FavCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.network(
-            "${getIt.get<Api>().baseUrl}${imageUrl}",
-                          headers: {"ngrok-skip-browser-warning": "true"},            //     width: 100,
+                "${getIt.get<Api>().baseUrl}$imageUrl",
+                headers: {
+                  "ngrok-skip-browser-warning": "true",
+                }, //     width: 100,
                 height: 100,
                 fit: BoxFit.cover,
+                errorBuilder:
+                    (_, __, ___) => Container(
+                      color: Colors.grey.shade100,
+                      child: const Center(child: Icon(Icons.image, size: 50)),
+                    ),
               ),
             ),
             const SizedBox(width: 20),

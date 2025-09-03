@@ -29,7 +29,7 @@ class SocketService {
 
     final queryParams = <String, dynamic>{
       'token':
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiYzJjMzE3NTZhZmIzOWJiZGZiM2NhOCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IlJhbmRhbGwiLCJsYXN0X25hbWUiOiJCdWNrcmlkZ2UifSwiaWF0IjoxNzU2NzI2ODI1LCJleHAiOjE3NTY5ODYwMjV9.Z2w6H5dvOF0qQOaSolTleW-FC-eIJ13TO2MyewulDqE",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiYzJjMzE3NTZhZmIzOWJiZGZiM2NhOCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IlJhbmRhbGwiLCJsYXN0X25hbWUiOiJCdWNrcmlkZ2UifSwiaWF0IjoxNzU2Nzk5MzU2LCJleHAiOjE3NTcwNTg1NTZ9.Eiv6dy4geSsg1VK94b6u3kuGRxC189yo__GUupQar2A",
       ...?additionalQuery,
     };
 
@@ -266,7 +266,7 @@ class SocketService {
             try {
               if (productData is Map<String, dynamic>) {
                 final mappedData = <String, dynamic>{
-                  "id":productData['id'] ?? '',
+                  "id": productData['id'] ?? '',
                   'name': productData['name'] ?? '',
                   'imageUrl':
                       productData['image'] ?? productData['imageUrl'] ?? '',
