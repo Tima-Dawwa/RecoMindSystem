@@ -69,7 +69,7 @@ class _UserBoxState extends State<UserBox> {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         if (state is LoadingProfileState) {
-          return CircularProgressIndicator();
+          return Center(child: CustomLoading());
         } else {
           return Container(
             width: 250,
@@ -193,11 +193,14 @@ class _UserBoxState extends State<UserBox> {
 
   Future<void> submitImage() async {
     if (image != null) {
+      setState(() {
+        show = false;
+        
+      });
       await BlocProvider.of<HomeCubit>(
         context,
       ).changeImage(image: pickedImage!);
       setState(() {
-        show = false;
         profile = BlocProvider.of<HomeCubit>(context).profile;
       });
     }

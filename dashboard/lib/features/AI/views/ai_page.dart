@@ -15,10 +15,6 @@ class _AiPageState extends State<AiPage> {
   @override
   void initState() {
     super.initState();
-    // recommendationStatistics();
-    // chatbotStatistics();
-    // recommendationTime();
-    // chatbotTime();
     statistics();
   }
 
@@ -38,24 +34,6 @@ class _AiPageState extends State<AiPage> {
       ),
     );
   }
-
-  // Future<void> recommendationStatistics() async {
-  //   await BlocProvider.of<AiStatisticsCubit>(
-  //     context,
-  //   ).recommendationStatistics();
-  // }
-
-  // Future<void> chatbotStatistics() async {
-  //   await BlocProvider.of<AiStatisticsCubit>(context).chatbotStatistics();
-  // }
-
-  // Future<void> recommendationTime() async {
-  //   await BlocProvider.of<AiStatisticsCubit>(context).recommendationTime();
-  // }
-
-  // Future<void> chatbotTime() async {
-  //   await BlocProvider.of<AiStatisticsCubit>(context).chatbotTime();
-  // }
 
   Future<void> statistics() async {
     await BlocProvider.of<AiStatisticsCubit>(context).statistics();

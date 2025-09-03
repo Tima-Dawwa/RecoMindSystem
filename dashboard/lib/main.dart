@@ -1,6 +1,8 @@
 import 'package:dashboard/core/helper/go_router.dart';
 import 'package:dashboard/features/AI/view%20model/ai_statistics_service.dart';
 import 'package:dashboard/features/AI/view%20model/cubit/ai_statistics_cubit.dart';
+import 'package:dashboard/features/Main%20Page/view%20model/cubit/main_cubit.dart';
+import 'package:dashboard/features/Main%20Page/view%20model/main_service.dart';
 import 'package:dashboard/features/Orders/view%20model/cubit/orders_cubit.dart';
 import 'package:dashboard/features/Orders/view%20model/orders_services.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +32,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit(getIt.get<AuthService>())),
+        BlocProvider(create: (context) => MainCubit(getIt.get<MainService>())),
         BlocProvider(
           create: (context) => OrdersCubit(getIt.get<OrdersService>()),
         ),

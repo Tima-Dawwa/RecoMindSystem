@@ -21,6 +21,7 @@ class _OrdersPageBodyState extends State<OrdersPageBody> {
   void initState() {
     super.initState();
     orders = BlocProvider.of<OrdersCubit>(context).orders;
+
   }
 
   @override
@@ -30,7 +31,7 @@ class _OrdersPageBodyState extends State<OrdersPageBody> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Filters(),
+          Filters(orders: orders),
           Divider(thickness: 1, color: Themes.text.withAlpha(50)),
           if (widget.desktop)
             Expanded(

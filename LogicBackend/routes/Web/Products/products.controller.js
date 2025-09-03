@@ -14,13 +14,14 @@ const { checkFavorite } = require('../../../models/favorites.model');
 // Done
 async function httpGetAllProducts(req, res) {
     const { skip, limit } = getPagination(req.query);
-    const { type, minPrice, maxPrice, isNew, isTrend } = req.query;
+    const { type, minPrice, maxPrice, isNew, isTrend, gender } = req.query;
     const filters = {
         type: type !== undefined ? getCategory(type) : [],
         minPrice: minPrice !== undefined ? Number(minPrice) : 0,
         maxPrice: maxPrice !== undefined ? Number(maxPrice) : 999999,
         isNew: normalizeBool(isNew) ?? false,
-        isTrend: normalizeBool(isTrend) ?? false
+        isTrend: normalizeBool(isTrend) ?? false,
+        gender
     };
     let data = await getProducts(filters, skip, limit);
     const length = await getProductsCount(filters);
@@ -38,16 +39,17 @@ async function httpGetAllProducts(req, res) {
 
 async function httpSmartSearch(req, res) {
     const data = await getSmartSearch(req.query.search);
-    const length = data.length;
+    let products = await getProductsByIds(data);
+    const length = products.length;
     if (req.user) {
-        data = await Promise.all(
-            data.map(async p => {
+        products = await Promise.all(
+            products.map(async p => {
                 p.isFavorite = (await checkFavorite(req.user.id, p._id)) ? true : false;
                 return p;
             })
         );
     }
-    return res.status(200).json({ data: serializedData(data, productData), count: length });
+    return res.status(200).json({ data: serializedData(products, productData), count: length });
 }
 
 // Done
@@ -86,7 +88,7 @@ async function httpGetCollaborativeProducts(req, res) {
     }
 
     const count = recommendedProducts.length;
-    return res.status(200).json({ data: recommendedProducts, count });
+    return res.status(200).json({ data: serializedData(recommendedProducts, productDataRecommendations), count });
 }
 
 // Done

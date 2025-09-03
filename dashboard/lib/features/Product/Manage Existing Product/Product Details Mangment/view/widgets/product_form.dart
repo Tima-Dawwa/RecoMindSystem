@@ -30,7 +30,7 @@ class ProductForm extends StatelessWidget {
     required this.priceController,
     required this.discountPriceController,
     required this.colorController,
-    required this.quantityController, // Add this to constructor
+    required this.quantityController, 
     required this.selectedCategory,
     required this.selectedDepartment,
     required this.selectedGender,

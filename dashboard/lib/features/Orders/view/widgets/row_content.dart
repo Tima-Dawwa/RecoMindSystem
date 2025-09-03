@@ -28,9 +28,9 @@ class RowContent extends DataTableSource {
         DataCell(
           Center(
             child: GestureDetector(
-              onTap: () {
+              onTap: ()async {
                 if (orders[index].status == 'prepare') {
-                  showDialog(
+                 await showDialog(
                     context: context,
                     builder: (context) {
                       return AlertDialog(

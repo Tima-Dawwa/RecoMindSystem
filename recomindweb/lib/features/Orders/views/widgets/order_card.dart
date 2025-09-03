@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/Widgets/custom_text_button.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Orders/view%20model/cubit/orders_cubit.dart';
+import 'package:recomindweb/features/Orders/views/order_details.dart';
 
 class OrderCard extends StatefulWidget {
   const OrderCard({
@@ -145,7 +146,8 @@ class _OrderCardState extends State<OrderCard> {
                       color: Themes.text.withAlpha(150),
                       press: () async {
                         await getOrderDetails();
-                        Get.toNamed('/order_details', preventDuplicates: false);
+                        Get.to(OrderDetailsPage());
+                        // .toNamed('/order_details', preventDuplicates: false);
                       },
                     ),
                   ],
