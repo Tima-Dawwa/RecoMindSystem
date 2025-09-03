@@ -110,16 +110,13 @@ class HomeCubit extends Cubit<HomeState> {
     required String productId,
     required int index,
   }) async {
-    emit(LoadingHomeState());
     final response = await homeService.addToFavorites(productId: productId);
     response.fold(
       (failure) {
         emit(FailureHomeState(failure: failure));
       },
-      (res) {
-        final item = products[index];
-        products[index] = item.copyWith(isFav: true);
-        emit(SuccessHomeState());
+      (res) async {
+        await homeData();
       },
     );
   }
@@ -128,16 +125,13 @@ class HomeCubit extends Cubit<HomeState> {
     required String productId,
     required int index,
   }) async {
-    emit(LoadingHomeState());
     final response = await homeService.deleteFavorite(favoriteId: productId);
     response.fold(
       (failure) {
         emit(FailureHomeState(failure: failure));
       },
-      (res) {
-        final item = products[index];
-        products[index] = item.copyWith(isFav: false);
-        emit(SuccessHomeState());
+      (res) async {
+        await homeData();
       },
     );
   }

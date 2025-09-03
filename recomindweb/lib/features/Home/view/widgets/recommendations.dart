@@ -38,7 +38,7 @@ class _RecommendationsState extends State<Recommendations> {
               (constraints.maxWidth / (cardWidth + spacing)).floor();
           int itemCount =
               showAll ? products.length : itemsPerRow.clamp(1, products.length);
-          return Flexible(
+          return Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

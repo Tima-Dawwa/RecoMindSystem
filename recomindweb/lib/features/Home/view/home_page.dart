@@ -32,13 +32,13 @@ class _HomePageState extends State<HomePage> {
         builder: (context, state) {
           if (state is LoadingHomeState) {
             return Center(child: CustomLoading());
-          } else if (state is SuccessHomeState) {
+          } else if (state is FailureHomeState) {
+            return Text('fail');
+          } else {
             return ResponsiveLayout(
               mobileBody: HomePageBody(desktop: false, logged: logged),
               desktopBody: HomePageBody(desktop: true, logged: logged),
             );
-          } else {
-            return Text('fail');
           }
         },
       ),
@@ -60,5 +60,4 @@ class _HomePageState extends State<HomePage> {
   Future<void> getHome() async {
     await BlocProvider.of<HomeCubit>(context).homeData();
   }
-  
 }
