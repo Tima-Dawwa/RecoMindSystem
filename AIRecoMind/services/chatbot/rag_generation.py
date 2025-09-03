@@ -74,10 +74,14 @@ Relevant products:
 {context}
 
 Instructions:
-- Recommend the most suitable items based on the query.
-- Mention the product name, type, appearance, and color naturally.
-- If price or discount is available, highlight it.
-- If rating is high, mention that customers liked it.
+- If the query is related to fashion, clothing, or accessories:
+    • Recommend the most suitable items that match the query.
+    • Mention the product name, type, appearance, and color naturally.
+    • If price or discount is available, highlight it.
+    • If rating is high, mention that customers liked it.
+- If the query is NOT related to fashion, clothing, or accessories:
+    • Politely note that the query doesn’t seem fashion-related.
+    • Still recommend the relevant products, suggesting the customer check them out.
 - Keep the tone conversational, like helping a friend shop.
 - Answer in the same language as the user (Arabic or English).
 """
