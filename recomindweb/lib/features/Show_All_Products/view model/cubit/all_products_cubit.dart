@@ -29,6 +29,7 @@ class AllProductsCubit extends Cubit<AllProductsState> {
     bool? isNew,
     bool? isTrend,
     List<String>? categories,
+    String ? gender
   }) async {
     if (x == 1) {
       currentPage = page ?? currentPage ?? 1;
@@ -39,13 +40,14 @@ class AllProductsCubit extends Cubit<AllProductsState> {
 
       emit(AllProductsLoadingState());
       var response = await allProductsService.getAllProducts(
-        limit: 50,
+        limit: 30,
         page: page,
         type: type,
         maxPrice: maxPrice,
         minPrice: minPrice,
         isNew: isNew,
         isTrend: isTrend,
+        gender : gender
       );
       response.fold(
         (failure) {
