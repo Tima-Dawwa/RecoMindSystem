@@ -30,7 +30,7 @@ function validateEditProduct(product) {
         discounted_price: Joi.number().min(0).max(Joi.ref('price')).optional(),
         quantity: Joi.number().integer().min(0).required(),
         imagesToKeep: Joi.array().items(Joi.string().trim()).required()
-    });
+    }).prefs({ convert: true });
 
     return schema.validate(product, { abortEarly: false });
 }
