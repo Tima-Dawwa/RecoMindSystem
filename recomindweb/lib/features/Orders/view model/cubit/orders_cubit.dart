@@ -10,10 +10,15 @@ class OrdersCubit extends Cubit<OrdersState> {
   final OrdersService ordersService;
   List<OrderModel> orders = [];
   OrderDetailsModel? orderDetails;
+  String sortBy = 'createdAt';
+  String sortOrder = 'desc';
 
   Future<void> getAllOrders() async {
     emit(LoadingOrdersState());
-    var response = await ordersService.getAllOrders();
+    var response = await ordersService.getAllOrders(
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    );
     response.fold(
       (failure) {
         emit(FailureOrdersState(failure: failure));

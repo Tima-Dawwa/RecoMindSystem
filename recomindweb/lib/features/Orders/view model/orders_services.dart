@@ -8,9 +8,14 @@ class OrdersService {
   final Api api;
   OrdersService(this.api);
 
-  Future<Either<Failure, Map<String, dynamic>>> getAllOrders() async {
+  Future<Either<Failure, Map<String, dynamic>>> getAllOrders({
+    required String sortBy,
+    required String sortOrder,
+  }) async {
     try {
-      Map<String, dynamic> response = await api.get(endPoint: '/orders/');
+      Map<String, dynamic> response = await api.get(
+        endPoint: '/orders/?sortBy=$sortBy&sortOrder=$sortOrder',
+      );
       return right(response);
     } catch (e) {
       if (e is DioException) {
