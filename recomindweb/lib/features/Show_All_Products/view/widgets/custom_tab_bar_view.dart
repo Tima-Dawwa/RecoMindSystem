@@ -3,7 +3,8 @@ import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Show_All_Products/view/widgets/content_all_products.dart';
 
 class CustomTabBarView extends StatefulWidget {
-  const CustomTabBarView({super.key});
+  const CustomTabBarView({super.key, required this.gender});
+  final String gender;
 
   @override
   _CustomTabBarViewState createState() => _CustomTabBarViewState();
@@ -132,8 +133,9 @@ class _CustomTabBarViewState extends State<CustomTabBarView>
                 labels.map((label) {
                   return ContentAllProducts(
                     type: label.name,
+                    gender: widget.gender,
                     onSearch: () {
-                      _tabController.animateTo(0); 
+                      _tabController.animateTo(0);
                       setState(() {});
                     },
                   );

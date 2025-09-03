@@ -17,6 +17,7 @@ class AllProductsService {
     double? minPrice,
     bool? isNew,
     bool? isTrend,
+    String ? gender
   }) async {
     try {
       final queryParams = <String, dynamic>{};
@@ -27,6 +28,7 @@ class AllProductsService {
       if (minPrice != null) queryParams['minPrice'] = minPrice;
       if (isNew != null) queryParams['isNew'] = isNew;
       if (isTrend != null) queryParams['isTrend'] = isTrend;
+      if (gender != null) queryParams['gender'] = gender;
 
       Map<String, dynamic> response = await api.get(
         endPoint: '/products',

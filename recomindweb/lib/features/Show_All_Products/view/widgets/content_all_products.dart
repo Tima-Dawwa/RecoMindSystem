@@ -14,9 +14,11 @@ class ContentAllProducts extends StatefulWidget {
     super.key,
     required this.type,
     required this.onSearch,
+    required this.gender,
   });
   final String type;
   final VoidCallback onSearch;
+  final String gender;
 
   @override
   State<ContentAllProducts> createState() => _ContentAllProductsState();
@@ -34,7 +36,6 @@ class _ContentAllProductsState extends State<ContentAllProducts> {
     super.initState();
     bool test = BlocProvider.of<AllProductsCubit>(context).searchText;
     if (test) {
-      print("siiiiiiii");
       getAll();
     }
   }
@@ -157,17 +158,18 @@ class _ContentAllProductsState extends State<ContentAllProducts> {
   }
 
   void getAll() {
-    BlocProvider.of<AllProductsCubit>(
-      context,
-    ).getAllProducts(page: _currentPage + 1, type: widget.type);
+    print(widget.gender);
+    BlocProvider.of<AllProductsCubit>(context).getAllProducts(
+      page: _currentPage + 1,
+      type: widget.type,
+      gender: widget.gender,
+    );
   }
 
   void smartSearch() {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      print("[[[[[[[[]]]]]]]$searchText");
       widget.onSearch();
-      print("سسسسسسسسسسسسسسس$searchText");
       BlocProvider.of<AllProductsCubit>(context).smartSearch(searchText!);
     } else {
       autovalidateMode = AutovalidateMode.always;

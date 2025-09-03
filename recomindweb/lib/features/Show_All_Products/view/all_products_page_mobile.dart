@@ -3,8 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:recomindweb/features/Show_All_Products/view/widgets/custom_tab_bar_view.dart';
 
 class AllProductsPageMobileLayout extends StatelessWidget {
-  const AllProductsPageMobileLayout({super.key,});
-
+  const AllProductsPageMobileLayout({super.key, required this.gender});
+  final String gender;
 
   @override
   Widget build(BuildContext context) {
@@ -12,10 +12,7 @@ class AllProductsPageMobileLayout extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 16),
-          Expanded(child: CustomTabBarView()),
-        ],
+        children: [SizedBox(height: 16), Expanded(child: CustomTabBarView(gender: gender,))],
       ),
     );
   }

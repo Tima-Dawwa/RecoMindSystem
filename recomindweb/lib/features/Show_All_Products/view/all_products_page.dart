@@ -36,8 +36,8 @@ class _AllProductsPageState extends State<AllProductsPage>
         },
         builder: (context, state) {
           return ResponsiveLayout(
-            mobileBody: AllProductsPageMobileLayout(),
-            desktopBody: AllProductsPageDesktopLayout(),
+            mobileBody: AllProductsPageMobileLayout(gender: widget.gender,),
+            desktopBody: AllProductsPageDesktopLayout(gender: widget.gender,),
           );
         },
       ),
