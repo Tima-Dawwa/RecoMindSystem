@@ -29,7 +29,7 @@ class ManageProductService {
     }
   }
 
-  Future<Either<Failure, ProductModel>> updateProduct({
+  Future<Either<Failure, String>> updateProduct({
     required String id,
     String? name,
     String? details,
@@ -43,58 +43,57 @@ class ManageProductService {
     double? discountedPrice,
     List<String>? imagesToKeep,
     List<String>? newImages,
-    List<Uint8List>? newImageBytes, // Add this parameter for web support
+    List<Uint8List>? newImageBytes,
   }) async {
     try {
-      // Use FormData for multipart requests when uploading files
       final FormData formData = FormData();
 
-      // Add text fields
       if (name != null) formData.fields.add(MapEntry('name', name));
       if (details != null) formData.fields.add(MapEntry('details', details));
       if (type != null) formData.fields.add(MapEntry('type', type));
-      if (department != null)
+      if (department != null) {
         formData.fields.add(MapEntry('department', department));
+      }
       if (color != null) formData.fields.add(MapEntry('color', color));
       if (gender != null) formData.fields.add(MapEntry('gender', gender));
-      if (price != null)
+      if (price != null) {
         formData.fields.add(MapEntry('price', price.toString()));
-      if (quantity != null)
+      }
+      if (quantity != null) {
         formData.fields.add(MapEntry('quantity', quantity.toString()));
-      if (appearance != null)
+      }
+      if (appearance != null) {
         formData.fields.add(MapEntry('appearance', appearance));
-      if (discountedPrice != null)
+      }
+      if (discountedPrice != null) {
         formData.fields.add(
           MapEntry('discounted_price', discountedPrice.toString()),
         );
+      }
 
-      // Add images to keep (existing images)
       if (imagesToKeep != null && imagesToKeep.isNotEmpty) {
         for (int i = 0; i < imagesToKeep.length; i++) {
           formData.fields.add(MapEntry('imagesToKeep[$i]', imagesToKeep[i]));
         }
       }
 
-      // Add new images
       if (newImageBytes != null && newImageBytes.isNotEmpty) {
-        // For web - use bytes
         for (int i = 0; i < newImageBytes.length; i++) {
           formData.files.add(
             MapEntry(
-              'images', // Use 'images' as the field name for new images
+              'images',
               MultipartFile.fromBytes(
                 newImageBytes[i],
-                filename: 'image_$i.jpg', // Provide a filename
+                filename: 'image_$i.jpg',
               ),
             ),
           );
         }
       } else if (newImages != null && newImages.isNotEmpty) {
-        // For mobile/desktop - use file paths
         for (int i = 0; i < newImages.length; i++) {
           formData.files.add(
             MapEntry(
-              'images', // Use 'images' as the field name for new images
+              'images',
               await MultipartFile.fromFile(
                 newImages[i],
                 filename: 'image_$i.jpg',
@@ -109,10 +108,10 @@ class ManageProductService {
         body: formData,
       );
 
-      final productData = response['data'];
-      final product = ProductModel.fromJson(productData);
+      final message = response['message'];
+      print(message);
 
-      return right(product);
+      return right(message);
     } on DioException catch (dioError) {
       return left(Failure.fromDioException(dioError, statusCodeHandler));
     } catch (e) {
