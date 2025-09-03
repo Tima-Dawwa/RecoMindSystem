@@ -31,7 +31,6 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> getProfile() async {
-    emit(LoadingProfileState());
     var response = await homeService.getProfile();
     response.fold(
       (failure) {
@@ -39,7 +38,6 @@ class HomeCubit extends Cubit<HomeState> {
       },
       (res) {
         profile = ProfileModel.fromJson(res["profile"]);
-        emit(SuccessProfileState());
       },
     );
   }
@@ -64,6 +62,7 @@ class HomeCubit extends Cubit<HomeState> {
     await getCollab();
     emit(LoadingHomeState());
     await getCities();
+    emit(LoadingHomeState());
     // if (await prefs.logged()) {
     await getProfile();
     // }
@@ -71,7 +70,6 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> changeImage({required XFile image}) async {
-    emit(LoadingProfileState());
     final bytes = await image.readAsBytes();
     final filename = image.name;
 
@@ -106,35 +104,6 @@ class HomeCubit extends Cubit<HomeState> {
         await getProfile();
       },
     );
-  }
-<<<<<<< HEAD
-=======
-
-  Future<void> getCities() async {
-    // emit(LoadingCitiesState());
-    var response = await homeService.getCities();
-    response.fold(
-      (failure) {
-        emit(FailureHomeState(failure: failure));
-      },
-      (res) {
-        for (var i = 0; i < res['data'].length; i++) {
-          countries.add(CitiesModel.fromJson(res['data'][i]));
-        }
-        // emit(SuccessCitiesState());
-      },
-    );
-  }
-
-  Future<void> homeData() async {
-    // CustomSharedPreferences prefs = CustomSharedPreferences();
-    emit(LoadingHomeState());
-    await getCollab();
-    await getCities();
-    // if (await prefs.logged()) {
-    await getProfile();
-    // }
-    emit(SuccessHomeState());
   }
 
   Future<void> addToFavorites({
@@ -172,5 +141,4 @@ class HomeCubit extends Cubit<HomeState> {
       },
     );
   }
->>>>>>> hhtt
 }

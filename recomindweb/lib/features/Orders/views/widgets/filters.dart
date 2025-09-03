@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-<<<<<<< HEAD
-import 'package:recomindweb/core/Widgets/custom_back_button.dart';
-=======
 import 'package:get/get.dart';
->>>>>>> origin/main
 import 'package:recomindweb/core/Widgets/custom_button.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Orders/model/orders_model.dart';
