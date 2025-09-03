@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:recomindweb/core/Widgets/custom_button.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Orders/model/orders_model.dart';
+import 'package:recomindweb/features/Orders/view%20model/cubit/orders_cubit.dart';
 
 class Filters extends StatefulWidget {
   const Filters({super.key, required this.orders});
@@ -13,7 +16,14 @@ class Filters extends StatefulWidget {
 }
 
 class _FiltersState extends State<Filters> {
-  List<String> sortBy = ['date_asc', 'date_desc', 'price_asc', 'price_desc'];
+  List<String> sortBy = [
+    'createdAt/asc',
+    'createdAt/desc',
+    'total_price/asc',
+    'total_price/desc',
+    'status/asc',
+    'status/desc',
+  ];
   List<Widget> types = [
     Row(
       children: [
@@ -35,34 +45,53 @@ class _FiltersState extends State<Filters> {
         ),
       ],
     ),
-    // Row(
-    //   children: [
-    //     Icon(FontAwesomeIcons.arrowDown91, color: Themes.primary),
-    //     SizedBox(width: 10),
-    //     Text(
-    //       'price highest to lowest',
-    //       style: TextStyle(color: Themes.text, fontSize: 20),
-    //     ),
-    //   ],
-    // ),
-    // Row(
-    //   children: [
-    //     Icon(FontAwesomeIcons.arrowDown19, color: Themes.primary),
-    //     SizedBox(width: 10),
-    //     Text(
-    //       'price lowest to highest',
-    //       style: TextStyle(color: Themes.text, fontSize: 20),
-    //     ),
-    //   ],
-    // ),
+    Row(
+      children: [
+        Icon(FontAwesomeIcons.arrowDown19, color: Themes.primary),
+        SizedBox(width: 10),
+        Text(
+          'price lowest to highest',
+          style: TextStyle(color: Themes.text, fontSize: 20),
+        ),
+      ],
+    ),
+    Row(
+      children: [
+        Icon(FontAwesomeIcons.arrowDown91, color: Themes.primary),
+        SizedBox(width: 10),
+        Text(
+          'price highest to lowest',
+          style: TextStyle(color: Themes.text, fontSize: 20),
+        ),
+      ],
+    ),
+    Row(
+      children: [
+        Icon(FontAwesomeIcons.arrowDown, color: Themes.primary),
+        SizedBox(width: 10),
+        Text(
+          'status delivery to prepare',
+          style: TextStyle(color: Themes.text, fontSize: 20),
+        ),
+      ],
+    ),
+    Row(
+      children: [
+        Icon(FontAwesomeIcons.arrowUp, color: Themes.primary),
+        SizedBox(width: 10),
+        Text(
+          'status prepare to delivery',
+          style: TextStyle(color: Themes.text, fontSize: 20),
+        ),
+      ],
+    ),
   ];
 
   String? currentSortBy;
   @override
   void initState() {
     super.initState();
-    // currentSortBy = '';
-    //= BlocProvider.of<OrdersCubit>(context).sortBy;
+    currentSortBy = BlocProvider.of<OrdersCubit>(context).sortBy;
   }
 
   @override
@@ -88,57 +117,76 @@ class _FiltersState extends State<Filters> {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text(
-            'Choose a sort type :',
-            style: TextStyle(color: Themes.text, fontSize: 25),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ...List.generate(sortBy.length, (index) {
-                return RadioListTile(
-                  title: types[index],
-                  activeColor: Themes.primary,
-                  selected: currentSortBy == sortBy[index],
-                  value: sortBy[index],
-                  groupValue: currentSortBy,
-                  onChanged: (value) {
-                    setState(() {
-                      currentSortBy = value.toString();
-                      // BlocProvider.of<OrdersCubit>(context).sortBy =
-                      //     currentSortBy;
-                    });
-                  },
-                );
-              }),
-            ],
-          ),
-          actions: [
-            Row(
+        return SizedBox(
+          width: 300,
+          child: AlertDialog(
+            title: Text(
+              'Choose a sort type :',
+              style: TextStyle(color: Themes.text, fontSize: 25),
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Expanded(
-                //   child: CustomButton(
-                //     text: "Reset",
-                //     color: WidgetStatePropertyAll(Themes.secondary),
-                //     height: 30,
-                //     size: 20,
-                //     press: () {},
-                //   ),
-                // ),
-                // SizedBox(width: 10),
-                Center(
-                  child: CustomButton(
-                    text: "Apply",
-                    height: 30,
-                    size: 20,
-                    press: () {},
-                  ),
-                ),
+                ...List.generate(sortBy.length, (index) {
+                  return RadioListTile(
+                    title: types[index],
+                    activeColor: Themes.primary,
+                    selected: currentSortBy == sortBy[index] ? true : false,
+                    value: sortBy[index],
+                    groupValue: currentSortBy,
+                    onChanged: (value) {
+                      setState(() {
+                        currentSortBy = value.toString();
+                        if (currentSortBy != null) {
+                          BlocProvider.of<OrdersCubit>(context).sortOrder =
+                              currentSortBy!.split('/').last;
+                          BlocProvider.of<OrdersCubit>(context).sortBy =
+                              currentSortBy!.split('/').first;
+                        }
+                      });
+                    },
+                  );
+                }),
               ],
             ),
-          ],
+            actions: [
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomButton(
+                      text: "Back",
+                      color: WidgetStatePropertyAll(Themes.secondary),
+                      height: 30,
+                      size: 20,
+                      press: () {
+                        Get.back();
+                        setState(() {
+                          BlocProvider.of<OrdersCubit>(context).sortOrder =
+                              'createdAt';
+                          BlocProvider.of<OrdersCubit>(context).sortBy = 'desc';
+                        });
+                      },
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: CustomButton(
+                      text: "Apply",
+                      height: 30,
+                      size: 20,
+                      press: () async {
+                        Get.back();
+                        await BlocProvider.of<OrdersCubit>(
+                          context,
+                        ).getAllOrders();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         );
       },
     );
