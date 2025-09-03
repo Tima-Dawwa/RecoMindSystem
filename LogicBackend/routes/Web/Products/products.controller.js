@@ -14,13 +14,14 @@ const { checkFavorite } = require('../../../models/favorites.model');
 // Done
 async function httpGetAllProducts(req, res) {
     const { skip, limit } = getPagination(req.query);
-    const { type, minPrice, maxPrice, isNew, isTrend } = req.query;
+    const { type, minPrice, maxPrice, isNew, isTrend, gender } = req.query;
     const filters = {
         type: type !== undefined ? getCategory(type) : [],
         minPrice: minPrice !== undefined ? Number(minPrice) : 0,
         maxPrice: maxPrice !== undefined ? Number(maxPrice) : 999999,
         isNew: normalizeBool(isNew) ?? false,
-        isTrend: normalizeBool(isTrend) ?? false
+        isTrend: normalizeBool(isTrend) ?? false,
+        gender
     };
     let data = await getProducts(filters, skip, limit);
     const length = await getProductsCount(filters);
@@ -87,7 +88,7 @@ async function httpGetCollaborativeProducts(req, res) {
     }
 
     const count = recommendedProducts.length;
-    return res.status(200).json({ data: recommendedProducts, count });
+    return res.status(200).json({ data: serializedData(recommendedProducts, productDataRecommendations), count });
 }
 
 // Done
