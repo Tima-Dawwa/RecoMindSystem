@@ -3,13 +3,11 @@ const Order = require('./orders.mongo');
 async function getOrdersForUser(user_id, skip, limit, sortBy = 'createdAt', sortOrder = 'desc') {
     let sortQuery = {};
 
-    // Validate sortBy parameter
     const validSortFields = ['createdAt', 'total_price', 'status'];
     if (!validSortFields.includes(sortBy)) {
         sortBy = 'createdAt';
     }
 
-    // Validate sortOrder parameter
     if (sortOrder !== 'asc' && sortOrder !== 'desc') {
         sortOrder = 'desc';
     }
