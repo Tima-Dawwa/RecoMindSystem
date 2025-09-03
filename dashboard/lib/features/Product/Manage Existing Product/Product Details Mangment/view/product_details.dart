@@ -85,7 +85,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         _genders.contains(product.gender) ? product.gender : _genders.first;
 
     _originalImages = product.images;
-    _imagesToKeep = List.from(product.images); // Make a mutable copy
+    _imagesToKeep = List.from(product.images);
     _newImages.clear();
     _newImageBytes.clear();
 
@@ -203,10 +203,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       _showSnackBar('Please enter a valid quantity');
       return;
     }
-    if (discountPrice != null && discountPrice >= price) {
-      _showSnackBar('Discount price must be less than regular price');
-      return;
-    }
 
     List<String> imagesToKeepForBackend = _getImagesToKeepForBackend();
 
@@ -297,13 +293,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         listener: (context, state) {
           if (state is SuccessManageProduct) {
             _showSnackBar('Product updated successfully!');
-       
+
             _isDataPopulated = false;
             final cubit = context.read<ManageProductCubit>();
             if (cubit.hasProduct) {
               _populateFields(cubit.product!);
             }
           } else if (state is FailureManageProduct) {
+            print(state.failure.errMessage);
             _showSnackBar('Error: ${state.failure.errMessage}');
           }
         },

@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ManageProductCubit extends Cubit<ManageProductStates> {
   final ManageProductService manageProductService;
   ProductModel? currentProduct;
+  String? message;
 
   ManageProductCubit(this.manageProductService) : super(InitialManageProduct());
 
@@ -37,7 +38,7 @@ class ManageProductCubit extends Cubit<ManageProductStates> {
     double? discountPrice,
     required List<String> imagesToKeep,
     List<String>? newImages,
-    List<Uint8List>? newImageBytes, // Add this parameter
+    List<Uint8List>? newImageBytes,
   }) async {
     emit(LoadingManageProduct());
 
@@ -55,13 +56,13 @@ class ManageProductCubit extends Cubit<ManageProductStates> {
       appearance: appearance,
       imagesToKeep: imagesToKeep,
       newImages: newImages,
-      newImageBytes: newImageBytes, // Pass the bytes
+      newImageBytes: newImageBytes,
     );
 
-    result.fold((failure) => emit(FailureManageProduct(failure: failure)), (
-      product,
+   result.fold((failure) => emit(FailureManageProduct(failure: failure)), (
+      result,
     ) {
-      currentProduct = product;
+      message = result; 
       emit(SuccessManageProduct());
     });
   }
