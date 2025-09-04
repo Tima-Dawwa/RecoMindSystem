@@ -20,7 +20,7 @@ const fsp = require('fs').promises;
 const Cart = require('../models/cart.mongo');
 
 // Done
-async function createUsers(count = 10000) {
+async function createUsers(count = 15000) {
     let data1 = [];
     const password = await bcrypt.hash('12345678', 1);
     for (let i = 0; i < count; i++) {
@@ -68,7 +68,7 @@ function createPhoneNumber() {
     });
 }
 
-// Done (dont forget to return image)
+// Done
 async function createProducts() {
     const filePath = path.join(__dirname, '../public/json/filtered_data.csv');
     const products = [];
@@ -393,7 +393,7 @@ async function createViewInteractions(totalInteractions = 2_000_000, batchSize =
 }
 
 // done
-async function createFavorites(minFavorites = 5, maxFavorites = 20) {
+async function createFavorites(minFavorites = 10, maxFavorites = 50) {
     const users = await User.find({}, '_id').lean();
     const products = await Product.find({}, '_id').lean();
 
@@ -443,7 +443,7 @@ async function createCartsForAllUsers() {
     const interactionsData = [];
 
     for (const user of users) {
-        const itemCount = faker.number.int({ min: 1, max: Math.min(5, products.length) });
+        const itemCount = faker.number.int({ min: 1, max: 20 });
 
         const selectedProducts = faker.helpers.arrayElements(products, itemCount);
 
@@ -477,7 +477,7 @@ async function createCartsForAllUsers() {
     if (interactionsData.length > 0) await Interaction.insertMany(interactionsData);
 }
 
-async function createOrders(numOrders = 50000, maxItemsPerOrder = 5, batchSize = 500) {
+async function createOrders(numOrders = 50000, maxItemsPerOrder = 20, batchSize = 500) {
     const users = await User.find({}, '_id').lean();
     const products = await Product.find({}, '_id price discounted_price quantity').lean();
 
@@ -568,7 +568,7 @@ async function createRatingInteractions() {
 
     for (const order of orders) {
         for (const item of order.orderItems) {
-            if (Math.random() < 0.5) {
+            if (Math.random() < 0.8) {
                 const ratingValue = faker.number.int({ min: 1, max: 5 });
 
                 interactionsData.push({
