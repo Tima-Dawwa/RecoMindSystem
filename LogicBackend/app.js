@@ -1,7 +1,7 @@
 const cors = require('cors');
 const helmet = require('helmet');
 const express = require('express');
-const rateLimit = require('express-rate-limit');
+// const rateLimit = require('express-rate-limit');
 
 const errorHandler = require('./middlewares/errorHandler');
 const logger = require('./services/logger');
