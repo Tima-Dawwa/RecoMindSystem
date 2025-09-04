@@ -8,42 +8,46 @@ const {
     createAdmins,
     createFavorites,
     seedStatistics,
-    createOrders
+    createOrders,
+    createCartsForAllUsers
 } = require('./seeding.generation');
 
 async function seedDB() {
     await mongoConnect();
 
-    console.log('Dropping Database');
-    await dropDatabase();
+    // console.log('Dropping Database');
+    // await dropDatabase();
 
-    console.log('Seeding Database');
+    // console.log('Seeding Database');
 
-    console.log('Creating Users');
-    await createUsers();
+    // console.log('Creating Users');
+    // await createUsers();
 
-    console.log('Creating Products');
-    await createProducts();
+    // console.log('Creating Products');
+    // await createProducts();
 
-    console.log('Creating Interactions');
-    await createInteractions();
+    // console.log('Creating Interactions');
+    // await createInteractions();
 
-    await updateAllProductAggregates();
+    // await updateAllProductAggregates();
 
-    console.log('Creating Admins');
-    await createAdmins();
+    // console.log('Creating Admins');
+    // await createAdmins();
 
-    console.log('Creating Favorites');
-    await createFavorites();
+    // console.log('Creating Favorites');
+    // await createFavorites();
 
-    console.log('Creating Statistics');
-    await seedStatistics();
+    // console.log('Creating Statistics');
+    // await seedStatistics();
 
-    console.log('Creating Notifications');
-    await createNotifications();
+    // console.log('Creating Notifications');
+    // await createNotifications();
 
-    console.log('Creating Orders');
-    await createOrders();
+    // console.log('Creating Orders');
+    // await createOrders();
+
+    console.log('Creating Cart');
+    await createCartsForAllUsers();
 
     console.log('Database seeded!');
     await mongoDisconnect();
