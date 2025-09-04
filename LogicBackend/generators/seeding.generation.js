@@ -383,46 +383,44 @@ async function createViewInteractions(totalInteractions = 2_000_000, batchSize =
     if (promises.length > 0) await Promise.all(promises);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////
-
-async function createFavorites(minFavoritesPerProduct = 10, maxFavoritesPerProduct = 35, batchSize = 5000) {
+// done
+async function createFavorites(minFavorites = 5, maxFavorites = 20) {
     const users = await User.find({}, '_id').lean();
     const products = await Product.find({}, '_id').lean();
 
-    const favoritesData = [];
-    const interactionsData = [];
-    let batchCount = 0;
+    if (!users.length || !products.length) {
+        console.log('No users or products found.');
+        return;
+    }
 
-    for (const product of products) {
-        const numFavorites = faker.number.int({ min: minFavoritesPerProduct, max: maxFavoritesPerProduct });
-        const selectedUsers = faker.helpers.arrayElements(users, Math.min(numFavorites, users.length));
+    const favoriteDocs = [];
+    const interactionDocs = [];
 
-        for (const user of selectedUsers) {
-            favoritesData.push({ user_id: user._id, products_id: [product._id] });
-            interactionsData.push({
+    for (const user of users) {
+        const numFavorites = faker.number.int({ min: minFavorites, max: maxFavorites });
+
+        const favoriteProducts = faker.helpers.arrayElements(products, numFavorites).map(p => p._id);
+
+        favoriteDocs.push({
+            user_id: user._id,
+            products_id: favoriteProducts
+        });
+
+        favoriteProducts.forEach(productId => {
+            interactionDocs.push({
                 user_id: user._id,
-                product_id: product._id,
+                product_id: productId,
                 interaction_type: 'favorite',
                 interaction_weight: WEIGHT_MAP['favorite'] || 0
             });
-
-            batchCount++;
-
-            if (batchCount >= batchSize) {
-                await Promise.all([Favorite.insertMany(favoritesData), Interaction.insertMany(interactionsData)]);
-                favoritesData.length = 0;
-                interactionsData.length = 0;
-                batchCount = 0;
-            }
-        }
+        });
     }
 
-    if (favoritesData.length > 0) {
-        await Promise.all([Favorite.insertMany(favoritesData), Interaction.insertMany(interactionsData)]);
-    }
-
-    console.log('Favorites seeded successfully: each product has at least a few favorites.');
+    if (favoriteDocs.length > 0) await Favorite.insertMany(favoriteDocs);
+    if (interactionDocs.length > 0) await Interaction.insertMany(interactionDocs);
 }
+
+//////////////////////////////////////////////////////////////////////////////////
 
 async function createOrders(numOrders = 5000, maxItemsPerOrder = 5, batchSize = 500) {
     const users = await User.find({}, '_id').lean();
@@ -595,18 +593,14 @@ async function createRatingInteractions() {
 }
 
 async function createInteractions() {
-    await createViewInteractions();
-    console.log('View interactions created.');
-
+    // await createViewInteractions();
+    // console.log('View interactions created.');
     // await createFavorites();
     // console.log('Favorites created.');
-
     // await createCartInteractions();
     // console.log('Cart interactions created.');
-
     // await createOrderInteractions();
     // console.log('Order interactions created.');
-
     // await createRatingInteractions();
     // console.log('Rating interactions created.');
 }
