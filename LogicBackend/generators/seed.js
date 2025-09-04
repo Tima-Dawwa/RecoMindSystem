@@ -16,32 +16,27 @@ async function seedDB() {
     console.time('Total Seeding Time');
     await mongoConnect();
 
-    // console.log('Dropping Database');
-    // console.time('Drop Database');
-    // await dropDatabase();
-    // console.timeEnd('Drop Database');
+    console.log('Dropping Database');
+    console.time('Drop Database');
+    await dropDatabase();
+    console.timeEnd('Drop Database');
 
-    // console.log('Seeding Database');
+    console.log('Seeding Database');
 
-    // console.log('Creating Admins');
-    // console.time('Create Admins');
-    // await createAdmins();
-    // console.timeEnd('Create Admins');
+    console.log('Creating Admins');
+    console.time('Create Admins');
+    await createAdmins();
+    console.timeEnd('Create Admins');
 
-    // console.log('Creating Users');
-    // console.time('Create Users');
-    // await createUsers();
-    // console.timeEnd('Create Users');
+    console.log('Creating Users');
+    console.time('Create Users');
+    await createUsers();
+    console.timeEnd('Create Users');
 
-    // console.log('Creating Products');
-    // console.time('Create Products');
-    // await createProducts();
-    // console.timeEnd('Create Products');
-
-    console.log('Creating Carts');
-    console.time('Create Carts');
-    await createCartsForAllUsers();
-    console.timeEnd('Create Carts');
+    console.log('Creating Products');
+    console.time('Create Products');
+    await createProducts();
+    console.timeEnd('Create Products');
 
     // console.log('Creating Orders');
     // console.time('Create Orders');
@@ -58,15 +53,15 @@ async function seedDB() {
     await updateAllProductAggregates();
     console.timeEnd('Update Product Aggregates');
 
-    // console.log('Creating Notifications');
-    // console.time('Create Notifications');
-    // await createNotifications();
-    // console.timeEnd('Create Notifications');
+    console.log('Creating Notifications');
+    console.time('Create Notifications');
+    await createNotifications();
+    console.timeEnd('Create Notifications');
 
-    // console.log('Seeding Statistics');
-    // console.time('Seed Statistics');
-    // await seedStatistics();
-    // console.timeEnd('Seed Statistics');
+    console.log('Seeding Statistics');
+    console.time('Seed Statistics');
+    await seedStatistics();
+    console.timeEnd('Seed Statistics');
 
     console.log('Database seeded!');
     await mongoDisconnect();
