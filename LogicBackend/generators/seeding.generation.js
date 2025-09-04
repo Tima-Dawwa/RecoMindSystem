@@ -19,6 +19,7 @@ const OrderItem = require('../models/orderItem.mongo');
 const fsp = require('fs').promises;
 const Cart = require('../models/cart.mongo');
 
+// Done
 async function createUsers(count = 10000) {
     let data1 = [];
     const password = await bcrypt.hash('12345678', 1);
@@ -55,6 +56,7 @@ async function createUsers(count = 10000) {
     return await User.insertMany(data1);
 }
 
+// Done
 function createPhoneNumber() {
     const countryNumber = numbers[Math.floor(Math.random() * numbers.length)];
     let length = countryNumber.phone_length;
@@ -66,6 +68,7 @@ function createPhoneNumber() {
     });
 }
 
+// Done (dont forget to return image)
 async function createProducts() {
     const filePath = path.join(__dirname, '../public/json/filtered_data.csv');
     const products = [];
@@ -74,11 +77,11 @@ async function createProducts() {
         fs.createReadStream(filePath)
             .pipe(csv())
             .on('data', row => {
-                const folderNumber = '0' + String(row.article_id).slice(0, 2);
-                const imageNumber = '0' + row.article_id;
-                const imagePath = path.join(__dirname, '../public/images/products', folderNumber, `${imageNumber}.jpg`);
+                // const folderNumber = '0' + String(row.article_id).slice(0, 2);
+                // const imageNumber = '0' + row.article_id;
+                // const imagePath = path.join(__dirname, '../public/images/products', folderNumber, `${imageNumber}.jpg`);
 
-                if (!fs.existsSync(imagePath)) return;
+                // if (!fs.existsSync(imagePath)) return;
 
                 const price = parseFloat(faker.commerce.price({ min: 10, max: 1000 }));
                 const hasDiscount = Math.random() < 0.5;
@@ -98,8 +101,8 @@ async function createProducts() {
                     price,
                     discounted_price,
                     quantity: faker.number.int({ min: 100, max: 3000 }),
-                    images: [`/images/products/${folderNumber}/${imageNumber}.jpg`],
-                    // images: [`/images/products/recomind1.jpg`],
+                    // images: [`/images/products/${folderNumber}/${imageNumber}.jpg`],
+                    images: [`/images/products/recomind1.jpg`],
                     createdAt,
                     updatedAt: createdAt
                 };
@@ -124,46 +127,6 @@ async function createProducts() {
 }
 
 // done
-async function createViewInteractions(minViews = 50, maxViews = 200, batchSize = 10000, parallelLimit = 5) {
-    const users = await User.find({}, '_id').lean();
-    const products = await Product.find({}, '_id').lean();
-
-    console.log(`Creating view interactions for ${products.length} products and ${users.length} users...`);
-
-    let batch = [];
-    let promises = [];
-
-    for (const product of products) {
-        const numViews = faker.number.int({ min: minViews, max: maxViews });
-
-        for (let i = 0; i < numViews; i++) {
-            const randomUser = faker.helpers.arrayElement(users);
-
-            batch.push({
-                user_id: randomUser._id,
-                product_id: product._id,
-                interaction_type: 'view',
-                interaction_weight: WEIGHT_MAP['view'] || 0
-            });
-
-            if (batch.length >= batchSize) {
-                promises.push(Interaction.insertMany(batch));
-                batch = [];
-
-                if (promises.length >= parallelLimit) {
-                    await Promise.all(promises);
-                    promises = [];
-                }
-            }
-        }
-    }
-
-    if (batch.length > 0) promises.push(Interaction.insertMany(batch));
-    if (promises.length > 0) await Promise.all(promises);
-
-    console.log('All view interactions created successfully.');
-}
-
 async function updateAllProductAggregates() {
     console.log('Starting optimized update of all product aggregates using MongoDB aggregation...');
     const aggregationPipeline = [
@@ -270,51 +233,13 @@ async function updateAllProductAggregates() {
     }
 }
 
+// done
 async function createAdmins() {
     const admins = [{ username: 'ZYZZ', password: '12345678', role: 'Super-Admin' }];
-
     await Admins.create(admins);
 }
 
-async function createFavorites(minFavoritesPerProduct = 10, maxFavoritesPerProduct = 35, batchSize = 5000) {
-    const users = await User.find({}, '_id').lean();
-    const products = await Product.find({}, '_id').lean();
-
-    const favoritesData = [];
-    const interactionsData = [];
-    let batchCount = 0;
-
-    for (const product of products) {
-        const numFavorites = faker.number.int({ min: minFavoritesPerProduct, max: maxFavoritesPerProduct });
-        const selectedUsers = faker.helpers.arrayElements(users, Math.min(numFavorites, users.length));
-
-        for (const user of selectedUsers) {
-            favoritesData.push({ user_id: user._id, products_id: [product._id] });
-            interactionsData.push({
-                user_id: user._id,
-                product_id: product._id,
-                interaction_type: 'favorite',
-                interaction_weight: WEIGHT_MAP['favorite'] || 0
-            });
-
-            batchCount++;
-
-            if (batchCount >= batchSize) {
-                await Promise.all([Favorite.insertMany(favoritesData), Interaction.insertMany(interactionsData)]);
-                favoritesData.length = 0;
-                interactionsData.length = 0;
-                batchCount = 0;
-            }
-        }
-    }
-
-    if (favoritesData.length > 0) {
-        await Promise.all([Favorite.insertMany(favoritesData), Interaction.insertMany(interactionsData)]);
-    }
-
-    console.log('Favorites seeded successfully: each product has at least a few favorites.');
-}
-
+// done
 async function seedStatistics() {
     try {
         const users = await User.find({}, '_id').lean();
@@ -391,6 +316,7 @@ async function seedStatistics() {
     }
 }
 
+// done
 function randomDatePast7Days() {
     const today = new Date();
     const past = new Date();
@@ -398,6 +324,7 @@ function randomDatePast7Days() {
     return new Date(past.getTime() + Math.random() * (today.getTime() - past.getTime()));
 }
 
+// done
 async function createNotifications(numNotifications = 1000) {
     try {
         const randomProducts = await Product.aggregate([{ $sample: { size: numNotifications } }]);
@@ -412,6 +339,89 @@ async function createNotifications(numNotifications = 1000) {
     } catch (err) {
         console.error('Error creating notifications:', err);
     }
+}
+
+// done
+function randomDatePastMonths(months = 6) {
+    const now = new Date();
+    const past = new Date();
+    past.setMonth(now.getMonth() - months);
+    return new Date(past.getTime() + Math.random() * (now.getTime() - past.getTime()));
+}
+
+// done
+async function createViewInteractions(totalInteractions = 2_000_000, batchSize = 50000, parallelLimit = 5) {
+    const users = await User.find({}, '_id').lean();
+    const products = await Product.find({}, '_id').lean();
+
+    let batch = [];
+    let promises = [];
+
+    for (let i = 0; i < totalInteractions; i++) {
+        const randomUser = faker.helpers.arrayElement(users);
+        const randomProduct = faker.helpers.arrayElement(products);
+
+        batch.push({
+            user_id: randomUser._id,
+            product_id: randomProduct._id,
+            interaction_type: 'view',
+            interaction_weight: WEIGHT_MAP['view'] || 0
+        });
+
+        if (batch.length >= batchSize) {
+            promises.push(Interaction.insertMany(batch, { ordered: false }));
+            batch = [];
+
+            if (promises.length >= parallelLimit) {
+                await Promise.all(promises);
+                promises = [];
+            }
+        }
+    }
+
+    if (batch.length > 0) promises.push(Interaction.insertMany(batch, { ordered: false }));
+    if (promises.length > 0) await Promise.all(promises);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+async function createFavorites(minFavoritesPerProduct = 10, maxFavoritesPerProduct = 35, batchSize = 5000) {
+    const users = await User.find({}, '_id').lean();
+    const products = await Product.find({}, '_id').lean();
+
+    const favoritesData = [];
+    const interactionsData = [];
+    let batchCount = 0;
+
+    for (const product of products) {
+        const numFavorites = faker.number.int({ min: minFavoritesPerProduct, max: maxFavoritesPerProduct });
+        const selectedUsers = faker.helpers.arrayElements(users, Math.min(numFavorites, users.length));
+
+        for (const user of selectedUsers) {
+            favoritesData.push({ user_id: user._id, products_id: [product._id] });
+            interactionsData.push({
+                user_id: user._id,
+                product_id: product._id,
+                interaction_type: 'favorite',
+                interaction_weight: WEIGHT_MAP['favorite'] || 0
+            });
+
+            batchCount++;
+
+            if (batchCount >= batchSize) {
+                await Promise.all([Favorite.insertMany(favoritesData), Interaction.insertMany(interactionsData)]);
+                favoritesData.length = 0;
+                interactionsData.length = 0;
+                batchCount = 0;
+            }
+        }
+    }
+
+    if (favoritesData.length > 0) {
+        await Promise.all([Favorite.insertMany(favoritesData), Interaction.insertMany(interactionsData)]);
+    }
+
+    console.log('Favorites seeded successfully: each product has at least a few favorites.');
 }
 
 async function createOrders(numOrders = 5000, maxItemsPerOrder = 5, batchSize = 500) {
@@ -464,13 +474,6 @@ async function createOrders(numOrders = 5000, maxItemsPerOrder = 5, batchSize = 
     }
 
     console.log(`Inserted ${numOrders} orders.`);
-}
-
-function randomDatePastMonths(months = 6) {
-    const now = new Date();
-    const past = new Date();
-    past.setMonth(now.getMonth() - months);
-    return new Date(past.getTime() + Math.random() * (now.getTime() - past.getTime()));
 }
 
 async function createCartsForAllUsers() {
@@ -593,10 +596,19 @@ async function createRatingInteractions() {
 
 async function createInteractions() {
     await createViewInteractions();
-    await createFavorites();
-    await createCartInteractions();
-    await createOrderInteractions();
-    await createRatingInteractions();
+    console.log('View interactions created.');
+
+    // await createFavorites();
+    // console.log('Favorites created.');
+
+    // await createCartInteractions();
+    // console.log('Cart interactions created.');
+
+    // await createOrderInteractions();
+    // console.log('Order interactions created.');
+
+    // await createRatingInteractions();
+    // console.log('Rating interactions created.');
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

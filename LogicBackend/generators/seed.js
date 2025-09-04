@@ -38,25 +38,25 @@ async function seedDB() {
     await createProducts();
     console.timeEnd('Create Products');
 
-    console.log('Creating Carts');
-    console.time('Create Carts');
-    await createCartsForAllUsers();
-    console.timeEnd('Create Carts');
+    // console.log('Creating Carts');
+    // console.time('Create Carts');
+    // await createCartsForAllUsers();
+    // console.timeEnd('Create Carts');
 
-    console.log('Creating Orders');
-    console.time('Create Orders');
-    await createOrders();
-    console.timeEnd('Create Orders');
+    // console.log('Creating Orders');
+    // console.time('Create Orders');
+    // await createOrders();
+    // console.timeEnd('Create Orders');
 
-    console.log('Creating Favorites and Interactions');
-    console.time('Create Favorites & Interactions');
-    await createFavorites();
-    console.timeEnd('Create Favorites & Interactions');
+    // console.log('Creating Favorites');
+    // console.time('Create Favorites');
+    // await createFavorites();
+    // console.timeEnd('Create Favorites');
 
-    console.log('Creating Other Interactions');
-    console.time('Create Other Interactions');
+    console.log('Creating Interactions');
+    console.time('Create Interactions');
     await createInteractions();
-    console.timeEnd('Create Other Interactions');
+    console.timeEnd('Create Interactions');
 
     console.log('Updating Product Aggregates');
     console.time('Update Product Aggregates');
