@@ -46,9 +46,8 @@ function executePayment(req, res) {
             throw error;
         } else {
             console.log('not error');
-            // res.redirect('myapp://success?status=success&id=' + payment.id + '&state=' + payment.state);
-            // res.redirect(`${process.env.URL}/payment/result?status=success&id=${payment.id}&state=${payment.state}`);
-            res.redirect('http://return_url/?status=success&id=' + payment.id + '&state=' + payment.state);
+            res.redirect(`${process.env.FRONTEND_URL}/orders`);
+            // res.redirect('http://return_url/?status=success&id=' + payment.id + '&state=' + payment.state);
         }
     });
 }

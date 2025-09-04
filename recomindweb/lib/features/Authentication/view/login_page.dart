@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recomindweb/core/responsive_layout.dart';
+import 'package:recomindweb/core/Widgets/responsive_layout.dart';
 import 'package:recomindweb/features/Authentication/view/widgets/login/login_page_body.dart';
 
 class LoginPage extends StatelessWidget {

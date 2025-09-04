@@ -5,7 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:recomindweb/core/Widgets/custom_loading.dart';
 import 'package:recomindweb/core/Widgets/paypal_widget.dart';
 import 'package:recomindweb/core/helpers/constant.dart';
-import 'package:recomindweb/core/responsive_layout.dart';
+import 'package:recomindweb/core/Widgets/responsive_layout.dart';
 import 'package:recomindweb/features/Cart/model/cart_model.dart';
 import 'package:recomindweb/features/Cart/view%20model/cubit/cart_cubit.dart';
 import 'package:recomindweb/features/Cart/view%20model/cubit/cart_state.dart';

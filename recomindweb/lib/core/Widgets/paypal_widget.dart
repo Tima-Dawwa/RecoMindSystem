@@ -208,10 +208,11 @@
 // }
 // -------------------------
 
+// ignore_for_file: avoid_web_libraries_in_flutter
+
 import 'package:flutter/material.dart';
 import 'dart:html' as html;
 import 'dart:ui_web' as ui;
-import 'dart:js' as js;
 
 class PayPal extends StatefulWidget {
   const PayPal({super.key, required this.url, required this.onSuccess});
@@ -238,7 +239,7 @@ class _PayPalState extends State<PayPal> {
     // Listen for messages from the iframe
     html.window.addEventListener('message', (html.Event event) {
       final messageEvent = event as html.MessageEvent;
-      print('📨 Received message: ${messageEvent.data}');
+      print(' Received message: ${messageEvent.data}');
 
       if (messageEvent.data is Map) {
         final data = messageEvent.data as Map<String, dynamic>;
@@ -246,14 +247,14 @@ class _PayPalState extends State<PayPal> {
         widget.onSuccess();
 
         if (type == 'PAYPAL_SUCCESS') {
-          print('✅ PayPal success message received!');
+          print(' PayPal success message received!');
           print('Payment ID: ${data['paymentId']}');
           print('State: ${data['state']}');
 
           // Call the success callback
           widget.onSuccess();
         } else if (type == 'PAYPAL_ERROR') {
-          print('❌ PayPal error: ${data['message']}');
+          print(' PayPal error: ${data['message']}');
           // Handle error if needed
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Payment failed: ${data['message']}')),
@@ -264,7 +265,7 @@ class _PayPalState extends State<PayPal> {
 
     // Also listen for custom events on the window
     html.window.addEventListener('paypal-success', (html.Event event) {
-      print('🎉 Custom paypal-success event received!');
+      print(' Custom paypal-success event received!');
       widget.onSuccess();
     });
   }
@@ -289,7 +290,7 @@ class _PayPalState extends State<PayPal> {
 
       // Handle iframe load
       iframe!.onLoad.listen((event) {
-        print('🔄 Iframe loaded: ${iframe!.src}');
+        print(' Iframe loaded: ${iframe!.src}');
         if (mounted) {
           setState(() {
             _isLoading = false;
@@ -299,7 +300,7 @@ class _PayPalState extends State<PayPal> {
 
       // Handle iframe errors
       iframe!.onError.listen((event) {
-        print('❌ Iframe error: $event');
+        print(' Iframe error: $event');
         if (mounted) {
           setState(() {
             _isLoading = false;

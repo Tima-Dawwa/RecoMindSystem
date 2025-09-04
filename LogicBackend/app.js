@@ -13,9 +13,16 @@ app.use(helmet());
 app.use(cors());
 
 // const generalLimiter = rateLimit({
-//   windowMs: 15 * 60 * 1000,
-//   max: 100,
-//   message: 'Too many requests, please try again later.',
+//     windowMs: 1 * 60 * 1000,
+//     max: 200,
+//     handler: (req, res, next, options) => {
+//         res.status(options.statusCode).json({
+//             success: false,
+//             message: 'Too many requests, please try again later.',
+//             limit: options.max,
+//             windowMs: options.windowMs
+//         });
+//     }
 // });
 // app.use(generalLimiter);
 
