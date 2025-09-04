@@ -354,16 +354,25 @@ async function createViewInteractions(totalInteractions = 2_000_000, batchSize =
     const users = await User.find({}, '_id').lean();
     const products = await Product.find({}, '_id').lean();
 
+    if (users.length * products.length < totalInteractions) {
+        throw new Error('Not enough unique user-product pairs for the requested totalInteractions.');
+    }
+
+    const allPairs = new Set();
     let batch = [];
     let promises = [];
 
-    for (let i = 0; i < totalInteractions; i++) {
-        const randomUser = faker.helpers.arrayElement(users);
-        const randomProduct = faker.helpers.arrayElement(products);
+    while (allPairs.size < totalInteractions) {
+        const user = faker.helpers.arrayElement(users);
+        const product = faker.helpers.arrayElement(products);
+        const key = `${user._id}-${product._id}`;
+
+        if (allPairs.has(key)) continue;
+        allPairs.add(key);
 
         batch.push({
-            user_id: randomUser._id,
-            product_id: randomProduct._id,
+            user_id: user._id,
+            product_id: product._id,
             interaction_type: 'view',
             interaction_weight: WEIGHT_MAP['view'] || 0
         });
@@ -422,24 +431,38 @@ async function createFavorites(minFavorites = 5, maxFavorites = 20) {
 
 // done
 async function createCartsForAllUsers() {
-    const users = await User.find({}, '_id');
-    const products = await Product.find({}, '_id price');
-    let carts = [];
+    const users = await User.find({}, '_id').lean();
+    const products = await Product.find({}, '_id price').lean();
+
+    if (!users.length || !products.length) {
+        console.log('No users or products found.');
+        return;
+    }
+
+    const carts = [];
+    const interactionsData = [];
 
     for (const user of users) {
-        const itemCount = faker.number.int({ min: 1, max: 5 });
+        const itemCount = faker.number.int({ min: 1, max: Math.min(5, products.length) });
 
-        let items = [];
-        for (let j = 0; j < itemCount; j++) {
-            const product = faker.helpers.arrayElement(products);
+        const selectedProducts = faker.helpers.arrayElements(products, itemCount);
+
+        const items = selectedProducts.map(product => {
             const quantity = faker.number.int({ min: 1, max: 5 });
+            interactionsData.push({
+                user_id: user._id,
+                product_id: product._id,
+                interaction_type: 'add_to_cart',
+                interaction_weight: WEIGHT_MAP['add_to_cart'] || 0
+            });
 
-            items.push({
+            return {
                 product: product._id,
                 quantity,
                 price: product.price
-            });
-        }
+            };
+        });
+
         const total_price = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
         carts.push({
@@ -449,35 +472,9 @@ async function createCartsForAllUsers() {
         });
     }
 
-    return await Cart.insertMany(carts);
-}
+    if (carts.length > 0) await Cart.insertMany(carts);
 
-// done
-async function createCartInteractions() {
-    const carts = await Cart.find().lean();
-
-    if (!carts.length) {
-        console.log('No carts found to create add_to_cart interactions.');
-        return;
-    }
-
-    const interactionsData = [];
-
-    for (const cart of carts) {
-        for (const item of cart.items) {
-            interactionsData.push({
-                user_id: cart.user_id,
-                product_id: item.product,
-                interaction_type: 'add_to_cart',
-                interaction_weight: WEIGHT_MAP['add_to_cart'] || 0
-            });
-        }
-    }
-
-    if (interactionsData.length > 0) {
-        await Interaction.insertMany(interactionsData);
-        console.log(`Created ${interactionsData.length} add_to_cart interactions.`);
-    }
+    if (interactionsData.length > 0) await Interaction.insertMany(interactionsData);
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -595,14 +592,18 @@ async function createRatingInteractions() {
 }
 
 async function createInteractions() {
-    // await createViewInteractions();
-    // console.log('View interactions created.');
-    // await createFavorites();
-    // console.log('Favorites created.');
-    // await createCartInteractions();
-    // console.log('Cart interactions created.');
+    await createViewInteractions();
+    console.log('View interactions created.');
+
+    await createFavorites();
+    console.log('Favorites created.');
+
+    await createCartsForAllUsers();
+    console.log('Cart interactions created.');
+
     // await createOrderInteractions();
     // console.log('Order interactions created.');
+
     // await createRatingInteractions();
     // console.log('Rating interactions created.');
 }
