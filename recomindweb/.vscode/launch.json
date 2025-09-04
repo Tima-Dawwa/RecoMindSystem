@@ -1,0 +1,28 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "recomindweb",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "recomindweb (profile mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "recomindweb (release mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    },
+    {
+      "name": "recomindweb (web port 3000)",
+      "request": "launch",
+      "type": "dart",
+      "args": ["-d", "chrome", "--web-port=3000"]
+    }
+  ]
+}
