@@ -1,3 +1,4 @@
+const Admins = require('../models/admins.mongo');
 const { faker } = require('@faker-js/faker');
 const User = require('../models/users.mongo');
 const Product = require('../models/products.mongo');
@@ -16,6 +17,7 @@ const RecommendationInteraction = require('../models/recommendation_interaction.
 const Order = require('../models/orders.mongo');
 const OrderItem = require('../models/orderItem.mongo');
 const fsp = require('fs').promises;
+const Cart = require('../models/cart.mongo');
 
 // Done
 async function createUsers(count = 1000) {
@@ -254,7 +256,6 @@ async function updateAllProductAggregates() {
         throw error;
     }
 }
-const Admins = require('../models/admins.mongo');
 
 async function createAdmins() {
     const admins = [{ username: 'ZYZZ', password: '12345678', role: 'Super-Admin' }];
@@ -305,6 +306,7 @@ async function createFavorites() {
         console.error('Error creating favorites:', error);
     }
 }
+
 async function seedStatistics() {
     try {
         const users = await User.find({}, '_id').lean();
@@ -464,6 +466,39 @@ function randomDatePastMonths(months = 6) {
     return new Date(past.getTime() + Math.random() * (now.getTime() - past.getTime()));
 }
 
+async function createCartsForAllUsers() {
+    const users = await User.find({}, '_id');
+    const products = await Product.find({}, '_id price');
+    let carts = [];
+
+    for (const user of users) {
+        const itemCount = faker.number.int({ min: 1, max: 5 });
+
+        let items = [];
+        for (let j = 0; j < itemCount; j++) {
+            const product = faker.helpers.arrayElement(products);
+            const quantity = faker.number.int({ min: 1, max: 5 });
+
+            items.push({
+                product: product._id,
+                quantity,
+                price: product.price
+            });
+        }
+        const total_price = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+        carts.push({
+            user_id: user._id,
+            items,
+            total_price
+        });
+    }
+
+    return await Cart.insertMany(carts);
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
 async function checkImagesFromCSV() {
     const filePath = path.join(__dirname, '../public/json/filtered_data.csv');
 
@@ -523,5 +558,6 @@ module.exports = {
     createFavorites,
     seedStatistics,
     createNotifications,
-    createOrders
+    createOrders,
+    createCartsForAllUsers
 };
