@@ -23,11 +23,16 @@ import 'package:recomindweb/features/Show_All_Products/view%20model/all_products
 import 'package:recomindweb/features/Show_All_Products/view%20model/cubit/all_products_cubit.dart';
 import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_cubit.dart';
 import 'package:recomindweb/features/product_details/view%20model/product_details_service.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:html' as html;
 
 void main() async {
   await setup();
-  WidgetsFlutterBinding.ensureInitialized(); 
+  WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
+  if (kIsWeb) {
+    html.window.localStorage.clear();
+  }
   runApp(const MyApp());
 }
 
@@ -40,7 +45,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthCubit(getIt.get<AuthService>())),
         BlocProvider(create: (context) => HomeCubit(getIt.get<HomeService>())),
-        BlocProvider(create: (context)=> ChatBotCubit(getIt.get<ChatBotService>())),
+        BlocProvider(
+          create: (context) => ChatBotCubit(getIt.get<ChatBotService>()),
+        ),
         BlocProvider(
           create: (context) => OrdersCubit(getIt.get<OrdersService>()),
         ),

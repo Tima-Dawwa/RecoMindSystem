@@ -1,36 +1,30 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomSharedPreferences {
-  Future<void> saveToken(String token) async {
+  static const _key = "token";
+
+Future<void> saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString("token", token);
+    await prefs.setString(_key, token);
   }
 
   Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString("token");
+    return prefs.getString(_key);
   }
 
   Future<void> clearToken() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove("token");
+    await prefs.remove(_key);
   }
 
   Future<bool> logged() async {
     final prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey("token")) {
-      return true;
-    } else {
-      return false;
-    }
+    return prefs.containsKey(_key);
   }
 
   Future<bool> cleared() async {
     final prefs = await SharedPreferences.getInstance();
-    if (!prefs.containsKey("token")) {
-      return true;
-    } else {
-      return false;
-    }
+    return !prefs.containsKey(_key);
   }
 }

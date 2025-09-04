@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:get/get.dart';
 import 'package:recomindweb/core/Widgets/custom_button.dart';
 import 'package:recomindweb/core/Widgets/custom_loading.dart';
 import 'package:recomindweb/core/Widgets/custom_text_button.dart';
@@ -9,8 +9,9 @@ import 'package:recomindweb/core/helpers/validators.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Authentication/view%20model/cubit/auth_cubit.dart';
 import 'package:recomindweb/features/Authentication/view%20model/cubit/auth_states.dart';
-import 'package:recomindweb/features/Authentication/view/login_page.dart';
-import 'package:recomindweb/features/Authentication/view/register_page.dart';
+// import 'package:page_transition/page_transition.dart';
+// import 'package:recomindweb/features/Authentication/view/login_page.dart';
+// import 'package:recomindweb/features/Authentication/view/register_page.dart';
 import 'package:recomindweb/features/Authentication/view/widgets/register/custom_country_code.dart';
 import 'package:recomindweb/features/Authentication/view/widgets/register/custom_date_picker.dart';
 import 'package:recomindweb/features/Authentication/view/widgets/register/gender_picker.dart';
@@ -178,17 +179,21 @@ class _RegisterFormState extends State<RegisterForm> {
                         CustomTextButton(
                           text: "Login",
                           press: () {
-                            Navigator.push(
-                              context,
-                              PageTransition(
-                                type: PageTransitionType.fade,
-                                alignment: Alignment.center,
-                                duration: Duration(milliseconds: 1000),
-                                curve: Curves.fastEaseInToSlowEaseOut,
-                                child: LoginPage(),
-                                childCurrent: RegisterPage(),
-                              ),
+                            Get.toNamed(
+                              '/login',
+                              preventDuplicates: false,
                             );
+                            // Navigator.push(
+                            //   context,
+                            //   PageTransition(
+                            //     type: PageTransitionType.fade,
+                            //     alignment: Alignment.center,
+                            //     duration: Duration(milliseconds: 1000),
+                            //     curve: Curves.fastEaseInToSlowEaseOut,
+                            //     child: LoginPage(),
+                            //     childCurrent: RegisterPage(),
+                            //   ),
+                            // );
                           },
                         ),
                       ],
