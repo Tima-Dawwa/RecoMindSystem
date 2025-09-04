@@ -38,10 +38,10 @@ async function seedDB() {
     // await createProducts();
     // console.timeEnd('Create Products');
 
-    // console.log('Creating Carts');
-    // console.time('Create Carts');
-    // await createCartsForAllUsers();
-    // console.timeEnd('Create Carts');
+    console.log('Creating Carts');
+    console.time('Create Carts');
+    await createCartsForAllUsers();
+    console.timeEnd('Create Carts');
 
     // console.log('Creating Orders');
     // console.time('Create Orders');
@@ -68,9 +68,9 @@ async function seedDB() {
     // await seedStatistics();
     // console.timeEnd('Seed Statistics');
 
-    // console.log('Database seeded!');
-    // await mongoDisconnect();
-    // console.timeEnd('Total Seeding Time');
+    console.log('Database seeded!');
+    await mongoDisconnect();
+    console.timeEnd('Total Seeding Time');
 }
 
 seedDB().catch(err => console.log(err));

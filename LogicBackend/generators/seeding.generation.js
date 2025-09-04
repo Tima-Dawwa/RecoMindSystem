@@ -420,6 +420,66 @@ async function createFavorites(minFavorites = 5, maxFavorites = 20) {
     if (interactionDocs.length > 0) await Interaction.insertMany(interactionDocs);
 }
 
+// done
+async function createCartsForAllUsers() {
+    const users = await User.find({}, '_id');
+    const products = await Product.find({}, '_id price');
+    let carts = [];
+
+    for (const user of users) {
+        const itemCount = faker.number.int({ min: 1, max: 5 });
+
+        let items = [];
+        for (let j = 0; j < itemCount; j++) {
+            const product = faker.helpers.arrayElement(products);
+            const quantity = faker.number.int({ min: 1, max: 5 });
+
+            items.push({
+                product: product._id,
+                quantity,
+                price: product.price
+            });
+        }
+        const total_price = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+        carts.push({
+            user_id: user._id,
+            items,
+            total_price
+        });
+    }
+
+    return await Cart.insertMany(carts);
+}
+
+// done
+async function createCartInteractions() {
+    const carts = await Cart.find().lean();
+
+    if (!carts.length) {
+        console.log('No carts found to create add_to_cart interactions.');
+        return;
+    }
+
+    const interactionsData = [];
+
+    for (const cart of carts) {
+        for (const item of cart.items) {
+            interactionsData.push({
+                user_id: cart.user_id,
+                product_id: item.product,
+                interaction_type: 'add_to_cart',
+                interaction_weight: WEIGHT_MAP['add_to_cart'] || 0
+            });
+        }
+    }
+
+    if (interactionsData.length > 0) {
+        await Interaction.insertMany(interactionsData);
+        console.log(`Created ${interactionsData.length} add_to_cart interactions.`);
+    }
+}
+
 //////////////////////////////////////////////////////////////////////////////////
 
 async function createOrders(numOrders = 5000, maxItemsPerOrder = 5, batchSize = 500) {
@@ -472,64 +532,6 @@ async function createOrders(numOrders = 5000, maxItemsPerOrder = 5, batchSize = 
     }
 
     console.log(`Inserted ${numOrders} orders.`);
-}
-
-async function createCartsForAllUsers() {
-    const users = await User.find({}, '_id');
-    const products = await Product.find({}, '_id price');
-    let carts = [];
-
-    for (const user of users) {
-        const itemCount = faker.number.int({ min: 1, max: 5 });
-
-        let items = [];
-        for (let j = 0; j < itemCount; j++) {
-            const product = faker.helpers.arrayElement(products);
-            const quantity = faker.number.int({ min: 1, max: 5 });
-
-            items.push({
-                product: product._id,
-                quantity,
-                price: product.price
-            });
-        }
-        const total_price = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
-        carts.push({
-            user_id: user._id,
-            items,
-            total_price
-        });
-    }
-
-    return await Cart.insertMany(carts);
-}
-
-async function createCartInteractions() {
-    const carts = await Cart.find().lean();
-
-    if (!carts.length) {
-        console.log('No carts found to create add_to_cart interactions.');
-        return;
-    }
-
-    const interactionsData = [];
-
-    for (const cart of carts) {
-        for (const item of cart.items) {
-            interactionsData.push({
-                user_id: cart.user_id,
-                product_id: item.product,
-                interaction_type: 'add_to_cart',
-                interaction_weight: WEIGHT_MAP['add_to_cart'] || 0
-            });
-        }
-    }
-
-    if (interactionsData.length > 0) {
-        await Interaction.insertMany(interactionsData);
-        console.log(`Created ${interactionsData.length} add_to_cart interactions.`);
-    }
 }
 
 async function createOrderInteractions() {
