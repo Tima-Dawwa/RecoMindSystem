@@ -47,6 +47,13 @@ class _ProductImageSectionMobileState extends State<ProductImageSectionMobile> {
                     height: 260,
                     width: double.infinity,
                     fit: BoxFit.contain,
+                    errorBuilder:
+                        (_, __, ___) => Container(
+                          color: Colors.grey.shade100,
+                          child: const Center(
+                            child: Icon(Icons.image, size: 40),
+                          ),
+                        ),
                   ),
                 ),
                 Positioned(
@@ -141,6 +148,13 @@ class _ProductImageSectionMobileState extends State<ProductImageSectionMobile> {
                               width: 80,
                               height: 120,
                               fit: BoxFit.cover,
+                              errorBuilder:
+                                  (_, __, ___) => Container(
+                                    color: Colors.grey.shade100,
+                                    child: const Center(
+                                      child: Icon(Icons.image, size: 40),
+                                    ),
+                                  ),
                             ),
                           ),
                         ),

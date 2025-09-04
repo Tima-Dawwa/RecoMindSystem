@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:recomindweb/features/Cart/view%20model/cubit/cart_cubit.dart';
 import 'package:recomindweb/features/Show_All_Products/model/all_products_model.dart';
 import 'package:recomindweb/features/Show_All_Products/view%20model/cubit/all_products_cubit.dart';
 import 'package:recomindweb/features/Show_All_Products/view/widgets/all_product_card/all_product_card.dart';

@@ -1,6 +1,8 @@
+// ignore_for_file: unused_field
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recomindweb/core/responsive_layout.dart';
+import 'package:recomindweb/core/Widgets/responsive_layout.dart';
 import 'package:recomindweb/core/widgets/app_scafold.dart';
 import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_cubit.dart';
 import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_state.dart';

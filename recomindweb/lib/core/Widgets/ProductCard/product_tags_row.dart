@@ -23,9 +23,9 @@ class ProductTagsRow extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 8),
-        _buildTag(product.gender ?? 'Unisex', Colors.purple),
+        _buildTag(product.gender, Colors.purple),
         const SizedBox(width: 6),
-        _buildTag(product.category ?? 'General', Colors.purple),
+        _buildTag(product.category, Colors.purple),
       ],
     );
   }

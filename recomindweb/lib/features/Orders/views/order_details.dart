@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recomindweb/core/responsive_layout.dart';
+import 'package:recomindweb/core/Widgets/responsive_layout.dart';
 import 'package:recomindweb/features/Orders/views/widgets/order_details_body.dart';
 
 class OrderDetailsPage extends StatelessWidget {

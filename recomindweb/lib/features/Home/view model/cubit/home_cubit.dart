@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-// import 'package:recomindweb/core/helpers/custom_shared_preferences.dart';
+import 'package:recomindweb/core/helpers/custom_shared_preferences.dart';
 import 'package:recomindweb/features/Home/model/cities_model.dart';
 import 'package:recomindweb/features/Home/model/collab_product_model.dart';
 import 'package:recomindweb/features/Home/model/profile_model.dart';
@@ -57,15 +57,15 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> homeData() async {
-    // CustomSharedPreferences prefs = CustomSharedPreferences();
+    CustomSharedPreferences prefs = CustomSharedPreferences();
     emit(LoadingHomeState());
     await getCollab();
     emit(LoadingHomeState());
     await getCities();
     emit(LoadingHomeState());
-    // if (await prefs.logged()) {
+    if (await prefs.logged()) {
     await getProfile();
-    // }
+    }
     emit(SuccessHomeState());
   }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/Widgets/custom_loading.dart';
-import 'package:recomindweb/core/responsive_layout.dart';
+import 'package:recomindweb/core/Widgets/responsive_layout.dart';
 import 'package:recomindweb/core/helpers/custom_shared_preferences.dart';
 import 'package:recomindweb/features/Home/view%20model/cubit/home_cubit.dart';
 import 'package:recomindweb/features/Home/view%20model/cubit/home_state.dart';
@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    // isLogged();
+    isLogged();
     getHome();
   }
 

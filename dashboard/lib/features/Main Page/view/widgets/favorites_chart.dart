@@ -40,7 +40,7 @@ class _FavoritesChartState extends State<FavoritesChart> {
       child: BarChart(
         BarChartData(
           minY: 0,
-          maxY: 5,
+          // maxY: 5,
           backgroundColor: Themes.text.withAlpha(25),
           gridData: FlGridData(drawVerticalLine: false),
           borderData: FlBorderData(

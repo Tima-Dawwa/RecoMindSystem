@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/helpers/api.dart';
 import 'package:recomindweb/core/helpers/service_locator.dart';
 import 'package:recomindweb/core/theme.dart';
-import 'package:recomindweb/features/Cart/view%20model/cubit/cart_cubit.dart';
 import 'package:recomindweb/features/Show_All_Products/model/all_products_model.dart';
 
 class AllProductImage extends StatefulWidget {

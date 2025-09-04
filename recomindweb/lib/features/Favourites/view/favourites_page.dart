@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/Widgets/custom_loading.dart';
-import 'package:recomindweb/core/responsive_layout.dart';
+import 'package:recomindweb/core/Widgets/responsive_layout.dart';
 import 'package:recomindweb/features/Favourites/model/favourites_model.dart';
 import 'package:recomindweb/features/Favourites/view%20model/cubit/favourites_cubit.dart';
 import 'package:recomindweb/features/Favourites/view%20model/cubit/favourites_state.dart';

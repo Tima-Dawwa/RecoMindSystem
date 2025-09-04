@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/helpers/constant.dart';
-import 'package:recomindweb/core/utils.dart';
+import 'package:recomindweb/core/utils/utils.dart';
 import 'package:recomindweb/features/ChatBot/Model/product.dart';
 import 'package:recomindweb/features/ChatBot/view%20model/chatbot_cubit.dart';
 import 'package:recomindweb/features/ChatBot/view%20model/chatbot_status.dart';

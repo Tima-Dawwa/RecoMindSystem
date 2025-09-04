@@ -1,13 +1,12 @@
 // ignore_for_file: avoid_print
 import 'package:dio/dio.dart';
+import 'package:recomindweb/core/helpers/service_locator.dart';
+import 'package:recomindweb/features/Authentication/view%20model/auth_service.dart';
 
 class Api {
   Api(this._dio);
   final Dio _dio;
   final String baseUrl = 'https://212facc55253.ngrok-free.app';
-
-  String token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiYzJjMzE3NTZhZmIzOWJiZGZiM2NhOCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IlJhbmRhbGwiLCJsYXN0X25hbWUiOiJCdWNrcmlkZ2UifSwiaWF0IjoxNzU2Nzk5MzU2LCJleHAiOjE3NTcwNTg1NTZ9.Eiv6dy4geSsg1VK94b6u3kuGRxC189yo__GUupQar2A";
 
   Future<Map<String, dynamic>> get({
     required String endPoint,
@@ -18,7 +17,7 @@ class Api {
       queryParameters: queryParameters,
       options: Options(
         headers: {
-          'Authorization': 'Bearer $token',
+          'Authorization': 'Bearer ${getIt.get<AuthService>().token}',
           "ngrok-skip-browser-warning": "false",
         },
       ),
@@ -40,7 +39,7 @@ class Api {
       options: Options(
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
+          'Authorization': 'Bearer ${getIt.get<AuthService>().token}',
         },
       ),
     );
@@ -59,7 +58,7 @@ class Api {
       options: Options(
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
+          'Authorization': 'Bearer ${getIt.get<AuthService>().token}',
         },
       ),
     );
@@ -80,7 +79,7 @@ class Api {
       options: Options(
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
+          'Authorization': 'Bearer ${getIt.get<AuthService>().token}',
         },
       ),
     );

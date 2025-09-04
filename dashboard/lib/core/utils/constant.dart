@@ -1,4 +1,7 @@
-const String ngrok ="https://ab5e12859e5d.ngrok-free.app";
+import 'package:dashboard/core/helper/service_locator.dart';
+import 'package:dashboard/features/Authentication/view%20model/auth_service.dart';
+
+final  String ngrok ="${getIt.get<AuthService>().token}";
 const List<String> categories = [
   "Trousers",
   "Dress",

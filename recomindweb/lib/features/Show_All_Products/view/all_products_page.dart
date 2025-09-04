@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recomindweb/core/responsive_layout.dart';
+import 'package:recomindweb/core/Widgets/responsive_layout.dart';
 import 'package:recomindweb/features/Show_All_Products/view%20model/cubit/all_products_cubit.dart';
 import 'package:recomindweb/features/Show_All_Products/view%20model/cubit/all_products_state.dart';
 import 'package:recomindweb/features/Show_All_Products/view/all_products_page_desktop.dart';
