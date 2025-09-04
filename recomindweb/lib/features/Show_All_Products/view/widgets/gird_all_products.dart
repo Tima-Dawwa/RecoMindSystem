@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:recomindweb/features/Cart/view%20model/cubit/cart_cubit.dart';
 import 'package:recomindweb/features/Show_All_Products/model/all_products_model.dart';
+import 'package:recomindweb/features/Show_All_Products/view%20model/cubit/all_products_cubit.dart';
 import 'package:recomindweb/features/Show_All_Products/view/widgets/all_product_card/all_product_card.dart';
 import 'package:recomindweb/features/product_details/view/product_details_page.dart';
 
@@ -31,6 +34,18 @@ class _GridAllProductsState extends State<GridAllProducts> {
           itemBuilder: (context, index) {
             return AllProductCard(
               product: widget.allProducts[index],
+              addFav: () {
+                BlocProvider.of<
+                  AllProductsCubit
+                >(
+                  context,
+                ).deleteFavorite(productId: widget.allProducts[index].id , index: index);
+              },
+              delFav: () {
+                BlocProvider.of<AllProductsCubit>(
+                  context,
+                ).addToFavorites(productId: widget.allProducts[index].id , index: index);
+              },
               index: index,
               onTap: () {
                 Get.to(
