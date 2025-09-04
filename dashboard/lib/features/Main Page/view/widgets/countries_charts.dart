@@ -35,7 +35,7 @@ class _CountriesChartsState extends State<CountriesCharts> {
           minX: 0,
           maxX: widget.countries.length.toDouble() + 1,
           minY: 0,
-          maxY: 20,
+          // maxY: 20,
           backgroundColor: Themes.text.withAlpha(25),
           borderData: FlBorderData(
             border: Border.all(color: Themes.text, width: 1.5),

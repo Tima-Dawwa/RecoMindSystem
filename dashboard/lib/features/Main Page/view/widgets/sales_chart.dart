@@ -31,7 +31,7 @@ class _SalesChartState extends State<SalesChart> {
           maxX: widget.sales.length.toDouble(),
           minX: 0,
           minY: 0,
-          maxY: 3000000,
+          // maxY: 3000000,
           backgroundColor: Themes.text.withAlpha(20),
           gridData: FlGridData(drawHorizontalLine: false),
           extraLinesData: ExtraLinesData(extraLinesOnTop: false),

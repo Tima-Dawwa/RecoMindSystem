@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recomindweb/core/helpers/constant.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/product_details/models/product_model.dart';
 import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_cubit.dart';
@@ -66,6 +65,13 @@ class _ProductImageSectionState extends State<ProductImageSection> {
                           width: 90,
                           height: 120,
                           fit: BoxFit.cover,
+                          errorBuilder:
+                              (_, __, ___) => Container(
+                                color: Colors.grey.shade100,
+                                child: const Center(
+                                  child: Icon(Icons.image, size: 40),
+                                ),
+                              ),
                         ),
                       ),
                     ),
@@ -82,6 +88,11 @@ class _ProductImageSectionState extends State<ProductImageSection> {
                 headers: {"ngrok-skip-browser-warning": "true"},
                 height: 400,
                 fit: BoxFit.contain,
+                errorBuilder:
+                    (_, __, ___) => Container(
+                      color: Colors.grey.shade100,
+                      child: const Center(child: Icon(Icons.image, size: 40)),
+                    ),
               ),
             ),
             Positioned(
