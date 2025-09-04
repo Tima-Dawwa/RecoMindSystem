@@ -18,7 +18,7 @@ class AuthService {
         endPoint: '/auth/login',
         body: {'email': email, 'password': password},
       );
-      token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg3Njg2ZmVhYzc2YjY4YjIwYjdlYWU0ZiIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IkphbmUiLCJsYXN0X25hbWUiOiJZdW5kdCJ9LCJpYXQiOjE3NTQ1MDMxMTYsImV4cCI6MTc1NDc2MjMxNn0.XgE6kMRj_dEcxUrUhFZW8FrZjuoF_CpXzk_F3aoEttM";
+      token = response['token'];
       return right(response);
     } catch (e) {
       if (e is DioException) {
