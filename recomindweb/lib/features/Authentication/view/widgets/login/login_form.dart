@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:recomindweb/core/Widgets/custom_button.dart';
 import 'package:recomindweb/core/Widgets/custom_loading.dart';
 import 'package:recomindweb/core/Widgets/custom_text_button.dart';
@@ -12,8 +11,9 @@ import 'package:recomindweb/core/helpers/validators.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Authentication/view%20model/cubit/auth_cubit.dart';
 import 'package:recomindweb/features/Authentication/view%20model/cubit/auth_states.dart';
-import 'package:recomindweb/features/Authentication/view/login_page.dart';
-import 'package:recomindweb/features/Authentication/view/register_page.dart';
+// import 'package:page_transition/page_transition.dart';
+// import 'package:recomindweb/features/Authentication/view/login_page.dart';
+// import 'package:recomindweb/features/Authentication/view/register_page.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key, required this.desktop});
@@ -125,17 +125,21 @@ class _LoginFormState extends State<LoginForm> {
                         CustomTextButton(
                           text: "Sign up",
                           press: () {
-                            Navigator.push(
-                              context,
-                              PageTransition(
-                                type: PageTransitionType.fade,
-                                alignment: Alignment.center,
-                                duration: Duration(milliseconds: 1000),
-                                curve: Curves.fastEaseInToSlowEaseOut,
-                                child: RegisterPage(),
-                                childCurrent: LoginPage(),
-                              ),
+                            Get.toNamed(
+                              '/register',
+                              preventDuplicates: false,
                             );
+                            // Navigator.push(
+                            //   context,
+                            //   PageTransition(
+                            //     type: PageTransitionType.fade,
+                            //     alignment: Alignment.center,
+                            //     duration: Duration(milliseconds: 1000),
+                            //     curve: Curves.fastEaseInToSlowEaseOut,
+                            //     child: RegisterPage(),
+                            //     childCurrent: LoginPage(),
+                            //   ),
+                            // );
                           },
                         ),
                       ],

@@ -6,6 +6,7 @@ import 'package:recomindweb/core/helpers/custom_shared_preferences.dart';
 import 'package:recomindweb/features/Home/view%20model/cubit/home_cubit.dart';
 import 'package:recomindweb/features/Home/view%20model/cubit/home_state.dart';
 import 'package:recomindweb/features/Home/view/widgets/home_page_body.dart';
+import 'dart:html' as html;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -46,7 +47,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> isLogged() async {
-    if (await prefs.logged()) {
+    if (html.window.localStorage.toString() != '{}') {
       setState(() {
         logged = true;
       });
