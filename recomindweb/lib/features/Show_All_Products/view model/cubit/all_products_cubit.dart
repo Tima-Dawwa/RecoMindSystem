@@ -29,7 +29,7 @@ class AllProductsCubit extends Cubit<AllProductsState> {
     bool? isNew,
     bool? isTrend,
     List<String>? categories,
-    String ? gender
+    String? gender,
   }) async {
     if (x == 1) {
       currentPage = page ?? currentPage ?? 1;
@@ -47,7 +47,7 @@ class AllProductsCubit extends Cubit<AllProductsState> {
         minPrice: minPrice,
         isNew: isNew,
         isTrend: isTrend,
-        gender : gender
+        gender: gender,
       );
       response.fold(
         (failure) {
@@ -104,6 +104,46 @@ class AllProductsCubit extends Cubit<AllProductsState> {
         print("ddddddddd$text");
         emit(AllProductsSuccessState());
         searchText = true;
+      },
+    );
+  }
+
+  Future<void> addToFavorites({
+    required String productId,
+    required int index,
+  }) async {
+    emit(AllProductsLoadingState());
+    final response = await allProductsService.addToFavorites(
+      productId: productId,
+    );
+    response.fold(
+      (failure) {
+        emit(AllProductsFailureState(failure: failure));
+      },
+      (res) {
+        final item = allProducts[index];
+        allProducts[index] = item.copyWith(isFav: true);
+        emit(AllProductsSuccessState());
+      },
+    );
+  }
+
+  Future<void> deleteFavorite({
+    required String productId,
+    required int index,
+  }) async {
+    emit(AllProductsLoadingState());
+    final response = await allProductsService.deleteFavorite(
+      favoriteId: productId,
+    );
+    response.fold(
+      (failure) {
+        emit(AllProductsFailureState(failure: failure));
+      },
+      (res) {
+        final item = allProducts[index];
+        allProducts[index] = item.copyWith(isFav: false);
+        emit(AllProductsSuccessState());
       },
     );
   }

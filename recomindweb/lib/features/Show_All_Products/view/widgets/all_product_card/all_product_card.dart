@@ -8,9 +8,18 @@ import 'package:recomindweb/features/Show_All_Products/view/widgets/all_product_
 class AllProductCard extends StatefulWidget {
   final AllProductsModel product;
   final VoidCallback onTap;
-  final int ?index;
+  final int? index;
+  final VoidCallback addFav;
+  final VoidCallback delFav;
 
-  const AllProductCard({super.key, required this.product, required this.onTap, this.index});
+  const AllProductCard({
+    super.key,
+    required this.product,
+    required this.onTap,
+    this.index,
+    required this.addFav,
+    required this.delFav,
+  });
 
   @override
   State<AllProductCard> createState() => _AllProductCardState();
@@ -38,7 +47,12 @@ class _AllProductCardState extends State<AllProductCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AllProductImage(product: widget.product, index: widget.index,),
+            AllProductImage(
+              addFav: widget.addFav,
+              delFav: widget.delFav,
+              product: widget.product,
+              index: widget.index,
+            ),
             Padding(
               padding: const EdgeInsets.all(12),
               child: Column(

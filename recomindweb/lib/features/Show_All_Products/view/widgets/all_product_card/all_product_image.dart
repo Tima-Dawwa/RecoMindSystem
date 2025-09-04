@@ -9,11 +9,15 @@ import 'package:recomindweb/features/Show_All_Products/model/all_products_model.
 class AllProductImage extends StatefulWidget {
   final AllProductsModel product;
   final int? index;
+  final VoidCallback addFav;
+  final VoidCallback delFav;
 
   const AllProductImage({
     super.key,
     required this.product,
     this.index,
+    required this.addFav,
+    required this.delFav,
   });
 
   @override
@@ -46,17 +50,10 @@ class _ProductImageState extends State<AllProductImage> {
               right: 8,
               child: GestureDetector(
                 onTap: () {
-                  
                   if (widget.product.isFav) {
-                    BlocProvider.of<CartCubit>(context).deleteFavorite(
-                      productId: product.id,
-                      index: widget.index!,
-                    );
+                    widget.delFav;
                   } else {
-                    BlocProvider.of<CartCubit>(context).addToFavorites(
-                      productId: product.id,
-                      index: widget.index!,
-                    );
+                    widget.delFav;
                   }
                 },
                 child: Container(
