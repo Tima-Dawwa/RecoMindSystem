@@ -77,11 +77,11 @@ async function createProducts() {
         fs.createReadStream(filePath)
             .pipe(csv())
             .on('data', row => {
-                // const folderNumber = '0' + String(row.article_id).slice(0, 2);
-                // const imageNumber = '0' + row.article_id;
-                // const imagePath = path.join(__dirname, '../public/images/products', folderNumber, `${imageNumber}.jpg`);
+                const folderNumber = '0' + String(row.article_id).slice(0, 2);
+                const imageNumber = '0' + row.article_id;
+                const imagePath = path.join(__dirname, '../public/images/products', folderNumber, `${imageNumber}.jpg`);
 
-                // if (!fs.existsSync(imagePath)) return;
+                if (!fs.existsSync(imagePath)) return;
 
                 const price = parseFloat(faker.commerce.price({ min: 10, max: 1000 }));
                 const hasDiscount = Math.random() < 0.5;
@@ -101,8 +101,8 @@ async function createProducts() {
                     price,
                     discounted_price,
                     quantity: faker.number.int({ min: 100, max: 3000 }),
-                    // images: [`/images/products/${folderNumber}/${imageNumber}.jpg`],
-                    images: [`/images/products/recomind1.jpg`],
+                    images: [`/images/products/${folderNumber}/${imageNumber}.jpg`],
+                    // images: [`/images/products/recomind1.jpg`],
                     createdAt,
                     updatedAt: createdAt
                 };
@@ -477,9 +477,7 @@ async function createCartsForAllUsers() {
     if (interactionsData.length > 0) await Interaction.insertMany(interactionsData);
 }
 
-//////////////////////////////////////////////////////////////////////////////////
-
-async function createOrders(numOrders = 5000, maxItemsPerOrder = 5, batchSize = 500) {
+async function createOrders(numOrders = 50000, maxItemsPerOrder = 5, batchSize = 500) {
     const users = await User.find({}, '_id').lean();
     const products = await Product.find({}, '_id price discounted_price quantity').lean();
 
@@ -601,11 +599,11 @@ async function createInteractions() {
     await createCartsForAllUsers();
     console.log('Cart interactions created.');
 
-    // await createOrderInteractions();
-    // console.log('Order interactions created.');
+    await createOrderInteractions();
+    console.log('Order interactions created.');
 
-    // await createRatingInteractions();
-    // console.log('Rating interactions created.');
+    await createRatingInteractions();
+    console.log('Rating interactions created.');
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

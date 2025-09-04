@@ -1,16 +1,5 @@
 const { mongoConnect, mongoDisconnect, dropDatabase } = require('../services/mongo');
-const {
-    createUsers,
-    createProducts,
-    createInteractions,
-    updateAllProductAggregates,
-    createNotifications,
-    createAdmins,
-    createFavorites,
-    seedStatistics,
-    createOrders,
-    createCartsForAllUsers
-} = require('./seeding.generation');
+const { createUsers, createProducts, createInteractions, updateAllProductAggregates, createNotifications, createAdmins, seedStatistics, createOrders } = require('./seeding.generation');
 
 async function seedDB() {
     console.time('Total Seeding Time');
@@ -38,10 +27,10 @@ async function seedDB() {
     await createProducts();
     console.timeEnd('Create Products');
 
-    // console.log('Creating Orders');
-    // console.time('Create Orders');
-    // await createOrders();
-    // console.timeEnd('Create Orders');
+    console.log('Creating Orders');
+    console.time('Create Orders');
+    await createOrders();
+    console.timeEnd('Create Orders');
 
     console.log('Creating Interactions');
     console.time('Create Interactions');
