@@ -30,7 +30,7 @@ class _AllProductsPageState extends State<AllProductsPage>
             final messenger = ScaffoldMessenger.of(context);
             messenger.clearSnackBars();
             messenger.showSnackBar(
-              const SnackBar(content: Text("Filter applied")),
+              const SnackBar(content: Text("Filter will apply ....")),
             );
           }
         },

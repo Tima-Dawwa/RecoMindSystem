@@ -32,6 +32,7 @@ class Api {
     required dynamic body,
     Map<String, dynamic>? queryParameters,
   }) async {
+    print(" im here 7");
     var response = await _dio.post(
       '$baseUrl$endPoint',
       data: body,
@@ -50,7 +51,7 @@ class Api {
 
   Future<Map<String, dynamic>> delete({
     required String endPoint,
-     dynamic body,
+    dynamic body,
   }) async {
     var response = await _dio.delete(
       '$baseUrl$endPoint',
