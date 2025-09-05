@@ -4,7 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/core/Widgets/custom_button.dart';
-import 'package:recomindweb/features/Authentication/view%20model/cubit/auth_cubit.dart';
+import 'package:recomindweb/features/Home/view%20model/cubit/home_cubit.dart';
+import 'package:recomindweb/features/Home/view/home_page.dart';
 import 'package:recomindweb/features/Home/view/widgets/profile%20widgets/user_box.dart';
 
 class CustomAppbar extends StatefulWidget {
@@ -198,6 +199,9 @@ class _CustomAppbarState extends State<CustomAppbar>
 
   void logoutTap() async {
     closeOverlay();
-    await BlocProvider.of<AuthCubit>(context).logout();
+    await BlocProvider.of<HomeCubit>(context).logout();
+    setState(() {
+      Get.to(() => HomePage());
+    });
   }
 }
