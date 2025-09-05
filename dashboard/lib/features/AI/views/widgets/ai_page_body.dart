@@ -62,7 +62,7 @@ class _AiPageBodyState extends State<AiPageBody> {
             ),
             SizedBox(height: 10),
             Text(
-              "The charts show the percentage of average performance accuracy of the chatbot's results for each day in the last week",
+              "The charts show the percentage of average similarity of the chatbot's results for each day in the last week",
               style: TextStyle(fontSize: 22, color: Themes.text),
             ),
             SizedBox(height: 25),
@@ -94,7 +94,7 @@ class _AiPageBodyState extends State<AiPageBody> {
             ),
             SizedBox(height: 10),
             Text(
-              "The charts show the percentage of average performance accuracy of the recommendation system results for each day in the last week",
+              "The charts show the percentage of average similarity of the recommendation system results for each day in the last week",
               style: TextStyle(fontSize: 22, color: Themes.text),
             ),
             SizedBox(height: 25),

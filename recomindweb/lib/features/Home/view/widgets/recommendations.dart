@@ -32,14 +32,16 @@ class _RecommendationsState extends State<Recommendations> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          double cardWidth = constraints.maxWidth * 0.15;
-          const double spacing = 15;
-          int itemsPerRow =
-              (constraints.maxWidth / (cardWidth + spacing)).floor();
-          int itemCount =
-              showAll ? products.length : itemsPerRow.clamp(1, products.length);
-          return Expanded(
-            child: Column(
+          try {
+            double cardWidth = constraints.maxWidth * 0.15;
+            const double spacing = 15;
+            int itemsPerRow =
+                (constraints.maxWidth / (cardWidth + spacing)).floor();
+            int itemCount =
+                showAll
+                    ? products.length
+                    : itemsPerRow.clamp(1, products.length);
+            return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -133,8 +135,10 @@ class _RecommendationsState extends State<Recommendations> {
                     ),
                   ),
               ],
-            ),
-          );
+            );
+          } catch (e) {
+            return Center(child: Text("Something went wrong"));
+          }
         },
       ),
     );

@@ -41,7 +41,6 @@ class _TimeChartState extends State<TimeChart> {
           minX: 0,
           maxX: 4,
           minY: 0,
-          maxY: 4, //the biggest time , modify it to int
           backgroundColor: Themes.text.withAlpha(25),
           borderData: FlBorderData(
             border: Border.all(color: Themes.text, width: 1.5),
