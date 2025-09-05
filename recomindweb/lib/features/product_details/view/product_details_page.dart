@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/Widgets/responsive_layout.dart';
-import 'package:recomindweb/core/widgets/app_scafold.dart';
+import 'package:recomindweb/core/Widgets/app_scafold.dart';
 import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_cubit.dart';
 import 'package:recomindweb/features/product_details/view%20model/product%20details%20cubit/product_details_state.dart';
 import 'package:recomindweb/features/product_details/view/product_details_body/Desktop/product_details_body_desktop.dart';
@@ -38,13 +38,15 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         } else if (state is SuccessProductDetails) {
           return ResponsiveLayout(
             mobileBody: AppScaffold(
-              child: ProductDetailsMobileLayout(
+              addPadding: true,
+              body: ProductDetailsMobileLayout(
                 onImageChange: (img) => setState(() => _selectedImage = img),
                 product: state.product,
               ),
             ),
             desktopBody: AppScaffold(
-              child: ProductDetailsDesktopLayout(
+              addPadding: true,
+              body: ProductDetailsDesktopLayout(
                 onImageChange: (img) => setState(() => _selectedImage = img),
                 productData: state.product,
               ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:recomindweb/core/Widgets/app_scafold.dart';
 import 'package:recomindweb/core/Widgets/custom_loading.dart';
 import 'package:recomindweb/core/Widgets/paypal_widget.dart';
 import 'package:recomindweb/core/helpers/constant.dart';
@@ -29,7 +29,7 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return AppScaffold(
       body: BlocConsumer<CartCubit, CartStates>(
         listener: (context, state) {
           if (state is RemoveFromCartSuccessState) {
@@ -45,7 +45,6 @@ class _CartPageState extends State<CartPage> {
               context,
             ).showSnackBar(SnackBar(content: Text(state.failure.errMessage)));
           } else if (state is MakeOrderSuccessState) {
-            print(state);
             Get.to(
               () => PayPal(
                 url: "$ngrok/orders/${state.orderId}/pay",

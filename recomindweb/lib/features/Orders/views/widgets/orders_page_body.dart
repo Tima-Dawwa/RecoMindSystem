@@ -33,6 +33,8 @@ class _OrdersPageBodyState extends State<OrdersPageBody> {
         children: [
           Filters(orders: orders),
           Divider(thickness: 1, color: Themes.text.withAlpha(50)),
+          if (orders.isEmpty)
+          Center(child: Text('no orders yet')),
           if (widget.desktop)
             Expanded(
               child: GridView.builder(

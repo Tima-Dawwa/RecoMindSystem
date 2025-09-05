@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recomindweb/core/Widgets/app_scafold.dart';
 import 'package:recomindweb/core/Widgets/custom_loading.dart';
 import 'package:recomindweb/core/Widgets/responsive_layout.dart';
 import 'package:recomindweb/features/Favourites/model/favourites_model.dart';
@@ -23,7 +24,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return AppScaffold(
       body: BlocConsumer<FavouritesCubit, FavouritesState>(
         listener: (context, state) {
           if (state is RemoveFavouritesSuccessState) {
