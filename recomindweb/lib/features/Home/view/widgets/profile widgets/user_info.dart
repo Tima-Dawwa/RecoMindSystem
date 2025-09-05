@@ -68,7 +68,7 @@ class _UserInfoState extends State<UserInfo> {
         ),
         // SizedBox(height: 5),
         Text(
-          "+${widget.profile.number.code} ${widget.profile.number.number}",
+        widget.profile.number.code.contains('+') ? "${widget.profile.number.code} ${widget.profile.number.number}" : "+${widget.profile.number.code} ${widget.profile.number.number}",
           style: TextStyle(color: Themes.text, fontSize: 14),
         ),
       ],

@@ -18,9 +18,10 @@ class CustomSharedPreferences {
   Future<void> clearToken() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_key);
-    if (kIsWeb) {
+      print("kIsWeb $kIsWeb");
+      print(html.window.localStorage.toString());
       html.window.localStorage.clear();
-    }
+      print(html.window.localStorage.toString());
   }
 
   Future<bool> logged() async {

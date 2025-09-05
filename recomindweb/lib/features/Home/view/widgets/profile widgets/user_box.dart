@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recomindweb/core/Widgets/custom_button.dart';
 import 'package:recomindweb/core/Widgets/custom_loading.dart';
@@ -9,8 +8,6 @@ import 'package:recomindweb/core/Widgets/custom_text_button.dart';
 import 'package:recomindweb/core/helpers/api.dart';
 import 'package:recomindweb/core/helpers/service_locator.dart';
 import 'package:recomindweb/core/theme.dart';
-import 'package:recomindweb/features/Authentication/view%20model/cubit/auth_cubit.dart';
-import 'package:recomindweb/features/Authentication/view%20model/cubit/auth_states.dart';
 import 'package:recomindweb/features/Home/model/cities_model.dart';
 import 'package:recomindweb/features/Home/model/profile_model.dart';
 import 'package:recomindweb/features/Home/view%20model/cubit/home_cubit.dart';
@@ -150,39 +147,21 @@ class _UserBoxState extends State<UserBox> {
                 ),
                 const SizedBox(height: 10),
                 Divider(),
-                BlocConsumer<AuthCubit, AuthStates>(
-                  listener: (context, state) {
-                    if (state is SuccessLogoutState) {
-                      setState(() {});
-                      Get.toNamed('/', preventDuplicates: false);
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is LoadingAuthState) {
-                      return Center(child: CustomLoading());
-                    } else {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.logout,
-                              size: 20,
-                              color: Themes.secondary,
-                            ),
-                            SizedBox(width: 6),
-                            CustomTextButton(
-                              text: "Log out",
-                              press: widget.logoutTap!,
-                              size: 18,
-                              color: Themes.text,
-                              weight: FontWeight.normal,
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                  },
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    children: [
+                      Icon(Icons.logout, size: 20, color: Themes.secondary),
+                      SizedBox(width: 6),
+                      CustomTextButton(
+                        text: "Log out",
+                        press: widget.logoutTap!,
+                        size: 18,
+                        color: Themes.text,
+                        weight: FontWeight.normal,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
