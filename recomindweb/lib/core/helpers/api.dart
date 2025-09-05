@@ -7,6 +7,7 @@ class Api {
   Api(this._dio);
   final Dio _dio;
   final String baseUrl = 'https://aababedef0c5.ngrok-free.app';
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 
@@ -14,6 +15,8 @@ class Api {
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YmFkZWJiZTkwOThmNTM2NWZhZGUwZCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6ImhhbXoiLCJsYXN0X25hbWUiOiJ0aSJ9LCJpYXQiOjE3NTcwODAyODgsImV4cCI6MTc1NzMzOTQ4OH0.BYsWN94rwjxx2bMBovvBL2cCDlecwuUtKOdlmX23s8c";
 
 >>>>>>> Stashed changes
+=======
+>>>>>>> final
 
   Future<Map<String, dynamic>> get({
     required String endPoint,
@@ -57,7 +60,7 @@ class Api {
 
   Future<Map<String, dynamic>> delete({
     required String endPoint,
-    dynamic body,
+     dynamic body,
   }) async {
     var response = await _dio.delete(
       '$baseUrl$endPoint',

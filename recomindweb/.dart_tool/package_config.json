@@ -3,6 +3,7 @@
   "packages": [
     {
       "name": "archive",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/archive-4.0.7",
 =======
@@ -12,11 +13,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/archive-4.0.7",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/archive-4.0.7",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "async",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/async-2.12.0",
 =======
@@ -26,11 +31,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/async-2.12.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/async-2.12.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "bloc",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/bloc-9.0.0",
 =======
@@ -40,11 +49,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/bloc-9.0.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/bloc-9.0.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "boolean_selector",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/boolean_selector-2.1.2",
 =======
@@ -54,11 +67,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/boolean_selector-2.1.2",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/boolean_selector-2.1.2",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.1"
     },
     {
       "name": "buttons_tabbar",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/buttons_tabbar-1.3.15",
 =======
@@ -68,11 +85,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/buttons_tabbar-1.3.15",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/buttons_tabbar-1.3.15",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "cached_network_image",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/cached_network_image-3.4.1",
 =======
@@ -82,11 +103,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/cached_network_image-3.4.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/cached_network_image-3.4.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "cached_network_image_platform_interface",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/cached_network_image_platform_interface-4.1.1",
 =======
@@ -96,11 +121,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/cached_network_image_platform_interface-4.1.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/cached_network_image_platform_interface-4.1.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "cached_network_image_web",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/cached_network_image_web-1.3.1",
 =======
@@ -110,11 +139,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/cached_network_image_web-1.3.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/cached_network_image_web-1.3.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "carousel_slider",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/carousel_slider-5.0.0",
 =======
@@ -124,11 +157,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/carousel_slider-5.0.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/carousel_slider-5.0.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "characters",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/characters-1.4.0",
 =======
@@ -138,11 +175,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/characters-1.4.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/characters-1.4.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "clock",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/clock-1.1.2",
 =======
@@ -152,11 +193,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/clock-1.1.2",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/clock-1.1.2",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "collection",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/collection-1.19.1",
 =======
@@ -166,11 +211,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/collection-1.19.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/collection-1.19.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "country_code_picker",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/country_code_picker-3.3.0",
 =======
@@ -180,11 +229,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/country_code_picker-3.3.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/country_code_picker-3.3.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "cross_file",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/cross_file-0.3.4+2",
 =======
@@ -194,11 +247,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/cross_file-0.3.4+2",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/cross_file-0.3.4+2",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "crypto",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/crypto-3.0.6",
 =======
@@ -208,11 +265,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/crypto-3.0.6",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/crypto-3.0.6",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "cupertino_icons",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/cupertino_icons-1.0.8",
 =======
@@ -222,11 +283,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/cupertino_icons-1.0.8",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/cupertino_icons-1.0.8",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.1"
     },
     {
       "name": "dartz",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/dartz-0.10.1",
 =======
@@ -236,11 +301,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/dartz-0.10.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/dartz-0.10.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "diacritic",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/diacritic-0.1.6",
 =======
@@ -250,11 +319,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/diacritic-0.1.6",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/diacritic-0.1.6",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "dio",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/dio-5.8.0+1",
 =======
@@ -264,11 +337,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/dio-5.8.0+1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/dio-5.8.0+1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "dio_web_adapter",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/dio_web_adapter-2.1.1",
 =======
@@ -278,11 +355,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/dio_web_adapter-2.1.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/dio_web_adapter-2.1.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "fake_async",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/fake_async-1.3.2",
 =======
@@ -292,11 +373,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/fake_async-1.3.2",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/fake_async-1.3.2",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "ffi",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/ffi-2.1.4",
 =======
@@ -306,11 +391,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/ffi-2.1.4",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/ffi-2.1.4",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
     {
       "name": "file",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/file-7.0.1",
 =======
@@ -320,11 +409,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/file-7.0.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/file-7.0.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "file_picker",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/file_picker-6.2.1",
 =======
@@ -334,11 +427,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/file_picker-6.2.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/file_picker-6.2.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
     {
       "name": "file_selector_linux",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/file_selector_linux-0.9.3+2",
 =======
@@ -348,11 +445,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/file_selector_linux-0.9.3+2",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/file_selector_linux-0.9.3+2",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "file_selector_macos",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/file_selector_macos-0.9.4+4",
 =======
@@ -362,11 +463,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/file_selector_macos-0.9.4+4",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/file_selector_macos-0.9.4+4",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
     {
       "name": "file_selector_platform_interface",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/file_selector_platform_interface-2.6.2",
 =======
@@ -376,11 +481,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/file_selector_platform_interface-2.6.2",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/file_selector_platform_interface-2.6.2",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "file_selector_windows",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/file_selector_windows-0.9.3+4",
 =======
@@ -390,11 +499,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/file_selector_windows-0.9.3+4",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/file_selector_windows-0.9.3+4",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "fixnum",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/fixnum-1.1.1",
 =======
@@ -404,11 +517,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/fixnum-1.1.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/fixnum-1.1.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.1"
     },
     {
       "name": "flutter",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/flutter/packages/flutter",
 =======
@@ -418,11 +535,15 @@
       "rootUri": "file:///C:/dev/flutter/packages/flutter",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/dev/flutter/packages/flutter",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
     {
       "name": "flutter_bloc",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_bloc-9.1.1",
 =======
@@ -432,11 +553,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_bloc-9.1.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_bloc-9.1.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "flutter_cache_manager",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_cache_manager-3.4.1",
 =======
@@ -446,11 +571,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_cache_manager-3.4.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_cache_manager-3.4.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "flutter_inappwebview",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview-6.1.5",
 =======
@@ -460,11 +589,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview-6.1.5",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview-6.1.5",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "flutter_inappwebview_android",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview_android-1.1.3",
 =======
@@ -474,11 +607,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview_android-1.1.3",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview_android-1.1.3",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "flutter_inappwebview_internal_annotations",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview_internal_annotations-1.2.0",
 =======
@@ -488,11 +625,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview_internal_annotations-1.2.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview_internal_annotations-1.2.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "flutter_inappwebview_ios",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview_ios-1.1.2",
 =======
@@ -502,11 +643,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview_ios-1.1.2",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview_ios-1.1.2",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "flutter_inappwebview_macos",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview_macos-1.1.2",
 =======
@@ -516,11 +661,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview_macos-1.1.2",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview_macos-1.1.2",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "flutter_inappwebview_platform_interface",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview_platform_interface-1.3.0+1",
 =======
@@ -530,11 +679,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview_platform_interface-1.3.0+1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview_platform_interface-1.3.0+1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "flutter_inappwebview_web",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview_web-1.1.2",
 =======
@@ -544,11 +697,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview_web-1.1.2",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview_web-1.1.2",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "flutter_inappwebview_windows",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview_windows-0.6.0",
 =======
@@ -558,11 +715,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview_windows-0.6.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_inappwebview_windows-0.6.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "flutter_lints",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-5.0.0",
 =======
@@ -572,11 +733,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-5.0.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-5.0.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "flutter_plugin_android_lifecycle",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.28",
 =======
@@ -586,11 +751,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.28",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.28",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },
     {
       "name": "flutter_staggered_grid_view",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_staggered_grid_view-0.7.0",
 =======
@@ -600,11 +769,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_staggered_grid_view-0.7.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_staggered_grid_view-0.7.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "flutter_test",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/flutter/packages/flutter_test",
 =======
@@ -614,11 +787,15 @@
       "rootUri": "file:///C:/dev/flutter/packages/flutter_test",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/dev/flutter/packages/flutter_test",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
     {
       "name": "flutter_web_plugins",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/flutter/packages/flutter_web_plugins",
 =======
@@ -628,11 +805,15 @@
       "rootUri": "file:///C:/dev/flutter/packages/flutter_web_plugins",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/dev/flutter/packages/flutter_web_plugins",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
     {
       "name": "font_awesome_flutter",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/font_awesome_flutter-10.8.0",
 =======
@@ -642,11 +823,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/font_awesome_flutter-10.8.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/font_awesome_flutter-10.8.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "get",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/get-4.7.2",
 =======
@@ -656,11 +841,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/get-4.7.2",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/get-4.7.2",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.15"
     },
     {
       "name": "get_it",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/get_it-7.7.0",
 =======
@@ -670,11 +859,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/get_it-7.7.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/get_it-7.7.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "go_router",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/go_router-15.1.2",
 =======
@@ -684,11 +877,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/go_router-15.1.2",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/go_router-15.1.2",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "http",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/http-1.4.0",
 =======
@@ -698,11 +895,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/http-1.4.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/http-1.4.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "http_parser",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/http_parser-4.1.2",
 =======
@@ -712,11 +913,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/http_parser-4.1.2",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/http_parser-4.1.2",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "image_picker",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker-1.2.0",
 =======
@@ -726,11 +931,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker-1.2.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker-1.2.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },
     {
       "name": "image_picker_android",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_android-0.8.13+1",
 =======
@@ -740,11 +949,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_android-0.8.13+1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_android-0.8.13+1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
     {
       "name": "image_picker_for_web",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_for_web-3.1.0",
 =======
@@ -754,11 +967,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_for_web-3.1.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_for_web-3.1.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },
     {
       "name": "image_picker_ios",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_ios-0.8.13",
 =======
@@ -768,11 +985,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_ios-0.8.13",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_ios-0.8.13",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },
     {
       "name": "image_picker_linux",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_linux-0.2.2",
 =======
@@ -782,11 +1003,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_linux-0.2.2",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_linux-0.2.2",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },
     {
       "name": "image_picker_macos",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_macos-0.2.2",
 =======
@@ -796,11 +1021,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_macos-0.2.2",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_macos-0.2.2",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },
     {
       "name": "image_picker_platform_interface",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_platform_interface-2.11.0",
 =======
@@ -810,11 +1039,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_platform_interface-2.11.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_platform_interface-2.11.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },
     {
       "name": "image_picker_windows",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_windows-0.2.2",
 =======
@@ -824,11 +1057,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_windows-0.2.2",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_windows-0.2.2",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },
     {
       "name": "intl",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.19.0",
 =======
@@ -838,11 +1075,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.19.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.19.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "leak_tracker",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker-10.0.8",
 =======
@@ -852,11 +1093,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker-10.0.8",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker-10.0.8",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "leak_tracker_flutter_testing",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_flutter_testing-3.0.9",
 =======
@@ -866,11 +1111,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_flutter_testing-3.0.9",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_flutter_testing-3.0.9",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "leak_tracker_testing",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_testing-3.0.1",
 =======
@@ -880,11 +1129,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_testing-3.0.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_testing-3.0.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "lints",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/lints-5.1.1",
 =======
@@ -894,11 +1147,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/lints-5.1.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/lints-5.1.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },
     {
       "name": "logging",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/logging-1.3.0",
 =======
@@ -908,11 +1165,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/logging-1.3.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/logging-1.3.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "lottie",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/lottie-3.3.1",
 =======
@@ -922,11 +1183,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/lottie-3.3.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/lottie-3.3.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },
     {
       "name": "matcher",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/matcher-0.12.17",
 =======
@@ -936,11 +1201,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/matcher-0.12.17",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/matcher-0.12.17",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "material_color_utilities",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/material_color_utilities-0.11.1",
 =======
@@ -950,11 +1219,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/material_color_utilities-0.11.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/material_color_utilities-0.11.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "meta",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/meta-1.16.0",
 =======
@@ -964,11 +1237,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/meta-1.16.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/meta-1.16.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "mime",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/mime-2.0.0",
 =======
@@ -978,11 +1255,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/mime-2.0.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/mime-2.0.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "nested",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/nested-1.0.0",
 =======
@@ -992,11 +1273,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/nested-1.0.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/nested-1.0.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "number_paginator",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/number_paginator-1.1.1",
 =======
@@ -1006,11 +1291,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/number_paginator-1.1.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/number_paginator-1.1.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "octo_image",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/octo_image-2.1.0",
 =======
@@ -1020,11 +1309,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/octo_image-2.1.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/octo_image-2.1.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "page_transition",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/page_transition-2.2.1",
 =======
@@ -1034,11 +1327,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/page_transition-2.2.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/page_transition-2.2.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "path",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/path-1.9.1",
 =======
@@ -1048,11 +1345,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/path-1.9.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/path-1.9.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "path_provider",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider-2.1.5",
 =======
@@ -1062,11 +1363,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider-2.1.5",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider-2.1.5",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "path_provider_android",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_android-2.2.17",
 =======
@@ -1076,11 +1381,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_android-2.2.17",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_android-2.2.17",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },
     {
       "name": "path_provider_foundation",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_foundation-2.4.1",
 =======
@@ -1090,11 +1399,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_foundation-2.4.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_foundation-2.4.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "path_provider_linux",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_linux-2.2.1",
 =======
@@ -1104,11 +1417,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_linux-2.2.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_linux-2.2.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
     {
       "name": "path_provider_platform_interface",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_platform_interface-2.1.2",
 =======
@@ -1118,11 +1435,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_platform_interface-2.1.2",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_platform_interface-2.1.2",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "path_provider_windows",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_windows-2.3.0",
 =======
@@ -1132,11 +1453,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_windows-2.3.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_windows-2.3.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "platform",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/platform-3.1.6",
 =======
@@ -1146,11 +1471,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/platform-3.1.6",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/platform-3.1.6",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "plugin_platform_interface",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/plugin_platform_interface-2.1.8",
 =======
@@ -1160,11 +1489,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/plugin_platform_interface-2.1.8",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/plugin_platform_interface-2.1.8",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "posix",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/posix-6.0.2",
 =======
@@ -1174,11 +1507,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/posix-6.0.2",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/posix-6.0.2",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "provider",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/provider-6.1.5",
 =======
@@ -1188,11 +1525,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/provider-6.1.5",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/provider-6.1.5",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "rxdart",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/rxdart-0.28.0",
 =======
@@ -1202,11 +1543,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/rxdart-0.28.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/rxdart-0.28.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "shared_preferences",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences-2.5.3",
 =======
@@ -1216,11 +1561,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences-2.5.3",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences-2.5.3",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "shared_preferences_android",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_android-2.4.10",
 =======
@@ -1230,11 +1579,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_android-2.4.10",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_android-2.4.10",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },
     {
       "name": "shared_preferences_foundation",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_foundation-2.5.4",
 =======
@@ -1244,11 +1597,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_foundation-2.5.4",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_foundation-2.5.4",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "shared_preferences_linux",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_linux-2.4.1",
 =======
@@ -1258,11 +1615,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_linux-2.4.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_linux-2.4.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "shared_preferences_platform_interface",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_platform_interface-2.4.1",
 =======
@@ -1272,11 +1633,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_platform_interface-2.4.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_platform_interface-2.4.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "shared_preferences_web",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_web-2.4.3",
 =======
@@ -1286,11 +1651,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_web-2.4.3",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_web-2.4.3",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "shared_preferences_windows",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_windows-2.4.1",
 =======
@@ -1300,11 +1669,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_windows-2.4.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_windows-2.4.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "sky_engine",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/flutter/bin/cache/pkg/sky_engine",
 =======
@@ -1314,11 +1687,15 @@
       "rootUri": "file:///C:/dev/flutter/bin/cache/pkg/sky_engine",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/dev/flutter/bin/cache/pkg/sky_engine",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
     {
       "name": "smooth_page_indicator",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/smooth_page_indicator-1.2.1",
 =======
@@ -1328,11 +1705,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/smooth_page_indicator-1.2.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/smooth_page_indicator-1.2.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "socket_io_client",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/socket_io_client-3.1.2",
 =======
@@ -1342,11 +1723,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/socket_io_client-3.1.2",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/socket_io_client-3.1.2",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "socket_io_common",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/socket_io_common-3.1.1",
 =======
@@ -1356,11 +1741,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/socket_io_common-3.1.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/socket_io_common-3.1.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "source_span",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/source_span-1.10.1",
 =======
@@ -1370,11 +1759,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/source_span-1.10.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/source_span-1.10.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.1"
     },
     {
       "name": "sprintf",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/sprintf-7.0.0",
 =======
@@ -1384,11 +1777,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/sprintf-7.0.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/sprintf-7.0.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "sqflite",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/sqflite-2.4.2",
 =======
@@ -1398,11 +1795,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/sqflite-2.4.2",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/sqflite-2.4.2",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
     {
       "name": "sqflite_android",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/sqflite_android-2.4.1",
 =======
@@ -1412,11 +1813,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/sqflite_android-2.4.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/sqflite_android-2.4.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
     {
       "name": "sqflite_common",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/sqflite_common-2.5.5",
 =======
@@ -1426,11 +1831,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/sqflite_common-2.5.5",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/sqflite_common-2.5.5",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
     {
       "name": "sqflite_darwin",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/sqflite_darwin-2.4.2",
 =======
@@ -1440,11 +1849,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/sqflite_darwin-2.4.2",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/sqflite_darwin-2.4.2",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
     {
       "name": "sqflite_platform_interface",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/sqflite_platform_interface-2.4.0",
 =======
@@ -1454,11 +1867,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/sqflite_platform_interface-2.4.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/sqflite_platform_interface-2.4.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "stack_trace",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/stack_trace-1.12.1",
 =======
@@ -1468,11 +1885,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/stack_trace-1.12.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/stack_trace-1.12.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "stream_channel",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/stream_channel-2.1.4",
 =======
@@ -1482,11 +1903,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/stream_channel-2.1.4",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/stream_channel-2.1.4",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "string_scanner",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/string_scanner-1.4.1",
 =======
@@ -1496,11 +1921,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/string_scanner-1.4.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/string_scanner-1.4.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.1"
     },
     {
       "name": "synchronized",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/synchronized-3.3.1",
 =======
@@ -1510,11 +1939,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/synchronized-3.3.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/synchronized-3.3.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
     {
       "name": "term_glyph",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/term_glyph-1.2.2",
 =======
@@ -1524,11 +1957,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/term_glyph-1.2.2",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/term_glyph-1.2.2",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.1"
     },
     {
       "name": "test_api",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/test_api-0.7.4",
 =======
@@ -1538,11 +1975,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/test_api-0.7.4",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/test_api-0.7.4",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "typed_data",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/typed_data-1.4.0",
 =======
@@ -1552,11 +1993,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/typed_data-1.4.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/typed_data-1.4.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "uuid",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/uuid-4.5.1",
 =======
@@ -1566,11 +2011,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/uuid-4.5.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/uuid-4.5.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "vector_math",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/vector_math-2.1.4",
 =======
@@ -1580,11 +2029,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/vector_math-2.1.4",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/vector_math-2.1.4",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "vm_service",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-14.3.1",
 =======
@@ -1594,11 +2047,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-14.3.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-14.3.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "web",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/web-1.1.1",
 =======
@@ -1608,11 +2065,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/web-1.1.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/web-1.1.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "webview_flutter",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/webview_flutter-4.13.0",
 =======
@@ -1622,11 +2083,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/webview_flutter-4.13.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/webview_flutter-4.13.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },
     {
       "name": "webview_flutter_android",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/webview_flutter_android-4.10.1",
 =======
@@ -1636,11 +2101,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/webview_flutter_android-4.10.1",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/webview_flutter_android-4.10.1",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
     {
       "name": "webview_flutter_platform_interface",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/webview_flutter_platform_interface-2.14.0",
 =======
@@ -1650,11 +2119,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/webview_flutter_platform_interface-2.14.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/webview_flutter_platform_interface-2.14.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },
     {
       "name": "webview_flutter_web",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/webview_flutter_web-0.2.3+4",
 =======
@@ -1664,11 +2137,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/webview_flutter_web-0.2.3+4",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/webview_flutter_web-0.2.3+4",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "webview_flutter_wkwebview",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/webview_flutter_wkwebview-3.23.0",
 =======
@@ -1678,11 +2155,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/webview_flutter_wkwebview-3.23.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/webview_flutter_wkwebview-3.23.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },
     {
       "name": "webview_windows",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/webview_windows-0.4.0",
 =======
@@ -1692,11 +2173,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/webview_windows-0.4.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/webview_windows-0.4.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "2.13"
     },
     {
       "name": "win32",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/win32-5.13.0",
 =======
@@ -1706,11 +2191,15 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/win32-5.13.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/win32-5.13.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
     {
       "name": "xdg_directories",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "rootUri": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache/hosted/pub.dev/xdg_directories-1.1.0",
 =======
@@ -1720,6 +2209,9 @@
       "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/xdg_directories-1.1.0",
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+      "rootUri": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache/hosted/pub.dev/xdg_directories-1.1.0",
+>>>>>>> final
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -1730,16 +2222,21 @@
       "languageVersion": "3.7"
     }
   ],
+<<<<<<< HEAD
 <<<<<<< Updated upstream
   "generated": "2025-09-05T15:20:04.949406Z",
 =======
 <<<<<<< HEAD
   "generated": "2025-09-05T15:08:20.530404Z",
 >>>>>>> Stashed changes
+=======
+  "generated": "2025-09-05T15:15:47.951940Z",
+>>>>>>> final
   "generator": "pub",
   "generatorVersion": "3.7.2",
-  "flutterRoot": "file:///C:/flutter",
+  "flutterRoot": "file:///C:/dev/flutter",
   "flutterVersion": "3.29.3",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
   "pubCache": "file:///C:/Users/lenovo/AppData/Local/Pub/Cache"
 =======
@@ -1753,4 +2250,7 @@
   "pubCache": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache"
 >>>>>>> final
 >>>>>>> Stashed changes
+=======
+  "pubCache": "file:///C:/Users/Hamza.Tinawi/AppData/Local/Pub/Cache"
+>>>>>>> final
 }
