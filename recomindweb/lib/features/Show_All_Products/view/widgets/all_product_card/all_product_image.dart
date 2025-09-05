@@ -70,8 +70,10 @@ class _ProductImageState extends State<AllProductImage> {
                       return Text(" New and Trend ");
                     } else if (product.isNew) {
                       return Text(" New ");
-                    } else {
+                    } else if (product.isTrend) {
                       return Text('Trend ');
+                    } else {
+                      return Text("");
                     }
                   },
                 ),
