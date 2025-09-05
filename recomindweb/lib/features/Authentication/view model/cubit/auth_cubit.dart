@@ -31,23 +31,6 @@ class AuthCubit extends Cubit<AuthStates> {
     );
   }
 
-  Future<void> logout() async {
-    emit(LoadingAuthState());
-    var response = await authService.logout();
-    response.fold(
-      (failure) {
-        emit(FailureAuthState(failure: failure));
-      },
-      (res) async {
-        await preferences.clearToken();
-        if (await preferences.cleared()) {
-          emit(SuccessLogoutState());
-        } else {
-          print('log out failed');
-        }
-      },
-    );
-  }
 
   Future<void> register({
     required String firstName,

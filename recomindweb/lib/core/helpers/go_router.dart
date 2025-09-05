@@ -4,13 +4,10 @@ import 'package:recomindweb/features/Authentication/view/register_page.dart';
 import 'package:recomindweb/features/Cart/view/cart_page.dart';
 import 'package:recomindweb/features/Authentication/view/forget_password.dart';
 import 'package:recomindweb/features/ChatBot/chatbot.dart';
-// import 'package:recomindweb/features/ChatBot/chatbot.dart';
 import 'package:recomindweb/features/Favourites/view/favourites_page.dart';
 import 'package:recomindweb/features/Home/view/home_page.dart';
 import 'package:recomindweb/features/Orders/views/order_details.dart';
 import 'package:recomindweb/features/Orders/views/orders_page.dart';
-import 'package:recomindweb/features/Show_All_Products/view/all_products_page.dart';
-// import 'package:recomindweb/features/Show_All_Products/view/all_products_page.dart';
 import 'package:recomindweb/features/product_details/view/product_details_page.dart';
 
 List<GetPage> routes = [
@@ -19,8 +16,6 @@ List<GetPage> routes = [
   GetPage(name: '/login', page: () => LoginPage()),
   GetPage(name: '/register', page: () => RegisterPage()),
   GetPage(name: '/forgot-password', page: () => ForgotPasswordPage()),
-
-  // GetPage(name: '/all-products', page: () => AllProductsPage()),
 
   GetPage(name: '/product-details', page: () => ProductDetailsPage()),
 
