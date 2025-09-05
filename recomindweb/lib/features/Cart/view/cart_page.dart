@@ -44,17 +44,16 @@ class _CartPageState extends State<CartPage> {
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(SnackBar(content: Text(state.failure.errMessage)));
-            } else if (state is MakeOrderSuccessState) {
-              print(state);
-              Get.to(
-                () => PayPal(
-                  url: "$ngrok/orders/${state.orderId}/pay",
-                  onSuccess: () {
-                    Get.off(() => OrdersPage());
-                  },
-
-                ),
-              );
+          } else if (state is MakeOrderSuccessState) {
+            print(state);
+            Get.to(
+              () => PayPal(
+                url: "$ngrok/orders/${state.orderId}/pay",
+                onSuccess: () {
+                  Get.off(() => OrdersPage());
+                },
+              ),
+            );
           }
         },
         builder: (context, state) {
