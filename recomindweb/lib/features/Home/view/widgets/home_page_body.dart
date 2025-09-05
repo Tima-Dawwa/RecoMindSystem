@@ -28,7 +28,7 @@ class _HomePageBodyState extends State<HomePageBody> {
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(height: widget.desktop ? 60 : 35),
-              ChatbotBar(desktop: widget.desktop),
+              ChatbotBar(desktop: widget.desktop, logged: widget.logged,),
               AdvertisementsScroller(),
               Categories(desktop: widget.desktop),
               Recommendations(logged: widget.logged),

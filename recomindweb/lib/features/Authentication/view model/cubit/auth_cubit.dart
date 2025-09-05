@@ -69,15 +69,6 @@ class AuthCubit extends Cubit<AuthStates> {
       gender: gender!,
       birthDate: birthDate!,
     );
-    // print(firstName);
-    // print(lastName);
-    // print(email);
-    // print(password);
-    // print(confirmPassword);
-    // print(number);
-    // print(code);
-    // print(gender);
-    // print(birthDate);
     response.fold(
       (failure) {
         emit(FailureAuthState(failure: failure));
