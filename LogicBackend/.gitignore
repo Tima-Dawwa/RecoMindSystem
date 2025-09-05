@@ -1,7 +1,7 @@
 node_modules/
 *.log
 config/push-notification-key.json
-public/images/
+public/images/*
 
 !public/images/mails/
 !public/images/mails/**
