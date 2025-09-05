@@ -57,7 +57,8 @@ class _UserBoxState extends State<UserBox> {
       return NetworkImage(image!.path);
     } else if (profile?.picture != null &&
         profile?.picture != '/images/default_profile.jpg') {
-      return NetworkImage("${getIt.get<Api>().baseUrl}${profile!.picture}",
+      return NetworkImage(
+        "${getIt.get<Api>().baseUrl}${profile!.picture}",
         headers: {"ngrok-skip-browser-warning": "true"},
       );
     }
@@ -195,7 +196,6 @@ class _UserBoxState extends State<UserBox> {
     if (image != null) {
       setState(() {
         show = false;
-        
       });
       await BlocProvider.of<HomeCubit>(
         context,

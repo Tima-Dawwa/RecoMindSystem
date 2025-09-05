@@ -197,7 +197,7 @@ class _CustomAppbarState extends State<CustomAppbar>
   }
 
   void logoutTap() async {
-    await BlocProvider.of<AuthCubit>(context).logout();
     closeOverlay();
+    await BlocProvider.of<AuthCubit>(context).logout();
   }
 }
