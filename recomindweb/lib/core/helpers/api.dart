@@ -6,18 +6,11 @@ import 'package:recomindweb/features/Authentication/view%20model/auth_service.da
 class Api {
   Api(this._dio);
   final Dio _dio;
-<<<<<<< Updated upstream
-  final String baseUrl = 'https://aababedef0c5.ngrok-free.app';
-=======
-<<<<<<< HEAD
-  final String baseUrl = 'https://be6f08feed53.ngrok-free.app';
-=======
   final String baseUrl = 'https://aababedef0c5.ngrok-free.app';
 
   String token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YmFkZWJiZTkwOThmNTM2NWZhZGUwZCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6ImhhbXoiLCJsYXN0X25hbWUiOiJ0aSJ9LCJpYXQiOjE3NTcwODAyODgsImV4cCI6MTc1NzMzOTQ4OH0.BYsWN94rwjxx2bMBovvBL2cCDlecwuUtKOdlmX23s8c";
->>>>>>> hhtt
->>>>>>> Stashed changes
+
 
   Future<Map<String, dynamic>> get({
     required String endPoint,
