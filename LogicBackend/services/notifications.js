@@ -20,7 +20,7 @@ async function sendPushNotification(title, body, token, type = 'MESSAGE', data =
                 channel_id: 'MESSAGE_CHANNEL',
                 icon: 'message_icon',
                 tag: 'message',
-                image: `${process.env.URL}/images/mails/logo.png`
+                image: `${process.env.URL}/images/mails/logo.jpg`
             }
         },
         data: {
