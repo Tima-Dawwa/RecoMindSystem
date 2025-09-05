@@ -65,6 +65,7 @@ class _RecommendationsState extends State<Recommendations> {
                       width: cardWidth,
                       index: index,
                       product: products[index],
+                      logged: widget.logged,
                       onTap: () {
                         Get.to(
                           ProductDetailsPage(productId: products[index].id),
