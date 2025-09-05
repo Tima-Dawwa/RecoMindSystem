@@ -23,9 +23,11 @@ class CartCubit extends Cubit<CartStates> {
         emit(CartFailureState(failure: failure));
       },
       (res) {
+        cartItems = [];
         for (var i = 0; i < res['data'].length; i++) {
           cartItems.add(CartModel.fromJson(res["data"][i]));
         }
+        hybridProducts = [];
         for (var i = 0; i < res['recommendations'].length; i++) {
           hybridProducts.add(
             AllProductsModel.fromjson(res["recommendations"][i]),
@@ -127,7 +129,10 @@ class CartCubit extends Cubit<CartStates> {
     );
   }
 
-  Future<void> deleteFavorite({required String productId , required int index}) async {
+  Future<void> deleteFavorite({
+    required String productId,
+    required int index,
+  }) async {
     emit(CartLoadingState());
     final response = await cartService.deleteFavorite(favoriteId: productId);
     response.fold(
@@ -135,8 +140,8 @@ class CartCubit extends Cubit<CartStates> {
         emit(CartFailureState(failure: failure));
       },
       (res) {
-          final item = hybridProducts[index];
-        hybridProducts[index] = item.copyWith(isFav:false);
+        final item = hybridProducts[index];
+        hybridProducts[index] = item.copyWith(isFav: false);
         emit(CartSuccessState());
       },
     );
