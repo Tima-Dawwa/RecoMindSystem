@@ -3,37 +3,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/helpers/api.dart';
 import 'package:recomindweb/core/helpers/service_locator.dart';
 import 'package:recomindweb/core/theme.dart';
+import 'package:recomindweb/features/Cart/view%20model/cubit/cart_cubit.dart';
+import 'package:recomindweb/features/Cart/view%20model/cubit/cart_state.dart';
 import 'package:recomindweb/features/Show_All_Products/model/all_products_model.dart';
-import 'package:recomindweb/features/Show_All_Products/view%20model/cubit/all_products_cubit.dart';
-import 'package:recomindweb/features/Show_All_Products/view%20model/cubit/all_products_state.dart';
 
-class AllProductImage extends StatefulWidget {
+class HybridImage extends StatefulWidget {
   final AllProductsModel product;
   final int? index;
-  final VoidCallback addFav;
-  final VoidCallback delFav;
 
-  const AllProductImage({
+  const HybridImage({
     super.key,
     required this.product,
     this.index,
-    required this.addFav,
-    required this.delFav,
+ 
   });
 
   @override
-  State<AllProductImage> createState() => _ProductImageState();
+  State<HybridImage> createState() => _HybridState();
 }
 
-class _ProductImageState extends State<AllProductImage> {
-  // late bool isFav;
-
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   isFav = widget.product.isFav;
-  // }
+class _HybridState extends State<HybridImage> {
 
   @override
   Widget build(BuildContext context) {
@@ -57,35 +46,13 @@ class _ProductImageState extends State<AllProductImage> {
             ),
             Positioned(
               top: 8,
-              left: 8,
-              child: Container(
-                padding: const EdgeInsets.all(6),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                child: BlocBuilder<AllProductsCubit, AllProductsState>(
-                  builder: (context, state) {
-                    if (product.isNew & product.isTrend) {
-                      return Text(" New and Trend ");
-                    } else if (product.isNew) {
-                      return Text(" New ");
-                    } else {
-                      return Text('Trend ');
-                    }
-                  },
-                ),
-              ),
-            ),
-            Positioned(
-              top: 8,
               right: 8,
               child: GestureDetector(
                 onTap: () async {
                   print("s111111111");
                   print(widget.product.isFav);
                   if (widget.product.isFav) {
-                    await BlocProvider.of<AllProductsCubit>(
+                    await BlocProvider.of<CartCubit>(
                       context,
                     ).deleteFavorite(
                       productId: widget.product.id,
@@ -94,7 +61,7 @@ class _ProductImageState extends State<AllProductImage> {
                     print('no');
                   } else {
                     print('yes');
-                    await BlocProvider.of<AllProductsCubit>(
+                    await BlocProvider.of<CartCubit>(
                       context,
                     ).addToFavorites(
                       productId: widget.product.id,
@@ -102,25 +69,6 @@ class _ProductImageState extends State<AllProductImage> {
                     );
                     print("2yes");
                   }
-                  // if (widget.product.isFav) {
-                  //   print("zzzzz ${widget.product.isFav}");
-                  //   await BlocProvider.of<AllProductsCubit>(
-                  //     context,
-                  //   ).deleteFavorite(
-                  //     productId: widget.product.id,
-                  //     index: widget.index!,
-                  //   );
-                  // } else {
-                  //   await BlocProvider.of<AllProductsCubit>(
-                  //     context,
-                  //   ).addToFavorites(
-                  //     productId: widget.product.id,
-                  //     index: widget.index!,
-                  //   );
-                  // }
-                  // setState(() {
-                  //   // isFav = !isFav;
-                  // });
                 },
                 child: Container(
                   padding: const EdgeInsets.all(6),
@@ -128,7 +76,7 @@ class _ProductImageState extends State<AllProductImage> {
                     color: Colors.white,
                     shape: BoxShape.circle,
                   ),
-                  child: BlocBuilder<AllProductsCubit, AllProductsState>(
+                  child: BlocBuilder<CartCubit, CartStates>(
                     builder: (context, state) {
                       return Icon(
                         product.isFav ? Icons.favorite : Icons.favorite_border,

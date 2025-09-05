@@ -32,6 +32,7 @@ class Api {
     required dynamic body,
     Map<String, dynamic>? queryParameters,
   }) async {
+    print(" im here 7");
     var response = await _dio.post(
       '$baseUrl$endPoint',
       data: body,

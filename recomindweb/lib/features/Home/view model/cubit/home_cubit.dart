@@ -10,6 +10,8 @@ import 'package:recomindweb/features/Home/view%20model/home_service.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit(this.homeService) : super(InitialHomeState());
+
+  CustomSharedPreferences preferences = CustomSharedPreferences();
   final HomeService homeService;
   List<CollabProductModel> products = [];
   List<CitiesModel> countries = [];
@@ -61,7 +63,6 @@ class HomeCubit extends Cubit<HomeState> {
     emit(LoadingHomeState());
     await getCollab();
     if (await prefs.logged()) {
-      print('logged true');
       emit(LoadingHomeState());
       await getProfile();
       emit(LoadingHomeState());
@@ -103,6 +104,26 @@ class HomeCubit extends Cubit<HomeState> {
       },
       (res) async {
         await getProfile();
+      },
+    );
+  }
+
+  Future<void> logout() async {
+    var response = await homeService.logout();
+    response.fold(
+      (failure) {
+        emit(FailureHomeState(failure: failure));
+      },
+      (res) async {
+    emit(LoadingHomeState());
+        await preferences.clearToken();
+        if (await preferences.cleared()) {
+          print('logout done');
+          await homeData();
+          print('home data done');
+        } else {
+          print('log out failed');
+        }
       },
     );
   }

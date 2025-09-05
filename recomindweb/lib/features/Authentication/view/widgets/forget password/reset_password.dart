@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:recomindweb/core/Widgets/custom_button.dart';
 import 'package:recomindweb/core/Widgets/custom_textfield.dart';
 import 'package:recomindweb/core/helpers/validators.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Authentication/view%20model/forget%20password%20cubit/forget_password_cubit.dart';
 import 'package:recomindweb/features/Authentication/view%20model/forget%20password%20cubit/forget_password_stpes_state.dart';
+import 'package:recomindweb/features/Authentication/view/login_page.dart';
 
 class NewPasswordPage extends StatefulWidget {
   const NewPasswordPage({super.key});
@@ -40,7 +43,6 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
             Navigator.pop(context);
           }
         }
-
         if (state is SuccessStepState) {
           ScaffoldMessenger.of(
             context,
@@ -50,6 +52,8 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text(state.failure.errMessage)));
+        } else if (state is FinalStepState) {
+          Get.to(() => LoginPage());
         }
       },
       child: Scaffold(
