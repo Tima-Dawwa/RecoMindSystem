@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:recomindweb/core/helpers/constant.dart';
+import 'package:recomindweb/core/helpers/service_locator.dart';
+import 'package:recomindweb/features/Authentication/view%20model/auth_service.dart';
 import 'package:recomindweb/features/ChatBot/Model/chat_message.dart';
 import 'package:recomindweb/features/ChatBot/Model/product.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -28,8 +30,7 @@ class SocketService {
     disconnect();
 
     final queryParams = <String, dynamic>{
-      'token':
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiYzJjMzE3NTZhZmIzOWJiZGZiM2NhOCIsIm5hbWUiOnsiZmlyc3RfbmFtZSI6IlJhbmRhbGwiLCJsYXN0X25hbWUiOiJCdWNrcmlkZ2UifSwiaWF0IjoxNzU2Nzk5MzU2LCJleHAiOjE3NTcwNTg1NTZ9.Eiv6dy4geSsg1VK94b6u3kuGRxC189yo__GUupQar2A",
+      'token': '${getIt.get<AuthService>().token}',
       ...?additionalQuery,
     };
 
