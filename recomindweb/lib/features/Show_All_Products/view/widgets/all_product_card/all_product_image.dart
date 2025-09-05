@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recomindweb/core/helpers/api.dart';
 import 'package:recomindweb/core/helpers/service_locator.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/Show_All_Products/model/all_products_model.dart';
+import 'package:recomindweb/features/Show_All_Products/view%20model/cubit/all_products_cubit.dart';
+import 'package:recomindweb/features/Show_All_Products/view%20model/cubit/all_products_state.dart';
 
 class AllProductImage extends StatefulWidget {
   final AllProductsModel product;
@@ -23,6 +26,15 @@ class AllProductImage extends StatefulWidget {
 }
 
 class _ProductImageState extends State<AllProductImage> {
+  // late bool isFav;
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   isFav = widget.product.isFav;
+  // }
+
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
@@ -47,12 +59,46 @@ class _ProductImageState extends State<AllProductImage> {
               top: 8,
               right: 8,
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
+                  print("s111111111");
+                  print(widget.product.isFav);
                   if (widget.product.isFav) {
-                    widget.delFav;
+                    await BlocProvider.of<AllProductsCubit>(
+                      context,
+                    ).deleteFavorite(
+                      productId: widget.product.id,
+                      index: widget.index!,
+                    );
+                    print('no');
                   } else {
-                    widget.delFav;
+                    print('yes');
+                    await BlocProvider.of<AllProductsCubit>(
+                      context,
+                    ).addToFavorites(
+                      productId: widget.product.id,
+                      index: widget.index!,
+                    );
+                    print("2yes");
                   }
+                  // if (widget.product.isFav) {
+                  //   print("zzzzz ${widget.product.isFav}");
+                  //   await BlocProvider.of<AllProductsCubit>(
+                  //     context,
+                  //   ).deleteFavorite(
+                  //     productId: widget.product.id,
+                  //     index: widget.index!,
+                  //   );
+                  // } else {
+                  //   await BlocProvider.of<AllProductsCubit>(
+                  //     context,
+                  //   ).addToFavorites(
+                  //     productId: widget.product.id,
+                  //     index: widget.index!,
+                  //   );
+                  // }
+                  // setState(() {
+                  //   // isFav = !isFav;
+                  // });
                 },
                 child: Container(
                   padding: const EdgeInsets.all(6),
@@ -60,13 +106,17 @@ class _ProductImageState extends State<AllProductImage> {
                     color: Colors.white,
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(
-                    product.isFav ? Icons.favorite : Icons.favorite_border,
-                    color:
-                        product.isFav
-                            ? Themes.secondary
-                            : Themes.text.withAlpha(150),
-                    size: 20,
+                  child: BlocBuilder<AllProductsCubit, AllProductsState>(
+                    builder: (context, state) {
+                      return Icon(
+                        product.isFav ? Icons.favorite : Icons.favorite_border,
+                        color:
+                            product.isFav
+                                ? Themes.secondary
+                                : Themes.text.withAlpha(150),
+                        size: 20,
+                      );
+                    },
                   ),
                 ),
               ),

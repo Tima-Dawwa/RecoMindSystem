@@ -112,7 +112,9 @@ class AllProductsCubit extends Cubit<AllProductsState> {
     required String productId,
     required int index,
   }) async {
+    print('im here');
     emit(AllProductsLoadingState());
+    print("im here @");
     final response = await allProductsService.addToFavorites(
       productId: productId,
     );
@@ -122,7 +124,9 @@ class AllProductsCubit extends Cubit<AllProductsState> {
       },
       (res) {
         final item = allProducts[index];
+        print('ssssssss ${item.isFav}');
         allProducts[index] = item.copyWith(isFav: true);
+        print("dddddddd ${item.isFav}");
         emit(AllProductsSuccessState());
       },
     );

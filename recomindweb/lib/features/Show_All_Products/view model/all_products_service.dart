@@ -17,7 +17,7 @@ class AllProductsService {
     double? minPrice,
     bool? isNew,
     bool? isTrend,
-    String ? gender
+    String? gender,
   }) async {
     try {
       final queryParams = <String, dynamic>{};
@@ -46,10 +46,7 @@ class AllProductsService {
     }
   }
 
-
-  Future<Either<Failure, Map<String, dynamic>>> smartSearch(
-    String text
-  ) async {
+  Future<Either<Failure, Map<String, dynamic>>> smartSearch(String text) async {
     try {
       Map<String, dynamic> response = await api.get(
         endPoint: '/products/smart-search?search=$text',
@@ -66,14 +63,17 @@ class AllProductsService {
     }
   }
 
-    Future<Either<Failure, Map<String, dynamic>>> addToFavorites({
+  Future<Either<Failure, Map<String, dynamic>>> addToFavorites({
     required String productId,
   }) async {
     try {
+      print('im here 3');
       final response = await api.post(
         endPoint: '/favorites/$productId',
         body: null,
       );
+      print('im here 4');
+
       return right(response);
     } catch (e) {
       if (e is DioException) {

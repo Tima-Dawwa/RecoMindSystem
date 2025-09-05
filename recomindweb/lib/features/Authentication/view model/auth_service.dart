@@ -19,6 +19,7 @@ class AuthService {
         body: {'email': email, 'password': password},
       );
       token = response['token'];
+      print(token);
       return right(response);
     } catch (e) {
       if (e is DioException) {
@@ -75,6 +76,7 @@ class AuthService {
         },
       );
       token = response['token'];
+      print(token);
       return right(response);
     } catch (e) {
       if (e is DioException) {
