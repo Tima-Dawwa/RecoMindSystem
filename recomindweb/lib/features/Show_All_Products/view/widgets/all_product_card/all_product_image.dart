@@ -57,6 +57,28 @@ class _ProductImageState extends State<AllProductImage> {
             ),
             Positioned(
               top: 8,
+              left: 8,
+              child: Container(
+                padding: const EdgeInsets.all(6),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: BlocBuilder<AllProductsCubit, AllProductsState>(
+                  builder: (context, state) {
+                    if (product.isNew & product.isTrend) {
+                      return Text(" New and Trend ");
+                    } else if (product.isNew) {
+                      return Text(" New ");
+                    } else {
+                      return Text('Trend ');
+                    }
+                  },
+                ),
+              ),
+            ),
+            Positioned(
+              top: 8,
               right: 8,
               child: GestureDetector(
                 onTap: () async {
