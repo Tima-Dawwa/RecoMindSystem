@@ -7,8 +7,6 @@ class AppScaffold extends StatefulWidget {
   final Widget child;
   final bool size;
   const AppScaffold({super.key, required this.child, this.size = true});
-  
-
   @override
   State<AppScaffold> createState() => _AppScaffoldState();
 }
