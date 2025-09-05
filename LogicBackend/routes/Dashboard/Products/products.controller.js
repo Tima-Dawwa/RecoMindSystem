@@ -46,7 +46,14 @@ async function httpPostProduct(req, res) {
         images: imageFilenames
     };
 
-    await postProduct(productData);
+    const product = await postProduct(productData);
+
+    try {
+        await axios.post(`http://127.0.0.1:8000/content-recommendations?product_id=${product._id}`);
+    } catch (error) {
+        console.error('Adding Product to faiss index failed:', error.message);
+    }
+
     return res.status(200).json({ message: 'Product Successfully Added' });
 }
 
