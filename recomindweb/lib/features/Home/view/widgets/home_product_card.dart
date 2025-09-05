@@ -14,12 +14,13 @@ class HomeProductCard extends StatefulWidget {
     required this.onTap,
     required this.width,
     this.index,
+    required this.logged,
   });
   final CollabProductModel product;
   final VoidCallback onTap;
   final double width;
   final int? index;
-
+  final bool logged;
   @override
   State<HomeProductCard> createState() => _HomeProductCardState();
 }
@@ -84,24 +85,26 @@ class _HomeProductCardState extends State<HomeProductCard> {
                       right: 8,
                       child: GestureDetector(
                         onTap: () async {
-                          if (widget.product.isFav) {
-                            await BlocProvider.of<HomeCubit>(
-                              context,
-                            ).deleteFavorite(
-                              productId: widget.product.id,
-                              index: widget.index!,
-                            );
-                          } else {
-                            await BlocProvider.of<HomeCubit>(
-                              context,
-                            ).addToFavorites(
-                              productId: widget.product.id,
-                              index: widget.index!,
-                            );
-                          }
-                          setState(() {
-                            isFavorite = !isFavorite;
-                          });
+                          if (widget.logged) {
+                            if (widget.product.isFav) {
+                              await BlocProvider.of<HomeCubit>(
+                                context,
+                              ).deleteFavorite(
+                                productId: widget.product.id,
+                                index: widget.index!,
+                              );
+                            } else {
+                              await BlocProvider.of<HomeCubit>(
+                                context,
+                              ).addToFavorites(
+                                productId: widget.product.id,
+                                index: widget.index!,
+                              );
+                            }
+                            setState(() {
+                              isFavorite = !isFavorite;
+                            });
+                          } else {}
                         },
                         child: Container(
                           padding: const EdgeInsets.all(5),
