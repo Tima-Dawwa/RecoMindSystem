@@ -4,9 +4,10 @@ import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/core/widgets/chatbot_floating_button.dart';
 
 class AppScaffold extends StatefulWidget {
-  final Widget child;
-  final bool size;
-  const AppScaffold({super.key, required this.child, this.size = true});
+  final Widget body;
+  final bool addPadding;
+
+  const AppScaffold({super.key, required this.body, this.addPadding = true});
   @override
   State<AppScaffold> createState() => _AppScaffoldState();
 }
@@ -23,8 +24,11 @@ class _AppScaffoldState extends State<AppScaffold> {
               children: [
                 SingleChildScrollView(
                   child: Padding(
-                    padding: widget.size? EdgeInsets.all(16) : EdgeInsets.zero,
-                    child: widget.child,
+                    padding:
+                        widget.addPadding
+                            ? EdgeInsets.all(16)
+                            : EdgeInsets.zero,
+                    child: widget.body,
                   ),
                 ),
                 const DraggableFloatingButton(),
