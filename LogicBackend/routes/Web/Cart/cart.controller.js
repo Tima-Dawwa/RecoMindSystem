@@ -14,11 +14,11 @@ async function httpGetCart(req, res) {
     const { skip, limit } = getPagination(req.query);
     const data = (await getCart(req.user.id, skip, limit)) ?? [];
     const length = await getCartCount(req.user.id);
-    if (data.length == 0) return res.status(200).json({ data: [], count: 0 });
 
-    let productId = data.items[0]?.product._id || '';
-
-    if (!productId) {
+    let productId;
+    if (data.length > 0) {
+        productId = data.items[0]?.product._id || '';
+    } else {
         productId = await getRandomProduct();
     }
     const startTime = Date.now();
@@ -55,6 +55,13 @@ async function httpGetCart(req, res) {
     } catch (error) {
         console.error('Hybrid recommendation error:');
     }
+
+    if (data.length == 0)
+        return res.status(200).json({
+            data: [],
+            recommendations: serializedData(recommendedProducts, productData),
+            count: 0
+        });
 
     return res.status(200).json({
         data: serializedData(data.items, cartData),

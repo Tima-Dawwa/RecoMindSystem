@@ -5,6 +5,7 @@ const { productData, productDetailsData } = require('./products.serializer');
 const { validateCreateProduct, validateEditProduct } = require('./products.validation');
 const { validationErrors } = require('../../../middlewares/validationErrors');
 const { getProductRatings } = require('../../../models/interactions.model');
+const { default: axios } = require('axios');
 
 // done
 async function httpGetAllProducts(req, res) {
