@@ -72,7 +72,7 @@ async function httpAddToCart(req, res) {
 
     // decrease quantity
     // if (product.quantity < req.body.quantity) return res.status(400).json({ error: 'Not Enough Items in Storage' })
-    await addToCart(req.user._id, req.params.id, product.discounted_price, req.body.quantity);
+    await addToCart(req.user._id, req.params.id, product.discounted_price, req.body.count);
     await postInteraction(req.user.id, req.params.id, INTERACTION_TYPES.CART_ADD);
     await incrementInteractionCount(req.params.id, INTERACTION_TYPES.CART_ADD);
 
