@@ -3,14 +3,15 @@ import 'package:dashboard/features/Main%20Page/model/chatbot_model.dart';
 import 'package:dashboard/features/Main%20Page/model/countries_model.dart';
 import 'package:dashboard/features/Main%20Page/model/favorites_model.dart';
 import 'package:dashboard/features/Main%20Page/model/interactions_model.dart';
+import 'package:dashboard/features/Main%20Page/model/notification_model.dart';
 import 'package:dashboard/features/Main%20Page/model/orders_model.dart';
 import 'package:dashboard/features/Main%20Page/model/sales_model.dart';
 import 'package:dashboard/features/Main%20Page/view%20model/cubit/main_cubit.dart';
+import 'package:dashboard/features/Main%20Page/view%20model/cubit/main_state.dart';
 import 'package:dashboard/features/Main%20Page/view/widgets/chatbot_chart.dart';
 import 'package:dashboard/features/Main%20Page/view/widgets/countries_charts.dart';
 import 'package:dashboard/features/Main%20Page/view/widgets/favorites_chart.dart';
 import 'package:dashboard/features/Main%20Page/view/widgets/interactions_table.dart';
-import 'package:dashboard/features/Main%20Page/view/widgets/notifications_box.dart';
 import 'package:dashboard/features/Main%20Page/view/widgets/orders_table.dart';
 import 'package:dashboard/features/Main%20Page/view/widgets/sales_chart.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,7 @@ class _MainPageBodyState extends State<MainPageBody>
   List<InteractionsModel> interactions = [];
   List<FavoritesModel> favorites = [];
   List<CountriesModel> countries = [];
+  List<NotificationModel> notifications = [];
   ChatbotModel? chatbot;
 
   @override
@@ -105,7 +107,67 @@ class _MainPageBodyState extends State<MainPageBody>
                       child: Material(
                         elevation: 10,
                         borderRadius: BorderRadius.circular(10),
-                        child: NotificationsBox(),
+                        child: BlocBuilder<MainCubit, MainState>(
+                          builder: (context, state) {
+                            if (state is NotificationsLoadingState ||
+                                state is MainLoadingState) {
+                              return Center(child: CircularProgressIndicator());
+                            } else {
+                              notifications =
+                                  BlocProvider.of<MainCubit>(
+                                    context,
+                                  ).notifications;
+                              return ListView.builder(
+                                itemCount: notifications.length,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width:450 ,
+                                            child: ListTile(
+                                              title: Text(
+                                                notifications[index].title,
+                                                style: TextStyle(
+                                                  color: Themes.primary,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
+                                                ),
+                                              ),
+                                              subtitle: Text(
+                                                notifications[index].body,
+                                                style: TextStyle(
+                                                  color: Themes.text,
+                                                  fontSize: 18,
+                                                ),
+                                              ),
+                                              trailing: Text(
+                                                notifications[index].date.substring(
+                                                  0,
+                                                  10,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        IconButton(onPressed: () async {
+                                              closeOverlay();
+                                              await BlocProvider.of<MainCubit>(
+                                                context,
+                                              ).deleteNotifications(
+                                                id: notifications[index].id,
+                                              );
+                                            }, icon: Icon(Icons.delete))
+                                        ],
+                                      ),
+                                      Divider(),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                          },
+                        ),
                       ),
                     ),
                   ),
