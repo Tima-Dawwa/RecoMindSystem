@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recomindweb/core/helpers/constant.dart';
 import 'package:recomindweb/core/theme.dart';
 import 'package:recomindweb/features/ChatBot/ChatBotBody/response_card.dart';
 import 'package:recomindweb/features/ChatBot/Model/chat_message.dart';

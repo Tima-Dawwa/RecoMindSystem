@@ -32,7 +32,6 @@ class MessageBubble extends StatelessWidget {
               isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Only show images for USER messages, not bot messages
             if (isUser &&
                 (message.imageBytes != null || message.imagePath != null))
               Padding(
