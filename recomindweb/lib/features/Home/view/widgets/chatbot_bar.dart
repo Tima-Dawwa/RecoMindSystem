@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -7,8 +6,10 @@ import 'package:recomindweb/core/Widgets/custom_button.dart';
 import 'package:recomindweb/core/theme.dart';
 
 class ChatbotBar extends StatelessWidget {
-  const ChatbotBar({super.key, this.desktop});
+  const ChatbotBar({super.key, this.desktop, required this.logged});
   final bool? desktop;
+  final bool logged;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -129,7 +130,13 @@ class ChatbotBar extends StatelessWidget {
                         size: desktop! ? 20 : 10,
                         color: WidgetStatePropertyAll(Themes.third),
                         press: () {
-                          Get.toNamed('/chatbot', preventDuplicates: false);
+                          if (!logged) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Login to try chatbot")),
+                            );
+                          } else {
+                            Get.toNamed('/chatbot', preventDuplicates: false);
+                          }
                         },
                       ),
                     ),
