@@ -77,7 +77,7 @@ async function forgotPassword(req, res) {
     const attachments = [
         {
             filename: 'logo.jpg',
-            path: path.join(__dirname, '../../../', 'public', 'images', 'mails', 'logo.png'),
+            path: path.join(__dirname, '../../../', 'public', 'images', 'mails', 'logo.jpg'),
             cid: 'logo'
         }
     ];
