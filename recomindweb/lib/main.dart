@@ -30,9 +30,11 @@ void main() async {
   await setup();
   WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
+  print(html.window.localStorage.toString());
   if (kIsWeb) {
     html.window.localStorage.clear();
   }
+  print(html.window.localStorage.toString());
   runApp(const MyApp());
 }
 

@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   CustomSharedPreferences prefs = CustomSharedPreferences();
-  bool logged = true;
+  bool logged = false;
 
   @override
   void initState() {
@@ -47,11 +47,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> isLogged() async {
-    if (html.window.localStorage.toString() != '{}') {
+    if (await prefs.logged()) {
+      print('home');
+      print(html.window.localStorage.toString());
       setState(() {
         logged = true;
       });
     } else {
+      print('home');
+      print(html.window.localStorage.toString());
       setState(() {
         logged = false;
       });

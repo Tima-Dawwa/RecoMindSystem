@@ -6,7 +6,7 @@ import 'package:recomindweb/features/Authentication/view%20model/auth_service.da
 class Api {
   Api(this._dio);
   final Dio _dio;
-  final String baseUrl = 'https://be6f08feed53.ngrok-free.app';
+  final String baseUrl = 'https://aababedef0c5.ngrok-free.app';
 
   Future<Map<String, dynamic>> get({
     required String endPoint,

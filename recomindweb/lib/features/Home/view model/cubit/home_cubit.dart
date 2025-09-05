@@ -60,11 +60,12 @@ class HomeCubit extends Cubit<HomeState> {
     CustomSharedPreferences prefs = CustomSharedPreferences();
     emit(LoadingHomeState());
     await getCollab();
-    emit(LoadingHomeState());
-    await getCities();
-    emit(LoadingHomeState());
     if (await prefs.logged()) {
-    await getProfile();
+      print('logged true');
+      emit(LoadingHomeState());
+      await getProfile();
+      emit(LoadingHomeState());
+      await getCities();
     }
     emit(SuccessHomeState());
   }
