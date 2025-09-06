@@ -14,16 +14,25 @@ async function buildProductQuery(filters) {
     if (filters.type && filters.type.length > 0) query.type = { $in: filters.type };
 
     if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
-        query.price = {};
-        query.discounted_price = {};
-        if (filters.minPrice !== undefined) {
-            query.price.$gte = filters.minPrice;
-            query.discounted_price.$gte = filters.minPrice;
-        }
-        if (filters.maxPrice !== undefined) {
-            query.price.$lte = filters.maxPrice;
-            query.discounted_price.$lte = filters.maxPrice;
-        }
+        query.$or = [
+            {
+                discounted_price: {
+                    ...(filters.minPrice !== undefined ? { $gte: filters.minPrice } : {}),
+                    ...(filters.maxPrice !== undefined ? { $lte: filters.maxPrice } : {})
+                }
+            },
+            {
+                $and: [
+                    { discounted_price: { $exists: false } },
+                    {
+                        price: {
+                            ...(filters.minPrice !== undefined ? { $gte: filters.minPrice } : {}),
+                            ...(filters.maxPrice !== undefined ? { $lte: filters.maxPrice } : {})
+                        }
+                    }
+                ]
+            }
+        ];
     }
 
     let trendingIds = [];

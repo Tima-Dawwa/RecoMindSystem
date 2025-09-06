@@ -4,9 +4,9 @@ const { serializedData } = require('../../../services/serializeArray');
 const { orderData } = require('./orders.serializer');
 
 async function httpGetOrders(req, res) {
-    const { skip, limit } = getPagination(req.query);
+    let { skip, limit } = getPagination(req.query);
     const { username, date, sortBy = 'createdAt', sortOrder = 'desc' } = req.query;
-
+    limit = 500;
     const data = await getAllOrdersWithUserDetails(skip, limit, username, date, sortBy, sortOrder);
     const count = await getOrdersCount();
 
