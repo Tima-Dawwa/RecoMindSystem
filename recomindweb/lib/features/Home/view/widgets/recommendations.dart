@@ -69,9 +69,11 @@ class _RecommendationsState extends State<Recommendations> {
                       product: products[index],
                       logged: widget.logged,
                       onTap: () {
-                        Get.to(
-                          ProductDetailsPage(productId: products[index].id),
-                        );
+                        if (widget.logged) {
+                          Get.to(
+                            ProductDetailsPage(productId: products[index].id),
+                          );
+                        }
                       },
                     );
                   },

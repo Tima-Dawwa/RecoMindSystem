@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
           if (state is LoadingHomeState) {
             return Center(child: CustomLoading());
           } else if (state is FailureHomeState) {
-            return Text('fail');
+            return Text('');
           } else {
             return ResponsiveLayout(
               mobileBody: HomePageBody(desktop: false, logged: logged),
@@ -47,14 +47,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> isLogged() async {
-    if (await prefs.logged()) {
-      print('home');
+    if (await prefs.logged() || html.window.localStorage.toString() != '{}') {
+      print('home logged :');
       print(html.window.localStorage.toString());
       setState(() {
         logged = true;
       });
     } else {
-      print('home');
+      print('home not logged :');
       print(html.window.localStorage.toString());
       setState(() {
         logged = false;
