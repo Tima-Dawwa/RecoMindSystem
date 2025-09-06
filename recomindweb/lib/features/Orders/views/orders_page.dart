@@ -23,7 +23,7 @@ class _OrdersPageState extends State<OrdersPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return AppScaffold(
       body: BlocBuilder<OrdersCubit, OrdersState>(
         builder: (context, state) {
           if (state is LoadingOrdersState) {
