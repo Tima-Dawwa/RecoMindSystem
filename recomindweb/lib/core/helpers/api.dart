@@ -6,7 +6,7 @@ import 'package:recomindweb/features/Authentication/view%20model/auth_service.da
 class Api {
   Api(this._dio);
   final Dio _dio;
-  final String baseUrl = 'https://aababedef0c5.ngrok-free.app';
+  final String baseUrl = 'https://nonevanescent-incommensurably-shani.ngrok-free.app';
 
   Future<Map<String, dynamic>> get({
     required String endPoint,
@@ -32,7 +32,6 @@ class Api {
     required dynamic body,
     Map<String, dynamic>? queryParameters,
   }) async {
-    print(" im here 7");
     var response = await _dio.post(
       '$baseUrl$endPoint',
       data: body,
