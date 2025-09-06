@@ -87,7 +87,7 @@ class AllProductsCubit extends Cubit<AllProductsState> {
 
   Future<void> smartSearch(String text) async {
     searchText = false;
-    print("ءءءءءءءءءءء$text");
+    // print("ءءءءءءءءءءء$text");
     emit(AllProductsLoadingState());
     var response = await allProductsService.smartSearch(text);
     response.fold(
@@ -101,7 +101,7 @@ class AllProductsCubit extends Cubit<AllProductsState> {
           allProducts.add(AllProductsModel.fromjson(res["data"][i]));
         }
         countAllProducts = res['count'];
-        print("ddddddddd$text");
+        // print("ddddddddd$text");
         emit(AllProductsSuccessState());
         searchText = true;
       },
@@ -112,9 +112,9 @@ class AllProductsCubit extends Cubit<AllProductsState> {
     required String productId,
     required int index,
   }) async {
-    print('im here');
+    // print('im here');
     emit(AllProductsLoadingState());
-    print("im here @");
+    // print("im here @");
     final response = await allProductsService.addToFavorites(
       productId: productId,
     );
@@ -124,9 +124,9 @@ class AllProductsCubit extends Cubit<AllProductsState> {
       },
       (res) {
         final item = allProducts[index];
-        print('ssssssss ${item.isFav}');
+        // print('ssssssss ${item.isFav}');
         allProducts[index] = item.copyWith(isFav: true);
-        print("dddddddd ${item.isFav}");
+        // print("dddddddd ${item.isFav}");
         emit(AllProductsSuccessState());
       },
     );

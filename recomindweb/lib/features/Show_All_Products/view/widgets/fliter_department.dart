@@ -9,12 +9,13 @@ class FilterDepartment extends StatefulWidget {
     super.key,
     required this.categories,
     required this.currentPage,
-    required this.type,
+    required this.type, required this.gender,
   });
 
   List<String> categories;
   final int currentPage;
   final String type;
+final String gender;
 
   @override
   State<FilterDepartment> createState() => _FilterDepartmentState();
@@ -163,6 +164,7 @@ class _FilterDepartmentState extends State<FilterDepartment> {
       categories: selectedCategories,
       isNew: selectedCategories.contains("New"),
       isTrend: selectedCategories.contains("Trend"),
+      gender: widget.gender
     );
     BlocProvider.of<AllProductsCubit>(context).applyFilter();
   }

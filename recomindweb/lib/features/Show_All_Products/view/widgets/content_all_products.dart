@@ -115,7 +115,7 @@ class _ContentAllProductsState extends State<ContentAllProducts> {
                           FilterDepartment(
                             categories: categories,
                             currentPage: _currentPage,
-                            type: widget.type,
+                            type: widget.type, gender: widget.gender,
                           ),
                           GridAllProducts(allProducts: allProducts),
                         ],
