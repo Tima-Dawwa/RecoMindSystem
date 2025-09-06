@@ -10,6 +10,7 @@ async function getChatbotResponse({ message, image }) {
     let answer = response.data.answer;
     let recommendedProducts = response.data.recommendations;
     let similarities = response.data.similarities;
+    console.log(similarities);
     return {
         message: answer, // string
         recommendedProducts: recommendedProducts, // array of ids

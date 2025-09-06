@@ -73,6 +73,14 @@ async function httpDeleteProduct(req, res) {
     }
 
     await deleteProducts(ids);
+
+    // for (const id of ids) {
+    //     try {
+    //         await axios.post(`http://127.0.0.1:8000/content-recommendations/delete?product_id=${id}`);
+    //     } catch (error) {
+    //         console.error(`Deleting Product ${id} from FAISS index failed:`, error.message);
+    //     }
+    // }
     return res.status(200).json({ message: 'Product Succefully Deleted' });
 }
 

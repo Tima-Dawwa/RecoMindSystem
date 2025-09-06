@@ -147,7 +147,7 @@ class FashionRetriever:
     # ------------------------------------------------- #
 
     def search_by_image_and_text(self, query_image: Image.Image, query_text: str,
-                                 top_k: int = 10, alpha: float = 0.7) -> List[Dict]:
+                                 top_k: int = 10, alpha: float = 0.5) -> List[Dict]:
 
         if self.index is None:
             raise ValueError(

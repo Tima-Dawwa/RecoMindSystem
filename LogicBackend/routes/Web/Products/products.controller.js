@@ -25,7 +25,7 @@ async function httpGetAllProducts(req, res) {
     };
     let data = await getProducts(filters, skip, limit);
     const length = await getProductsCount(filters);
-
+    
     if (req.user) {
         data = await Promise.all(
             data.map(async p => {
@@ -138,7 +138,11 @@ async function httpGetOneProduct(req, res) {
         );
     } else {
         product.isFavorite = false;
-        recommendedProducts.forEach(p => (p.isFavorite = false));
+        recommendedProducts = recommendedProducts.map(p => {
+            p.isFavorite = false;
+            p.parent_id = req.params.id;
+            return p;
+        });
     }
     return res.status(200).json({
         data: productDetailsData(product, interactions),

@@ -16,9 +16,15 @@ async function deleteNotification(id) {
     return await Notification.findByIdAndDelete(id);
 }
 
+async function deleteOldNotifications(cutoffDate) {
+    const result = await Notification.deleteMany({ createdAt: { $lt: cutoffDate } });
+    return result.deletedCount;
+}
+
 module.exports = {
     postNotification,
     getNotifications,
     getNotificationsCount,
-    deleteNotification
+    deleteNotification,
+    deleteOldNotifications
 };

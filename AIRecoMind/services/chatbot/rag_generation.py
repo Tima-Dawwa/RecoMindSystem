@@ -83,7 +83,7 @@ Instructions:
     • Politely note that the query doesn’t seem fashion-related.
     • Still recommend the relevant products, suggesting the customer check them out.
 - Keep the tone conversational, like helping a friend shop.
-- Answer in the same language as the user (Arabic or English).
+- Answer in the same language as the user (Arabic or English), but always use USD for prices.
 """
     try:
         completion = client.chat.completions.create(

@@ -1,6 +1,6 @@
 from models.product import Product
 from utils.database import product_collection
-from utils.faiss_helper import add_product_to_index, search_product_by_text
+from utils.faiss_helper import add_product_to_index, search_product_by_text, delete_product_from_index
 from typing import List, Tuple
 from bson import ObjectId
 
@@ -43,3 +43,7 @@ async def add_product(product_id: str):
     product = await get_product_by_id(product_id)
     combined_text = combine_features(product)
     add_product_to_index(product.id, combined_text)
+
+
+# async def delete_product(product_id: str):
+#     delete_product_from_index(product_id)
