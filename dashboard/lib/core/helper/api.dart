@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 class Api {
   Api(this._dio);
   final Dio _dio;
-  final String baseUrl = 'https://aababedef0c5.ngrok-free.app';
+  final String baseUrl = 'https://nonevanescent-incommensurably-shani.ngrok-free.app';
 
   Future<Map<String, dynamic>> get({
     required String endPoint,
