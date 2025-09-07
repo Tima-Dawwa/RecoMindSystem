@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from fastapi import APIRouter, Response
 from models.recommendation import Recommendation
-from services.recommendation_system.content_based import get_content_based_recommendations, add_product, delete_product
+from services.recommendation_system.content_based import get_content_based_recommendations, add_product
 from services.recommendation_system.collaborative import get_collaborative_recommendations, retrain_als_model
 from services.recommendation_system.hybrid import get_cascade_hybrid_recommendations
 from typing import List
